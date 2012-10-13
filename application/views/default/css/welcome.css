@@ -1,0 +1,35 @@
+/*--------------------------------------初始化网站样式----------------------------*/
+html{border:0;width:100%; overflow-y:scroll;}
+html,body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, p, blockquote,th,td,textarea,input,button,form {margin:0;padding:0;}
+fieldset, img {border:0 none;}
+input, button, textarea, select {font-family: inherit;font-size: inherit;font-weight: inherit;font: 100% "黑体",Tahoma,Helvetica,Arial,sans-serif;}
+ul,ol,dl,dd,dt,form{list-style:none;}
+li {list-style:none outside none;}
+h1, h2,h4, h5, h6 {font-weight:normal;}
+h3{font-weight:bold;font-size:14px;}
+h1{font-size:16px}
+h5,h6{font-size:12px}
+table {font-size:inherit;align:center;}
+a{text-decoration:none; color:#000000;}
+.clear {clear:both;}
+
+/*--------------------------------------初始化网站样式----------------------------*/
+
+
+
+
+body {background:#010000; padding:150px 0px; text-align:center;}
+
+#body_frame{width:990px; background:#FFFFFF;  margin:0px auto; padding:70px 0px 100px 0px; text-align:center;}
+
+#site_link {text-align:center; padding-bottom:70px;}
+#site_icon{text-align:center; padding-bottom:20px;}
+#login_register{text-align:center; font-size:30px; font-weight:bold; padding-bottom:10px; background:url('../images/welcome/login_register.png') no-repeat; width:115px; height:26px; margin:auto;}
+#login_register a{display:block; float:left; height:26px; width:50px;}
+#login_register a:first-child{margin-right:9px;}
+#tourist{height:17px; width:71px; background:url('../images/welcome/tourist.png') no-repeat; margin:auto; padding-bottom:10px; display:none;}
+#tourist a{display:block; height:17px; width:71px;}
+#slogan {text-align:center; font-size:16px; height:38px; width:272px; background:url('../images/welcome/slogan.png') no-repeat; margin:auto;}
+#slogan p{display:none;}
+#slogan p.first{}
+#slogan p.second{}
