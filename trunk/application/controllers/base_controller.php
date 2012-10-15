@@ -73,18 +73,6 @@ class BaseController extends CI_Controller {
 		$this->ci_smarty->assign('site_name',$site_information['site_name']);
 		$this->ci_smarty->assign('site_keyword',$site_information['site_keyword']);
 		$this->ci_smarty->assign('site_description',$site_information['site_description']);
-		
-		//if($site_information['site_status'] == 'N'){
-		//	//exit();
-		//}else {
-		//	$this->site_name = $site_information['site_name'];
-		//	$this->site_keyword = $site_information['site_keyword'];
-		//	$this->site_description = $site_information['site_description'];
-		//	$this->ci_smarty->assign('site_name',$site_information['site_name']);
-		//	$this->ci_smarty->assign('site_keyword',$site_information['site_keyword']);
-		//	$this->ci_smarty->assign('site_description',$site_information['site_description']);
-		//}
-	
 	}
 	
 	function getParameter($parameterName, $defaultValue = '', $useDefaultValueIfEmpty = true, $xss_clean = FALSE) {			//获取post或get变量
