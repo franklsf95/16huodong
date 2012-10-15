@@ -14,7 +14,7 @@ class Db_activity extends BaseModel {
 	
 	}
 	
-	function () {
+	function _____suantou_legacy() {
 		$this->db->where('type','province');
 		$all_province_information = $this->db->get('public_area')->result_array();
 		return $all_province_information;

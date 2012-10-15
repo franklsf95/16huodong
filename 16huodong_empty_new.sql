@@ -11,6 +11,7 @@ MySQL - 5.1.48-log : Database - hdm0320288_db
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
+USE `16huodong`;
 /*Table structure for table `16_activity` */
 
 DROP TABLE IF EXISTS `16_activity`;
