@@ -647,7 +647,7 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 .right_side#blog_page .view_blog_box .blog_name{color:#000000; font-weight:normal; font-size:18px; line-height:30px; display:block; text-align:center; padding-bottom:10px;}
 .right_side#blog_page .view_blog_box .publihser{color:#000000; font-weight:normal; font-size:14px; line-height:30px; display:block; text-align:center; padding-bottom:10px;}
 .right_side#blog_page .view_blog_box .image{display:block; text-align:center; padding-bottom:10px;}
-.right_side#blog_page .view_blog_box .image img{width:100%;}
+.right_side#blog_page .view_blog_box .image img{width:50%;}
 .right_side#blog_page .view_blog_box .number{font-size:12px; padding:15px 0px; letter-spacing:2px; float:right;}
 .right_side#blog_page .view_blog_box .number .hits_number{float:left; padding-right:5px;}
 .right_side#blog_page .view_blog_box .number .hits_number span{ color:#650202;}
