@@ -5,12 +5,12 @@
 	</div>
 	
 	<div class="member_tools">
-		<ul>
-			<li><a href="__('activity'|site_url)__" class="navigate" id="nav_07">我的活动</a><a href="__('activity/edit'|site_url)__"  class="navigate_tools" id="nav_11">发布活动</a></li>
-			<li><a href="__('my_page/edit'|site_url)__" class="navigate" id="nav_08">我的帐号</a></li>
-			<li><a href="__('friend'|site_url)__" class="navigate" id="nav_09">我的好友</a><!--a href="__('friend/search_member'|site_url)__"  class="navigate_tools">查找好友</a--></li>
-			<li><a href="__('blog/my_blog'|site_url)__" class="navigate" id="nav_10">我的图书馆</a></li>
-		</ul>
+            <div class="member_tool_item" id="nav_member"><a href="__('member'|site_url)__">个人资料</a> <span class="sub"><a href="__('my_page/edit'|site_url)__" id="nav_my_page_edit">编辑</a></span></div>
+            <div class="member_tool_item" id="nav_activity"><a href="__('activity'|site_url)__">我的活动</a> <span class="sub"><a href="__('activity/edit'|site_url)__" id="nav_activity_edit">发布</a></span></div>
+            <div class="member_tool_item" id="nav_my_blog"><a href="__('blog/my_blog'|site_url)__">我的图书馆</a></div>
+            <div class="member_tool_item" id="nav_friend"><a href="__('friend'|site_url)__">我的好友</a></div>
+            <div class="member_tool_item" id="nav_message"><a href="__('message'|site_url)__">站内信</a></div>
+            <div class="member_tool_item" id="nav_logout"><a href="__('login/logout'|site_url)__">登出</a></div>
 	</div>
 	__(if $all_system_message_count)__
 	<div class="member_message">
