@@ -21,38 +21,34 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 #header #logo{float:left; height:43px; overflow:hidden; width:180px;}
 
 #header .navigate {height:43px; overflow:hidden;}
-#header .navigate ul {}
-#header .navigate ul li{float:left; margin-left:10px; line-height:43px; padding:0px 25px;}
-#header .navigate ul li:first-child{padding-left:0px;}
-#header .navigate ul li a{color:#FFFFFF; font-size:18px; font-weight:normal;}
-#header .navigate ul li a:hover{color:#ad4c4c;}
+#header .navigation_item {float:left; padding: 0 30px 0 30px; line-height:43px; color:#FFFFFF; font-size:18px; font-weight:normal;}
+#header .navigation_item:hover {background-color: #ad4c4c;}
 
-#header .logout{float:right; color:#FFFFFF; font-size:18px; line-height:43px; margin-right:20px; font-weight:normal;}
-#header .logout:hover{color:#ad4c4c;}
+/*left side*/
 
-/*index_frame*/
-#index_frame {float:left;}
-#index_frame .left_side {float:left; width:180px;}
-#index_frame .left_side .member_information{background:#3D3B3B; height:163px; background:url('../images/member_information/member_information_bg.jpg') #3D3B3B bottom no-repeat;}
-#index_frame .left_side .member_information .image {text-align:center; padding-top:3px;}
-#index_frame .left_side .member_information .name {text-align:center; padding-top:11px;}
-#index_frame .left_side .member_information .name a{color:#FFFFFF;}
-#index_frame .left_side .member_information .name a span{font-weight:700;}
-#index_frame .left_side .member_information .school {text-align:center; padding-top:3px; color:#FFFFFF; font-weight:700; font-size:12px;}
+.left_side {float:left; width:180px;}
+.left_side .member_information{background:#3D3B3B; height:163px; background:url('../images/member_information/member_information_bg.jpg') #3D3B3B bottom no-repeat;}
+.left_side .member_information .image {text-align:center; padding-top:3px;}
+.left_side .member_information .name {text-align:center; padding-top:11px;}
+.left_side .member_information .name a{color:#FFFFFF; }
+.left_side .member_information .name a span{font-weight:700;}
+.left_side .member_information .school {text-align:center; padding-top:3px; color:#FFFFFF; font-size:12px; font-weight:700;}
 
-#index_frame .left_side .member_tools {}
-#index_frame .left_side .member_tools ul{}
-#index_frame .left_side .member_tools ul li{background:url('../images/member_tools/tools_bg.jpg') center no-repeat; height:33px; padding:5px 0px; }
-#index_frame .left_side .member_tools ul li a.navigate{color:#FFFFFF;  font-size:18px; float:left; margin-left:25px; line-height:33px; font-weight:700;}
-#index_frame .left_side .member_tools ul li a.navigate:hover{color:#ad4c4c;}
-#index_frame .left_side .member_tools ul li a.navigate_tools{font-size:12px; color:#FFFFFF; float:right; margin-right:20px; line-height:35px;}
-#index_frame .left_side .member_tools ul li a.navigate_tools:hover{color:#ad4c4c;}
+.left_side .member_tools .member_tool_item {
+    background: url('../images/member_tools/tools_bg.jpg') no-repeat;
+    height: 33px;
+    padding: 5px 15px 5px 15px;
+    margin: 0px 0px 0px 20px;
+}
+.left_side .member_tools .member_tool_item a { color: #FFFFFF; font-weight: 700; }
+.left_side .member_tools .member_tool_item:hover {color:#ad4c4c;}
+.left_side .member_tools .member_tool_item .sub a {font-size:12px;}
 
-#index_frame .left_side .member_message {background:#F3EBEB; min-height:50px; padding:5px;}
-#index_frame .left_side .member_message .title{display:block; font-size:19px; color:#640202; padding:5px;}
-#index_frame .left_side .member_message ul{padding:5px;}
-#index_frame .left_side .member_message ul li{font-size:16px; line-height:25px; color:#640202;}
-#index_frame .left_side .member_message ul li a{ color:#640202;}
+.left_side .member_message {background:#F3EBEB; min-height:50px; padding:5px;}
+.left_side .member_message .title{display:block; font-size:19px; color:#640202; padding:5px;}
+.left_side .member_message ul{padding:5px;}
+.left_side .member_message ul li{font-size:16px; line-height:25px; color:#640202;}
+.left_side .member_message ul li a{color:#640202;}
 
 #index_frame .right_side {float:left; width:810px;}
 
@@ -97,28 +93,6 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 
 
 /*page_frame*/
-#page_frame {float:left;}
-#page_frame .left_side {float:left; width:180px;}
-#page_frame .left_side .member_information{background:#3D3B3B; height:163px; background:url('../images/member_information/member_information_bg.jpg') #3D3B3B bottom no-repeat;}
-#page_frame .left_side .member_information .image {text-align:center; padding-top:3px;}
-#page_frame .left_side .member_information .name {text-align:center; padding-top:11px;}
-#page_frame .left_side .member_information .name a{color:#FFFFFF; }
-#page_frame .left_side .member_information .name a span{font-weight:700;}
-#page_frame .left_side .member_information .school {text-align:center; padding-top:3px; color:#FFFFFF; font-size:12px; font-weight:700;}
-
-#page_frame .left_side .member_tools {}
-#page_frame .left_side .member_tools ul{}
-#page_frame .left_side .member_tools ul li{background:url('../images/member_tools/tools_bg.jpg') center no-repeat; height:33px; padding:5px 0px; }
-#page_frame .left_side .member_tools ul li a.navigate{color:#FFFFFF;  font-size:18px; float:left; margin-left:25px; line-height:33px; font-weight:700;}
-#page_frame .left_side .member_tools ul li a.navigate:hover{color:#985353;}
-#page_frame .left_side .member_tools ul li a.navigate_tools{font-size:12px; color:#FFFFFF; float:right; margin-right:20px; line-height:35px;}
-#page_frame .left_side .member_tools ul li a.navigate_tools:hover{color:#985353;}
-
-#page_frame .left_side .member_message {background:#F3EBEB; min-height:50px; padding:5px;}
-#page_frame .left_side .member_message .title{display:block; font-size:19px; color:#640202; padding:5px;}
-#page_frame .left_side .member_message ul{padding:5px;}
-#page_frame .left_side .member_message ul li{font-size:16px; line-height:25px; color:#640202;}
-#page_frame .left_side .member_message ul li a{color:#640202;}
 
 #page_frame .right_side {float:left; width:810px;}
 #page_frame .right_side h4{font-size:20px; color:#650202; font-weight:700; padding:10px 25px;}

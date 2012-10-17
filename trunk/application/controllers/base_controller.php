@@ -142,7 +142,7 @@ class BaseController extends CI_Controller {
 		unset($_SESSION[$parameterName]);
 	}
 	
-	function displayWithLayout($templateName, $layout = '') {				//打开模版
+	function displayWithLayout($templateName, $layout = '') {			//打开模版（包括公共界面layout）
 	
 		if (!$layout) {
 			$layout = $this->layout;
@@ -161,7 +161,7 @@ class BaseController extends CI_Controller {
 		}
 	}
 	
-	function displayWithoutLayout($templateName) {					//打开模版（不包括公共部分）
+	function displayWithoutLayout($templateName) {					//打开模版
 		if ($this->viewFolder != '') {
 			$this->ci_smarty->view($this->viewFolder . '/' . $templateName);
 		} else {
