@@ -10,7 +10,7 @@ Class Contact Extends BaseController {
 	}
 	
 	function index(){
-		$this->displayWithOutLayout('index');
+		$this->displayWithLayout('index');
 	}
 }
 

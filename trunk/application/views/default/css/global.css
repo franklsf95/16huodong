@@ -1,28 +1,23 @@
-/*--------------------------------------初始化网站样式----------------------------*/
-html{border:0;width:100%; overflow-y:scroll; text-align:left;}
-html,body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, p, blockquote,th,td,textarea,input,button,form {margin:0;padding:0;}
-fieldset, img {border:0 none;}
-input, button, textarea, select {font-family: inherit;font-size: inherit;font-weight: inherit;font: 100% Tahoma,Helvetica,Arial,sans-serif; overflow:hidden;}
-ul,ol,dl,dd,dt,form{list-style:none;}
-li {list-style:none outside none;}
-h1, h2,h4, h5, h6 {font-weight:normal;}
-h3{font-weight:normal;font-size:14px;}
-h1{font-size:16px}
-h5,h6{font-size:12px}
-table {font-size:inherit;align:center;}
-a{text-decoration:none; color:#000;}
-.clear {clear:both;}
+ul,ol,dl,dd,dt,form { list-style:none; }
+h1 { font-size: 16px; }
+h3 { font-size: 14px; }
+h5, h6 { font-size: 12px; }
+table { align:center; }
+a { text-decoration:none; color:#000; }
+.clear { clear:both; }
 
-body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"; background:#000000; text-align:center;}
-
-#body_frame{width:990px; margin:0px auto; background:#FFFFFF; text-align:left;}
+body {
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+    font-size: 14px;
+    background-color: #000;
+}
+#body_frame{width:990px; margin:0px auto; background:#FFFFFF; }
 
 #header {background:#3D3B3B center; height:43px; width:990px; }
 #header #logo{float:left; height:43px; overflow:hidden; width:180px;}
-
 #header .navigate {height:43px; overflow:hidden;}
 #header .navigation_item {float:left; padding: 0 30px 0 30px; line-height:43px; color:#FFFFFF; font-size:18px; font-weight:normal;}
-#header .navigation_item:hover {background-color: #ad4c4c;}
+#header .navigation_item:hover {background-color: #933;}
 
 /*left side*/
 
@@ -38,22 +33,20 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
     background: url('../images/member_tools/tools_bg.jpg') no-repeat;
     height: 33px;
     padding: 5px 15px 5px 15px;
-    margin: 0px 0px 0px 20px;
+    margin-left: 20px;
 }
-.left_side .member_tools .member_tool_item a { color: #FFFFFF; font-weight: 700; }
-.left_side .member_tools .member_tool_item:hover {color:#ad4c4c;}
+.left_side .member_tools .member_tool_item a { color: #FFFFFF; font-size: 16px; font-weight: bold; }
+.left_side .member_tools .member_tool_item:hover {color:#933;}
 .left_side .member_tools .member_tool_item .sub a {font-size:12px;}
 
 .left_side .member_message {background:#F3EBEB; min-height:50px; padding:5px;}
-.left_side .member_message .title{display:block; font-size:19px; color:#640202; padding:5px;}
+.left_side .member_message .title{display:block; font-size:19px; color:#600; padding:5px;}
 .left_side .member_message ul{padding:5px;}
-.left_side .member_message ul li{font-size:16px; line-height:25px; color:#640202;}
-.left_side .member_message ul li a{color:#640202;}
-
-#index_frame .right_side {float:left; width:810px;}
+.left_side .member_message ul li{font-size:16px; line-height:25px; color:#600;}
+.left_side .member_message ul li a{color:#600;}
 
 #index_frame .right_side .activity_recommend{height:165px;}
-#index_frame .right_side .activity_recommend span.title{color:#640202; font-size:19px; display:block; padding:2px 10px;}
+#index_frame .right_side .activity_recommend span.title{color:#600; font-size:19px; display:block; padding:2px 10px;}
 #index_frame .right_side .activity_recommend .tabs{padding:5px; height:20px;}
 #index_frame .right_side .activity_recommend .content{height:135px; background:#F3EBEB; position: relative; visibility:visible; padding:0px 40px; overflow:hidden;}
 
@@ -75,33 +68,33 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 #index_frame .right_side .activity_recommend .content .index_activity_recommend_show .context .number .attention_number span{}
 
 #index_frame .right_side .activity_list {padding:10px 0px; margin-top:0px;}
-#index_frame .right_side .activity_list span.title{color:#640202; font-size:19px; display:block; padding:2px 10px;}
+#index_frame .right_side .activity_list span.title{color:#600; font-size:19px; display:block; padding:2px 10px;}
 #index_frame .right_side .activity_list .content{position: relative; visibility:visible;}
 #index_frame .right_side .activity_list .content .index_activity_show{position:absolute; background:#ECEBEB; padding:20px; float:left;  margin:0px 10px 10px 10px; width:210px;}
 #index_frame .right_side .activity_list .content .index_activity_show .image{padding-bottom:10px; text-align:center;}
 #index_frame .right_side .activity_list .content .index_activity_show .title{color:#3d3b3b; font-size:12px; font-weight:normal; padding:3px 0px;}
 #index_frame .right_side .activity_list .content .index_activity_show .title a.publisher {color:#3d3b3b;}
-#index_frame .right_side .activity_list .content .index_activity_show .title a.activity_name {color:#650202;}
+#index_frame .right_side .activity_list .content .index_activity_show .title a.activity_name {color:#600;}
 #index_frame .right_side .activity_list .content .index_activity_show .start_time{color:#3d3b3b; font-size:12px; font-weight:normal; padding:3px 0px;}
 #index_frame .right_side .activity_list .content .index_activity_show .end_time{color:#3d3b3b; font-size:12px; font-weight:normal; padding:3px 0px; padding-bottom:5px;}
 #index_frame .right_side .activity_list .content .index_activity_show .number{border-top:2px solid #3D3B3B; font-size:12px; padding-top:5px;  letter-spacing:2px;}
 #index_frame .right_side .activity_list .content .index_activity_show .number .attend_number{float:left; padding-right:5px;}
-#index_frame .right_side .activity_list .content .index_activity_show .number .attend_number span{ color:#650202;}
+#index_frame .right_side .activity_list .content .index_activity_show .number .attend_number span{ color:#600;}
 #index_frame .right_side .activity_list .content .index_activity_show .number .attention_number{float:left; padding:0px 5px;}
-#index_frame .right_side .activity_list .content .index_activity_show .number .attention_number span{color:#650202;}
+#index_frame .right_side .activity_list .content .index_activity_show .number .attention_number span{color:#600;}
 /*index_frame*/
 
 
 /*page_frame*/
-
-#page_frame .right_side {float:left; width:810px;}
-#page_frame .right_side h4{font-size:20px; color:#650202; font-weight:700; padding:10px 25px;}
+.right_side { float:left; width:810px; border:0; }
+.right_side h4{font-size:20px; color:#600; font-weight:bold; padding:10px 25px;}
+.right_side .title { font-size: 24px; font-weight: bold; color: #933; padding: 25px 0px 25px 20px;}
 
 #page_frame #activity_page.right_side {}
 
 #page_frame #activity_page.right_side .current_attend_activity{padding:10px 0px;}
-#page_frame #activity_page.right_side .current_attend_activity span.title{color:#640202; font-size:19px; display:block; padding-left:10px;}
-#page_frame #activity_page.right_side .current_attend_activity span.title a{color:#640202; font-size:14px; margin-left:20px;}
+#page_frame #activity_page.right_side .current_attend_activity span.title{color:#600; font-size:19px; display:block; padding-left:10px;}
+#page_frame #activity_page.right_side .current_attend_activity span.title a{color:#600; font-size:14px; margin-left:20px;}
 #page_frame #activity_page.right_side .current_attend_activity .content{height:135px; position: relative; visibility:visible; padding:0px 40px; overflow:hidden;}
 #page_frame #activity_page.right_side .current_attend_activity .content .arrows_left{position:absolute; top:50px; left:10px; cursor:pointer;}
 #page_frame #activity_page.right_side .current_attend_activity .content .arrows_right{position:absolute; top:50px; left:775px; cursor:pointer;}
@@ -119,8 +112,8 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 #page_frame #activity_page.right_side .current_attend_activity .content .current_attend_activity_show .context .number .attention_number span{}
 
 #page_frame #activity_page.right_side .current_attention_activity{padding:10px 0px;}
-#page_frame #activity_page.right_side .current_attention_activity span.title{color:#640202; font-size:19px; display:block; padding-left:10px;}
-#page_frame #activity_page.right_side .current_attention_activity span.title a{color:#640202; font-size:14px; margin-left:20px;}
+#page_frame #activity_page.right_side .current_attention_activity span.title{color:#600; font-size:19px; display:block; padding-left:10px;}
+#page_frame #activity_page.right_side .current_attention_activity span.title a{color:#600; font-size:14px; margin-left:20px;}
 #page_frame #activity_page.right_side .current_attention_activity .content{height:135px; position: relative; visibility:visible; padding:0px 40px; overflow:hidden;}
 #page_frame #activity_page.right_side .current_attention_activity .content .arrows_left{position:absolute; top:50px; left:10px; cursor:pointer;}
 #page_frame #activity_page.right_side .current_attention_activity .content .arrows_right{position:absolute; top:50px; left:775px; cursor:pointer;}
@@ -138,8 +131,8 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 #page_frame #activity_page.right_side .current_attention_activity .content .current_attention_activity_show .context .number .attention_number span{}
 
 #page_frame #activity_page.right_side .current_publish_activity{padding:10px 0px; min-height:200px;}
-#page_frame #activity_page.right_side .current_publish_activity span.title{color:#640202; font-size:19px; display:block; padding-left:10px;}
-#page_frame #activity_page.right_side .current_publish_activity span.title a{color:#640202; font-size:14px; margin-left:20px;}
+#page_frame #activity_page.right_side .current_publish_activity span.title{color:#600; font-size:19px; display:block; padding-left:10px;}
+#page_frame #activity_page.right_side .current_publish_activity span.title a{color:#600; font-size:14px; margin-left:20px;}
 #page_frame #activity_page.right_side .current_publish_activity .content{ position: relative; visibility:visible; padding:0px 10px; overflow:hidden;}
 #page_frame #activity_page.right_side .current_publish_activity .content .arrows_left{position:absolute; top:50px; left:10px; cursor:pointer;}
 #page_frame #activity_page.right_side .current_publish_activity .content .arrows_right{position:absolute; top:50px; left:775px; cursor:pointer;}
@@ -156,7 +149,7 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 #page_frame #activity_page.right_side .current_publish_activity .content .current_publish_activity_show .context .number .attention_number{float:left; padding-left:15px; border-left:1px solid #3d3d3d;}
 #page_frame #activity_page.right_side .current_publish_activity .content .current_publish_activity_show .context .number .attention_number span{}
 #page_frame #activity_page.right_side .current_publish_activity .content .current_publish_activity_show .detail_page{float:left; background:url('../images/ico/arrows_right.gif') no-repeat left 37px; padding-left:35px;}
-#page_frame #activity_page.right_side .current_publish_activity .content .current_publish_activity_show .detail_page a{line-height:100px; color:#640202;}
+#page_frame #activity_page.right_side .current_publish_activity .content .current_publish_activity_show .detail_page a{line-height:100px; color:#600;}
 
 #page_frame #activity_detail.right_side .activity_content{padding:30px 25px;}
 #page_frame #activity_detail.right_side .activity_content .image{float:left; width:300px;}
@@ -210,12 +203,12 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 #page_frame #activity_detail.right_side  .add_activity_comment {padding-left:25px;}
 #page_frame #activity_detail.right_side  .add_activity_comment p{margin-bottom:15px;}
 #page_frame #activity_detail.right_side  .add_activity_comment p #activity_comment{width:400px; height:100px; resize:none; font-size:13px; padding:5px;}
-#page_frame #activity_detail.right_side  .add_activity_comment p .submit{height:30px; border:none; color:#FFFFFF; line-height:30px; padding:0px 10px; background:#650202; font-size:14px; cursor:pointer;}
+#page_frame #activity_detail.right_side  .add_activity_comment p .submit{height:30px; border:none; color:#FFFFFF; line-height:30px; padding:0px 10px; background:#600; font-size:14px; cursor:pointer;}
 
 #page_frame #activity_detail.right_side .view_activity_comment ul li .activity_comment_box .content  .reply_div{}
 #page_frame #activity_detail.right_side .view_activity_comment ul li .activity_comment_box .content .reply_div form{}
 #page_frame #activity_detail.right_side .view_activity_comment ul li .activity_comment_box .content .reply_div form textarea{width:400px; height:100px; resize:none; font-size:13px; padding:5px; line-height:20px;}
-#page_frame #activity_detail.right_side .view_activity_comment ul li .activity_comment_box .content .reply_div form input[type=submit]{height:30px; border:none; color:#FFFFFF; line-height:30px; padding:0px 10px; background:#650202; font-size:14px; cursor:pointer; margin-left:10px; margin-bottom:10px;}
+#page_frame #activity_detail.right_side .view_activity_comment ul li .activity_comment_box .content .reply_div form input[type=submit]{height:30px; border:none; color:#FFFFFF; line-height:30px; padding:0px 10px; background:#600; font-size:14px; cursor:pointer; margin-left:10px; margin-bottom:10px;}
 
 /*-------------------------------------View_activity_attend_member---------------------------------------*/
 #page_frame #activity_detail.right_side  ul.view_activity_attend_member {}
@@ -225,7 +218,7 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 #page_frame #activity_detail.right_side  ul.view_activity_attend_member li div.content span{display:block; height:25px;}
 #page_frame #activity_detail.right_side  ul.view_activity_attend_member li div.content span span.title{display:inline;}
 #page_frame #activity_detail.right_side  ul.view_activity_attend_member li div.tools{float:right; width:400px; height:100px; text-align:right;}
-#page_frame #activity_detail.right_side  ul.view_activity_attend_member li div.tools span{line-height:100px; margin-right:20px; cursor:pointer; color:#ad4c4c;}
+#page_frame #activity_detail.right_side  ul.view_activity_attend_member li div.tools span{line-height:100px; margin-right:20px; cursor:pointer; color:#933;}
 #page_frame #activity_detail.right_side  ul.view_activity_attend_member li div.tools span:hover{color:red;}
 
 /*-------------------------------------View_activity_attention_member---------------------------------------*/
@@ -240,7 +233,7 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 #page_frame #activity_detail.right_side .send_activity_message{}
 #page_frame #activity_detail.right_side .send_activity_message .message_box{padding:20px 10px;}
 #page_frame #activity_detail.right_side .send_activity_message .message_box textarea{width:650px; height:80px; padding:5px;}
-#page_frame #activity_detail.right_side .send_activity_message .message_box input{font-size:19px; color:#640202; background:none; border:none; cursor:pointer;}
+#page_frame #activity_detail.right_side .send_activity_message .message_box input{font-size:19px; color:#600; background:none; border:none; cursor:pointer;}
 
 #page_frame #activity_detail.right_side .send_activity_message ul.activity_attend_member_list {}
 #page_frame #activity_detail.right_side .send_activity_message ul.activity_attend_member_list li{height:150px; width:100px; padding:10px 10px; float:left;}
@@ -264,7 +257,7 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 #my_page .member_information .content{height:135px; float:left; padding-left:25px;}
 #my_page .member_information .content .context{width:300px; height:100px;}
 #my_page .member_information .content .context span{line-height:25px; font-size:14px; }
-#my_page .member_information .content .context .name{font-size:19px; color:#640202; display:block; line-height:35px;}
+#my_page .member_information .content .context .name{font-size:19px; color:#600; display:block; line-height:35px;}
 #my_page .member_information .content .context .school{display:block; float:left; width:150px;}
 #my_page .member_information .content .context .gender{display:block; float:left; width:150px;}
 #my_page .member_information .content .context .birthday{display:block; float:left; width:150px;}
@@ -276,7 +269,7 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 #my_page.right_side .activity_list {padding:10px 0px; margin-top:20px;}
 #my_page.right_side .activity_list .tabs{padding:0px 5px;}
 #my_page.right_side .activity_list .tabs ul{margin:0px; padding:0px;}
-#my_page.right_side .activity_list .tabs ul li{float:left; border-left:2px solid #640202; padding:0px 10px; color:#640202; font-size:19px; line-height:20px;}
+#my_page.right_side .activity_list .tabs ul li{float:left; border-left:2px solid #600; padding:0px 10px; color:#600; font-size:19px; line-height:20px;}
 #my_page.right_side .activity_list .tabs ul li:first-child{border:none;}
 #my_page.right_side .activity_list .tabs ul li a{}
 
@@ -289,9 +282,9 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 #my_page.right_side .activity_list .content .member_activity_show .end_time{color:#3d3b3b; font-size:12px; font-weight:normal; padding:3px 0px; padding-bottom:5px;}
 #my_page.right_side .activity_list .content .member_activity_show .number{border-top:2px solid #3D3B3B; font-size:12px; padding-top:5px;}
 #my_page.right_side .activity_list .content .member_activity_show .number .attend_number{float:left; padding:0px 5px;}
-#my_page.right_side .activity_list .content .member_activity_show .number .attend_number span{ color:#650202;}
+#my_page.right_side .activity_list .content .member_activity_show .number .attend_number span{ color:#600;}
 #my_page.right_side .activity_list .content .member_activity_show .number .attention_number{float:left; padding:0px 5px;}
-#my_page.right_side .activity_list .content .member_activity_show .number .attention_number span{color:#650202;}
+#my_page.right_side .activity_list .content .member_activity_show .number .attention_number span{color:#600;}
 
 
 #page_frame #member_edit.right_side {}
@@ -338,15 +331,15 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 #page_frame #message_page.right_side ul.view_member_message li div.member_message .member_image{float:left; height:80px; width:80px;}
 #page_frame #message_page.right_side ul.view_member_message li div.member_message .content{float:left; padding:5px 10px; width:630px;}
 #page_frame #message_page.right_side ul.view_member_message li div.member_message .content p{font-size:14px; height:50px;}
-#page_frame #message_page.right_side ul.view_member_message li div.member_message .content p .member_name{color:#640202;}
+#page_frame #message_page.right_side ul.view_member_message li div.member_message .content p .member_name{color:#600;}
 #page_frame #message_page.right_side ul.view_member_message li div.member_message .content .member_message_tools{float:right; height:20px;}
-#page_frame #message_page.right_side ul.view_member_message li div.member_message .content .member_message_tools a{font-size:14px; line-height:20px; color:#640202;}
+#page_frame #message_page.right_side ul.view_member_message li div.member_message .content .member_message_tools a{font-size:14px; line-height:20px; color:#600;}
 #page_frame #message_page.right_side ul.view_member_message li div.member_message .content .member_message_tools a:first-child{margin-right:10px;}
 
 #page_frame #message_page.right_side ul.view_system_message{padding:10px;}
 #page_frame #message_page.right_side ul.view_system_message li{font-size:14px; height:40px; line-height:40px;}
 #page_frame #message_page.right_side ul.view_system_message li span.new{color:red;}
-#page_frame #message_page.right_side ul.view_system_message li a{color:#640202;}
+#page_frame #message_page.right_side ul.view_system_message li a{color:#600;}
 #page_frame #message_page.right_side ul.view_system_message li a.member_name{}
 #page_frame #message_page.right_side ul.view_system_message li a.activity_name{}
 #page_frame #message_page.right_side ul.view_system_message li span.action{float:right; cursor:pointer;}
@@ -361,9 +354,9 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 .search_page .right_side .member_search{}
 .search_page .right_side .member_search .member_type{padding:5px; height:30px; padding-top:10px;}
 .search_page .right_side .member_search .member_type ul{padding:0px; margin:0px;}
-.search_page .right_side .member_search .member_type ul li{float:left; border-left:2px solid #640202; padding:0px 10px; margin:0px;}
+.search_page .right_side .member_search .member_type ul li{float:left; border-left:2px solid #600; padding:0px 10px; margin:0px;}
 .search_page .right_side .member_search .member_type ul li:first-child{border:none;}
-.search_page .right_side .member_search .member_type ul li a{color:#640202; font-size:19px; cursor:pointer;}
+.search_page .right_side .member_search .member_type ul li a{color:#600; font-size:19px; cursor:pointer;}
 .search_page .right_side .member_search .member_type ul li a.active{color:red; font-size:19px;}
 .search_page .right_side .member_search .member_type .search_box{float:left; padding-left:20px;}
 .search_page .right_side .member_search .member_type .search_box input{float:left; background:#eae9e9; border:none; height:17x; padding:3px; font-size:13px; width:150px;}
@@ -381,9 +374,9 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 .search_page .right_side .activity_search{width:525px; float:left;}
 .search_page .right_side .activity_search .activity_type{padding:5px; height:30px; padding-top:10px;}
 .search_page .right_side .activity_search .activity_type ul{padding:0px; margin:0px;}
-.search_page .right_side .activity_search .activity_type ul li{float:left; border-left:2px solid #640202; padding:0px 10px; margin:0px;}
+.search_page .right_side .activity_search .activity_type ul li{float:left; border-left:2px solid #600; padding:0px 10px; margin:0px;}
 .search_page .right_side .activity_search .activity_type ul li:first-child{border:none;}
-.search_page .right_side .activity_search .activity_type ul li a{color:#640202; font-size:19px;}
+.search_page .right_side .activity_search .activity_type ul li a{color:#600; font-size:19px;}
 .search_page .right_side .activity_search .activity_type ul li a.active{color:red; font-size:19px;}
 .search_page .right_side .activity_search .activity_type .search_box{float:left; padding-left:20px;}
 .search_page .right_side .activity_search .activity_type .search_box input{float:left; background:#eae9e9; border:none; height:17x; padding:3px; font-size:13px; width:150px;}
@@ -395,7 +388,7 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 .search_page .right_side .activity_search .content .activity_search_show .image{float:left;}
 .search_page .right_side .activity_search .content .activity_search_show .context {padding:10px 0px 0px 30px; float:left; width:250px;}
 .search_page .right_side .activity_search .content .activity_search_show .context .title {padding:5px 0px;}
-.search_page .right_side .activity_search .content .activity_search_show .context .title a{color:#650202; font-size:18px; font-weight:normal; padding:5px 0px;}
+.search_page .right_side .activity_search .content .activity_search_show .context .title a{color:#600; font-size:18px; font-weight:normal; padding:5px 0px;}
 .search_page .right_side .activity_search .content .activity_search_show .context .start_time{font-size:15px; color:#3d3b3b;}
 .search_page .right_side .activity_search .content .activity_search_show .context .end_time{font-size:15px; color:#3d3b3b;}
 .search_page .right_side .activity_search .content .activity_search_show .context .publisher{font-size:15px; color:#3d3b3b;}
@@ -407,20 +400,20 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 
 .search_page .right_side .tools_box{width:270px; float:left; height:200px; }
 .search_page .right_side .tools_box .hot_tag {padding:10px 0px;}
-.search_page .right_side .tools_box .hot_tag span.title{color:#640202; font-size:20px;}
+.search_page .right_side .tools_box .hot_tag span.title{color:#600; font-size:20px;}
 .search_page .right_side .tools_box .hot_tag .content{}
 .search_page .right_side .tools_box .hot_tag .content span.tag{color:#3d3b3b; font-size:18px; margin-right:10px; line-height:30px; cursor:pointer;}
 
 .search_page .right_side .tools_box .week_active {padding:10px 0px; display:none;}
-.search_page .right_side .tools_box .week_active span.title{color:#640202; font-size:20px;}
+.search_page .right_side .tools_box .week_active span.title{color:#600; font-size:20px;}
 .search_page .right_side .tools_box .week_active .content{}
 
 .search_page .right_side .tools_box .hottest_activity {padding:10px 0px; display:none;}
-.search_page .right_side .tools_box .hottest_activity span.title{color:#640202; font-size:20px;}
+.search_page .right_side .tools_box .hottest_activity span.title{color:#600; font-size:20px;}
 .search_page .right_side .tools_box .hottest_activity .content{}
 
 .search_page .right_side .tools_box .newest_activity {padding:10px 0px; display:none;}
-.search_page .right_side .tools_box .newest_activity span.title{color:#640202; font-size:20px;}
+.search_page .right_side .tools_box .newest_activity span.title{color:#600; font-size:20px;}
 .search_page .right_side .tools_box .newest_activity .content{}
 
 
@@ -436,7 +429,7 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 
 
 .pagination {text-decoration: none; float:right; margin-right:20px; font-size:13px;}
-.pagination a {line-height:30px; padding:3px 5px; text-decoration: none; color:#640202; }
+.pagination a {line-height:30px; padding:3px 5px; text-decoration: none; color:#600; }
 .pagination .current {color:red;}
 .pagination .number {padding:0px !important; float:none !important;}
 /*--------------------------------------鍒濆鍖栫綉绔欐牱寮?---------------------------*/
@@ -472,33 +465,33 @@ body {font-family:"Bitstream Vera Sans Mono",Monaco,"Lucida Console","monospace"
 .edit_activity_box p span.tag_help {display:block;font-size:12px; color:#999999; margin-left:100px;}
 .edit_activity_box p textarea {width:550px;}
 .edit_activity_box p span#tag_box{display:block; height:30px; line-height:30px;}
-.edit_activity_box p span#tag_box a{margin-right:10px; cursor:pointer; color:#650202;}
+.edit_activity_box p span#tag_box a{margin-right:10px; cursor:pointer; color:#600;}
 .edit_activity_box p span#tag_box a:hover{text-decoration:line-through; color:red;}
 .edit_activity_box p span.add_tag_box{display:block; margin-left:100px;}
 .edit_activity_box p span.add_tag_box input{width:150px;}
 .edit_activity_box p span.add_tag_box a{padding:0px 5px; cursor:pointer; line-height:25px;}
-.edit_activity_box p .submit{font-size:19px; color:#640202; background:none; border:none; cursor:pointer; width:auto; }
+.edit_activity_box p .submit{font-size:19px; color:#600; background:none; border:none; cursor:pointer; width:auto; }
 
 /*-------------------------------------Invite_friend_attend_activity_box---------------------------------------*/
 ul.invite_friend_attend_activity{}
 ul.invite_friend_attend_activity li{float:left;}
 ul.invite_friend_attend_activity li .member_information{text-align:center; height:200px; width:150px; padding:20px;}
 ul.invite_friend_attend_activity li .member_information .member_image{height:150px; width:150px;}
-ul.invite_friend_attend_activity li .member_information .member_name{color:#640202; font-size:14px; line-height:30px; display:block;}
+ul.invite_friend_attend_activity li .member_information .member_name{color:#600; font-size:14px; line-height:30px; display:block;}
 
 
 
 
 /*-------------------------------------View_activity_box---------------------------------------*/
 .view_activity_box {font-size:13px;}
-.view_activity_box .activity_name{font-size:18px; color:#640202; line-height:28px;}
+.view_activity_box .activity_name{font-size:18px; color:#600; line-height:28px;}
 .view_activity_box .activity_description{font-size:13px; border:1px solid #CCCCCC; background:#efefef; padding:10px 15px; margin:10px 0px;}
 .view_activity_box .activity_apply_time{line-height:28px;}
-.view_activity_box .activity_apply_time .title{display:block; float:left; color:#640202;}
+.view_activity_box .activity_apply_time .title{display:block; float:left; color:#600;}
 .view_activity_box .activity_start_time{font-size:13px; line-height:28px;}
-.view_activity_box .activity_start_time .title{display:block; float:left; color:#640202;}
+.view_activity_box .activity_start_time .title{display:block; float:left; color:#600;}
 .view_activity_box .activity_attend_member{font-size:13px; clear:both; line-height:28px;}
-.view_activity_box .activity_attend_member .title{display:block; float:left; color:#640202;}
+.view_activity_box .activity_attend_member .title{display:block; float:left; color:#600;}
 .view_activity_box .activity_attend_member  a{color:red;}
 
 
@@ -524,12 +517,12 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 .right_side#blog_page  #recommend_blog_list .recommend_blog_show .context .title a{color:#3d3b3b; font-size:18px; font-weight:normal; line-height:30px;}
 .right_side#blog_page  #recommend_blog_list .recommend_blog_show .context .time{font-size:12px; color:#3d3b3b; line-height:25px;}
 .right_side#blog_page  #recommend_blog_list .recommend_blog_show .context .publisher{font-size:12px; color:#3d3b3b; line-height:25px;}
-.right_side#blog_page  #recommend_blog_list .recommend_blog_show .context .publisher a{color:#650202;}
+.right_side#blog_page  #recommend_blog_list .recommend_blog_show .context .publisher a{color:#600;}
 .right_side#blog_page  #recommend_blog_list .recommend_blog_show .context .number{font-size:12px; padding-top:5px; letter-spacing:2px;}
 .right_side#blog_page  #recommend_blog_list .recommend_blog_show .context .number .hits_number{float:left; padding-right:5px;}
-.right_side#blog_page  #recommend_blog_list .recommend_blog_show .context .number .hits_number span{ color:#650202;}
+.right_side#blog_page  #recommend_blog_list .recommend_blog_show .context .number .hits_number span{ color:#600;}
 .right_side#blog_page  #recommend_blog_list .recommend_blog_show .context .number .prefer_number{float:left; padding:0px 5px;}
-.right_side#blog_page  #recommend_blog_list .recommend_blog_show .context .number .prefer_number span{color:#650202;}
+.right_side#blog_page  #recommend_blog_list .recommend_blog_show .context .number .prefer_number span{color:#600;}
 
 .right_side#blog_page .tabs{padding:10px 25px 0px 15px;}
 .right_side#blog_page .tabs ul{border-bottom:3px solid #3D3B3B;}
@@ -543,14 +536,14 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 .right_side#blog_page #member_blog_list  .member_blog_show .image{padding-bottom:10px; text-align:center;}
 .right_side#blog_page #member_blog_list  .member_blog_show .title{color:#3d3b3b; font-size:12px; font-weight:normal; padding:3px 0px;}
 .right_side#blog_page #member_blog_list  .member_blog_show .title a.publisher {color:#3d3b3b;}
-.right_side#blog_page #member_blog_list  .member_blog_show .title a.blog_name {color:#650202;}
+.right_side#blog_page #member_blog_list  .member_blog_show .title a.blog_name {color:#600;}
 .right_side#blog_page #member_blog_list  .member_blog_show .time{color:#3d3b3b; font-size:12px; font-weight:normal; padding:5px 0px; border-bottom:1px solid #3D3B3B;}
 .right_side#blog_page #member_blog_list  .member_blog_show .description{font-size:12px; color:#999999; padding:5px 0px;}
 .right_side#blog_page #member_blog_list  .member_blog_show .number{font-size:12px; padding-top:5px; letter-spacing:2px;}
 .right_side#blog_page #member_blog_list  .member_blog_show .number .hits_number{float:left; padding-right:5px;}
-.right_side#blog_page #member_blog_list  .member_blog_show .number .hits_number span{color:#650202;}
+.right_side#blog_page #member_blog_list  .member_blog_show .number .hits_number span{color:#600;}
 .right_side#blog_page #member_blog_list  .member_blog_show .number .prefer_number{float:left; padding:0px 5px;}
-.right_side#blog_page #member_blog_list  .member_blog_show .number .prefer_number span{color:#650202;}
+.right_side#blog_page #member_blog_list  .member_blog_show .number .prefer_number span{color:#600;}
 
 
 .right_side#blog_page  #prefer_blog_list {height:135px; position: relative; visibility:visible; padding:0px 40px; overflow:hidden;}
@@ -563,27 +556,27 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 .right_side#blog_page  #prefer_blog_list .prefer_blog_show .context .title a{color:#3d3b3b; font-size:18px; font-weight:normal; line-height:30px;}
 .right_side#blog_page  #prefer_blog_list .prefer_blog_show .context .time{font-size:12px; color:#3d3b3b; line-height:25px;}
 .right_side#blog_page  #prefer_blog_list .prefer_blog_show .context .publisher{font-size:12px; color:#3d3b3b; line-height:25px;}
-.right_side#blog_page  #prefer_blog_list .prefer_blog_show .context .publisher a{color:#650202;}
+.right_side#blog_page  #prefer_blog_list .prefer_blog_show .context .publisher a{color:#600;}
 .right_side#blog_page  #prefer_blog_list .prefer_blog_show .context .number{font-size:12px; padding-top:5px; letter-spacing:2px;}
 .right_side#blog_page  #prefer_blog_list .prefer_blog_show .context .number .hits_number{float:left; padding-right:5px;}
-.right_side#blog_page  #prefer_blog_list .prefer_blog_show .context .number .hits_number span{ color:#650202;}
+.right_side#blog_page  #prefer_blog_list .prefer_blog_show .context .number .hits_number span{ color:#600;}
 .right_side#blog_page  #prefer_blog_list .prefer_blog_show .context .number .prefer_number{float:left; padding:0px 5px;}
-.right_side#blog_page  #prefer_blog_list .prefer_blog_show .context .number .prefer_number span{color:#650202;}
+.right_side#blog_page  #prefer_blog_list .prefer_blog_show .context .number .prefer_number span{color:#600;}
 
 .right_side#blog_page #my_blog_list {width:535px; padding-left:30px;}
 .right_side#blog_page #my_blog_list ul{}
 .right_side#blog_page #my_blog_list ul li{padding:10px 5px; border-top:1px solid #999999;}
 .right_side#blog_page #my_blog_list ul li .name{display:block; float:left; font-size:16px; color:#000000; line-height:30px; font-family:"榛戜綋"; max-width:450px;}
-.right_side#blog_page #my_blog_list ul li .tools{float:right; height:auto; line-height:25px; color:#650202; margin-right:0px; font-size:12px;}
-.right_side#blog_page #my_blog_list ul li .tools .edit{color:#650202;}
-.right_side#blog_page #my_blog_list ul li .tools .delete{color:#650202;}
+.right_side#blog_page #my_blog_list ul li .tools{float:right; height:auto; line-height:25px; color:#600; margin-right:0px; font-size:12px;}
+.right_side#blog_page #my_blog_list ul li .tools .edit{color:#600;}
+.right_side#blog_page #my_blog_list ul li .tools .delete{color:#600;}
 .right_side#blog_page #my_blog_list ul li .time{color:#333333; font-size:13px; display:block;}
 .right_side#blog_page #my_blog_list ul li .description{padding:10px 0px;}
 .right_side#blog_page #my_blog_list  .member_blog_show{position:absolute; background:#ECEBEB; padding:20px; float:left;  margin:0px 10px 10px 10px; width:210px;}
 .right_side#blog_page #my_blog_list  .member_blog_show .image{padding-bottom:10px; text-align:center;}
 .right_side#blog_page #my_blog_list  .member_blog_show .title{color:#3d3b3b; font-size:12px; font-weight:normal; padding:3px 0px;}
 .right_side#blog_page #my_blog_list  .member_blog_show .title a.publisher {color:#3d3b3b;}
-.right_side#blog_page #my_blog_list  .member_blog_show .title a.blog_name {color:#650202;}
+.right_side#blog_page #my_blog_list  .member_blog_show .title a.blog_name {color:#600;}
 .right_side#blog_page #my_blog_list  .member_blog_show .time{color:#3d3b3b; font-size:12px; font-weight:normal; padding:3px 0px;}
 
 
@@ -606,7 +599,7 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 .right_side#blog_page .edit_blog p img#image_view {min-width:50px; max-width:200px; min-height:20px; cursor:pointer; border:1px solid #999999; display:block;  float:left;}
 .right_side#blog_page .edit_blog .add_class_button {font-size:13px; color:red;}
 
-.right_side#blog_page .edit_blog p .submit{font-size:19px; color:#640202; background:none; border:none; cursor:pointer; width:auto;}
+.right_side#blog_page .edit_blog p .submit{font-size:19px; color:#600; background:none; border:none; cursor:pointer; width:auto;}
 
 
 
@@ -624,9 +617,9 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 .right_side#blog_page .view_blog_box .image img{width:50%;}
 .right_side#blog_page .view_blog_box .number{font-size:12px; padding:15px 0px; letter-spacing:2px; float:right;}
 .right_side#blog_page .view_blog_box .number .hits_number{float:left; padding-right:5px;}
-.right_side#blog_page .view_blog_box .number .hits_number span{ color:#650202;}
+.right_side#blog_page .view_blog_box .number .hits_number span{ color:#600;}
 .right_side#blog_page .view_blog_box .number .prefer_number{float:left; padding:0px 5px;}
-.right_side#blog_page .view_blog_box .number .prefer_number span{color:#650202;}
+.right_side#blog_page .view_blog_box .number .prefer_number span{color:#600;}
 .right_side#blog_page .view_blog_box .blog_content{padding:10px 15px;}
 
 /*-------------------------------------View_blog_comment-----------*/
@@ -635,7 +628,7 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 .blog_comment_box {clear:both; margin-bottom:10px;}
 .blog_comment_box .member_image {float:left; padding-top:10px;}
 .blog_comment_box .content {border-top:1px solid #CCCCCC; width:640px; float:left; line-height:25px; padding-top:5px; margin-left:15px; font-size:14px; font-size:13px;}
-.blog_comment_box .content .member_name{color:#650202; font-size:13px;}
+.blog_comment_box .content .member_name{color:#600; font-size:13px;}
 .blog_comment_box .content .comment_content {background:url('../images/ico/ico_02.gif') left top no-repeat; float:left; margin-left:30px; margin-top:0px;}
 .blog_comment_box .content .comment_content  .say_ico{background:url('../images/ico/ico_03.gif') right bottom no-repeat; float:left; padding-left:20px; padding-right:20px; font-size:13px;}
 
@@ -643,7 +636,7 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 .add_blog_comment {}
 .add_blog_comment p{margin-bottom:15px;}
 .add_blog_comment p #blog_comment{width:400px; height:100px; resize:none;}
-.add_blog_comment p .submit{height:30px; border:none; color:#FFFFFF; line-height:30px; padding:0px 10px; background:#650202; font-size:14px; cursor:pointer;}
+.add_blog_comment p .submit{height:30px; border:none; color:#FFFFFF; line-height:30px; padding:0px 10px; background:#600; font-size:14px; cursor:pointer;}
 
 /*-------------------------------------View_member_page---------------------------------------*/
 #member_page{}
@@ -654,14 +647,14 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 #member_page .member_information .content .context .left{float:left; width:240px;}
 #member_page .member_information .content .context .right{float:left; width:240px;}
 #member_page .member_information .content .context span{line-height:25px; font-size:14px; display:block;}
-#member_page .member_information .content .context .name{font-size:19px; color:#640202; display:block; line-height:35px;}
+#member_page .member_information .content .context .name{font-size:19px; color:#600; display:block; line-height:35px;}
 #member_page .member_information .content .context .school{}
 #member_page .member_information .content .context .gender{}
 #member_page .member_information .content .context .birthday{}
 #member_page .member_information .content .context .tag{}
 #member_page .member_information .content .tools{line-height:30px;}
-#member_page .member_information .content .tools span.add_friend{font-size:19px; color:#640202; cursor:pointer;}
-#member_page .member_information .content .tools span.add_message{font-size:19px; color:#640202; margin-left:20px; cursor:pointer;}
+#member_page .member_information .content .tools span.add_friend{font-size:19px; color:#600; cursor:pointer;}
+#member_page .member_information .content .tools span.add_message{font-size:19px; color:#600; margin-left:20px; cursor:pointer;}
 
 #member_page .member_information .description { padding:10px 0px; margin-top:20px; font-size:14px;}
 
@@ -670,7 +663,7 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 #member_page.right_side .activity_list {padding:10px 0px; margin-top:20px;}
 #member_page.right_side .activity_list .tabs{padding:0px 5px;}
 #member_page.right_side .activity_list .tabs ul{margin:0px; padding:0px;}
-#member_page.right_side .activity_list .tabs ul li{float:left; border-left:2px solid #640202; padding:0px 10px; color:#640202; font-size:19px; line-height:20px;}
+#member_page.right_side .activity_list .tabs ul li{float:left; border-left:2px solid #600; padding:0px 10px; color:#600; font-size:19px; line-height:20px;}
 #member_page.right_side .activity_list .tabs ul li:first-child{border:none;}
 #member_page.right_side .activity_list .tabs ul li a{}
 
@@ -679,14 +672,14 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 #member_page.right_side .activity_list .content .member_activity_show .image{padding-bottom:10px; text-align:center;}
 #member_page.right_side .activity_list .content .member_activity_show .title{color:#3d3b3b; font-size:12px; font-weight:normal; padding:3px 0px;}
 #member_page.right_side .activity_list .content .member_activity_show .title a.publisher {color:#3d3b3b;}
-#member_page.right_side .activity_list .content .member_activity_show .title a.activity_name {color:#650202;}
+#member_page.right_side .activity_list .content .member_activity_show .title a.activity_name {color:#600;}
 #member_page.right_side .activity_list .content .member_activity_show .start_time{color:#3d3b3b; font-size:12px; font-weight:normal; padding:3px 0px;}
 #member_page.right_side .activity_list .content .member_activity_show .end_time{color:#3d3b3b; font-size:12px; font-weight:normal; padding:3px 0px; padding-bottom:5px;}
 #member_page.right_side .activity_list .content .member_activity_show .number{border-top:2px solid #3D3B3B; font-size:12px; padding-top:5px;  letter-spacing:2px;}
 #member_page.right_side .activity_list .content .member_activity_show .number .attend_number{float:left; padding-right:5px;}
-#member_page.right_side .activity_list .content .member_activity_show .number .attend_number span{ color:#650202;}
+#member_page.right_side .activity_list .content .member_activity_show .number .attend_number span{ color:#600;}
 #member_page.right_side .activity_list .content .member_activity_show .number .attention_number{float:left; padding:0px 5px;}
-#member_page.right_side .activity_list .content .member_activity_show .number .attention_number span{color:#650202;}
+#member_page.right_side .activity_list .content .member_activity_show .number .attention_number span{color:#600;}
 
 /*-------------------------------------View_member_leave_word_box---------------------------------------*/
 .view_member_leave_word_box {font-size:13px;}
@@ -828,7 +821,7 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 .member_message_box ul li .member_message .content{margin-left:50px; padding:0px; word-wrap:break-word;}
 .member_message_box ul li .member_message .content p{font-size:13px; line-height:22px;}
 .member_message_box ul li .member_message .content .member_message_tools{float:right; font-size:13px;}
-.member_message_box ul li .member_message a{font-size:13px; color:#640202;}
+.member_message_box ul li .member_message a{font-size:13px; color:#600;}
 
 /*-------------------------------------Member_message_view---------------------------------------*/
 .member_message_view {margin:0px 15px; padding:10px 25px; font-size:14px;}
@@ -839,7 +832,7 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 .member_message_view ul li .add_member_message p{margin-bottom:15px;}
 .member_message_view ul li .add_member_message p span.title{}
 .member_message_view ul li .add_member_message p textarea{width:700px; height:70px; padding:5px; resize:none;}
-.member_message_view ul li .add_member_message p .submit{font-size:19px; color:#640202; background:none; border:none; cursor:pointer;}
+.member_message_view ul li .add_member_message p .submit{font-size:19px; color:#600; background:none; border:none; cursor:pointer;}
 
 .member_message_view ul li .member_message{}
 .member_message_view ul li .member_message .sent{}
@@ -847,7 +840,7 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 .member_message_view ul li .member_message .member_image{float:left; }
 .member_message_view ul li .member_message .content{margin-left:50px; padding:0px; word-wrap:break-word;}
 .member_message_view ul li .member_message .content p{font-size:13px; line-height:22px;}
-.member_message_view ul li .member_message a{font-size:13px; color:#640202;}
+.member_message_view ul li .member_message a{font-size:13px; color:#600;}
 
 
 /*-------------------------------------Member_message_edit---------------------------------------*/
@@ -1018,8 +1011,8 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 .attend_activity_box ul li div.image img{width:150px; height:180px;}
 .attend_activity_box ul li div.context{float:left; height:150px; padding-left:20px; width:200px;}
 .attend_activity_box ul li div.context p{font-size:14px; line-height:25px;}
-.attend_activity_box ul li div.context p.activity_name a{color:#650202; font-weight:bold;}
-.attend_activity_box ul li div.context p.publisher a{color:#650202; }
+.attend_activity_box ul li div.context p.activity_name a{color:#600; font-weight:bold;}
+.attend_activity_box ul li div.context p.publisher a{color:#600; }
 .attend_activity_box ul li div.context p.description{color:#999999; display:none;}
 
 /*-------------------------------------Attention_activity_box---------------------------------------*/
@@ -1030,8 +1023,8 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 .attention_activity_box ul li div.image img{width:150px; height:180px;}
 .attention_activity_box ul li div.context{float:left; height:150px; padding-left:20px; width:200px;}
 .attention_activity_box ul li div.context p{font-size:14px; line-height:25px;}
-.attention_activity_box ul li div.context p.activity_name a{color:#650202; font-weight:bold;}
-.attention_activity_box ul li div.context p.publisher a{color:#650202; }
+.attention_activity_box ul li div.context p.activity_name a{color:#600; font-weight:bold;}
+.attention_activity_box ul li div.context p.publisher a{color:#600; }
 .attention_activity_box ul li div.context p.description{color:#999999;color:#999999; display:none;}
 
 /*-------------------------------------Publish_activity_box---------------------------------------*/
@@ -1042,8 +1035,8 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 .publish_activity_box ul li div.image img{width:150px; height:180px;}
 .publish_activity_box ul li div.context{float:left; height:150px; padding-left:20px; width:200px;}
 .publish_activity_box ul li div.context p{font-size:14px; line-height:25px;}
-.publish_activity_box ul li div.context p.activity_name a{color:#650202; font-weight:bold;}
-.publish_activity_box ul li div.context p.publisher a{color:#650202; }
+.publish_activity_box ul li div.context p.activity_name a{color:#600; font-weight:bold;}
+.publish_activity_box ul li div.context p.publisher a{color:#600; }
 .publish_activity_box ul li div.context p.description{color:#999999;color:#999999; display:none;}
 
 
@@ -1056,24 +1049,34 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#6402
 #tabs {margin-left:10px; margin-right:25px;}
 
 
+/*-------------------------------------Contact---------------------------------------*/
+.right_side .contact .title { font-size: 18px; font-weight: bold; color: #933; padding-left: 26px; }
+.right_side .contact p { padding-left: 30px; line-height: 18px; }
 
+/*-------------------------------------footer---------------------------------------*/
+#footer {
+    padding-top: 10px;
+    border-top: #666 3px solid;
+    border-bottom: #eee 1px solid;
+}
+#footer .footer_content {
+    height: 30px;
+    margin: 0 10px 0 10px;
+    float: right;
+    font-size: 13px;
+    text-align: right;
+}
+#footer .footer_content a {
+    margin-left: 5px;
+    padding-right: 10px;
+    background: url('../images/ico/ico_01.gif') center right no-repeat;
+}
 
+#footer .copyright {
+    text-align:center;
+    font-size: 13px;
+    margin: 10px 0 10px 0;
+    padding: 20px 0 20px 0;
+}
 
-#footer{padding-top:10px;}
-#footer .tools_banner{border-top:#636870 3px solid; border-bottom:#EBEBEB 1px solid; height:35px;}
-#footer .tools_banner .tools_r{float:right; line-height:35px; font-size:13px; margin-right:10px;}
-#footer .tools_banner .tools_r a{margin-left:5px; background:url('../images/ico/ico_01.gif') center right no-repeat; padding-right:10px;}
-
-#footer .copyright{text-align:center; padding:10px 0px;}
-
-span.prompt{font-size:12px; padding-left:10px; color:#650202;}
-
-
-
-#contact_content {background:url('../images/contact_bg.jpg') no-repeat; height:700px; width:990px; position:relative; margin-top:150px;}
-#contact_content .content {width:340px;  position:absolute; top:250px; left:515px;}
-#contact_content .content p{height:40px; line-height:40px; font-size:18px; color:#a34e43;}
-#contact_content .content p span.title{}
-#contact_content span.button{}
-#contact_content .content  #tools {font-size:18px; padding:5px;  float:right; margin-right:90px; color:#a34e43; }
-#contact_content .content  #tools span.button{cursor:pointer;}
+span.prompt{font-size:12px; padding-left:10px; color:#600;}
