@@ -502,7 +502,7 @@ CREATE TABLE `16_running_value` (
 
 /*Data for the table `16_running_value` */
 
-insert  into `16_running_value`(`running_value_id`,`code`,`name`,`value`,`description`) values (1,'site_name','站点名称','16活动网',NULL),(2,'site_keyword','站点关键字','16活动网关键字',NULL),(3,'site_description','站点描述','16活动网描述',NULL),(4,'site_status','站点状态','Y',NULL),(5,'site_copyright','版权信息','<p>\r\n	<br />\r\n</p>\r\n<p align=\"center\">\r\n	<span style=\"font-family:arial;font-size:13px;\">©版权所有 16huodong.com</span> \r\n</p>\r\n<p align=\"center\">\r\n	<span style=\"font-family:arial;font-size:13px;\">京ICP备05083184号-5<br />\r\n</span> \r\n</p>\r\n<p>\r\n	<br />\r\n</p>',NULL);
+insert  into `16_running_value`(`running_value_id`,`code`,`name`,`value`,`description`) values (1,'site_name','站点名称','16活动网',NULL),(2,'site_keyword','站点关键字','16活动网关键字',NULL),(3,'site_description','站点描述','16活动网描述',NULL),(4,'site_status','站点状态','Y',NULL),(5,'site_copyright','版权信息','©版权所有 16huodong.com<br />\r\n京ICP备05083184号-5',NULL);
 
 /*Table structure for table `16_system_message` */
 
