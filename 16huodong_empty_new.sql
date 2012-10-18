@@ -39,6 +39,18 @@ CREATE TABLE `16_activity` (
 
 /*Data for the table `16_activity` */
 
+/*Table structure for table `16_member_findpass` */
+
+DROP TABLE IF EXISTS `16_member_findpass`;
+
+CREATE TABLE `16_member_findpass` (
+  `member_id` int(11) DEFAULT NULL,
+   `vcode` varchar(50) DEFAULT NULL,
+   `valid` int(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `16_member_findpass` */
+
 /*Table structure for table `16_activity_attend_member` */
 
 DROP TABLE IF EXISTS `16_activity_attend_member`;

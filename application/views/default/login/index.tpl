@@ -38,7 +38,7 @@
 	<div id="login_main">
 		<div id="login_box">
 			<form action="__('login/loginSubmit'|site_url)__" method="post">
-				<h3><a>登录</a>|<a href="__('register'|site_url)__">注册</a></h3>
+				<h3><a>登录</a>|<a href="__('register'|site_url)__">注册</a>|<a href="__('findpass'|site_url)__">找回密码</a></h3>
 				<fieldset>
 					<p><input name="account" class="validate[required]" type="text" /></p>
 					<p><input name="password" class="validate[required]" type="password" /></p>
