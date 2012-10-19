@@ -29,6 +29,9 @@ body {
 .left_side .member_information .name a span{font-weight:700;}
 .left_side .member_information .school {text-align:center; padding-top:3px; color:#FFFFFF; font-size:12px; font-weight:700;}
 
+.left_side .member_tools {
+	margin-top: 10px;
+}
 .left_side .member_tools .member_tool_item {
     background: url('../images/member_tools/tools_bg.jpg') no-repeat;
     height: 33px;
@@ -501,7 +504,7 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#600;
 
 .right_side#blog_page .banner{background:url('../images/blog/banner.jpg') no-repeat center; height:305px;}
 .right_side#blog_page .banner:hover {background:url('../images/blog/banner_mask.jpg') no-repeat center;}
-.right_side#blog_page .banner .poster{padding-left:130px; padding-top:60px; display:none; color:#FFFFFF;}
+.right_side#blog_page .banner .poster{padding-left:130px; padding-top:10px; display:none; color:#FFFFFF;}
 .right_side#blog_page .banner:hover .poster{display:block;}
 
 .right_side#blog_page .write{float:right; background:url('../images/blog/write.jpg') no-repeat; margin:10px 20px 0px 0px; width:95px; height:34px;}
@@ -937,7 +940,7 @@ ul.invite_friend_attend_activity li .member_information .member_name{color:#600;
 
 .right_side#search_page .banner{background:url('../images/search/banner.jpg') no-repeat center; height:305px;}
 .right_side#search_page .banner:hover {background:url('../images/search/banner_mask.jpg') no-repeat center;}
-.right_side#search_page .banner .poster{padding-left:130px; padding-top:60px; display:none; color:#FFFFFF;}
+.right_side#search_page .banner .poster{padding-left:130px; padding-top:10px; display:none; color:#FFFFFF;}
 .right_side#search_page .banner:hover .poster{display:block;}
 
 /*-------------------------------------Search_activity_box---------------------------------------*/
