@@ -84,7 +84,7 @@ Class FindPass Extends BaseController {
 				$subject = "16活动网-找回密码";
 				$vcode = $this->randstr();
 				$message = "<html><body>请点击以下链接来找回密码<br>";
-				$message.= '<a href="'.$_SERVER['DOCUMENT_ROOT'].'/index.php/findpass/resetPass?vcode='. $vcode. '">'.$_SERVER['DOCUMENT_ROOT'].'/index.php/findpass/resetPass?vcode='. $vcode. '</a></body></html>';
+				$message.= '<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/findpass/resetPass?vcode='. $vcode. '">http://'.$_SERVER ['HTTP_HOST'].'/index.php/findpass/resetPass?vcode='. $vcode. '</a></body></html>';
 				
 				$config["protocol"]     = "smtp";
 				$config["smtp_host"]    = "smtp.ym.163.com";
