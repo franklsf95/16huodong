@@ -1666,7 +1666,7 @@ class CI_Email {
 	 */
 	private function _smtp_connect()
 	{
-		$this->_smtp_connect = fsockopen($this->smtp_host,
+		$this->_smtp_connect = pfsockopen($this->smtp_host,
 										$this->smtp_port,
 										$errno,
 										$errstr,
