@@ -395,7 +395,7 @@ Class Activity Extends BaseactionController {
 		}
 		$this->ci_smarty->assign('all_member_friend_information',$this->current_member_information['all_member_friend_information']);
 		
-		$this->displayWithLayout('edit');
+		$this->display( 'edit', '发起新活动', 'edit_css', 'edit_js' );
 	}
 	
 	function _saveItem($isNew, &$id, &$param) {
