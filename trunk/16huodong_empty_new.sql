@@ -37,7 +37,14 @@ CREATE TABLE `16_activity` (
   PRIMARY KEY (`activity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `16_activity` */
+/*Data for the table `16_activity_rate` */
+CREATE TABLE `16_activity_rate` (
+   `activity_id` int(11) DEFAULT NULL,
+   `member_id` int(11) DEFAULT NULL,
+   `rate` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `16_activity_rate` */
 
 /*Table structure for table `16_member_findpass` */
 
