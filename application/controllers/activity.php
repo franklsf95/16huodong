@@ -14,6 +14,82 @@ Class Activity Extends BaseactionController {
 		$this->displayWithLayout('index');
 	}
 	
+	function rate1(){
+		$activity_id = $this->getParameter('id');
+		$member_id = $this->current_member_id;
+		if ($activity_id != '') {
+			$this->db->select('a.activity_id');
+			$this->db->from('activity as a');
+			$this->db->where('activity_id',$activity_id);
+			$activity_information = $this->db->get_first();
+			if ($activity_information) {
+				$this->db->select('a.activity_id, a.member_id, a.rate');
+				$this->db->from('activity_rate as a');
+				$this->db->where('activity_id',$activity_id);
+				$this->db->where('member_id',$member_id);
+				$rate = $this->db->get_first();
+				if ($rate) {
+					if ($rate['rate']==-1) {
+						$rate['rate']=1;
+					} else {
+						$rate['rate']=1-$rate['rate'];
+					}
+					$this->db->where('activity_id',$activity_id);
+					$this->db->where('member_id',$member_id);
+					$this->db->update('activity_rate',$rate);
+				} else {
+					$rate['activity_id']=$activity_id;
+					$rate['member_id']=$member_id;
+					$rate['rate']=1;
+					$this->db->insert('activity_rate',$rate);
+				}
+				redirect('activity/view?id='.$activity_id);
+			} else {
+				$this->index();
+			}
+		} else {
+			$this->index();
+		}
+	}
+	
+	function rate2(){
+		$activity_id = $this->getParameter('id');
+		$member_id = $this->current_member_id;
+		if ($activity_id != '') {
+			$this->db->select('a.activity_id');
+			$this->db->from('activity as a');
+			$this->db->where('activity_id',$activity_id);
+			$activity_information = $this->db->get_first();
+			if ($activity_information) {
+				$this->db->select('a.activity_id, a.member_id, a.rate');
+				$this->db->from('activity_rate as a');
+				$this->db->where('activity_id',$activity_id);
+				$this->db->where('member_id',$member_id);
+				$rate = $this->db->get_first();
+				if ($rate) {
+					if ($rate['rate']==1) {
+						$rate['rate']=-1;
+					} else {
+						$rate['rate']=-1-$rate['rate'];
+					}
+					$this->db->where('activity_id',$activity_id);
+					$this->db->where('member_id',$member_id);
+					$this->db->update('activity_rate',$rate);
+				} else {
+					$rate['activity_id']=$activity_id;
+					$rate['member_id']=$member_id;
+					$rate['rate']=-1;
+					$this->db->insert('activity_rate',$rate);
+				}
+				redirect('activity/view?id='.$activity_id);
+			} else {
+				$this->index();
+			}
+		} else {
+			$this->index();
+		}
+	}
+	
 	function new_activity(){
 		$p_page = $this->getParameter('page',1);
 		$p_limit = $this->getParameter('limit', 10);
@@ -98,6 +174,30 @@ Class Activity Extends BaseactionController {
 		
 		$activity_information['is_publisher'] = $this->extend_control->isMemberPublishActivity($member_id,$activity_id);
 		
+		$rate1=$rate2=$rate3=$rate4=0;
+		$this->db->select('a.activity_id, a.member_id, a.rate');
+		$this->db->from('activity_rate as a');
+		$this->db->where('activity_id',$activity_id);
+		$results=$this->db->get()->result_array();
+		
+		foreach ($results as $item) {
+			if ($item['rate']==1) {
+				$rate1++;
+				if ($item['member_id'] == $member_id) {
+					$rate3++;
+				}
+			} else if ($item['rate']==-1) {
+				$rate2++;
+				if ($item['member_id'] == $member_id) {
+					$rate4++;
+				}
+			}
+		}
+		
+		$this->ci_smarty->assign('rate1',$rate1);
+		$this->ci_smarty->assign('rate2',$rate2);
+		$this->ci_smarty->assign('rate3',$rate3);
+		$this->ci_smarty->assign('rate4',$rate4);
 		
 		$this->ci_smarty->assign('page_information',$page_information);
 		$this->ci_smarty->assign('activity_information',$activity_information);
