@@ -5,7 +5,10 @@ class Welcome extends BaseController {
 	
 	function index()
 	{
-		$this->displayWithoutLayout('index');
+		if ($this->getSessionValue('current_member_information')) {
+			redirect('index');
+		}
+		$this->display('index','欢迎');
 	}
 }
 

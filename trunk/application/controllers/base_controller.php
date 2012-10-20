@@ -5,8 +5,10 @@ class BaseController extends CI_Controller {
 	var $enable_session = true;
 	var $viewFolder = '';
 	var $layoutFolder = '';
+	var $commonFolder = '';
 	var $applicationFolder = '';
 	var $layout = 'default';
+	var $base_template = 'guest';
 	var $all_avaliable_language = array();
 	var $current_language = 'chs';
 	var $current_time = '';
@@ -48,9 +50,9 @@ class BaseController extends CI_Controller {
 		
 		
 		//修改输出模版路径
-		
 		$this->viewFolder = $this->config->item('template');
 		$this->layoutFolder = $this->config->item('template').'/layout/';
+		$this->commonFolder = $this->config->item('template').'/common/';
 		
 		if ($this->applicationFolder) {
 			$this->viewFolder = $this->viewFolder.'/'.$this->applicationFolder;
@@ -167,6 +169,20 @@ class BaseController extends CI_Controller {
 		} else {
 			$this->ci_smarty->view($templateName);
 		}
+	}
+
+	function display( $templateName, $templateTitle, $base_template = '' ) {
+		if( !$base_template ) {
+			$base_template = $this->base_template;
+		}
+		if ($this->viewFolder != '') {
+			$this->ci_smarty->assign('template_content', $this->viewFolder . '/' . $templateName);
+		} else {
+			$this->ci_smarty->assign('template_content', $templateName);
+		}
+		$this->ci_smarty->assign('template_title', $templateTitle);
+
+		$this->ci_smarty->view($this->commonFolder . $base_template);
 	}
 	
 	

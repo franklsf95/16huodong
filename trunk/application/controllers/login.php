@@ -60,7 +60,7 @@ Class Login Extends BaseController {
 		setcookie('member_cookie[remember]','',time()-3600,'/');
 		setcookie('member_cookie[account]','',time()-3600,'/');
 		setcookie('member_cookie[key]','',time()-3600,'/');
-		redirect('login');
+		redirect('index');
 	}
 	
 	function cookie(){
