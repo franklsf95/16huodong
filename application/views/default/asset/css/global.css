@@ -1,0 +1,36 @@
+body {
+        padding-top: 100px;
+        padding-bottom: 40px;
+}
+
+.clear {
+	clear: both;
+}
+
+/* ====== nav ====== */
+
+	  .navbar li {
+		  line-height: 40px;
+		  font-size: 18px;
+		  width: 120px;
+		  text-align: center;
+	  }
+	  #nav_contact {
+		line-height: 40px;
+  		float: right;
+  		font-weight: bold;
+  		color: #444;
+  		text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
+  		-webkit-transition: all .2s linear;
+     	-moz-transition: all .2s linear;
+        transition: all .2s linear;
+	  }
+	  #nav_contact:hover {
+			color: #fff;
+  			text-decoration: none;
+  			text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.4);
+	  }
+	  .sidebar {
+		  width: 220px;
+      text-align: left;
+	  }
