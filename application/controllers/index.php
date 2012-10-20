@@ -24,8 +24,7 @@ Class Index Extends BaseActionController {
 		$this->ci_smarty->assign('all_new_activity_information',$all_new_activity_information);
 		$this->ci_smarty->assign('all_active_attend_activity_information',$all_active_attend_activity_information);
 		
-
-		$this->display( 'index', '首页' );
+		$this->display( 'index', '首页', 'index_css' );
 	}
 	
 	

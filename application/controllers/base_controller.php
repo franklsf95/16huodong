@@ -50,10 +50,10 @@ class BaseController extends CI_Controller {
 		
 		
 		//修改输出模版路径
-		$this->viewFolder = $this->config->item('template');
 		$this->layoutFolder = $this->config->item('template').'/layout/';
 		$this->commonFolder = $this->config->item('template').'/common/';
 		
+		$this->viewFolder = $this->config->item('template');
 		if ($this->applicationFolder) {
 			$this->viewFolder = $this->viewFolder.'/'.$this->applicationFolder;
 		}
@@ -171,16 +171,25 @@ class BaseController extends CI_Controller {
 		}
 	}
 
-	function display( $templateName, $templateTitle, $base_template = '' ) {
+	function display( $templateName, $templateTitle, $moreCss='', $moreJs='', $base_template = '' ) {
+		//base_template stores in commonFolder/base_template.tpl
 		if( !$base_template ) {
 			$base_template = $this->base_template;
 		}
-		if ($this->viewFolder != '') {
-			$this->ci_smarty->assign('template_content', $this->viewFolder . '/' . $templateName);
-		} else {
-			$this->ci_smarty->assign('template_content', $templateName);
+		//check if $this has custom viewFolder ( defined as applicationFolder in BaseController::__construct() )
+		if ( $this->viewFolder ) {
+			$templateName = $this->viewFolder . '/' . $templateName;
+			if( $moreCss ) {
+				$moreCss = $this->viewFolder . '/' . $moreCss;
+			}
+			if( $moreJs ) {
+				$moreJs = $this->viewFolder . '/' . $moreJs;
+			}
 		}
+		$this->ci_smarty->assign('template_content', $templateName);
 		$this->ci_smarty->assign('template_title', $templateTitle);
+		$this->ci_smarty->assign('more_css', $moreCss);
+		$this->ci_smarty->assign('more_js', $moreJs);
 
 		$this->ci_smarty->view($this->commonFolder . $base_template);
 	}
