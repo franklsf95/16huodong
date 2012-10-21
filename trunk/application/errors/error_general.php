@@ -36,9 +36,9 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="http://localhost/index.php/index"><img alt="16活动网" src="/application/views/default/asset/img/banner_logo.png"></a>
+          <a class="brand" href="/"><img alt="16活动网" src="/application/views/default/asset/img/banner_logo.png"></a>
           <div class="nav-collapse collapse">
-            <a class="brand" id="nav_contact" href="http://localhost/index.php/contact">联系我们</a>
+            <a class="brand" id="nav_contact" href="/contact">联系我们</a>
           </div><!--/.nav-collapse -->
         </div>
       </div>

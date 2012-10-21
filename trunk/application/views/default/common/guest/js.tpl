@@ -1,8 +1,7 @@
 <script src="__($config.template_prefix)__asset/js/jquery.validate.min.js"></script>
 <script>
 $( function() {
-  initializeArea();
-      $('.typeahead').typeahead();
+      initializeArea();
       $('#reg-form').validate({
       rules: {
         username: {
@@ -23,7 +22,7 @@ $( function() {
         },
         name: {
           minlength: 2,
-          maxlength: 6,
+          maxlength: 12,
           required: true
         }
       },
@@ -48,13 +47,31 @@ $("#tab-chr").click(function() {
 $("#tab-com").click(function() {
   $("#input-type").val( 'company' );
 });
+$("#area-list").change(function() {
+  initializeSchool( $("#area-list").val() );
+});
+schoolArray = new Array();
+schoolIdArray = new Array();
+$("#submit-btn").click(function() {
+  school = $("#select-school").val();
+  id = schoolIdArray[ schoolArray.indexOf(school) ];
+  $("#input-school-id").val(id);
+});
+
 function initializeArea() {
         $.getJSON("__('base_ajax_controller/getAllAreaInformation'|site_url)__?city_id=1",function(data){
         for (i in data) {
-          $("<option>1</option>").appendTo("#area-list");
-
-          //alert();
+          $("#area-list").append("<option value="+data[i].area_id+">"+data[i].name+"</option>");
         }
+      });
+}
+function initializeSchool(area) {
+        $.getJSON("__('base_ajax_controller/getAllSchoolInformation'|site_url)__?area_id="+area,function(data) {
+          for (i in data) {
+            schoolArray.push( data[i].name );
+            schoolIdArray.push( data[i].school_id );
+          }
+          $('#select-school').typeahead( { source: schoolArray, minLength: 2, items: 12 } );
       });
 }
 

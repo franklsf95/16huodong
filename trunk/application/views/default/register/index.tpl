@@ -90,7 +90,7 @@
 				}
 			});
 		}else if (type == 'area'){
-			$.getJSON("__('base_ajax_controller/getAllAreaInformation'|site_url)__?area_id="+id,function(data){
+			$.getJSON("__('base_ajax_controller/getAllAreaInformation'|site_url)__?city_id="+id,function(data){
 				var area_html = '';
 				for (i in data){
 					area_html = area_html + '<a onclick=\"selectCurrenSchool(\'school\','+data[i].area_id+')\">'+data[i].name+'</a> ';

@@ -10,10 +10,7 @@ Class Register Extends BaseController {
 	}
 	
 	function index(){
-		
 		$this->displayWithoutLayout('index');
-		
-		
 	}
 	
 	function saveForm(){
@@ -23,23 +20,19 @@ Class Register Extends BaseController {
 		$member_type = $this->getParameter('member_type',NULL);
 		$status = $this->getParameter('status','1');					//1为正常
 		$image = $this->getParameter('image',$this->config->item('application_prefix').'upload/portrait.jpg');
-		$name = $this->getParameterWithOutTag('name',NULL);
+		$name = $this->getParameter($member_type.'-name',NULL);
 		$current_school = $this->getParameter('current_school_id',NULL);
-		
-		echo $member_type;
-		exit();
-
 		if ($account != '' && $password != '' && $member_type != '' && $email != '') {
 			$this->db->where('account',$account);
 			$member_information = $this->db->get_first('member');
 			if ($member_information) {
-				show_error('已存在的帐号，请重新选择一个帐号名');
+				show_error('你注册的用户名已经存在');
 			} else {
 				$this->db->where('email',$email);
 				$member_information = $this->db->get_first('member');
 				
 				if ($member_information) {
-					show_error('已存在的邮箱，你是否忘记了密码');
+					show_error('每个邮箱只能注册一个用户');
 				}else {
 					$data['account'] = $account;
 					$data['password'] = md5($password);
@@ -51,7 +44,6 @@ Class Register Extends BaseController {
 					$data['email'] = $email;
 					$this->db->insert('member',$data);
 					$member_id = $this->db->insert_id();
-					
 					$this->db->select('m.member_id, m.account, m.member_type, m.member_type_2, m.status as member_status, m.image as member_image, m.name as member_name, m.principal, m.gender, m.birthday, m.hobby, m.qq, m.mobilephone, m.phone, m.email, m.address, m.tag, m.description, m.content, m.created_time, m.modified_time, m.current_school, ps.name as current_school_name');
 					$this->db->from('member as m');
 					$this->db->join('public_school as ps','ps.school_id = m.current_school','LEFT');
@@ -66,7 +58,7 @@ Class Register Extends BaseController {
 				}
 			}
 		} else {
-			show_error('帐号、密码和邮箱不能为空，请重新输入');
+			show_error('首页是怎么检查你的！用户名、密码和邮箱有一项为空');
 		}
 	}
 	
