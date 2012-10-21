@@ -63,7 +63,7 @@ class Extend_control {
 				}
 				
 			}elseif ($system_message_information['category'] == 'member_message') {
-				$member_message_count++;
+				//$member_message_count++;
 				if($system_message_information['type'] == 'new_message'){
 					$member_message_count++;
 				}

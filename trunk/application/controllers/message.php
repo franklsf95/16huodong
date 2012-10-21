@@ -101,8 +101,8 @@ Class Message Extends BaseactionController {
 		
 		$this->db->where('member_id',$member_id);
 		$this->db->where('target_id',$this->current_member_id);
-		$this->db->where('category','message');
-		$this->db->where('type','member_message');
+		$this->db->where('category','member_message');
+		$this->db->where('type','new_message');
 		$this->db->delete('system_message');
 		
 		
@@ -170,8 +170,8 @@ Class Message Extends BaseactionController {
 				$member_message_id = $this->db->insert_id();
 				
 				$system_message_data = array();
-				$system_message_data['category'] = "message";
-				$system_message_data['type'] = "member_message";
+				$system_message_data['category'] = "member_message";
+				$system_message_data['type'] = "new_message";
 				$system_message_data['target_id'] = $target_id;
 				$system_message_data['member_id'] = $member_id;
 				$system_message_data['code'] = $member_message_id;
