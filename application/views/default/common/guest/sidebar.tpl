@@ -46,11 +46,11 @@
                 <div class="control-group">
                 <label class="control-label" for="city">城市</label>
                 <div class="controls">
-                  <select id="city" class="span1">
+                  <select id="province" class="span1">
                     <option>北京</option>
                     <option>其他</option>
                   </select>
-                  <select id="district" style="width: 100px">
+                  <select id="area-list" style="width: 100px">
                     <option>海淀区</option>
                     <option>其他</option>
                   </select>
