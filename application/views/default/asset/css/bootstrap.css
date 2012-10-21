@@ -1207,14 +1207,14 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="color"]:focus,
 .uneditable-input:focus {
-  border-color: rgba(82, 168, 236, 0.8);
+  border-color: rgba(161,32,32,0.8);
   outline: 0;
   outline: thin dotted \9;
   /* IE6-9 */
 
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
-  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(161,32,32,0.5);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(161,32,32,0.5);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(161,32,32,0.5)
 }
 input[type="radio"],
 input[type="checkbox"] {
@@ -2024,11 +2024,11 @@ input[type="button"].btn-block {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #640805;
-  background-image: -moz-linear-gradient(top, #750f0c, #640805);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#750f0c), to(#640805));
-  background-image: -webkit-linear-gradient(top, #750f0c, #640805);
-  background-image: -o-linear-gradient(top, #750f0c, #640805);
-  background-image: linear-gradient(to bottom, #750f0c, #640805);
+  background-image: -moz-linear-gradient(top, #8d2320, #640805);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#8d2320), to(#640805));
+  background-image: -webkit-linear-gradient(top, #8d2320, #640805);
+  background-image: -o-linear-gradient(top, #8d2320, #640805);
+  background-image: linear-gradient(to bottom, #8d2320, #640805);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff880000', endColorstr='#ffb01400', GradientType=0);
   border-color: #640805 #b01400 #3c1400;
