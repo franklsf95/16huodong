@@ -30,8 +30,8 @@ Class Base_ajax_controller extends BaseController {
 	}
 	
 	function getAllAreaInformation(){
-		$area_id = $this->getParameter('area_id',NULL);
-		$all_area_information = $this->db_public_area->getAllAreaInformation($area_id);
+		$parent_id = $this->getParameter('city_id',NULL);
+		$all_area_information = $this->db_public_area->getAllAreaInformation($parent_id);
 		echo json_encode($all_area_information);
 	}
 	

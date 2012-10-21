@@ -10,7 +10,6 @@ Class My_page Extends BaseActionController {
 	}
 	
 	function index(){
-		
 		redirect('member');
 		
 		$member_id = $this->getParameter('id',$this->current_member_id);
@@ -47,7 +46,7 @@ Class My_page Extends BaseActionController {
 		$member_id = $this->current_member_id;
 		$image = $this->getParameter('image',Null);
 		$name = $this->getParameterWithOutTag('name',Null);
-		$gender = $this->getParameterWithOutTag('gender',Null);
+		$is_male = $this->getParameter('gender-m',Null);
 		$birthday = $this->getParameter('birthday',Null);
 		$qq = $this->getParameterInt('qq',Null);								//QQ
 		$organisation = $this->getParameterWithOutTag('organisation',Null);		//所属组织
@@ -55,10 +54,13 @@ Class My_page Extends BaseActionController {
 		$title = $this->getParameterWithOutTag('title',Null);		//职务
 		$principal = $this->getParameterWithOutTag('principal',Null);		//负责人
 		$phone = $this->getParameterWithOutTag('phone',Null);		//电话
-		$address = $this->getParameterWithOutTag('address',Null);		//电话
-		$tag = $this->getParameterWithOutTag('tag',Null);		//电话
-		$description = $this->getParameterWithOutTag('description',Null);		//电话
+		$address = $this->getParameterWithOutTag('address',Null);		//地址
+		$tag = $this->getParameterWithOutTag('tag',Null);		//标签
+		$description = $this->getParameterWithOutTag('description',Null);		//关于我
 		
+echo $is_male;
+exit();
+
 		$tag = trim(trim(str_replace('/',',',str_replace('.',',',str_replace(';',',',str_replace('，',',',str_replace(' ',',',$tag)))))),',');
 		
 		$member_data['name'] = $name;

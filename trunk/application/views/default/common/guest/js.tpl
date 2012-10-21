@@ -1,6 +1,7 @@
 <script src="__($config.template_prefix)__asset/js/jquery.validate.min.js"></script>
 <script>
 $( function() {
+  initializeArea();
       $('.typeahead').typeahead();
       $('#reg-form').validate({
       rules: {
@@ -47,4 +48,14 @@ $("#tab-chr").click(function() {
 $("#tab-com").click(function() {
   $("#input-type").val( 'company' );
 });
+function initializeArea() {
+        $.getJSON("__('base_ajax_controller/getAllAreaInformation'|site_url)__?city_id=1",function(data){
+        for (i in data) {
+          $("<option>1</option>").appendTo("#area-list");
+
+          //alert();
+        }
+      });
+}
+
 </script>

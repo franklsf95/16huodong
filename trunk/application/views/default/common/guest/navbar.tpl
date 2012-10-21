@@ -49,3 +49,7 @@
   </form>
   </div>
 </div>
+<div class="alert alert-error span12 offset3">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <strong>Warning!</strong> 此网站现在处于新老UI交替状态，各种错误bug层出不穷，请暂时不要提交issue。先随便点着玩吧~     by franklsf95 2012-10-21
+</div>
