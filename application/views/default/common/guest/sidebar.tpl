@@ -40,7 +40,7 @@
                 <div class="control-group">
                   <label class="control-label" for="name">真实姓名</label>
                   <div class="controls">
-                    <input type="text" name="name" id="name">
+                    <input type="text" name="student-name" id="name">
                   </div>
                 </div>
                 <div class="control-group">
@@ -51,15 +51,15 @@
                     <option>其他</option>
                   </select>
                   <select id="area-list" style="width: 100px">
-                    <option>海淀区</option>
-                    <option>其他</option>
+                    <option></option>
                   </select>
                 </div>
               </div>
                 <div class="control-group">
                   <label class="control-label" for="school">学校</label>
                   <div class="controls">
-                    <input type="text" class="typeahead" data-provide="typeahead" data-items="4" data-source='["中国人民大学附属中学","北京师范大学附属实验中学","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]'>
+                    <input type="text" class="typeahead" data-provide="typeahead" id="select-school" placeholder="输入中有下拉提示~">
+                    <input type="hidden" id="input-school-id" name="current_school_id">
                   </div>
                 </div>
               </div>
@@ -67,7 +67,7 @@
                 <div class="control-group">
                   <label class="control-label" for="orgName">组织全名</label>
                   <div class="controls">
-                    <input type="text" name="orgName" id="orgName">
+                    <input type="text" name="student_organization-name" id="orgName">
                   </div>
                 </div>
               </div>
@@ -75,7 +75,7 @@
                 <div class="control-group">
                   <label class="control-label" for="chrName">组织全名</label>
                   <div class="controls">
-                    <input type="text" name="chrName" id="chrName">
+                    <input type="text" name="commonweal_organization-name" id="chrName">
                   </div>
                 </div>
               </div>
@@ -83,7 +83,7 @@
                 <div class="control-group">
                   <label class="control-label" for="comName">公司全名</label>
                   <div class="controls">
-                    <input type="text" name="comName" id="comName">
+                    <input type="text" name="company-name" id="comName">
                   </div>
                 </div>
               </div>
