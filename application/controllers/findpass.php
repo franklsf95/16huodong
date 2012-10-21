@@ -18,7 +18,7 @@ Class FindPass Extends BaseController {
 			$this->db->where('vcode',$vcode);
 			$vcode_information = $this->db->get_first();
 			
-			if ( 1||$vcode_information && $vcode_information['valid'] ) {
+			if ($vcode_information && $vcode_information['valid'] ) {
 				$this->ci_smarty->assign('vcode',$vcode);
 				$this->display('resetPass','重设密码');
 			}else{

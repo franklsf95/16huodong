@@ -7,7 +7,7 @@
     <meta name="description" content="">
     __(if $base_tpl == 'default/common/member')__<meta name="robots" content="noindex">__(/if)__
 
-    <link href="__($config.template_prefix)__asset/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="__($config.template_prefix)__asset/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="__($config.template_prefix)__asset/css/jasny-bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="__($config.template_prefix)__asset/css/global.css" rel="stylesheet" type="text/css" />
     __(include file="$base_tpl/css.tpl")__
