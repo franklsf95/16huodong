@@ -8,7 +8,6 @@ class BaseController extends CI_Controller {
 	var $commonFolder = '';
 	var $applicationFolder = '';
 	var $layout = 'default';
-	var $base_template = 'guest';
 	var $all_avaliable_language = array();
 	var $current_language = 'chs';
 	var $current_time = '';
@@ -171,27 +170,16 @@ class BaseController extends CI_Controller {
 		}
 	}
 
-	function display( $templateName, $templateTitle, $moreCss='', $moreJs='', $base_template = '' ) {
-		//base_template stores in commonFolder/base_template.tpl
-		if( !$base_template ) {
-			$base_template = $this->base_template;
-		}
-		//check if $this has custom viewFolder ( defined as applicationFolder in BaseController::__construct() )
-		if ( $this->viewFolder ) {
-			$templateName = $this->viewFolder . '/' . $templateName;
-			if( $moreCss ) {
-				$moreCss = $this->viewFolder . '/' . $moreCss;
-			}
-			if( $moreJs ) {
-				$moreJs = $this->viewFolder . '/' . $moreJs;
-			}
-		}
+	function display( $templateName, $templateTitle, $moreCss='', $moreJs='', $baseTemplate = 'guest' ) {
 		$this->ci_smarty->assign('template_content', $templateName);
 		$this->ci_smarty->assign('template_title', $templateTitle);
 		$this->ci_smarty->assign('more_css', $moreCss);
 		$this->ci_smarty->assign('more_js', $moreJs);
+		$this->ci_smarty->assign('base_tpl', $this->commonFolder . $baseTemplate);
+		//check if $this has custom viewFolder ( defined as applicationFolder in BaseController::__construct() )
+		$this->ci_smarty->assign('view_folder', $this->viewFolder);
 
-		$this->ci_smarty->view($this->commonFolder . $base_template);
+		$this->ci_smarty->view($this->commonFolder . 'base_template');
 	}
 	
 	

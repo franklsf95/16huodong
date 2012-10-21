@@ -18,16 +18,16 @@ Class FindPass Extends BaseController {
 			$this->db->where('vcode',$vcode);
 			$vcode_information = $this->db->get_first();
 			
-			if ($vcode_information && $vcode_information['valid']!=0) {
+			if ( 1||$vcode_information && $vcode_information['valid'] ) {
 				$this->ci_smarty->assign('vcode',$vcode);
-				$this->displayWithoutLayout('resetPass');
+				$this->display('resetPass','重设密码');
 			}else{
 				show_error('链接不正确');
 			}
 		}
 	}
 	
-	function resetPassSubmit(){
+	function resetPassSubmit() {
 		$vcode=$this->input->get('vcode', TRUE);
 		if ($vcode==FALSE) {
 			show_error('链接不正确');
@@ -54,7 +54,7 @@ Class FindPass Extends BaseController {
 				
 				$this->db->where('vcode',$vcode);
 				$this->db->update('member_findpass',$vcode_information);
-				$this->displayWithoutLayout('done');
+				$this->display('done','修改密码成功');
 			}else{
 				show_error('链接不正确');
 			}
@@ -70,13 +70,18 @@ Class FindPass Extends BaseController {
 	}
 	
 	function findPassSubmit(){
-		$account = $this->getParameter('account',NULL);
+		$account = $this->getParameter('findUsername',NULL);
+		$verifyEmail = $this->getParameter('findEmail',NULL);
 		
 		if ($account != ''){
 			$this->db->select('m.member_id, m.account, m.email');
 			$this->db->from('member as m');
 			$this->db->where('account',$account);
 			$member_information = $this->db->get_first();
+
+			if( strcmp( $member_information['email'], $verifyEmail )!=0 ) {
+				show_error('用户名和邮箱不匹配');
+			}
 			
 			if ($member_information) {
 				$this->load->library('email');
@@ -107,7 +112,8 @@ Class FindPass Extends BaseController {
 				$data['vcode'] = $vcode;
 				$data['valid'] = 1;
 				$this->db->insert('member_findpass',$data);
-				$this->displayWithoutLayout('sent');
+
+				$this->display('sent','找回密码');
 			}else {
 				show_error('帐号错误，请检查输入');
 			}
@@ -129,12 +135,12 @@ Class FindPass Extends BaseController {
 		print_r($_COOKIE['member_cookie']);
 		exit();
 	}
-	function randstr($len=6) { 
+	function randstr($len=8) { 
 		$chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-@#~'; 
 		// characters to build the password from 
 		$password=''; 
 		while(strlen($password)<$len) 
-		$password.=substr($chars,(mt_rand()%strlen($chars)),1); 
+			$password.=substr($chars,(mt_rand()%strlen($chars)),1); 
 		return $password; 
 	}
 	
