@@ -33,6 +33,57 @@ Class Message Extends BaseactionController {
 		$this->displayWithLayout('index');
 	}
 	
+	function gotoactmsg(){
+		$member_id = $this->current_member_id;
+		$activity_id =  $this->getParameter('id',0);
+		$message_id =  $this->getParameter('mid',0);
+		if ($activity_id == 0){
+			redirect('message');
+		} else {
+			$system_message_id = $message_id;
+			$target_id = $member_id;
+			$data['is_new'] = 'N';
+			$this->db->where('system_message_id',$system_message_id);
+			$this->db->where('target_id',$target_id);
+			$this->db->update('system_message',$data);
+			redirect('activity/view?id='.$activity_id);
+		}
+	}
+	
+	function gotoblogmsg(){
+		$member_id = $this->current_member_id;
+		$blog_id =  $this->getParameter('id',0);
+		$message_id =  $this->getParameter('mid',0);
+		if ($blog_id == 0){
+			redirect('message');
+		} else {
+			$system_message_id = $message_id;
+			$target_id = $member_id;
+			$data['is_new'] = 'N';
+			$this->db->where('system_message_id',$system_message_id);
+			$this->db->where('target_id',$target_id);
+			$this->db->update('system_message',$data);
+			redirect('blog/view?id='.$blog_id);
+		}
+	}
+	
+	function gotomembermsg(){
+		$member_id = $this->current_member_id;
+		$targetmember_id =  $this->getParameter('id',0);
+		$message_id =  $this->getParameter('mid',0);
+		if ($targetmember_id == 0){
+			redirect('message');
+		} else {
+			$system_message_id = $message_id;
+			$target_id = $member_id;
+			$data['is_new'] = 'N';
+			$this->db->where('system_message_id',$system_message_id);
+			$this->db->where('target_id',$target_id);
+			$this->db->update('system_message',$data);
+			redirect('member?id='.$targetmember_id);
+		}
+	}
+	
 	function view(){
 		$member_id = $this->getParameter('member_id',NULL);
 		$p_page = $this->getParameter('page',1);
