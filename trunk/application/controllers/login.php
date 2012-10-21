@@ -9,11 +9,7 @@ Class Login Extends BaseController {
 	}
 	
 	function index(){
-		if ($this->getSessionValue('current_member_information')) {
-			redirect('index');
-		}else {
-			$this->displayWithoutLayout('index');
-		}
+		redirect('index');
 	}
 	
 	function loginSubmit(){

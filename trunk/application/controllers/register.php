@@ -17,7 +17,7 @@ Class Register Extends BaseController {
 	}
 	
 	function saveForm(){
-		$account = $this->getParameter('account',NULL);
+		$account = $this->getParameter('username',NULL);
 		$password = $this->getParameter('password',NULL);
 		$email = $this->getParameter('email',NULL);
 		$member_type = $this->getParameter('member_type',NULL);
@@ -26,7 +26,9 @@ Class Register Extends BaseController {
 		$name = $this->getParameterWithOutTag('name',NULL);
 		$current_school = $this->getParameter('current_school_id',NULL);
 		
-		
+		echo $member_type;
+		exit();
+
 		if ($account != '' && $password != '' && $member_type != '' && $email != '') {
 			$this->db->where('account',$account);
 			$member_information = $this->db->get_first('member');
@@ -59,7 +61,7 @@ Class Register Extends BaseController {
 					
 					if ($member_information) {
 						$this->setSessionValue('current_member_information',$member_information);
-						redirect('register/detail_information');
+						redirect('index');
 					}
 				}
 			}

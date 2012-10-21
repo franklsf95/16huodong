@@ -99,12 +99,4 @@
           <li class="activity_participant"><code>1</code>人参与&nbsp;&nbsp;|&nbsp;&nbsp;<code>1</code>人关注</li>
         </ul>
     </div>
-
-<div class="clear"></div>
-      <hr>
-
-      <footer>
-        <p>&copy; 16活动网 2012</p>
-      </footer>
-
-        </div><!--/span-->
+</div><!--/span-->

@@ -30,12 +30,17 @@ Class My_page Extends BaseActionController {
 		$this->db->join('public_school as ps','ps.school_id = m.current_school','LEFT');
 		$this->db->where('m.member_id',$member_id);
 		$member_information = $this->db->get_first();
-		
 		$this->ci_smarty->assign('member_information',$member_information);
 		$template_name = $member_information['member_type'].'_edit';
-		//echo $template_name;
-		$this->displayWithLayout($template_name);
-	
+		if( $member_information['member_type']=='student' ) {
+			$template_title = '编辑个人资料';
+		} else if ( $member_information['member_type']=='company' ) {
+			$template_title = '编辑公司资料';
+		} else {
+			$template_title = '编辑组织资料';
+		}
+
+		$this->display($template_name,$template_title,'edit_css','edit_js');
 	}
 	
 	function _saveItem($isNew, &$id, &$param) {
@@ -129,13 +134,5 @@ Class My_page Extends BaseActionController {
 		
 		redirect('member');
 	}
-	
-	
-	
-	
-	
 }
-
-
-
 ?>

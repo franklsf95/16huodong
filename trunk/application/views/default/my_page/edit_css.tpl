@@ -1,0 +1,1 @@
+<link href="__($config.template_prefix)__asset/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css"><style type="text/css">.portrait-wrapper {  position: absolute;  top: 160px;}.portrait-preview {  width: 200px;  padding-bottom: 12px;}</style>

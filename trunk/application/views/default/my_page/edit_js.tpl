@@ -1,0 +1,1 @@
+<script src="__($config.template_prefix)__asset/js/bootstrap-datepicker.js"></script><script src="__($config.template_prefix)__asset/js/bootstrap-fileupload.js"></script><script>  $( function(){  	$('.fileupload').fileupload();    $(".datepicker").datepicker();   }); </script>
