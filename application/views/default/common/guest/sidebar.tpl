@@ -44,7 +44,7 @@
                   </div>
                 </div>
                 <div class="control-group">
-                <label class="control-label" for="city">城市</label>
+                <label class="control-label" for="select-province-1">城市</label>
                 <div class="controls">
                   <select id="select-province-1" class="span1">
                     <option>北京</option>
@@ -56,7 +56,7 @@
                 </div>
               </div>
                 <div class="control-group">
-                  <label class="control-label" for="school">学校</label>
+                  <label class="control-label" for="select-school-1">学校</label>
                   <div class="controls">
                     <input type="text" class="typeahead" id="select-school-1" data-provide="typeahead" placeholder="输入中有下拉提示~">
                     <input type="hidden" id="input-school-id" name="current_school_id">
@@ -71,7 +71,7 @@
                   </div>
                 </div>
                 <div class="control-group">
-                <label class="control-label" for="city">城市</label>
+                <label class="control-label" for="select-province-2">城市</label>
                 <div class="controls">
                   <select id="select-province-2" class="span1">
                     <option>北京</option>
@@ -83,7 +83,7 @@
                 </div>
               </div>
                 <div class="control-group">
-                  <label class="control-label" for="school">学校</label>
+                  <label class="control-label" for="select-school-2">学校</label>
                   <div class="controls">
                     <input type="text" class="typeahead" id="select-school-2" data-provide="typeahead" placeholder="输入中有下拉提示~">
                   </div>
