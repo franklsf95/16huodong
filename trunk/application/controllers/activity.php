@@ -368,8 +368,10 @@ Class Activity Extends BaseactionController {
 	function edit(){				//新建、编辑活动
 		$id = $this->getParameter('id',NULL);
 		$member_id = $this->current_member_information['member_id'];
+		$title = '发起新活动';
 		
 		if ($id != '') {
+			$title = '编辑活动 #'.$id;
 			$this->db->from('activity as a');
 			$this->db->join('activity_publish_member as apm','a.activity_id = apm.activity_id');
 			$this->db->where('a.activity_id',$id);
@@ -394,7 +396,8 @@ Class Activity Extends BaseactionController {
 		}
 		$this->ci_smarty->assign('all_member_friend_information',$this->current_member_information['all_member_friend_information']);
 		
-		$this->display( 'edit', '发起新活动', 'edit_css', 'edit_js' );
+		//$this->displayWithLayout('edit_old');
+		$this->display( 'edit', $title, 'edit_css', 'edit_js' );
 	}
 	
 	function _saveItem($isNew, &$id, &$param) {
@@ -411,8 +414,6 @@ Class Activity Extends BaseactionController {
 		$tag_array = $this->getParameter('tag',NULL);
 		$content = $this->getParameter('content',NULL);
 		$invite_member = $this->getParameter('invite_member',NULL);
-		
-		
 		//$tag = trim(trim(str_replace('/',',',str_replace('.',',',str_replace(';',',',str_replace('，',',',str_replace(' ',',',$tag)))))),',');
 		
 		$data['name'] = $name;
@@ -422,21 +423,18 @@ Class Activity Extends BaseactionController {
 		$data['end_time'] = $end_time;
 		$data['price'] = $price;
 		$data['address'] = $address;
+		$data['description'] = $description;
+		$data['content'] = $content;
 		
 		//处理图片高宽问题
 		$image_url = $this->getImageUrl($image);
 		if ($image_url === false) {
-			show_error('活动封面有问题');
+			show_error('活动封面上传错误');
 		}
 		$image_parameter = @getimagesize($image_url['absolute_path']);
 		$data['image_width'] = $image_parameter['0'];
 		$data['image_height'] = $image_parameter['1'];
-		
 		$data['image'] = $image_url['relative_path'];
-		//print_r($image_url);print_r($data);exit();
-		
-		$data['description'] = $description;
-		$data['content'] = $content;
 
 		if ($isNew){
 			//写入activity
@@ -461,17 +459,9 @@ Class Activity Extends BaseactionController {
 				$this->db->insert('activity_tag',$activity_tag_data);
 			}
 			
-			/*
-			$system_data['category'] = "activity";
-			$system_data['type'] = "publish_activity";
-			$system_data['code'] = $activity_id;
-			$this->system_message($system_data);
-			*/
-			
 			if (count($invite_member) >0 ){
 				$this->invite_member_attend_activity($activity_id,$invite_member);
 			}
-			
 			redirect('activity/view?id='.$activity_id);
 			
 		}else {
