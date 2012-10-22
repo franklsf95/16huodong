@@ -1,0 +1,1 @@
+<script>  $( function(){    $("#navbar-index").addClass("active");  });</script>
