@@ -9,10 +9,10 @@
           <a class="brand" href="__('index'|site_url)__"><img alt="16活动网" src="__($config.template_prefix)__asset/img/banner_logo.png"></a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="__('index'|site_url)__">首页</a></li>
-              <li><a href="__('member'|site_url)__">个人主页</a></li>
-              <li><a href="activities.html">挖活动</a></li>
-              <li><a href="library.html">人生图书馆</a></li>
+              <li id="navbar-index"><a href="__('index'|site_url)__">首页</a></li>
+              <li id="navbar-profile"><a href="__('member'|site_url)__">个人主页</a></li>
+              <li id="navbar-search"><a href="__('search'|site_url)__">挖活动</a></li>
+              <li id="navbar-library"><a href="__('blog'|site_url)__">人生图书馆</a></li>
             </ul>
             <form class="navbar-search pull-right">
           <input type="text" class="search-query" placeholder="搜搜看看~">
