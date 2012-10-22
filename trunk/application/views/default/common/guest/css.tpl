@@ -1,8 +1,4 @@
 <style type="text/css">
-    body {
-        padding-top: 120px;
-        padding-bottom: 40px;
-    }
     .tab-pane input {
       width: 186px;
     }

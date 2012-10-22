@@ -43,7 +43,7 @@ __(include file="$view_folder/$template_content.tpl")__
     </div><!--/.fluid-container-->
 
     </div> <!-- /container -->
-    <script src="__($config.template_prefix)__asset/js/jquery.min.js"></script>
+    <script src="__($config.template_prefix)__asset/js/jquery.js"></script>
     <script src="__($config.template_prefix)__asset/js/bootstrap.min.js"></script>
 __(include file="$base_tpl/js.tpl")__
 __(if $more_js )__
