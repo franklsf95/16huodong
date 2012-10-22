@@ -193,7 +193,6 @@ Class Activity Extends BaseactionController {
 				}
 			}
 		}
-		
 		$this->ci_smarty->assign('rate1',$rate1);
 		$this->ci_smarty->assign('rate2',$rate2);
 		$this->ci_smarty->assign('rate3',$rate3);
@@ -202,11 +201,13 @@ Class Activity Extends BaseactionController {
 		$this->ci_smarty->assign('page_information',$page_information);
 		$this->ci_smarty->assign('activity_information',$activity_information);
 		
+		$this->display('view',$activity_information['activity_name'].' - 活动详情','view_css','view_js');
+		/*
 		if ($activity_information['is_publisher'] == 'Y') {
 			$this->displayWithLayout('publisher_view');
 		}else {
 			$this->displayWithLayout('view');
-		}
+		}*/
 		
 		
 	}

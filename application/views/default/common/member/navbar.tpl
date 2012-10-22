@@ -10,7 +10,7 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="__('index'|site_url)__">首页</a></li>
-              <li><a href="profile.html">个人主页</a></li>
+              <li><a href="__('member'|site_url)__">个人主页</a></li>
               <li><a href="activities.html">挖活动</a></li>
               <li><a href="library.html">人生图书馆</a></li>
             </ul>

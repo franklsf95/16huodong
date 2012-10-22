@@ -31,17 +31,6 @@
   text-shadow: 0 0 10px rgba(255,255,255,.25);
 }
 
-.content-heading {
-  color: #666;
-  font-size: 24px;
-  line-height: 24px;
-  padding-top: 10px;
-}
-
-.content-heading hr {
-  margin: 16px 0 20px;
-}
-
 .top-showcase-leftnav {
   border: 1px white solid;
   float: left;

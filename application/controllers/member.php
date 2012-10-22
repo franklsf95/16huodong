@@ -10,7 +10,6 @@ Class Member Extends BaseActionController {
 	}
 	
 	function index(){
-		
 		$member_id = $this->getParameter('id',$this->current_member_id);
 		
 		$this->save_member_visit($member_id);
@@ -22,7 +21,8 @@ Class Member Extends BaseActionController {
 		$this->ci_smarty->assign('member_id',$member_id);
 		
 		$template_view = $member_information['member_type'];
-		$this->displayWithLayout($template_view);
+		$this->display($template_view, $member_information['member_name'].'的主页','view_css','view_js');
+		//$this->displayWithLayout($template_view);
 	}
 	
 	
