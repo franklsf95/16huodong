@@ -31,6 +31,10 @@
   text-shadow: 0 0 10px rgba(255,255,255,.25);
 }
 
+.top-showcase {
+  width: 800px;
+}
+
 .top-showcase-leftnav {
   border: 1px white solid;
   float: left;
@@ -86,6 +90,10 @@
   width: 260px;
   margin: 10px;
   float: left;
+}
+
+.main-showcase-item a:hover {
+  text-decoration: none;
 }
 
 .main-showcase-item img {
