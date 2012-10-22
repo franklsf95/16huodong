@@ -35,7 +35,6 @@ __(include file="$view_folder/$template_content.tpl")__
       </div><!--/row-->
 
       <hr>
-
       <footer>
         <p>&copy; 16活动网 2012</p>
       </footer>
