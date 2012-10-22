@@ -79,6 +79,8 @@ function initializeSchool(area) {
             schoolArray.push( data[i].name );
             schoolIdArray.push( data[i].school_id );
           }
+          console.log(schoolArray);
+          console.log(schoolIdArray);
           $(schoolSelector).typeahead( { source: schoolArray, minLength: 2, items: 12 } );
       });
 }
