@@ -12,9 +12,6 @@ Class Member Extends BaseActionController {
 	function index(){
 		
 		$member_id = $this->getParameter('id',$this->current_member_id);
-		//if ($member_id == $this->current_member_id) {
-		//	redirect('my_page');
-		//}
 		
 		$this->save_member_visit($member_id);
 		$member_information = $this->extend_control->getMemberInformation($member_id);

@@ -377,7 +377,6 @@ Class Activity Extends BaseactionController {
 			$this->db->where('apm.publisher','Y');
 			$activity_information = $this->db->get_first('');
 			
-			
 			//获取活动标签
 			$this->db->select('tag');
 			$this->db->from('activity_tag');
@@ -434,9 +433,7 @@ Class Activity Extends BaseactionController {
 		$data['image_height'] = $image_parameter['1'];
 		
 		$data['image'] = $image_url['relative_path'];
-		//print_r($image_url);
-		//print_r($data);
-		//exit();
+		//print_r($image_url);print_r($data);exit();
 		
 		$data['description'] = $description;
 		$data['content'] = $content;

@@ -38,15 +38,15 @@ Class My_page Extends BaseActionController {
 		} else {
 			$template_title = '编辑组织资料';
 		}
-
+		//print_r($member_information);
 		$this->display($template_name,$template_title,'edit_css','edit_js');
 	}
-	
-	function _saveItem($isNew, &$id, &$param) {
+
+	function save_form() {
 		$member_id = $this->current_member_id;
 		$image = $this->getParameter('image',Null);
 		$name = $this->getParameterWithOutTag('name',Null);
-		$is_male = $this->getParameter('gender-m',Null);
+		$gender = $this->getParameter('gender',Null);
 		$birthday = $this->getParameter('birthday',Null);
 		$qq = $this->getParameterInt('qq',Null);								//QQ
 		$organisation = $this->getParameterWithOutTag('organisation',Null);		//所属组织
@@ -57,9 +57,6 @@ Class My_page Extends BaseActionController {
 		$address = $this->getParameterWithOutTag('address',Null);		//地址
 		$tag = $this->getParameterWithOutTag('tag',Null);		//标签
 		$description = $this->getParameterWithOutTag('description',Null);		//关于我
-		
-echo $is_male;
-exit();
 
 		$tag = trim(trim(str_replace('/',',',str_replace('.',',',str_replace(';',',',str_replace('，',',',str_replace(' ',',',$tag)))))),',');
 		
@@ -77,7 +74,8 @@ exit();
 		$member_data['tag'] = $tag;
 		$member_data['description'] = $description;
 		$member_data['qq'] = $qq;
-		
+		//print_r($member_data);exit();
+
 		$this->db->where('member_id',$member_id);
 		$this->db->update('member',$member_data);
 		
@@ -85,7 +83,6 @@ exit();
 		
 		$this->db->where('member_id',$member_id);
 		$this->db->delete('member_tag');
-		
 		
 		$tag_array = explode(',',$tag);
 		
@@ -122,7 +119,6 @@ exit();
 			}
 			
 		}
-		
 		
 		$this->db->select('m.member_id, m.account, m.member_type, m.member_type_2, m.status as member_status, m.image as member_image, m.name as member_name, m.principal, m.gender, m.birthday, m.hobby, m.qq, m.mobilephone, m.phone, m.email, m.address, m.tag, m.description, m.content, m.created_time, m.modified_time, m.current_school, ps.name as current_school_name');
 		$this->db->from('member as m');

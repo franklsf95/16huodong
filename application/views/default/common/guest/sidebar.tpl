@@ -50,7 +50,7 @@
                     <option>北京</option>
                     <option>其他</option>
                   </select>
-                  <select id="area-list" style="width: 100px">
+                  <select id="select-area-1" class="area-list" style="width: 100px">
                     <option></option>
                   </select>
                 </div>
@@ -58,7 +58,7 @@
                 <div class="control-group">
                   <label class="control-label" for="school">学校</label>
                   <div class="controls">
-                    <input type="text" class="typeahead" data-provide="typeahead" id="select-school" placeholder="输入中有下拉提示~">
+                    <input type="text" class="typeahead" id="select-school-1" data-provide="typeahead" placeholder="输入中有下拉提示~">
                     <input type="hidden" id="input-school-id" name="current_school_id">
                   </div>
                 </div>
@@ -68,6 +68,24 @@
                   <label class="control-label" for="orgName">组织全名</label>
                   <div class="controls">
                     <input type="text" name="student_organization-name" id="orgName">
+                  </div>
+                </div>
+                <div class="control-group">
+                <label class="control-label" for="city">城市</label>
+                <div class="controls">
+                  <select id="province" class="span1">
+                    <option>北京</option>
+                    <option>其他</option>
+                  </select>
+                  <select id="select-area-2" class="area-list" style="width: 100px">
+                    <option></option>
+                  </select>
+                </div>
+              </div>
+                <div class="control-group">
+                  <label class="control-label" for="school">学校</label>
+                  <div class="controls">
+                    <input type="text" class="typeahead" id="select-school-2" data-provide="typeahead" placeholder="输入中有下拉提示~">
                   </div>
                 </div>
               </div>
