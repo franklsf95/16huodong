@@ -34,8 +34,8 @@
               <li><a href="#reg-org" data-toggle="tab" id="tab-org">学生组织</a></li>
               <li><a href="#reg-chr" data-toggle="tab" id="tab-chr">公益组织</a></li>
               <li><a href="#reg-com" data-toggle="tab" id="tab-com">公司</a></li>
-              <input type="hidden" name="member_type" value="student" id="input-type">
           </ul>
+          <input type="hidden" name="member_type" value="student" id="input-type">
               <div class="tab-pane active" id="reg-stu">
                 <div class="control-group">
                   <label class="control-label" for="name">真实姓名</label>
@@ -46,7 +46,7 @@
                 <div class="control-group">
                 <label class="control-label" for="city">城市</label>
                 <div class="controls">
-                  <select id="province" class="span1">
+                  <select id="select-province-1" class="span1">
                     <option>北京</option>
                     <option>其他</option>
                   </select>
@@ -73,7 +73,7 @@
                 <div class="control-group">
                 <label class="control-label" for="city">城市</label>
                 <div class="controls">
-                  <select id="province" class="span1">
+                  <select id="select-province-2" class="span1">
                     <option>北京</option>
                     <option>其他</option>
                   </select>
@@ -108,6 +108,7 @@
         </div>
       </div>
             <button type="submit" class="btn btn-primary btn-block" id="submit-btn">提交~</button>
+      </fieldset>
       </form>
           </div><!--/.well -->
 </div><!--/span-->

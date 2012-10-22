@@ -43,7 +43,7 @@
     </div>
     <div class="modal-footer">
       <a class="btn" data-dismiss="modal" aria-hidden="true">取消</a>
-      <button type="submit" class="btn btn-primary">提交</a>
+      <button type="submit" class="btn btn-primary">提交</button>
     </div>
 
   </form>
