@@ -66,7 +66,6 @@ KindEditor.plugin('image', function(K) {
 				].join('');
 				
 			}else {
-				
 				var html = [
 				'<div style="padding:10px 20px;">',
 				//tabs
