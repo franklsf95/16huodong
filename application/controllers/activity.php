@@ -13,11 +13,10 @@ Class Activity Extends BaseActionController {
 	}
 	
 	/**
-     * 显示当前用户的全部活动列表
+     * 显示：重定向至search
      */
 	function index(){
-		$member_id = $this->getParameter('member_id',$this->current_member_information['member_id']);
-		$this->displayWithLayout('index');
+		redirect('search');
 	}
 	
 	/**
@@ -132,7 +131,7 @@ Class Activity Extends BaseActionController {
      *
      * @author	suantou
      */
-	function all_attention_activity(){
+	function allFollows(){
 		$member_id = $this->getParameter('member_id',$this->current_member_id);
 		$p_page = $this->getParameter('page',1);
 		$p_limit = $this->getParameter('limit', 10);
@@ -156,7 +155,7 @@ Class Activity Extends BaseActionController {
      *
      * @author suantou
      */
-	function all_attend_activity(){
+	function allAttends(){
 		$member_id = $this->getParameter('member_id',$this->current_member_id);
 		$p_page = $this->getParameter('page',1);
 		$p_limit = $this->getParameter('limit', 10);
@@ -180,7 +179,7 @@ Class Activity Extends BaseActionController {
      *
      * @author suantou
      */
-	function all_publish_activity(){
+	function allPublishes(){
 		$member_id = $this->getParameter('member_id',$this->current_member_id);
 		$p_page = $this->getParameter('page',1);
 		$p_limit = $this->getParameter('limit', 10);
