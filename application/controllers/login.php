@@ -1,8 +1,7 @@
 <?php
 include_once "base_controller.php";
 Class Login Extends BaseController {
-
-	var $applicationFolder = "login"; 
+	//loginHandler, no $applicationFolder
 	
 	function __construct() {
 		parent::__construct();
@@ -64,11 +63,5 @@ Class Login Extends BaseController {
 		exit();
 	}
 	
-	
-	
-	
 }
-
-
-
 ?>
