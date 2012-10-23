@@ -1,6 +1,5 @@
-<div class="span4">
           <div class="well sidebar-reg">
-          <form id="reg-form" class="form-horizontal" action="__('register/saveForm'|site_url)__" method="post">
+          <form id="reg-form" class="form-horizontal" action="__('welcome/saveForm'|site_url)__" method="post">
             <fieldset>
               <legend>加入16活动网~</legend>
               <div class="control-group">
@@ -111,4 +110,3 @@
       </fieldset>
       </form>
           </div><!--/.well -->
-</div><!--/span-->

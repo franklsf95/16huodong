@@ -1,4 +1,3 @@
-<div class="span3">
           <div class="affix sidebar">
             <img src="__($current_member_information.member_image)__" class="img-polaroid portrait" alt="__($current_member_information.member_name)__">
             <h4 class="my_name">__($current_member_information.member_name)__</h4>
@@ -16,4 +15,3 @@
               <li><a href="#">Link</a></li>
             </ul>
           </div><!--/.sidebar -->
-        </div><!--/span-->

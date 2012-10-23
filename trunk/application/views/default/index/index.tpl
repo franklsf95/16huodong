@@ -1,4 +1,3 @@
-<div class="span9">
 <div class="content-heading">热门活动 Top 10 [这部分是坏的]</div>
 <header class="jumbotron subhead well">
   <div class="container top-showcase">
@@ -29,4 +28,3 @@
 
 <div class="content-heading">最新活动</div>
 <div id="main-showcase"></div>
-</div><!--/span-->

@@ -25,20 +25,30 @@ __(include file="$base_tpl/navbar.tpl")__
     <div class="container">
       <div class="row">
 <!--sidebar-->
-__(include file="$base_tpl/sidebar.tpl")__   
+__(if $base_tpl == 'guest')__
+<div class="span4">
+__(else)__
+<div class="span3">
+__(/if)__
+__(include file="$base_tpl/sidebar.tpl")__ 
+</div>  
 <!--/sidebar-->
 
 <!--content-->
+__(if $base_tpl == 'guest')__
+<div class="span8">
+__(else)__
+<div class="span9">
+__(/if)__
 __(include file="$view_folder/$template_content.tpl")__
-<!--/content-->
-
-      </div><!--/row-->
-
-      <hr>
+<hr>
       <footer>
         <p>&copy; 16活动网 2012</p>
       </footer>
+</div>
+<!--/content-->
 
+      </div><!--/row-->
     </div> <!-- /container -->
     <script src="__($config.template_prefix)__asset/js/jquery.js"></script>
     <script src="__($config.template_prefix)__asset/js/bootstrap.min.js"></script>
