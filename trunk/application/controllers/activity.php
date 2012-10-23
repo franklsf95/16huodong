@@ -144,9 +144,11 @@ Class Activity Extends BaseActionController {
 		$all_member_attention_activity_information = $this->extend_control->getAllMemberAttentionActivityInformation($member_id,$page_information['page_offset'],$p_limit);
 		
 		$this->ci_smarty->assign('page_information',$page_information);
-		$this->ci_smarty->assign('all_member_attention_activity_information',$all_member_attention_activity_information);
+		$this->ci_smarty->assign('history',$all_member_attention_activity_information);
+		$this->ci_smarty->assign('title','我关注的活动');
+		$this->ci_smarty->assign('index_page_name','activity/AllFollows');
 		
-		$this->displayWithLayout('all_attention_activity');
+		$this->display('history','我关注的活动','history_css');
 	}
 	
 	/**
@@ -168,9 +170,11 @@ Class Activity Extends BaseActionController {
 		$all_member_attend_activity_information = $this->extend_control->getAllMemberAttendActivityInformation($member_id,$page_information['page_offset'],$p_limit);
 		
 		$this->ci_smarty->assign('page_information',$page_information);
-		$this->ci_smarty->assign('all_member_attend_activity_information',$all_member_attend_activity_information);
+		$this->ci_smarty->assign('history',$all_member_attend_activity_information);
+		$this->ci_smarty->assign('title','我参加的活动');
+		$this->ci_smarty->assign('index_page_name','activity/AllAttends');
 		
-		$this->displayWithLayout('all_attend_activity');
+		$this->display('history','我参加的活动','history_css');
 	}
 	
 	/**
@@ -185,16 +189,18 @@ Class Activity Extends BaseActionController {
 	function allPublishes(){
 		$member_id = $this->getParameter('member_id',$this->current_member_id);
 		$p_page = $this->getParameter('page',1);
-		$p_limit = $this->getParameter('limit', 10);
+		$p_limit = $this->getParameter('limit', 1);
 		
 		$count = $this->extend_control->countAllMemberPublishActivity($member_id);
 		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
 		$all_member_publish_activity_information = $this->extend_control->getAllMemberPublishActivityInformation($member_id,$page_information['page_offset'],$p_limit);
 		
 		$this->ci_smarty->assign('page_information',$page_information);
-		$this->ci_smarty->assign('all_member_publish_activity_information',$all_member_publish_activity_information);
+		$this->ci_smarty->assign('history',$all_member_publish_activity_information);
+		$this->ci_smarty->assign('title','我发起的活动');
+		$this->ci_smarty->assign('index_page_name','activity/AllPublishes');
 		
-		$this->displayWithLayout('all_publish_activity');
+		$this->display('history','我发起的活动','history_css');
 	}
 	
 	/**
@@ -263,6 +269,9 @@ Class Activity Extends BaseActionController {
 		
 	}
 	
+	/**
+	* @deprecated
+	*/
 	function search_activity(){
 		$search = $this->getParameter('search',NULL);
 		
@@ -287,24 +296,29 @@ Class Activity Extends BaseActionController {
 		$this->displayWithLayout('search_activity');
 	}
 	
-	
-	function attend_activity(){
+	/**
+	* 处理JSON提交参加活动请求
+	* 若已报名则取消报名，否则报名
+	*
+	* @param 	id 		要参加的活动ID
+	* 
+	* @return 	1=报名成功	2=取消成功
+	*/
+	function attendActivity(){
 		$activity_id = $this->getParameter('id');
 		$member_id = $this->current_member_information['member_id'];
-		$return_data = array();
-		if ($activity_id){
+
+		$return;
+		if ($activity_id) {
 			//检查该会员是否已经参加活动
 			$is_attend = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
-			if($is_attend == 'N'){
+			if( !$is_attend ){
 				$data['member_id'] = $member_id;
 				$data['activity_id'] = $activity_id;
 				$data['created_time'] = $this->current_time;
 				$this->db->insert('activity_attend_member',$data);
-				
-				$return_data['status'] = 'Y';
-				$return_data['str'] = '已报名活动';
-				
-				
+
+				$return = 1;
 				//system_message
 				$this->db->select('member_id');
 				$this->db->where('activity_id',$activity_id);
@@ -315,29 +329,61 @@ Class Activity Extends BaseActionController {
 				$system_data['code'] = $activity_id;
 				$this->system_message($system_data);
 				
-				
 			} else {
-				
 				$this->db->where('member_id',$member_id);
 				$this->db->where('activity_id',$activity_id);
 				$this->db->delete('activity_attend_member');
 				
-				$return_data['status'] = 'N';
-				$return_data['str'] = '已取消报名';
+				$return = 2;
 			}
 		}
-		echo json_encode($return_data);
+		echo json_encode($return);
 	}
 
 	/**
-     * 批准或拒绝报名
+	* 处理JSON提交关注活动
+	* 若已关注则取消关注，否则关注
+	*
+	* @param 	id 		要参加的活动ID
+	* 
+	* @return 	1=关注成功	2=取消成功
+	*/
+	function followActivity(){
+		$activity_id = $this->getParameter('id');
+		$member_id = $this->current_member_information['member_id'];
+		if ($activity_id){
+			//检查该会员是否已经报名活动
+			$is_attention = $this->extend_control->isMemberAttentionActivity($member_id,$activity_id);
+
+			if( !$is_attention ){
+				$data['member_id'] = $member_id;
+				$data['activity_id'] = $activity_id;
+				$data['created_time'] = $this->current_time;
+				
+				$this->db->insert('activity_attention_member',$data);
+				
+				$return = 1;
+				
+			} else {
+				$this->db->where('member_id',$member_id);
+				$this->db->where('activity_id',$activity_id);
+				$this->db->delete('activity_attention_member');
+				
+				$return = 2;
+			}
+			echo json_encode($return);
+		}
+	}
+
+	/**
+     * 处理JSON批准或拒绝报名
      *
      * @param	activity_attend_id	活动ID
      * @param	action				进行的操作，1批准，0拒绝
      *
      * @return	status 		状态，1成功，0失败
      *
-     * @author suantou franklsf95
+     * @author	suantou franklsf95
      */
 	function handle_activity_attend(){
 		$activity_attend_id = $this->getParameter('activity_attend_id',Null);
@@ -370,54 +416,6 @@ Class Activity Extends BaseActionController {
 			
 		}
 		echo json_encode($return_data);
-	}
-	
-	
-	function attention_activity(){
-		$activity_id = $this->getParameter('id');
-		$member_id = $this->current_member_information['member_id'];
-		if ($activity_id){
-			//检查该会员是否已经参加活动
-			$is_attention = $this->extend_control->isMemberAttentionActivity($member_id,$activity_id);
-			if($is_attention == 'N'){
-				$data['member_id'] = $member_id;
-				$data['activity_id'] = $activity_id;
-				$data['created_time'] = $this->current_time;
-				
-				$this->db->insert('activity_attention_member',$data);
-				
-				$return_data['status'] = 'Y';
-				$return_data['str'] = '已关注活动';
-				
-			} else {
-				
-				$this->db->where('member_id',$member_id);
-				$this->db->where('activity_id',$activity_id);
-				$this->db->delete('activity_attention_member');
-				
-				$return_data['status'] = 'N';
-				$return_data['str'] = '已取消关注';
-				
-			}
-			
-			echo json_encode($return_data);
-		}
-	}
-	
-	function attend_activity_list(){
-		
-		$member_id = $this->current_member_information['member_id'];
-		
-		$this->db->select('a.*');
-		$this->db->from('activity as a');
-		$this->db->join('activity_attend_member as aam','aam.activity_id = a.activity_id');
-		$this->db->where('aam.member_id',$member_id);
-		$all_attend_activity_information = $this->db->get()->result_array();
-		
-		$this->ci_smarty->assign('all_attend_activity_information',$all_attend_activity_information);
-		
-		$this->displayWithLayout('attend_activity_list');
-		
 	}
 	
 	/**
@@ -566,6 +564,7 @@ Class Activity Extends BaseActionController {
 		
 	}
 	
+	//评论相关
 	function save_comment(){
 		$activity_id = $this->getParameter('activity_id',NULL);
 		$activity_comment = $this->getParameter('activity_comment',NULL);
@@ -611,11 +610,6 @@ Class Activity Extends BaseActionController {
 			$this->system_message($system_data);
 		}
 	}
-	
-	
-	
 }
-
-
 
 ?>
