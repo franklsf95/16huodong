@@ -1,7 +1,7 @@
 <?php
 include_once "base_action_controller.php";
 /**
-* 控制
+* 控制活动显示、编辑、报名、关注、评论、历史查询
 */
 Class Activity Extends BaseActionController {
 

@@ -13,7 +13,7 @@
     #reg-form .controls {
       margin-left: 80px;
     }
-    #nav_contact {
+    .navbar-highlight {
       float: left;
     }
     .navbar-login-item {

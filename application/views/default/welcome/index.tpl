@@ -1,4 +1,3 @@
-<div class="span8">
               <div id="myCarousel" class="carousel slide">
                 <div class="carousel-inner">
                   <div class="item active">
@@ -20,4 +19,3 @@
             <p>这里简单说说我们的网站是个什么什么什么玩意 marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
             <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
           </div>
-</div><!--/span-->

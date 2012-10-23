@@ -8,7 +8,8 @@
           </a>
           <a class="brand" href="__('index'|site_url)__"><img alt="16活动网" src="__($config.template_prefix)__asset/img/banner_logo.png"></a>
           <div class="nav-collapse collapse">
-            <a class="brand" id="nav_contact" href="__('contact'|site_url)__">联系我们</a>
+            <a class="navbar-highlight" id="navbar-demo" href="__('welcome/demo'|site_url)__">随便看看</a>
+            <a class="navbar-highlight" id="navbar-contact" href="__('contact'|site_url)__">联系我们</a>
             <form class="navbar-form pull-right" id="navbar-login" action="__('login/loginSubmit'|site_url)__" method="post">
               <input class="span2" type="text" placeholder="用户名" id="loginUsername" name="account">
               <input class="span2" type="password" placeholder="密码" id="loginPassword" name="password">
