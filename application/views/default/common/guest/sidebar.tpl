@@ -1,5 +1,5 @@
           <div class="well sidebar-reg">
-          <form id="reg-form" class="form-horizontal" action="__('welcome/saveForm'|site_url)__" method="post">
+          <form id="reg-form" class="form-horizontal" action="__('welcome/register'|site_url)__" method="post">
             <fieldset>
               <legend>加入16活动网~</legend>
               <div class="control-group">
@@ -57,7 +57,7 @@
                 <div class="control-group">
                   <label class="control-label" for="select-school-1">学校</label>
                   <div class="controls">
-                    <input type="text" class="typeahead" id="select-school-1" name="school" data-provide="typeahead" placeholder="输入中有下拉提示~">
+                    <input type="text" class="typeahead" id="select-school-1" name="student-school" data-provide="typeahead" placeholder="输入中有下拉提示~">
                     <input type="hidden" id="input-school-id" name="current_school_id">
                   </div>
                 </div>
@@ -84,7 +84,7 @@
                 <div class="control-group">
                   <label class="control-label" for="select-school-2">学校</label>
                   <div class="controls">
-                    <input type="text" class="typeahead" id="select-school-2" data-provide="typeahead" placeholder="输入中有下拉提示~">
+                    <input type="text" class="typeahead" id="select-school-2" name="student_organization-school" data-provide="typeahead" placeholder="输入中有下拉提示~">
                   </div>
                 </div>
               </div>
@@ -100,7 +100,7 @@
                 <div class="control-group">
                   <label class="control-label" for="comName">公司全名</label>
                   <div class="controls">
-                    <input type="text" name="company-name" id="comName">
+                    <input type="text" name="company-name" id="comName" placeholder="与公益组织相同，暂不启用">
                   </div>
                 </div>
               </div>
