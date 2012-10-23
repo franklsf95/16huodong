@@ -21,6 +21,8 @@ Class Activity Extends BaseActionController {
 	/**
      * 给当前活动+1
      *
+     * @param 	id 	活动ID
+     *
      * @author wangpeng
      */
 	function rate1(){
@@ -63,6 +65,8 @@ Class Activity Extends BaseActionController {
 	
 	/**
      * 给当前活动-1
+     *
+     * @param 	id 	活动ID
      *
      * @author wangpeng
      */
@@ -555,7 +559,6 @@ Class Activity Extends BaseActionController {
 			if (count($invite_member) >0 ){
 				$this->invite_member_attend_activity($id,$invite_member);
 			}
-			
 			
 			
 			redirect('activity/view?id='.$id);
