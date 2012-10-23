@@ -1,4 +1,3 @@
-<div class="span8">
 	<h3>找回密码</h3>
 	<hr>
 <form class="form-horizontal" action="__('findpass/resetPassSubmit'|site_url)__?vcode=__($vcode)__" method="post">
@@ -20,4 +19,3 @@
 	<div class="progress progress-striped">
   		<div class="bar" style="width: 67%;"></div>
 	</div>
-</div>
