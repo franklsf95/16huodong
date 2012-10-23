@@ -143,7 +143,12 @@ class BaseController extends CI_Controller {
 		unset($_SESSION[$parameterName]);
 	}
 	
-	function displayWithLayout($templateName, $layout = '') {			//打开模版（包括公共界面layout）
+	/**
+	* 给会员显示页面，包含layout侧栏
+	*
+	* @deprecated
+	*/
+	function displayWithLayout($templateName, $layout = '') {
 	
 		if (!$layout) {
 			$layout = $this->layout;
@@ -162,6 +167,11 @@ class BaseController extends CI_Controller {
 		}
 	}
 	
+	/**
+	* 给游客显示页面（直接加载）
+	*
+	* @deprecated
+	*/
 	function displayWithoutLayout($templateName) {					//打开模版
 		if ($this->viewFolder != '') {
 			$this->ci_smarty->view($this->viewFolder . '/' . $templateName);
@@ -170,6 +180,17 @@ class BaseController extends CI_Controller {
 		}
 	}
 
+	/**
+	* 显示页面
+	*
+	* @author franklsf95
+	*
+	* @param	string	$templateName	要打开的模板
+	* @param	string	$templateTitle	显示的页面标题
+	* @param	string	$moreCss		附加在头部的css段（若有）
+	* @param	string	$moreJs			附加在body的script段（若有）
+	* @param	string	$baseTemplate	公用模板版本（游客guest，会员member）
+	*/
 	function display( $templateName, $templateTitle, $moreCss='', $moreJs='', $baseTemplate = 'guest' ) {
 		$this->ci_smarty->assign('template_content', $templateName);
 		$this->ci_smarty->assign('template_title', $templateTitle);

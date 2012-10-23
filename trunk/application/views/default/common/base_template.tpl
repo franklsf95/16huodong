@@ -41,6 +41,7 @@ __(else)__
 <div class="span9">
 __(/if)__
 __(include file="$view_folder/$template_content.tpl")__
+<div class="clear"></div>
 <hr>
       <footer>
         <p>&copy; 16活动网 2012</p>

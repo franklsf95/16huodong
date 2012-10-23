@@ -543,7 +543,7 @@ class Extend_control {
 	}
 	
 	function getAllActivityAttendMemberInformation($activity_id){
-		$this->CI->db->select('m.member_id, m.name, m.image, m.mobilephone, m.phone, m.email, m.qq, aam.activity_attend_id, aam.status');
+		$this->CI->db->select('m.member_id, m.name, m.image, m.phone, m.email, m.qq, aam.activity_attend_id, aam.status');
 		$this->CI->db->from('activity_attend_member as aam');
 		$this->CI->db->join('member as m','m.member_id = aam.member_id');
 		$this->CI->db->where('aam.activity_id',$activity_id);
@@ -552,7 +552,7 @@ class Extend_control {
 	}
 	
 	function getAllActivityAttentionMemberInformation($activity_id){
-		$this->CI->db->select('m.member_id, m.name, m.image, m.mobilephone, m.phone, m.email, m.qq');
+		$this->CI->db->select('m.member_id, m.name, m.image, m.phone, m.email, m.qq');
 		$this->CI->db->from('activity_attention_member as aam');
 		$this->CI->db->join('member as m','m.member_id = aam.member_id');
 		$this->CI->db->where('aam.activity_id',$activity_id);

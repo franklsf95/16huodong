@@ -1,6 +1,9 @@
 <?php
 include_once "base_action_controller.php";
-Class Activity Extends BaseactionController {
+/**
+* 控制
+*/
+Class Activity Extends BaseActionController {
 
 	var $applicationFolder = "activity"; 
 	
@@ -9,11 +12,19 @@ Class Activity Extends BaseactionController {
 		
 	}
 	
+	/**
+     * 显示当前用户的全部活动列表
+     */
 	function index(){
 		$member_id = $this->getParameter('member_id',$this->current_member_information['member_id']);
 		$this->displayWithLayout('index');
 	}
 	
+	/**
+     * 给当前活动+1
+     *
+     * @author wangpeng
+     */
 	function rate1(){
 		$activity_id = $this->getParameter('id');
 		$member_id = $this->current_member_id;
@@ -52,6 +63,11 @@ Class Activity Extends BaseactionController {
 		}
 	}
 	
+	/**
+     * 给当前活动-1
+     *
+     * @author wangpeng
+     */
 	function rate2(){
 		$activity_id = $this->getParameter('id');
 		$member_id = $this->current_member_id;
@@ -90,6 +106,9 @@ Class Activity Extends BaseactionController {
 		}
 	}
 	
+	/**
+	* @deprecated
+	*/
 	function new_activity(){
 		$p_page = $this->getParameter('page',1);
 		$p_limit = $this->getParameter('limit', 10);
@@ -104,7 +123,15 @@ Class Activity Extends BaseactionController {
 		$this->displayWithLayout('new_activity');
 	}
 	
-	
+	/**
+     * 显示当前用户所有关注过的活动
+     *
+     * @param	member_id	要显示的用户的ID
+     * @param	page		当前进行到的页面
+     * @param	limit		每页取回的活动数
+     *
+     * @author	suantou
+     */
 	function all_attention_activity(){
 		$member_id = $this->getParameter('member_id',$this->current_member_id);
 		$p_page = $this->getParameter('page',1);
@@ -120,7 +147,15 @@ Class Activity Extends BaseactionController {
 		$this->displayWithLayout('all_attention_activity');
 	}
 	
-	
+	/**
+     * 显示当前用户所有参加过的活动
+     *
+     * @param	member_id	要显示的用户的ID
+     * @param	page		当前进行到的页面
+     * @param	limit		每页取回的活动数
+     *
+     * @author suantou
+     */
 	function all_attend_activity(){
 		$member_id = $this->getParameter('member_id',$this->current_member_id);
 		$p_page = $this->getParameter('page',1);
@@ -136,7 +171,15 @@ Class Activity Extends BaseactionController {
 		$this->displayWithLayout('all_attend_activity');
 	}
 	
-	
+	/**
+     * 显示当前用户所有发布的活动
+     *
+     * @param	member_id	要显示的用户的ID
+     * @param	page		当前进行到的页面
+     * @param	limit		每页取回的活动数
+     *
+     * @author suantou
+     */
 	function all_publish_activity(){
 		$member_id = $this->getParameter('member_id',$this->current_member_id);
 		$p_page = $this->getParameter('page',1);
@@ -152,7 +195,15 @@ Class Activity Extends BaseactionController {
 		$this->displayWithLayout('all_publish_activity');
 	}
 	
-	
+	/**
+     * 显示活动详情
+     *
+     * @param	id		活动ID
+     * @param	page	当前进行到的页面
+     * @param	limit	每页取回的活动数
+     *
+     * @author suantou
+     */
 	function view(){
 		$activity_id = $this->getParameter('id');
 		$member_id = $this->current_member_id;
@@ -201,13 +252,12 @@ Class Activity Extends BaseactionController {
 		$this->ci_smarty->assign('page_information',$page_information);
 		$this->ci_smarty->assign('activity_information',$activity_information);
 		
-		$this->display('view',$activity_information['activity_name'].' - 活动详情','view_css','view_js');
-		/*
+		//print_r($activity_information);exit();
 		if ($activity_information['is_publisher'] == 'Y') {
-			$this->displayWithLayout('publisher_view');
+			$this->display('publisher_view',$activity_information['activity_name'].' - 管理活动','view_css','publisher_view_js');
 		}else {
-			$this->displayWithLayout('view');
-		}*/
+			$this->display('view',$activity_information['activity_name'].' - 活动详情','view_css','view_js');
+		}
 		
 		
 	}
@@ -277,20 +327,28 @@ Class Activity Extends BaseactionController {
 		}
 		echo json_encode($return_data);
 	}
-	
+
+	/**
+     * 批准或拒绝报名
+     *
+     * @param	activity_attend_id	活动ID
+     * @param	action				进行的操作，1批准，0拒绝
+     *
+     * @return	status 		状态，1成功，0失败
+     *
+     * @author suantou franklsf95
+     */
 	function handle_activity_attend(){
 		$activity_attend_id = $this->getParameter('activity_attend_id',Null);
-		$action = $this->getParameter('action',Null);
+		$action = $this->getParameter('action',-1);
 		$return_data = array();
 		
-		if($activity_attend_id != '' && $action != '') {
+		if( $activity_attend_id && $action >= 0 ) {
 			$this->db->where('activity_attend_id',$activity_attend_id);
 			$activity_attend_information = $this->db->get_first('activity_attend_member');
 			
 			if($activity_attend_id != '') {
-				if($action == 'Y') {
-					
-					
+				if( $action ) { //permit
 					//system_message
 					$system_data['target_id'] = $activity_attend_information['member_id'];
 					$system_data['category'] = 'activity';
@@ -298,19 +356,14 @@ Class Activity Extends BaseactionController {
 					$system_data['code'] = $activity_attend_information['activity_id'];
 					$this->system_message($system_data);
 					
-					
 					$data['status'] = 'Y';
 					$this->db->where('activity_attend_id',$activity_attend_id);
 					$this->db->update('activity_attend_member',$data);
-					$return_data['status'] = 'Y';
-					$return_data['str'] = '已通过报名';
-					$return_data['member_id'] = $activity_attend_information['member_id'];
-				}else if ($action == 'N') {
+					$return_data['status'] = 1;
+				} else { //deny
 					$this->db->where('activity_attend_id',$activity_attend_id);
 					$this->db->delete('activity_attend_member');
-					$return_data['status'] = 'N';
-					$return_data['str'] = '已拒绝报名';
-					$return_data['member_id'] = $activity_attend_information['member_id'];
+					$return_data['status'] = 1;
 				}
 			}
 			
@@ -366,7 +419,14 @@ Class Activity Extends BaseactionController {
 		
 	}
 	
-	function edit(){				//新建、编辑活动
+	/**
+     * 显示活动创建和编辑页面
+     *
+     * @param	id		活动ID，如为空则创建新活动
+     *
+     * @author suantou
+     */
+	function edit() {
 		$id = $this->getParameter('id',NULL);
 		$member_id = $this->current_member_information['member_id'];
 		$title = '发起新活动';
@@ -401,6 +461,13 @@ Class Activity Extends BaseactionController {
 		$this->display( 'edit', $title, 'edit_css', 'edit_js' );
 	}
 	
+	/**
+     * 工具函数：处理edit()提交
+     *
+     * @param	很多
+     *
+     * @author suantou
+     */
 	function _saveItem($isNew, &$id, &$param) {
 		
 		$name = $this->getParameterWithOutTag('name',NULL);
