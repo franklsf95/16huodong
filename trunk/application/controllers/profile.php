@@ -1,37 +1,51 @@
 <?php
 include_once "base_action_controller.php";
-Class My_page Extends BaseActionController {
+/**
+* 控制会员主页显示、资料编辑、留言？访问量统计
+*/
+Class Profile Extends BaseActionController {
 
-	var $applicationFolder = "my_page"; 
+	var $applicationFolder = "profile"; 
 	
 	function __construct() {
 		parent::__construct();
 		
 	}
 	
+	/**
+     * 显示会员个人主页
+     *
+     * @param 	id 	会员ID，默认自己
+     *
+     */
 	function index(){
-		redirect('member');
-		
 		$member_id = $this->getParameter('id',$this->current_member_id);
 		
+		$this->save_member_visit($member_id);
 		$member_information = $this->extend_control->getMemberInformation($member_id);
+		$member_information['is_friend'] = $this->extend_control->isFriend($this->current_member_id,$member_id);
+		$member_information['my_page'] = $member_id == $this->current_member_id ? true : false;
 		
 		$this->ci_smarty->assign('member_information',$member_information);
 		$this->ci_smarty->assign('member_id',$member_id);
 		
-		$this->displayWithLayout('index');
+		$template_view = $member_information['member_type'];
+		$this->display($template_view, $member_information['member_name'].'的主页','view_css','view_js');
+		//$this->displayWithLayout($template_view);
 	}
 	
+	/**
+     * 显示会员资料编辑页面，为不同的会员显示不同的页面
+     */
 	function edit(){
 		$member_id = $this->current_member_id;
 		$this->db->select('m.member_id, m.account as member_account, m.name as member_name, m.image as member_image, m.gender as member_gender, m.birthday as member_birthday, m.current_school as member_current_school, m.member_type, m.member_type_2, m.principal, m.qq as member_qq, m.email as member_email, m.phone as member_phone, m.organisation as member_organisation, m.title as member_title, m.address as member_address, m.tag as member_tag, m.description as member_description, m.school_name as current_school_name');
 		$this->db->from('member as m');
-		//$this->db->join('public_school as ps','ps.school_id = m.current_school','LEFT');
 		$this->db->where('m.member_id',$member_id);
 		$member_information = $this->db->get_first();
 		$this->ci_smarty->assign('member_information',$member_information);
 
-		$template_name = $member_information['member_type'].'_edit';
+		$template_name = 'edit_'.$member_information['member_type'];
 		if( $member_information['member_type']=='student' ) {
 			$template_title = '编辑个人资料';
 		} else if ( $member_information['member_type']=='company' ) {
@@ -43,6 +57,11 @@ Class My_page Extends BaseActionController {
 		$this->display($template_name,$template_title,'edit_css','edit_js');
 	}
 
+	/**
+     * 处理编辑个人资料提交
+     *
+     * @param 	一堆
+     */
 	function save_form() {
 		$member_id = $this->current_member_id;
 		$image = $this->getParameter('image',Null);
@@ -98,9 +117,7 @@ Class My_page Extends BaseActionController {
 			$this->db->insert('member_tag',$member_tag_data);
 		}
 		
-		//更新session
-		
-		//处理更改密码
+		//更新session、处理更改密码
 		
 		$old_password = $this->getParameter('old_password',Null);
 		$new_password = $this->getParameter('new_password',Null);
@@ -118,7 +135,6 @@ Class My_page Extends BaseActionController {
 				$this->db->where('member_id',$member_id);
 				$this->db->update('member',$member_password_data);
 			}
-			
 		}
 		
 		$this->db->select('m.member_id, m.account, m.member_type, m.member_type_2, m.status as member_status, m.image as member_image, m.name as member_name, m.principal, m.gender, m.birthday, m.hobby, m.qq, m.mobilephone, m.phone, m.email, m.address, m.tag, m.description, m.content, m.created_time, m.modified_time, m.current_school, m.school_name as current_school_name');
@@ -131,7 +147,54 @@ Class My_page Extends BaseActionController {
 			$this->setSessionValue('current_member_information',$member_information);
 		}
 		
-		redirect('member');
+		redirect('profile');
 	}
+
+	function save_member_leave_word(){
+		$member_id = $this->current_member_id;
+		$target_id = $this->getParameter('member_id',NULL);
+		$content = $this->getParameter('content',NULL);
+		
+		if ($member_id != '' && $target_id != '' && $content != '') {
+		
+			$data['member_id'] = $member_id;
+			$data['target_id'] = $target_id;
+			$data['content'] = $content;
+			$data['created_time'] = $this->current_time;
+			
+			$this->db->insert('member_leave_word',$data);
+			
+			redirect("member?id=$target_id");
+		
+		} else {
+			print_r($_POST);
+		}
+	}
+		
+	function save_member_visit($member_id){
+		$visitor_id = $this->current_member_id;
+		
+		if ($member_id != $visitor_id) {
+			$this->db->where('member_id',$member_id);
+			$this->db->where('visitor_id',$visitor_id);
+			$member_visit_information = $this->db->get_first('member_visit');
+			$data['visit_time'] = $this->current_time;
+			
+			if (count($member_visit_information) == 0) {
+				$data['member_id'] = $member_id;
+				$data['visitor_id'] = $visitor_id;
+				$this->db->insert('member_visit',$data);
+			}else {
+				$this->db->where('member_id',$member_id);
+				$this->db->where('visitor_id',$visitor_id);
+				$this->db->update('member_visit',$data);
+			}
+		}
+	}
+	
+	
 }
+
+
+
 ?>
