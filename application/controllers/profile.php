@@ -30,8 +30,8 @@ Class Profile Extends BaseActionController {
 		$this->ci_smarty->assign('member_id',$member_id);
 		
 		$template_view = $member_information['member_type'];
+		//print_r($member_information);exit();
 		$this->display($template_view, $member_information['member_name'].'的主页','view_css','view_js');
-		//$this->displayWithLayout($template_view);
 	}
 	
 	/**

@@ -1,5 +1,8 @@
 <?php
 include_once "base_action_controller.php";
+/**
+* 给已登录用户显示contact
+*/
 Class Contact_member Extends BaseActionController {
 
 	var $applicationFolder = "contact"; 

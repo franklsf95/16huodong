@@ -1,8 +1,11 @@
 <?php
 include_once "base_action_controller.php";
-Class Blog Extends BaseActionController {
+/**
+* 显示人生图书馆、写书
+*/
+Class Library Extends BaseActionController {
 
-	var $applicationFolder = "blog"; 
+	var $applicationFolder = "library"; 
 	
 	function __construct() {
 		parent::__construct();
@@ -12,7 +15,7 @@ Class Blog Extends BaseActionController {
 	}
 	
 	function index(){
-		$this->displayWithLayout('index');
+		$this->display('index','人生图书馆');
 	}
 	
 	function my_blog(){
