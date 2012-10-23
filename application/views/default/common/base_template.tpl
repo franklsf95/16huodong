@@ -25,7 +25,7 @@ __(include file="$base_tpl/navbar.tpl")__
     <div class="container">
       <div class="row">
 <!--sidebar-->
-__(if $base_tpl == 'guest')__
+__(if $base_tpl == 'default/common/guest')__
 <div class="span4">
 __(else)__
 <div class="span3">
@@ -35,7 +35,7 @@ __(include file="$base_tpl/sidebar.tpl")__
 <!--/sidebar-->
 
 <!--content-->
-__(if $base_tpl == 'guest')__
+__(if $base_tpl == 'default/common/guest')__
 <div class="span8">
 __(else)__
 <div class="span9">

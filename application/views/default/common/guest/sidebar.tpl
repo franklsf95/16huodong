@@ -106,7 +106,7 @@
               </div>
         </div>
       </div>
-            <button type="submit" class="btn btn-primary btn-block" id="submit-btn">提交~</button>
+            <button type="submit" class="btn btn-primary btn-block" id="submit-btn">注册!</button>
       </fieldset>
       </form>
           </div><!--/.well -->
