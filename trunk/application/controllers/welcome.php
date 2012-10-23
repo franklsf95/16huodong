@@ -1,8 +1,15 @@
 <?php
 include_once "base_controller.php";
+/**
+* 控制注册
+* 显示欢迎页面
+*/
 class Welcome extends BaseController {
 	var $applicationFolder = "welcome"; 
 	
+	/**
+	* 显示欢迎界面 或 重定向到主页
+	*/
 	function index()
 	{
 		if ($this->getSessionValue('current_member_information')) {
@@ -11,6 +18,22 @@ class Welcome extends BaseController {
 		$this->display('index','欢迎');
 	}
 
+	/**
+	* 显示随便看看页面 或 重定向到主页
+	*/
+	function demo()
+	{
+		if ($this->getSessionValue('current_member_information')) {
+			redirect('index');
+		}
+		$this->display('demo','随便看看');
+	}
+
+	/**
+	* 处理注册表单
+	*
+	* @param	一堆
+	*/
 	function saveForm(){
 		$account = $this->getParameter('username',NULL);
 		$password = $this->getParameter('password',NULL);

@@ -1,7 +1,10 @@
 <?php
 include_once "base_controller.php";
+/**
+* 处理登录和登出
+* 不显示任何页面，$applicationFolder = '';
+*/
 Class Login Extends BaseController {
-	//loginHandler, no $applicationFolder
 	
 	function __construct() {
 		parent::__construct();
@@ -11,15 +14,18 @@ Class Login Extends BaseController {
 		redirect('index');
 	}
 	
+	/**
+     * 处理登录
+     *
+     * @param account	用户名
+     * @param password	密码
+     * @param member_cookie	是否保留cookie
+     */
 	function loginSubmit(){
 		$account = $this->getParameter('account',NULL);
 		$password = $this->getParameter('password',NULL);
 		$member_cookie = $this->getParameter('member_cookie',False);
 		
-		//if ($_COOKIE['member_id']){
-		//	echo 'cookie:'.$_COOKIE['member_id'];
-		//	exit();
-		//}
 		
 		if ($account != '' && $password != ''){
 			$this->db->select('m.member_id, m.account, m.member_type, m.member_type_2, m.status as member_status, m.image as member_image, m.name as member_name, m.principal, m.gender, m.birthday, m.hobby, m.qq, m.mobilephone, m.phone, m.email, m.address, m.tag, m.description, m.content, m.created_time, m.modified_time, m.current_school, ps.name as current_school_name');
@@ -50,6 +56,9 @@ Class Login Extends BaseController {
 	
 	}
 	
+	/**
+     * 处理登出
+     */
 	function logout(){
 		$this->unsetSessionValue('current_member_information');
 		setcookie('member_cookie[remember]','',time()-3600,'/');
@@ -58,6 +67,9 @@ Class Login Extends BaseController {
 		redirect('index');
 	}
 	
+	/**
+	* @deprecated
+	*/
 	function cookie(){
 		print_r($_COOKIE['member_cookie']);
 		exit();

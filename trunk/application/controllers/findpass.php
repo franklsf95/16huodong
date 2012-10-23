@@ -1,5 +1,11 @@
 <?php
 include_once "base_controller.php";
+/**
+* 控制找回密码
+* 显示找回密码步骤页面
+*
+* @author wangpeng
+*/
 Class FindPass Extends BaseController {
 
 	var $applicationFolder = "findpass"; 
@@ -7,7 +13,20 @@ Class FindPass Extends BaseController {
 	function __construct() {
 		parent::__construct();
 	}
+
+	/**
+	* 显示：扔给welcome去处理
+	*/
+	function index(){
+		redirect('welcome');
+	}
 	
+	/**
+	* 处理重设密码请求
+	* 显示修改密码界面
+	* 
+	* @param	vcode	找回密码验证码
+	*/
 	function resetPass(){
 		$vcode=$this->input->get('vcode', TRUE);
 		if ($vcode==FALSE) {
@@ -27,6 +46,12 @@ Class FindPass Extends BaseController {
 		}
 	}
 	
+	/**
+	* 处理修改密码
+	* 显示修改密码成功页面
+	* 
+	* @param	vcode	找回密码验证码
+	*/
 	function resetPassSubmit() {
 		$vcode=$this->input->get('vcode', TRUE);
 		if ($vcode==FALSE) {
@@ -61,14 +86,13 @@ Class FindPass Extends BaseController {
 		}
 	}
 	
-	function index(){
-		if ($this->getSessionValue('current_member_information')) {
-			redirect('index');
-		}else {
-			$this->displayWithoutLayout('index');
-		}
-	}
-	
+	/**
+	* 处理来自welcome的修改密码请求
+	* 显示请查收邮件页面
+	*
+	* @param	account			要找回的账户名
+	* @param	verifyEmail		确认Email
+	*/
 	function findPassSubmit(){
 		$account = $this->getParameter('findUsername',NULL);
 		$verifyEmail = $this->getParameter('findEmail',NULL);
@@ -122,31 +146,22 @@ Class FindPass Extends BaseController {
 		}
 	
 	}
-	
-	function logout(){
-		$this->unsetSessionValue('current_member_information');
-		setcookie('member_cookie[remember]','',time()-3600,'/');
-		setcookie('member_cookie[account]','',time()-3600,'/');
-		setcookie('member_cookie[key]','',time()-3600,'/');
-		redirect('login');
-	}
-	
-	function cookie(){
-		print_r($_COOKIE['member_cookie']);
-		exit();
-	}
+
+	/**
+	* 工具函数：生成随机vcode
+	*
+	* @param	$len	要生成的vcode位数
+	*
+	* @return	$len位的vcode
+	*/
 	function randstr($len=8) { 
 		$chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-@#~'; 
 		// characters to build the password from 
-		$password=''; 
-		while(strlen($password)<$len) 
-			$password.=substr($chars,(mt_rand()%strlen($chars)),1); 
-		return $password; 
+		$vcode=''; 
+		while(strlen($vcode)<$len) 
+			$vcode.=substr($chars,(mt_rand()%strlen($chars)),1); 
+		return $vcode; 
 	}
-	
-	
 }
-
-
 
 ?>
