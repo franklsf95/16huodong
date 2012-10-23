@@ -9,7 +9,6 @@ Class Activity Extends BaseActionController {
 	
 	function __construct() {
 		parent::__construct();
-		
 	}
 	
 	/**
@@ -221,10 +220,9 @@ Class Activity Extends BaseActionController {
 		$activity_information['all_activity_comment_information'] = $all_activity_comment_information;
 		$activity_information['is_attend'] = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
 		$activity_information['is_attention'] = $this->extend_control->isMemberAttentionActivity($member_id,$activity_id);
-		
 		$activity_information['is_publisher'] = $this->extend_control->isMemberPublishActivity($member_id,$activity_id);
 		
-		$rate1=$rate2=$rate3=$rate4=0;
+		$rate1=$rate2=$rate1ed=$rate2ed=0;
 		$this->db->select('a.activity_id, a.member_id, a.rate');
 		$this->db->from('activity_rate as a');
 		$this->db->where('activity_id',$activity_id);
@@ -234,27 +232,27 @@ Class Activity Extends BaseActionController {
 			if ($item['rate']==1) {
 				$rate1++;
 				if ($item['member_id'] == $member_id) {
-					$rate3++;
+					$rate1ed = 1;
 				}
 			} else if ($item['rate']==-1) {
 				$rate2++;
 				if ($item['member_id'] == $member_id) {
-					$rate4++;
+					$rate2ed = 1;
 				}
 			}
 		}
 		$this->ci_smarty->assign('rate1',$rate1);
 		$this->ci_smarty->assign('rate2',$rate2);
-		$this->ci_smarty->assign('rate3',$rate3);
-		$this->ci_smarty->assign('rate4',$rate4);
+		$this->ci_smarty->assign('rate1ed',$rate1ed);
+		$this->ci_smarty->assign('rate2ed',$rate2ed);
 		
 		$this->ci_smarty->assign('page_information',$page_information);
 		$this->ci_smarty->assign('activity_information',$activity_information);
 		
 		//print_r($activity_information);exit();
-		if ($activity_information['is_publisher'] == 'Y') {
+		if ( $activity_information['is_publisher'] ) {
 			$this->display('publisher_view',$activity_information['activity_name'].' - 管理活动','view_css','publisher_view_js');
-		}else {
+		} else {
 			$this->display('view',$activity_information['activity_name'].' - 活动详情','view_css','view_js');
 		}
 		

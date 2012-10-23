@@ -543,7 +543,7 @@ class Extend_control {
 	}
 	
 	function getAllActivityAttendMemberInformation($activity_id){
-		$this->CI->db->select('m.member_id, m.name, m.image, m.phone, m.email, m.qq, aam.activity_attend_id, aam.status');
+		$this->CI->db->select('m.member_id, m.name, m.school_name, m.image, m.phone, m.email, m.qq, aam.activity_attend_id, aam.status');
 		$this->CI->db->from('activity_attend_member as aam');
 		$this->CI->db->join('member as m','m.member_id = aam.member_id');
 		$this->CI->db->where('aam.activity_id',$activity_id);
@@ -552,7 +552,7 @@ class Extend_control {
 	}
 	
 	function getAllActivityAttentionMemberInformation($activity_id){
-		$this->CI->db->select('m.member_id, m.name, m.image, m.phone, m.email, m.qq');
+		$this->CI->db->select('m.member_id, m.name, m.school_name, m.image, m.phone, m.email, m.qq');
 		$this->CI->db->from('activity_attention_member as aam');
 		$this->CI->db->join('member as m','m.member_id = aam.member_id');
 		$this->CI->db->where('aam.activity_id',$activity_id);
@@ -1160,39 +1160,27 @@ class Extend_control {
 	/*--------------------------Activity-----------------------------*/
 	
 	function isMemberAttendActivity($member_id,$activity_id){
-		
 		$this->CI->db->where('member_id',$member_id);
 		$this->CI->db->where('activity_id',$activity_id);
 		$count = $this->CI->db->count_all_results('activity_attend_member');
-		
-		$result = '';
-		
+				
 		if ($count == 1) {
-			$result = 'Y';
+			return 1;
 		}else {
-			$result = 'N';
+			return 0;
 		}
-		
-		return $result;
-		
 	}
 	
 	function isMemberAttentionActivity($member_id,$activity_id){
-		
 		$this->CI->db->where('member_id',$member_id);
 		$this->CI->db->where('activity_id',$activity_id);
 		$count = $this->CI->db->count_all_results('activity_attention_member');
-		
-		$result = '';
-		
+				
 		if ($count == 1) {
-			$result = 'Y';
+			return 1;
 		}else {
-			$result = 'N';
+			return 0;
 		}
-		
-		return $result;
-		
 	}
 	
 	function isMemberPublishActivity($member_id,$activity_id){
@@ -1200,11 +1188,10 @@ class Extend_control {
 		$this->CI->db->where('activity_id',$activity_id);
 		$count = $this->CI->db->count_all_results('activity_publish_member');
 		if ($count > 0){
-			$result = 'Y';
+			return 1;
 		}else {
-			$result = 'N';
+			return 0;
 		}
-		return $result;
 	}
 	
 	function getAllMemberInformationByName($member_name){
