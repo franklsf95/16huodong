@@ -232,6 +232,7 @@ CREATE TABLE `16_member` (
   `created_time` datetime DEFAULT NULL COMMENT '创建时间',
   `modified_time` datetime DEFAULT NULL COMMENT '修改时间',
   `last_ip` varchar(20) DEFAULT NULL COMMENT '最后登录ip',
+  `school_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -28,9 +28,9 @@ Class Login Extends BaseController {
 		
 		
 		if ($account != '' && $password != ''){
-			$this->db->select('m.member_id, m.account, m.member_type, m.member_type_2, m.status as member_status, m.image as member_image, m.name as member_name, m.principal, m.gender, m.birthday, m.hobby, m.qq, m.mobilephone, m.phone, m.email, m.address, m.tag, m.description, m.content, m.created_time, m.modified_time, m.current_school, ps.name as current_school_name');
+			$this->db->select('m.member_id, m.account, m.member_type, m.member_type_2, m.status as member_status, m.image as member_image, m.name as member_name, m.principal, m.gender, m.birthday, m.hobby, m.qq, m.mobilephone, m.phone, m.email, m.address, m.tag, m.description, m.content, m.created_time, m.modified_time, m.current_school, m.school_name as current_school_name');
 			$this->db->from('member as m');
-			$this->db->join('public_school as ps','ps.school_id = m.current_school','LEFT');
+			//$this->db->join('public_school as ps','ps.school_id = m.current_school','LEFT');
 			$this->db->where('account',$account);
 			$this->db->where('password',md5($password));
 			$member_information = $this->db->get_first();

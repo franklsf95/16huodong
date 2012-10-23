@@ -24,9 +24,9 @@ Class My_page Extends BaseActionController {
 	
 	function edit(){
 		$member_id = $this->current_member_id;
-		$this->db->select('m.member_id, m.account as member_account, m.name as member_name, m.image as member_image, m.gender as member_gender, m.birthday as member_birthday, m.current_school as member_current_school, m.member_type, m.member_type_2, m.principal, m.qq as member_qq, m.email as member_email, m.phone as member_phone, m.organisation as member_organisation, m.title as member_title, m.address as member_address, m.tag as member_tag, m.description as member_description, ps.name as current_school_name');
+		$this->db->select('m.member_id, m.account as member_account, m.name as member_name, m.image as member_image, m.gender as member_gender, m.birthday as member_birthday, m.current_school as member_current_school, m.member_type, m.member_type_2, m.principal, m.qq as member_qq, m.email as member_email, m.phone as member_phone, m.organisation as member_organisation, m.title as member_title, m.address as member_address, m.tag as member_tag, m.description as member_description, m.school_name as current_school_name');
 		$this->db->from('member as m');
-		$this->db->join('public_school as ps','ps.school_id = m.current_school','LEFT');
+		//$this->db->join('public_school as ps','ps.school_id = m.current_school','LEFT');
 		$this->db->where('m.member_id',$member_id);
 		$member_information = $this->db->get_first();
 		$this->ci_smarty->assign('member_information',$member_information);
@@ -121,9 +121,9 @@ Class My_page Extends BaseActionController {
 			
 		}
 		
-		$this->db->select('m.member_id, m.account, m.member_type, m.member_type_2, m.status as member_status, m.image as member_image, m.name as member_name, m.principal, m.gender, m.birthday, m.hobby, m.qq, m.mobilephone, m.phone, m.email, m.address, m.tag, m.description, m.content, m.created_time, m.modified_time, m.current_school, ps.name as current_school_name');
+		$this->db->select('m.member_id, m.account, m.member_type, m.member_type_2, m.status as member_status, m.image as member_image, m.name as member_name, m.principal, m.gender, m.birthday, m.hobby, m.qq, m.mobilephone, m.phone, m.email, m.address, m.tag, m.description, m.content, m.created_time, m.modified_time, m.current_school, m.school_name as current_school_name');
 		$this->db->from('member as m');
-		$this->db->join('public_school as ps','ps.school_id = m.current_school','LEFT');
+		//$this->db->join('public_school as ps','ps.school_id = m.current_school','LEFT');
 		$this->db->where('member_id',$member_id);
 		$member_information = $this->db->get_first();
 					
