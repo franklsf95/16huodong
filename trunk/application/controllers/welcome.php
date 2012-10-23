@@ -34,7 +34,7 @@ class Welcome extends BaseController {
 	*
 	* @param	一堆
 	*/
-	function saveForm(){
+	function register(){
 		$account = $this->getParameter('username',NULL);
 		$password = $this->getParameter('password',NULL);
 		$email = $this->getParameter('email',NULL);
@@ -43,7 +43,7 @@ class Welcome extends BaseController {
 		$image = $this->getParameter('image',$this->config->item('application_prefix').'upload/portrait.jpg');
 		$name = $this->getParameter($member_type.'-name',NULL);
 		$current_school = $this->getParameter('current_school_id',NULL);
-		$school = $this->getParameter('school',NULL);
+		$school = $this->getParameter($member_type.'-school',NULL);
 
 		if ($account != '' && $password != '' && $member_type != '' && $email != '') {
 			$this->db->where('account',$account);

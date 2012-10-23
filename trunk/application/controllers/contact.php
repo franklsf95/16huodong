@@ -1,5 +1,8 @@
 <?php
 include_once "base_controller.php";
+/**
+* 给未登录用户显示contact
+*/
 Class Contact Extends BaseController {
 
 	var $applicationFolder = "contact"; 

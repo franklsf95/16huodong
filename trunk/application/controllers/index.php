@@ -1,5 +1,8 @@
 <?php
 include_once "base_action_controller.php";
+/**
+* 给已登录用户显示首页
+*/
 Class Index Extends BaseActionController {
 
 	var $applicationFolder = "index"; 
@@ -10,7 +13,6 @@ Class Index Extends BaseActionController {
 	}
 	
 	function index(){
-		
 		//print_r($this->current_member_information);
 		$all_member_visit_information = $this->extend_control->getMemberVisitInformation($this->current_member_id,5);
 		$all_news_information = $this->extend_control->getAboutMemberNewsInformation($this->current_member_id);
@@ -26,12 +28,5 @@ Class Index Extends BaseActionController {
 		
 		$this->display( 'index', '首页', 'index_css', 'index_js' );
 	}
-	
-	
-	
-	
 }
-
-
-
 ?>
