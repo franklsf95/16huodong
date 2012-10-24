@@ -340,7 +340,6 @@ CREATE TABLE `16_member_friend` (
   `member_friend_id` int(11) NOT NULL AUTO_INCREMENT,
   `member_id` int(11) DEFAULT NULL,
   `target_id` int(11) DEFAULT NULL,
-  `status` char(1) DEFAULT 'N',
   `created_time` datetime DEFAULT NULL,
   PRIMARY KEY (`member_friend_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
