@@ -1,1 +1,2 @@
-不好意思等我做完了index.php再来画这里
+<div class="content-heading">最新活动</div>
+<div id="main-showcase"></div>

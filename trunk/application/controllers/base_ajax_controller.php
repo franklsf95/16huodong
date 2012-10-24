@@ -1,5 +1,8 @@
 <?php
 include_once dirname(__FILE__)."/base_controller.php";
+/**
+* 用于未登录用户的ajax请求处理
+*/
 Class Base_ajax_controller extends BaseController {
 
 	function __construct() {
@@ -47,9 +50,9 @@ Class Base_ajax_controller extends BaseController {
 		echo json_encode($school_information);
 	}
 	
-	
-
-	
-	
+	function getDemoActivityInformation() {
+		$all_new_activity_information = $this->extend_control->getNewActivityInformation(0,10);
+		echo json_encode($all_new_activity_information);
+	}
 }
 ?>
