@@ -117,9 +117,10 @@ Class Base_ajax_action_controller extends BaseActionController {
 		
 		$return_data = 0;
 		if ($member_blog_id != '' && $member_id != '') {
-			$this->db->select('member_id');
+			$this->db->select('member_id, member_prefer_blog');
 			$this->db->where('member_blog_id',$member_blog_id);
-			$author_id = idx($this->db->get_first('member_blog'),'member_id');
+			$blog_information = $this->db->get_first('member_blog');
+			$author_id = $blog_information['member_id'];
 
 			if ($author_id != $member_id) {
 				$this->db->where('member_id',$member_id);
@@ -130,7 +131,9 @@ Class Base_ajax_action_controller extends BaseActionController {
 					$member_prefer_blog_data['created_time'] = $this->current_time;
 					
 					$this->db->insert('member_prefer_blog',$member_prefer_blog_data);
-					
+					$blog_information['member_prefer_blog']++;
+					$this->db->where('member_blog_id',$member_blog_id);
+					$this->db->update('member_blog',$blog_information);
 					$return_data = 1;
 				} else {
 					//已存在记录
