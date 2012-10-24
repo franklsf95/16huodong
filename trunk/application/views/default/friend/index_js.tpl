@@ -1,0 +1,1 @@
+<script>__(if $is_me)__$("#sidebar-friend").addClass("active");__(/if)__ </script>

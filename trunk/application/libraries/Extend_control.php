@@ -850,13 +850,12 @@ class Extend_control {
 		return $all_fans_member_information;
 	}
 	
-	function getAllFrinedInformationByMemberId($member_id) {
-		$this->CI->db->select('m.member_id, m.name as member_name, m.image as member_image, m.member_type, ps.name as current_school_name');
+	function getAllFriendInformation($member_id) {
+		$this->CI->db->select('m.member_id, m.name as member_name, m.image as member_image, m.member_type, m.school_name');
 		$this->CI->db->from('member_friend as mf');
 		$this->CI->db->join('member as m','mf.target_id = m.member_id');
-		$this->CI->db->join('public_school as ps','ps.school_id = m.current_school','LEFT');
 		$this->CI->db->where('mf.member_id',$member_id);
-		$this->CI->db->where('mf.status','Y');
+		$this->CI->db->where('mf.approved',1);
 		$all_friend_information = $this->CI->db->get()->result_array();
 		
 		return $all_friend_information;
