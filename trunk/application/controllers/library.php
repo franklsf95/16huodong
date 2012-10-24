@@ -9,16 +9,23 @@ Class Library Extends BaseActionController {
 	
 	function __construct() {
 		parent::__construct();
-		$member_base_information = $this->extend_control->getMemberBaseInformation($member_id);
-		$this->ci_smarty->assign('member_base_information',$member_base_information);
 	}
 	
+	/**
+     * 显示人生图书馆首页
+     */
 	function index(){
 		$this->display('index','人生图书馆','index_css','index_js');
 	}
 	
-	function my(){
-		$member_id = $this->current_member_id;
+	/**
+     * 显示TA喜欢的和写的书
+     *
+     * @param	id		会员ID，默认为自己
+     */
+	function profile(){
+		$member_id = $this->getParameter('id',$this->current_member_id);
+		$member_name = $this->extend_control->getMemberNameByMemberId($member_id);
 		$p_page = $this->getParameter('page',1);
 		$p_limit = $this->getParameter('limit',5);
 		
@@ -26,36 +33,19 @@ Class Library Extends BaseActionController {
 		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
 		
 		$all_member_blog_information = $this->extend_control->getMemberBlogInformation($member_id,$page_information['page_offset'],$p_limit);
-		
-		
-		$this->ci_smarty->assign('all_member_blog_information',$all_member_blog_information);
+
+		$this->ci_smarty->assign('information',$all_member_blog_information);
 		$this->ci_smarty->assign('page_information',$page_information);
 		$this->ci_smarty->assign('member_id',$member_id);
-		$this->displayWithLayout('my_blog');
-	}
-	
-	
-	function member_blog(){
-		$member_id = $this->getParameter('member_id',$this->current_member_id);;
-		$p_page = $this->getParameter('page',1);
-		$p_limit = $this->getParameter('limit',5);
-		
-		$count = $this->extend_control->countMemberBlog($member_id);
-		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
-		
-		$all_member_blog_information = $this->extend_control->getMemberBlogInformation($member_id,$page_information['page_offset'],$p_limit);
-		
-		
-		$this->ci_smarty->assign('all_member_blog_information',$all_member_blog_information);
-		$this->ci_smarty->assign('page_information',$page_information);
-		$this->ci_smarty->assign('member_id',$member_id);
-		
-		$this->displayWithLayout('member_blog');
-	
+		$this->ci_smarty->assign('member_name',$member_name);
+		$this->ci_smarty->assign('my_page', $member_id == $this->current_member_id ? 1 : 0);
+
+		//print_r($all_member_blog_information);exit();
+		$this->display('profile',$member_name.'的微型图书馆','profile_css','profile_js');
 	}
 	
 	/**
-	* 显示微型书内容，+1次访问量，控制评论显示？
+	* 显示微型书内容，+1次访问量，控制评论显示
 	*
 	* @param 	id 		书的ID
 	*/
@@ -104,7 +94,13 @@ Class Library Extends BaseActionController {
 		$this->display('edit',$title,'edit_css','edit_js');
 	}
 	
-	
+	/**
+     * 工具函数：处理edit()提交
+     *
+     * @param	很多
+     *
+     * @author suantou
+     */
 	function _saveItem($isNew, &$id, &$param) {
 		$member_id = $this->current_member_information['member_id'];
 		
@@ -132,17 +128,13 @@ Class Library Extends BaseActionController {
 			
 			$this->db->insert('member_blog',$data);
 			$member_blog_id = $this->db->insert_id();
-			
-			redirect('blog/view?id='.$member_blog_id);
-			
-		}else {
+		} else {
 			$data['modified_time'] = $this->current_time;
 			
 			$this->db->where('member_blog_id',$id);
 			$this->db->update('member_blog',$data);
-			
-			redirect('blog/view?id='.$id);
 		}
+		redirect('library/view?id='.$id);
 		
 	}
 	

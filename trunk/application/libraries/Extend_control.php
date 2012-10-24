@@ -1,10 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
-/*----------------------
-#CI_Publish_Control 公共控制器
-#
-#
-#
-------------------------*/
+/**
+* 公共控制器，用来数据库存取
+*/
 
 class Extend_control {
 	var $CI;
@@ -13,7 +10,25 @@ class Extend_control {
 		$this->CI =& get_instance();
 	}
 	
-	
+/************* member_information相关操作 ***************/
+	function getMemberIdByMemberName($member_name){
+		$this->CI->db->select('member_id');
+		$this->CI->db->from('member');
+		$this->CI->db->where('name',$member_name);
+		$member_id = idx($this->CI->db->get_first(),'member_id');
+		
+		return $member_id;
+	}
+
+	function getMemberNameByMemberId($member_id){
+		$this->CI->db->select('name');
+		$this->CI->db->from('member');
+		$this->CI->db->where('member_id',$member_id);
+		$name = idx($this->CI->db->get_first(),'name');
+		
+		return $name;
+	}
+/***************** uncategorized ***********************/
 	
 	function getNewSystemMessage($member_id){				//系统信息统计
 		$target_id = $member_id;
@@ -650,20 +665,18 @@ class Extend_control {
 	}
 	
 	function getMemberBlogInformation($member_id,$page_offset = 0,$limit = 15 ,$str_length = 150){
-		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, mb.image as member_blog_image, mb.image_width as member_blog_image_width, mb.image_height as member_blog_image_height, mb.content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image');
+		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, mb.image as member_blog_image, mb.image_width as member_blog_image_width, mb.image_height as member_blog_image_height, mb.content, mb.created_time, mb.modified_time');
 		$this->CI->db->from('member_blog as mb');
-		$this->CI->db->join('member as m','mb.member_id = m.member_id');
 		$this->CI->db->where('mb.member_id',$member_id);
 		$this->CI->db->order_by('mb.created_time','DESC');
 		$all_member_blog_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
 		
-		foreach ($all_member_blog_information as &$member_blog_information) {
-			$member_blog_information['content'] = trim($member_blog_information['content']);
-			$member_blog_information['content'] = strip_tags($member_blog_information['content']);
-			if (strlen($member_blog_information['content']) > 150) {
-				$member_blog_information['content'] = mb_substr($member_blog_information['content'], 0, $str_length,'utf-8').'...';
+		foreach ($all_member_blog_information as &$i) {
+			$i['content'] = trim($i['content']);
+			$i['content'] = strip_tags($i['content']);
+			if (strlen($i['content']) > 150) {
+				$i['content'] = mb_substr($i['content'], 0, $str_length,'utf-8').'...';
 			}
-		
 		}
 		
 		return $all_member_blog_information;
@@ -835,16 +848,6 @@ class Extend_control {
 		
 		return $result;
 		
-	}
-	
-	function getMemberIdByMemberName($member_name){
-		$this->CI->db->select('member_id');
-		$this->CI->db->from('member');
-		$this->CI->db->where('name',$member_name);
-		$member_id = idx($this->CI->db->get_first(),'member_id');
-		
-		return $member_id;
-	
 	}
 	
 	function getMemberInformation($member_id) {

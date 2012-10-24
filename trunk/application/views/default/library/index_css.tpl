@@ -31,7 +31,7 @@
 }
 
 .main-showcase-item img {
-  width: 250px;
+  max-width: 250px;
   max-height: 300px;
 }
 </style>

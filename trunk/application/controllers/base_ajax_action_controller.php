@@ -146,33 +146,39 @@ Class Base_ajax_action_controller extends BaseActionController {
 			}
 			
 		}
-		echo json_encode($return_data);
+		echo $return_data;
 	}
 	
+	/**
+	* 处理删除自己的书请求
+	*
+	* @param 	member_blog_id 		书的ID
+	* @param 	author_id			作者ID，防止别人删除
+	*
+	* @return 	0失败，1成功
+	*/
 	function removeBlog(){
 		$member_blog_id = $this->getParameter('member_blog_id',Null);
+		$author_id = $this->getParameter('author_id',Null);
 		
-		$return_data['result'] = 'N';
-		$return_data['str'] = '删除失败';
+		$return_data = 0;
 		
-		if ($member_blog_id != '') {
+		if ( $member_blog_id && $this->current_member_id == $author_id ) {
 			//先删除所有博客评论
 			$this->db->where('member_blog_id',$member_blog_id);
 			$this->db->delete('member_blog_comment');
 			
-			//再删除喜欢的微博
+			//再删除喜欢的博客
 			$this->db->where('member_blog_id',$member_blog_id);
 			$this->db->delete('member_prefer_blog');
 			
-			//删除微博
+			//删除博客
 			$this->db->where('member_blog_id',$member_blog_id);
 			$this->db->delete('member_blog');
 			
-			$return_data['result'] = 'Y';
-			$return_data['str'] = '删除日志成功';
+			$return_data = 1;
 		}
-		
-		echo json_encode($return_data);
+		echo $return_data;
 	}
 	
 	
