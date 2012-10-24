@@ -1,5 +1,8 @@
 <?php
 include_once "base_action_controller.php";
+/**
+* @deprecated
+*/
 Class Album Extends BaseactionController {
 
 	var $applicationFolder = "album"; 
