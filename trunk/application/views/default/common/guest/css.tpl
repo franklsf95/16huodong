@@ -36,20 +36,6 @@
       text-decoration: none;
       color: #eee;
     }
-    label.valid {
-      width: 24px;
-      height: 24px;
-      background: url("__($config.template_prefix)__asset/img/valid.png") center center no-repeat;
-      display: inline-block;
-      text-indent: -9999px;
-    }
-    label.error {
-      font-size: 13px;
-      font-weight: bold;
-      color: red;
-      padding-left: 8px;
-      margin-top: 2px;
-    }
     .controls input {
       width: 190px;
     }

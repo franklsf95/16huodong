@@ -848,9 +848,8 @@ class Extend_control {
 	}
 	
 	function getMemberInformation($member_id) {
-		$this->CI->db->select('m.member_id, m.account, m.name as member_name, m.member_type, m.member_type_2, m.status as member_status, m.image as member_image,m.organisation as member_organisation, m.title as member_title, m.principal as member_principal, m.gender as member_gender, m.birthday as member_birthday, m.hobby as member_hobby, m.qq as member_qq, m.mobilephone as member_mobilephone, m.phone as member_phone, m.email as member_email, m.address as member_address, m.tag as member_tag, m.description as member_description, m.content as member_content, m.created_time, m.modified_time, ps.name as member_school_name');
+		$this->CI->db->select('m.member_id, m.account, m.name as member_name, m.member_type, m.member_type_2, m.status as member_status, m.image as member_image,m.organisation as member_organisation, m.title as member_title, m.principal as member_principal, m.gender as member_gender, m.birthday as member_birthday, m.hobby as member_hobby, m.qq as member_qq, m.mobilephone as member_mobilephone, m.phone as member_phone, m.email as member_email, m.address as member_address, m.tag as member_tag, m.description as member_description, m.created_time, m.modified_time, , m.content, m.school_name');
 		$this->CI->db->from('member as m');
-		$this->CI->db->join('public_school as ps','m.current_school = ps.school_id','LEFT');
 		$this->CI->db->where('m.member_id',$member_id);
 		$member_information = $this->CI->db->get_first();
 		

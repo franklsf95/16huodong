@@ -39,7 +39,7 @@ Class Profile Extends BaseActionController {
      */
 	function edit(){
 		$member_id = $this->current_member_id;
-		$this->db->select('m.member_id, m.account as member_account, m.name as member_name, m.image as member_image, m.gender as member_gender, m.birthday as member_birthday, m.current_school as member_current_school, m.member_type, m.member_type_2, m.principal, m.qq as member_qq, m.email as member_email, m.phone as member_phone, m.organisation as member_organisation, m.title as member_title, m.address as member_address, m.tag as member_tag, m.description as member_description, m.school_name as current_school_name');
+		$this->db->select('m.member_id, m.account as member_account, m.name as member_name, m.image as member_image, m.gender as member_gender, m.birthday as member_birthday, m.current_school as member_current_school, m.member_type, m.member_type_2, m.principal, m.qq as member_qq, m.email as member_email, m.phone as member_phone, m.organisation as member_organisation, m.title as member_title, m.address as member_address, m.tag as member_tag, m.description as member_description, m.content, m.school_name');
 		$this->db->from('member as m');
 		$this->db->where('m.member_id',$member_id);
 		$member_information = $this->db->get_first();
@@ -77,6 +77,7 @@ Class Profile Extends BaseActionController {
 		$address = $this->getParameterWithOutTag('address',Null);		//地址
 		$tag = $this->getParameterWithOutTag('tag',Null);		//标签
 		$description = $this->getParameterWithOutTag('description',Null);		//关于我
+		$content = $this->getParameter('content',Null);	//组织介绍页
 
 		$tag = trim(trim(str_replace('/',',',str_replace('.',',',str_replace(';',',',str_replace('，',',',str_replace(' ',',',$tag)))))),',');
 		
@@ -93,6 +94,7 @@ Class Profile Extends BaseActionController {
 		$member_data['address'] = $address;
 		$member_data['tag'] = $tag;
 		$member_data['description'] = $description;
+		$member_data['content'] = $content;
 		$member_data['qq'] = $qq;
 		//print_r($member_data);exit();
 
