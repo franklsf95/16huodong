@@ -1,5 +1,8 @@
 <?php
 include_once "base_action_controller.php";
+/**
+* 控制好友列表显示
+*/
 Class Friend Extends BaseActionController {
 
 	var $applicationFolder = "friend"; 
@@ -17,7 +20,7 @@ Class Friend Extends BaseActionController {
 		
 		$this->ci_smarty->assign('all_friend_information',$all_friend_information);
 		
-		$this->displayWithLayout('index');
+		$this->display('index','')
 	}
 	
 	/*function search_member(){

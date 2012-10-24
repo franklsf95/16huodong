@@ -31,13 +31,23 @@ Class Base_ajax_action_controller extends BaseActionController {
 	
 	}
 	
-	function addToFriend(){
+	/**
+     * 处理好友请求（加好友、批准、拒绝）
+     *
+     * @param 	target_id 	要加谁/要删谁
+     * @param 	deny 		1表示拒绝申请，0表示批准
+     *
+     * @return 	0失败 	1成功成为好友 	-1成功删除好友 	2成功申请好友	-2成功拒绝申请
+     */
+	function toggleFriend(){
 		$target_id = $this->getParameter('target_id',NULL);
 		$member_id = $this->current_member_id;
+		$deny = $this->getParameter('deny',NULL);
 		
 		$is_friend = $this->extend_control->isFriend($member_id,$target_id);
 		
-		if ($is_friend == 'Y'){		//删除好友
+		$return = 0;
+		if ($is_friend==1) {	//是好友，删除好友
 			$this->db->where('member_id',$member_id);
 			$this->db->where('target_id',$target_id);
 			$this->db->delete('member_friend');
@@ -46,8 +56,7 @@ Class Base_ajax_action_controller extends BaseActionController {
 			$this->db->where('target_id',$member_id);
 			$this->db->delete('member_friend');
 			
-			$return_data['result'] = 'Y';
-			$return_data['str'] = '取消好友成功';
+			$return = -1;
 			
 		} else {
 			$this->db->where('member_id',$member_id);
@@ -58,37 +67,31 @@ Class Base_ajax_action_controller extends BaseActionController {
 			$this->db->where('member_id',$target_id);
 			$count2 = $this->db->count_all_results('member_friend');
 			
-			if (!$count1 && $count2) {		//对方已申请我为好友
+			if (!$count1 && $count2) {
+				if( !$deny ) {			//对方已申请我为好友，成为好友
+					$data['member_id'] = $member_id;
+					$data['target_id'] = $target_id;
+					$data['created_time'] = $this->current_time;
+					$this->db->insert('member_friend',$data);
+					$member_friend_id = $this->db->insert_id();
+				
+					$system_data['target_id'] = $target_id;
+					$system_data['category'] = 'friend';
+					$system_data['type'] = 'add_friend';
+					$system_data['code'] = $member_friend_id;
+					$this->system_message($system_data);
+					$return = 1;
+				} else {				//拒绝好友请求
+					$this->db->where('target_id',$member_id);
+					$this->db->where('member_id',$target_id);
+					$this->db->delete('member_friend');
+					$return = -2;
+				}
+			} else if ($count1 && !$count2) {	//我已申请对方为好友，不处理
+				
+			} else if (!$count1 && !$count2) {		//互为陌生人，发送好友申请
 				$data['member_id'] = $member_id;
 				$data['target_id'] = $target_id;
-				$data['status'] = 'Y';
-				$data['created_time'] = $this->current_time;
-				$this->db->insert('member_friend',$data);
-				$member_frined_id = $this->db->insert_id();
-				
-				$data2['status'] = 'Y';
-				$this->db->where('target_id',$member_id);
-				$this->db->where('member_id',$target_id);
-				$this->db->update('member_friend',$data2);
-				
-				$system_data['target_id'] = $target_id;
-				$system_data['category'] = 'friend';
-				$system_data['type'] = 'add_friend';
-				$system_data['code'] = $member_frined_id;
-				$this->system_message($system_data);
-				
-				$return_data['result'] = 'Y';
-				$return_data['str'] = '已添加对方为好友';
-				
-			} else if ($count1 && !$count2) {	//我已申请对方为好友
-				
-				$return_data['result'] = 'Y';
-				$return_data['str'] = '已发送过好友请求';
-				
-			} else if (!$count1 && !$count2) {		//互为陌生人
-				$data['member_id'] = $member_id;
-				$data['target_id'] = $target_id;
-				$data['status'] = 'N';
 				$data['created_time'] = $this->current_time;
 				$this->db->insert('member_friend',$data);
 				$member_friend_id = $this->db->insert_id();
@@ -100,12 +103,10 @@ Class Base_ajax_action_controller extends BaseActionController {
 				$system_data['target_id'] = $target_id;
 				$this->system_message($system_data);
 				
-				$return_data['result'] = 'Y';
-				$return_data['str'] = '已发送好友请求';
+				$return = 2;
 			}
-			
 		}
-		echo json_encode($return_data);
+		echo $return;
 	}
 	
 	/**

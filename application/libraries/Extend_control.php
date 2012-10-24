@@ -28,6 +28,37 @@ class Extend_control {
 		
 		return $name;
 	}
+
+/**************** 好友申请 ******************************/
+
+	/**
+	* A是否为B的好友
+	*
+	* @param 	$member_id 		A的ID
+	* @param 	$target_id 		B的ID
+	*
+	* @return 	0不是好友	1是好友	-1加过好友	-2被加过好友
+	*/
+	function isFriend($member_id,$target_id){
+		$this->CI->db->where('member_id',$member_id);
+		$this->CI->db->where('target_id',$target_id);
+		$count1 = $this->CI->db->count_all_results('member_friend');
+		
+		$this->CI->db->where('target_id',$member_id);
+		$this->CI->db->where('member_id',$target_id);
+		$count2 = $this->CI->db->count_all_results('member_friend');
+		
+		if ($count1 && $count2 ) {
+			return 1;
+		} else if (!$count1 && $count2) {
+			return -2;
+		} else if ($count1 && !$count2) {
+			return -1;
+		} else {
+			return 0;
+		}
+	}
+
 /***************** uncategorized ***********************/
 	
 	function getNewSystemMessage($member_id){				//系统信息统计
@@ -829,25 +860,6 @@ class Extend_control {
 		$all_friend_information = $this->CI->db->get()->result_array();
 		
 		return $all_friend_information;
-	}
-	
-	function isFriend($member_id,$target_id){
-		$this->CI->db->where('member_id',$member_id);
-		$this->CI->db->where('target_id',$target_id);
-		$count1 = $this->CI->db->count_all_results('member_friend');
-		
-		$this->CI->db->where('target_id',$member_id);
-		$this->CI->db->where('member_id',$target_id);
-		$count2 = $this->CI->db->count_all_results('member_friend');
-		
-		if ($count1 > 0 && $count2 > 0) {
-			$result = 'Y';
-		}else {
-			$result = 'N';
-		}
-		
-		return $result;
-		
 	}
 	
 	function getMemberInformation($member_id) {
