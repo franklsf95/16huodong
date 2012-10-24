@@ -26,7 +26,7 @@ class Welcome extends BaseController {
 		if ($this->getSessionValue('current_member_information')) {
 			redirect('index');
 		}
-		$this->display('demo','随便看看');
+		$this->display('demo','随便看看','demo_css','demo_js');
 	}
 
 	/**
