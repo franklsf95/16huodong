@@ -2,12 +2,12 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>出错啦 | 16活动网，我们中学生自己的活动网站</title>
+    <title><?php echo $heading ?> | 16活动网，我们中学生自己的活动网站</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
+    <meta name="robots" content="noindex">
     
     <link href="/application/views/default/asset/css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <link href="/application/views/default/asset/css/jasny-bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="/application/views/default/asset/css/global.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
     	.error_container {
@@ -38,7 +38,7 @@
           </a>
           <a class="brand" href="/"><img alt="16活动网" src="/application/views/default/asset/img/banner_logo.png"></a>
           <div class="nav-collapse collapse">
-            <a class="brand" id="nav_contact" href="/contact">联系我们</a>
+            <a class="navbar-highlight" id="navbar-contact" href="/contact">联系我们</a>
           </div><!--/.nav-collapse -->
         </div>
       </div>
