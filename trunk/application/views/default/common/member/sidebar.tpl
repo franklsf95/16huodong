@@ -10,9 +10,19 @@
               <li id="sidebar-friend"><a href="__('friend'|site_url)__"><i class="icon-user"></i> 我的好友</a></li>
               <li id="sidebar-message"><a href="__('message'|site_url)__"><i class="icon-envelope"></i> 站内信</a></li>
               <li id="sidebar-logout"><a href="__('login/logout'|site_url)__"><i class="icon-off"></i> 登出</a></li>
-              <li class="nav-header">系统消息</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
+              __(if $all_system_message_count)__
+              <li class="nav-header">你有新消息~</li>
+              __(foreach $all_system_message_count as $i)__
+                __(if ($i.type == 'activity'))__
+                <li class="active"><a href="__('message'|site_url)__#tabs-2">__($i.count)__个新的活动通知</a></li>
+                __(elseif ($i.type == 'friend'))__
+                <li class="active"><a href="__('message'|site_url)__#tabs-2">__($i.count)__个新的好友通知</a></li>
+                __(elseif ($i.type == 'blog'))__
+                <li class="active"><a href="__('message'|site_url)__#tabs-2">__($i.count)__个新的日志通知</a></li>
+                __(elseif ($i.type == 'member_message'))__
+                <li class="active"><a href="__('message'|site_url)__">__($i.count)__条新的站内信</a></li>
+                __(/if)__
+              __(/foreach)__
+              __(/if)__
             </ul>
           </div><!--/.sidebar -->
