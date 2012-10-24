@@ -270,6 +270,8 @@ CREATE TABLE `16_member_blog` (
   `content` text,
   `created_time` datetime DEFAULT NULL,
   `modified_time` datetime DEFAULT NULL,
+  `member_prefer_blog` int(11) DEFAULT '0',
+  `member_blog_visit` int(11) DEFAULT '0',
   PRIMARY KEY (`member_blog_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
