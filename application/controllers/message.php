@@ -1,6 +1,9 @@
 <?php
 include_once "base_action_controller.php";
-Class Message Extends BaseactionController {
+/**
+* 控制站内信和系统消息的显示、站内信发送
+*/
+Class Message Extends BaseActionController {
 
 	var $applicationFolder = "message"; 
 	
@@ -11,26 +14,24 @@ Class Message Extends BaseactionController {
 		$this->ci_smarty->assign('member_base_information',$member_base_information);
 	}
 	
-	
 	function index(){
 		$member_id = $this->current_member_id;
 		$p_page = $this->getParameter('page',1);
-		$p_limit = $this->getParameter('limit',999);
+		$p_limit = $this->getParameter('limit',50);
 		
 		$count = $this->extend_control->countMemberMessageByGroup($member_id);
 		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
 		
 		$all_member_message_information = $this->extend_control->getAllMemberMessageInformationByGroup($member_id,$page_information['page_offset'],$p_limit);
-		
-		
 		$all_system_message_information = $this->extend_control->getAllSystemMessageInformation($member_id);
-		
-		//print_r($all_system_message_information);
 		
 		$this->ci_smarty->assign('all_member_message_information',$all_member_message_information);
 		$this->ci_smarty->assign('all_system_message_information',$all_system_message_information);
 		
-		$this->displayWithLayout('index');
+		//print_r($all_system_message_information);exit();
+
+		$this->display('index','站内信','index_css','index_js');
+		//$this->displayWithLayout('index');
 	}
 	
 	function gotoactmsg(){

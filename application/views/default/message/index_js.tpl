@@ -1,0 +1,1 @@
+<script>$( function(){    $("#sidebar-message").addClass("active");});function dealSystemMessage(system_message_id) {	$.getJSON("__('base_ajax_action_controller/updateSystemMessage'|site_url)__?system_message_id="+system_message_id,function(data){			$('#sm-'+system_message_id).fadeOut("slow");		});}</script>
