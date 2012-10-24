@@ -430,7 +430,7 @@ Class Activity Extends BaseActionController {
 		$member_id = $this->current_member_information['member_id'];
 		$title = '发起新活动';
 		
-		if ($id != '') {
+		if ( $id ) {
 			$title = '编辑活动 #'.$id;
 			$this->db->from('activity as a');
 			$this->db->join('activity_publish_member as apm','a.activity_id = apm.activity_id');
@@ -438,6 +438,7 @@ Class Activity Extends BaseActionController {
 			$this->db->where('apm.member_id',$member_id);
 			$this->db->where('apm.publisher','Y');
 			$activity_information = $this->db->get_first('');
+			$activity_information['member_name'] = $this->current_member_information['member_name'];
 			
 			//获取活动标签
 			$this->db->select('tag');
@@ -452,11 +453,10 @@ Class Activity Extends BaseActionController {
 			}
 			
 			$this->ci_smarty->assign('activity_information',$activity_information);
-			$this->ci_smarty->assign('cid',$activity_information['activity_id']);
 		}
 		$this->ci_smarty->assign('all_member_friend_information',$this->current_member_information['all_member_friend_information']);
 		
-		//$this->displayWithLayout('edit_old');
+		//print_r($activity_information);exit();
 		$this->display( 'edit', $title, 'edit_css', 'edit_js' );
 	}
 	

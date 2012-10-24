@@ -40,12 +40,12 @@ __(if $base_tpl == 'default/common/guest')__
 __(else)__
 <div class="span9">
 __(/if)__
-
+<!--
 <div class="alert alert-block">
   <button type="button" class="close" data-dismiss="alert">×</button>
   <p><strong>Warning!</strong> 此网站现在处于新老UI交替状态；如果你不幸跌入了旧UI，请单击首页即可回到新UI。     by franklsf95 2012-10-22</p>
   <p>请测试以下页面：所有未登录页面、首页、个人主页和编辑资料、所有活动页面（不包括评论）。</p>
-</div>
+</div>-->
 __(include file="$view_folder/$template_content.tpl")__
 <div class="clear"></div>
 <hr>

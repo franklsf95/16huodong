@@ -108,17 +108,24 @@ Class Base_ajax_action_controller extends BaseActionController {
 		echo json_encode($return_data);
 	}
 	
+	/**
+	* 处理like微型书请求
+	*
+	* @param 	member_blog_id 		书的ID
+	*
+	* @return 	0失败，-1已添加过，-2不能添加自己，1成功
+	*/
 	function addToPreferBlog(){
-		$member_blog_id = $this->getParameter('member_blog_id',NULL);
+		$member_blog_id = $this->getParameter('id',NULL);
 		$member_id = $this->current_member_id;
 		
-		$return_data['result'] = 'N';
-		$return_data['str'] = '未添加';
+		$return_data = 0;
 		if ($member_blog_id != '' && $member_id != '') {
 			$this->db->select('member_id');
 			$this->db->where('member_blog_id',$member_blog_id);
-			$blog_member_id = idx($this->db->get_first('member_blog'),'member_id');
-			if ($blog_member_id != $member_id) {
+			$author_id = idx($this->db->get_first('member_blog'),'member_id');
+
+			if ($author_id != $member_id) {
 				$this->db->where('member_id',$member_id);
 				$this->db->where('member_blog_id',$member_blog_id);
 				if (!$this->db->count_all_results('member_prefer_blog')) {
@@ -128,19 +135,14 @@ Class Base_ajax_action_controller extends BaseActionController {
 					
 					$this->db->insert('member_prefer_blog',$member_prefer_blog_data);
 					
-					$return_data['result'] = 'Y';
-					$return_data['str'] = '已添加';
-				}else {
+					$return_data = 1;
+				} else {
 					//已存在记录
-					
-					$return_data['result'] = 'N';
-					$return_data['str'] = '已添加过记录';
-				
+					$return_data = -1;
 				}
-			}else {
-				//是自己的日志，放弃添加
-				$return_data['result'] = 'N';
-				$return_data['str'] = '不能添加自己的日志';
+			} else {
+				//是自己的日志
+				$return_data = -2;
 			}
 			
 		}

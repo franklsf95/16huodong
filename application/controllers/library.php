@@ -1,7 +1,7 @@
 <?php
 include_once "base_action_controller.php";
 /**
-* 显示人生图书馆、写书
+* 显示人生图书馆、写书功能
 */
 Class Library Extends BaseActionController {
 
@@ -9,16 +9,15 @@ Class Library Extends BaseActionController {
 	
 	function __construct() {
 		parent::__construct();
-		$member_id = $this->getParameter('member_id',$this->current_member_id);
 		$member_base_information = $this->extend_control->getMemberBaseInformation($member_id);
 		$this->ci_smarty->assign('member_base_information',$member_base_information);
 	}
 	
 	function index(){
-		$this->display('index','人生图书馆');
+		$this->display('index','人生图书馆','index_css','index_js');
 	}
 	
-	function my_blog(){
+	function my(){
 		$member_id = $this->current_member_id;
 		$p_page = $this->getParameter('page',1);
 		$p_limit = $this->getParameter('limit',5);
@@ -55,7 +54,11 @@ Class Library Extends BaseActionController {
 	
 	}
 	
-	
+	/**
+	* 显示微型书内容，+1次访问量，控制评论显示？
+	*
+	* @param 	id 		书的ID
+	*/
 	function view(){
 		$member_blog_id = $this->getParameter('id',NULL);
 		$this->addMemberBlogVisit($member_blog_id);
@@ -72,23 +75,33 @@ Class Library Extends BaseActionController {
 			
 			$this->ci_smarty->assign('member_blog_information',$member_blog_information);
 			$this->ci_smarty->assign('page_information',$page_information);
-			$this->displayWithLayout('view');
+			//print_r($member_blog_information);exit();
+			$this->display('view',$member_blog_information['member_blog_name'],'view_css','view_js');
 		}
 	}
 	
+	/**
+     * 显示微型书创建和编辑页面
+     *
+     * @param	id		书ID，如为空则写新书
+     *
+     */
 	function edit(){
 		$member_id = $this->current_member_information['member_id'];
 		$member_blog_id = $this->getParameter('id',Null);
-		
-		if ($member_blog_id != '') {
+		$title = '写新书';
+
+		if ( $member_blog_id ) {
+			$title = '编辑微型书 #'.$id;
 			$this->db->where('member_blog_id',$member_blog_id);
 			$this->db->where('member_id',$member_id);
 			$member_blog_information = $this->db->get_first('member_blog');
+			$member_blog_information['member_name'] = $this->current_member_information['member_name'];
 			$this->ci_smarty->assign('member_blog_information',$member_blog_information);
 			$this->ci_smarty->assign('cid',$member_blog_information['member_blog_id']);
 		}
-	
-		$this->displayWithLayout('edit');
+		//print_r($member_blog_information);exit();
+		$this->display('edit',$title,'edit_css','edit_js');
 	}
 	
 	
