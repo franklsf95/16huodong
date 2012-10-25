@@ -216,7 +216,7 @@ Class Activity Extends BaseActionController {
 		$activity_id = $this->getParameter('id');
 		$member_id = $this->current_member_id;
 		$p_page = $this->getParameter('page',1);
-		$p_limit = $this->getParameter('limit', 1);
+		$p_limit = $this->getParameter('limit', 10);
 		
 		$this->addActivityMemberVisit($activity_id);
 		
