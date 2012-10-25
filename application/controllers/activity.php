@@ -216,7 +216,7 @@ Class Activity Extends BaseActionController {
 		$activity_id = $this->getParameter('id');
 		$member_id = $this->current_member_id;
 		$p_page = $this->getParameter('page',1);
-		$p_limit = $this->getParameter('limit', 10);
+		$p_limit = $this->getParameter('limit', 1);
 		
 		$this->addActivityMemberVisit($activity_id);
 		
@@ -227,7 +227,6 @@ Class Activity Extends BaseActionController {
 		$count = $this->extend_control->countAllActivityComment($activity_id);
 		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
 		$all_activity_comment_information = $this->extend_control->getActivityCommentInformation($activity_id,$page_information['page_offset'],$p_limit);
-		$activity_information['all_activity_comment_information'] = $all_activity_comment_information;
 		$activity_information['is_attend'] = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
 		$activity_information['is_attention'] = $this->extend_control->isMemberAttentionActivity($member_id,$activity_id);
 		$activity_information['is_publisher'] = $this->extend_control->isMemberPublishActivity($member_id,$activity_id);
@@ -258,15 +257,14 @@ Class Activity Extends BaseActionController {
 		
 		$this->ci_smarty->assign('page_information',$page_information);
 		$this->ci_smarty->assign('activity_information',$activity_information);
+		$this->ci_smarty->assign('all_activity_comment_information',$all_activity_comment_information);
 		
-		//print_r($activity_information);exit();
+		//print_r($page_information);exit();
 		if ( $activity_information['is_publisher'] ) {
 			$this->display('publisher_view',$activity_information['activity_name'].' - 管理活动','view_css','publisher_view_js');
 		} else {
 			$this->display('view',$activity_information['activity_name'].' - 活动详情','view_css','view_js');
 		}
-		
-		
 	}
 	
 	/**
