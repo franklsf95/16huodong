@@ -1,12 +1,25 @@
 <style type="text/css">
-thead {
+.accordion-toggle {
   font-size: 18px;
 }
-.member-avatar img {
-  height: 50px;
+.accordion-toggle:hover {
+	text-decoration: none;
 }
 .new-message {
   font-weight: bold;
   color: red;
+}
+.member-click {
+	cursor: pointer;
+	margin-bottom: 5px;
+}
+.member-selected {
+	background-color: #aaa;
+}
+.modal-body {
+	padding: 20px 40px;
+}
+#form-compose {
+	float: left;
 }
 </style>

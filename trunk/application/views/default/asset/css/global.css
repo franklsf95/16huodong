@@ -57,3 +57,18 @@ label.error {
 	padding-left: 8px;
 	margin-top: 2px;
 }
+
+/***** avatars ****/
+.avatar-medium {
+	height: 50px;
+	max-width: 50px;
+	float: left;
+	margin-right: 10px;
+}
+
+.avatar-small {
+	height: 20px;
+	max-width: 20px;
+	float: left;
+	margin-right: 5px;
+}
