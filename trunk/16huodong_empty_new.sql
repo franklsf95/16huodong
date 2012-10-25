@@ -68,6 +68,7 @@ CREATE TABLE `16_activity_attend_member` (
   `member_id` int(11) NOT NULL,
   `status` char(1) NOT NULL DEFAULT 'N',
   `created_time` datetime NOT NULL,
+  `notified` char(1) DEFAULT 'N',
   PRIMARY KEY (`activity_attend_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -232,6 +233,7 @@ CREATE TABLE `16_member` (
   `created_time` datetime DEFAULT NULL COMMENT '创建时间',
   `modified_time` datetime DEFAULT NULL COMMENT '修改时间',
   `last_ip` varchar(20) DEFAULT NULL COMMENT '最后登录ip',
+  `notify_me` char(1) DEFAULT 'Y',
   `school_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

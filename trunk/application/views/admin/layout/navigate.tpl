@@ -3,6 +3,7 @@
 			<li><a href="__('admin/member'|site_url)__">会员管理</a></li>
         	<li><a href="__('admin/activity'|site_url)__" >活动管理</a></li>
 			<li><a href="__('admin/blog'|site_url)__" >日志管理</a></li>
+			<li><a href="__('admin/sendmail'|site_url)__" >发送邮件</a></li>
         	<li class="logout"><a href="__('admin/login/logoutSubmit'|site_url)__">__('global_logout'|lang_line)__</a></li>
         </ul>
         <!-- // #end mainNav -->
