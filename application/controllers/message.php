@@ -146,7 +146,7 @@ Class Message Extends BaseActionController {
 		$member_id = $this->current_member_id;
 		$target_id = $this->getParameter('member_id',NULL);
 		$content = $this->getParameterWithOutTag('message_content',NULL);
-		
+
 		if ($member_id == $target_id) {
 			show_error('请不要尝试给自己发站内信^-^');
 		}
