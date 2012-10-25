@@ -14,6 +14,12 @@ Class Message Extends BaseActionController {
 		$this->ci_smarty->assign('member_base_information',$member_base_information);
 	}
 	
+	/**
+	* 显示站内信主页、发送消息、收件箱
+	*
+	* @param 	page 	当前页数
+	* @param 	limit 	每页消息数
+	*/
 	function index(){
 		$member_id = $this->current_member_id;
 		$p_page = $this->getParameter('page',1);
@@ -31,9 +37,14 @@ Class Message Extends BaseActionController {
 		//print_r($all_system_message_information);exit();
 
 		$this->display('index','站内信','index_css','index_js');
-		//$this->displayWithLayout('index');
 	}
 	
+	/**
+	* 重定向页：重定向到活动页面
+	*
+	* @param 	id 		活动ID
+	* @param 	mid 	消息ID
+	*/
 	function gotoactmsg(){
 		$member_id = $this->current_member_id;
 		$activity_id =  $this->getParameter('id',0);
@@ -51,6 +62,12 @@ Class Message Extends BaseActionController {
 		}
 	}
 	
+	/**
+	* 重定向页：重定向到微型书页面
+	*
+	* @param 	id 		微型书ID
+	* @param 	mid 	消息ID
+	*/
 	function gotoblogmsg(){
 		$member_id = $this->current_member_id;
 		$blog_id =  $this->getParameter('id',0);
@@ -64,10 +81,16 @@ Class Message Extends BaseActionController {
 			$this->db->where('system_message_id',$system_message_id);
 			$this->db->where('target_id',$target_id);
 			$this->db->update('system_message',$data);
-			redirect('blog/view?id='.$blog_id);
+			redirect('library/view?id='.$blog_id);
 		}
 	}
 	
+	/**
+	* 重定向页：重定向到好友主页
+	*
+	* @param 	id 		好友ID
+	* @param 	mid 	消息ID
+	*/
 	function gotomembermsg(){
 		$member_id = $this->current_member_id;
 		$targetmember_id =  $this->getParameter('id',0);
@@ -81,45 +104,48 @@ Class Message Extends BaseActionController {
 			$this->db->where('system_message_id',$system_message_id);
 			$this->db->where('target_id',$target_id);
 			$this->db->update('system_message',$data);
-			redirect('member?id='.$targetmember_id);
+			redirect('profile?id='.$targetmember_id);
 		}
 	}
 	
+	/**
+	* 显示我与target_id的留言记录
+	*
+	* @param 	page 	当前页数
+	* @param 	limit 	每页消息数
+	*/
 	function view(){
-		$member_id = $this->getParameter('member_id',NULL);
+		$target_id = $this->getParameter('target_id',NULL);
 		$p_page = $this->getParameter('page',1);
 		$p_limit = $this->getParameter('limit',999);
 		
-		$count = $this->extend_control->countMemberMessageByMemberId($member_id);
+		$count = $this->extend_control->countMemberMessageByMemberId($target_id);
 		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
 		
-		$all_member_message_information = $this->extend_control->getAllMemberMessageInformationByMemberId($member_id,$page_information['page_offset'],$p_limit);
-		
-		$member_base_information = $this->extend_control->getMemberBaseInformation($member_id);
-		
+		$all_member_message_information = $this->extend_control->getAllMemberMessageInformationByMemberId($target_id,$page_information['page_offset'],$p_limit);
+		$target_info = $this->extend_control->getMemberBaseInformation($target_id);
+		$my_info = $this->extend_control->getMemberBaseInformation($this->current_member_id);
 		
 		//浏览过就把通知删除掉
-		
-		$this->db->where('member_id',$member_id);
+		$this->db->where('member_id',$target_id);
 		$this->db->where('target_id',$this->current_member_id);
 		$this->db->where('category','member_message');
 		$this->db->where('type','new_message');
 		$this->db->delete('system_message');
 		
-		
 		$this->ci_smarty->assign('all_member_message_information',$all_member_message_information);
-		$this->ci_smarty->assign('member_base_information',$member_base_information);
+
+		$this->ci_smarty->assign('target_info',$target_info);
+		$this->ci_smarty->assign('my_info',$my_info);
 		$this->ci_smarty->assign('page_information',$page_information);
 		
-		$this->displayWithLayout('view');
-		
-		
-		
-	
+		//print_r($all_member_message_information);exit();
+		$this->display('view','消息记录 - '.$member_base_information['member_name'],'','view_js');
 	}
 	
-	
-	
+	/**
+	* @deprecated
+	*/
 	function outbox(){
 		$member_id = $this->current_member_id;
 		$p_page = $this->getParameter('page',1);
@@ -136,12 +162,12 @@ Class Message Extends BaseActionController {
 		$this->displayWithLayout('outbox');
 	}
 	
-	
-	function edit(){
-		$this->displayWithLayout('edit');
-	}
-	
-	
+	/**
+	* 处理发站内信表单
+	*
+	* @param 	member_id 	对方ID
+	* @param 	content 	内容
+	*/
 	function _saveItem($isNew, &$id, &$param) {
 		$member_id = $this->current_member_id;
 		$target_id = $this->getParameter('member_id',NULL);
@@ -158,7 +184,6 @@ Class Message Extends BaseActionController {
 		}
 		
 		if ($member_id != '' && $target_id != '' && $content != '') {
-			
 			$data['member_id'] = $member_id;
 			$data['target_id'] = $target_id;
 			$data['content'] = $content;
@@ -192,6 +217,12 @@ Class Message Extends BaseActionController {
 		
 	}
 	
+	/**
+	* 处理【群发】站内信表单
+	*
+	* @param 	member_list 	收件ID数组
+	* @param 	content 		内容
+	*/
 	function save_form_array(){
 		$member_id = $this->current_member_id;
 		$member_list = $this->getParameter('member_list',array());
@@ -231,6 +262,4 @@ Class Message Extends BaseActionController {
 		}
 		redirect('message');
 	}
-	
-	
 }
