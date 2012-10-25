@@ -975,10 +975,8 @@ class Extend_control {
 			$group = $member_id.','.$current_member_id;
 		}
 		
-		$this->CI->db->select('mm.member_message_id, mm.content, mm.created_time, mm.member_id, m.name as member_name, m.image as member_image, mm.target_id, t.name as target_name, t.image as target_image');
+		$this->CI->db->select('mm.member_message_id, mm.content, mm.created_time, mm.member_id, mm.target_id');
 		$this->CI->db->from('member_message as mm');
-		$this->CI->db->join('member as m','mm.member_id = m.member_id');
-		$this->CI->db->join('member as t','mm.target_id = t.member_id');
 		$this->CI->db->where('mm.group',$group);
 		$this->CI->db->order_by('mm.created_time','DESC');
 		$all_member_message_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
