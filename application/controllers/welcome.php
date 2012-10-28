@@ -6,6 +6,13 @@ include_once "base_controller.php";
 */
 class Welcome extends BaseController {
 	var $applicationFolder = "welcome"; 
+
+	function __construct() {
+		parent::__construct();
+
+		$this->load->model('db_public_area');
+		$this->load->model('db_public_school');
+	}
 	
 	/**
 	* 显示欢迎界面 或 重定向到主页
@@ -83,6 +90,37 @@ class Welcome extends BaseController {
 		} else {
 			show_error('首页是怎么检查你的！用户名、密码和邮箱有一项为空');
 		}
+	}
+/*-----------------AJAX段---------------------*/
+
+	/**
+	* 处理ajax请求：获取所有【区】信息
+	*
+	* @param	city_id 	城市ID
+	*/
+	function ajaxGetAllAreaInformation(){
+		$parent_id = $this->getParameter('city_id',NULL);
+		$all_area_information = $this->db_public_area->getAllAreaInformation($parent_id);
+		echo json_encode($all_area_information);
+	}
+
+	/**
+	* 处理ajax请求：获取所有【学校】信息
+	*
+	* @param	area_id 	区ID
+	*/
+	function ajaxGetAllSchoolInformation(){
+		$area_id = $this->getParameter('area_id',NULL);
+		$all_school_information = $this->db_public_school->getAllSchoolInformation($area_id);
+		echo json_encode($all_school_information);
+	}
+
+	/**
+	* 处理ajax请求：获取demo活动信息（前10个）
+	*/
+	function ajaxGetDemoActivityInformation() {
+		$all_new_activity_information = $this->extend_control->getNewActivityInformation(0,10);
+		echo json_encode($all_new_activity_information);
 	}
 }
 

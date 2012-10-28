@@ -9,11 +9,9 @@ Class Index Extends BaseActionController {
 	
 	function __construct() {
 		parent::__construct();
-		
 	}
 	
 	function index(){
-		//print_r($this->current_member_information);
 		$all_member_visit_information = $this->extend_control->getMemberVisitInformation($this->current_member_id,5);
 		$all_news_information = $this->extend_control->getAboutMemberNewsInformation($this->current_member_id);
 		$all_new_activity_information = $this->extend_control->getNewActivityInformation();
