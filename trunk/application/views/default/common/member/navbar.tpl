@@ -11,7 +11,7 @@
             <ul class="nav">
               <li id="navbar-index"><a href="__('index'|site_url)__">首页</a></li>
               <li id="navbar-profile"><a href="__('profile'|site_url)__">我的主页</a></li>
-              <li id="navbar-search"><a href="__('search'|site_url)__">挖活动</a></li>
+              <li id="navbar-activity"><a href="__('activity'|site_url)__">挖活动</a></li>
               <li id="navbar-library"><a href="__('library'|site_url)__">人生图书馆</a></li>
             </ul>
             <form class="navbar-search pull-right">

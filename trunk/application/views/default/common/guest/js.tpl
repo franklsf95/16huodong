@@ -64,7 +64,7 @@ $("#submit-btn").click(function() {
 });
 
 function initializeArea() {
-        $.getJSON("__('base_ajax_controller/getAllAreaInformation'|site_url)__?city_id=1",function(data){
+        $.getJSON("__('welcome/ajaxGetAllAreaInformation'|site_url)__?city_id=1",function(data){
         for (i in data) {
           op = "<option value="+data[i].area_id+">"+data[i].name+"</option>";
           $(".area-list").append(op);
@@ -72,7 +72,7 @@ function initializeArea() {
       });
 }
 function initializeSchool(area) {
-        $.getJSON("__('base_ajax_controller/getAllSchoolInformation'|site_url)__?area_id="+area,function(data) {
+        $.getJSON("__('welcome/getAllSchoolInformation'|site_url)__?area_id="+area,function(data) {
           schoolArray = [];
           schoolIdArray = [];
           for (i in data) {

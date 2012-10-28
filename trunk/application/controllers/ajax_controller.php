@@ -1,5 +1,9 @@
 <?php
 include_once dirname(__FILE__)."/../base_controller.php";
+/**
+* @deprecated
+* for Admin panel use
+*/
 Class Ajax_controller extends BaseController {
 	var $viewFolder = 'admin';	
 	var $layoutFolder = 'admin/layout/';
