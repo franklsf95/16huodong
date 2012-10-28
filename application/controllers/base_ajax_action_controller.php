@@ -332,52 +332,6 @@ Class Base_ajax_action_controller extends BaseActionController {
 		echo json_encode($all_activity_information);
 	}
 	
-	
-	function getActivityInformationBySearchFields(){
-		$activity_name = $this->getParameter('activity_name',NULL);
-		$school_id = $this->getParameter('school_id',NULL);
-		$member_id = $this->getParameter('member_id',NULL);
-		$tag = $this->getParameter('tag',NULL);
-		$apply_start_time = $this->getParameter('apply_start_time',NULL);
-		$apply_end_time = $this->getParameter('apply_end_time',NULL);
-		$start_time = $this->getParameter('start_time',NULL);
-		$end_time = $this->getParameter('end_time',NULL);
-		$activity_type = $this->getParameter('activity_type',NULL);
-		$status = $this->getParameter('status','active');
-		//echo $tag;exit();
-		$all_activity_information = $this->extend_control->getActivityInformationBySearchFields($activity_name, $school_id, $member_id, $tag, $apply_start_time, $apply_end_time, $start_time, $end_time, $activity_type,$status);
-		
-		echo json_encode($all_activity_information);
-	}
-	
-	
-	function getCurrentAttendActivity(){
-		$member_id = $this->getParameter('member_id',$this->current_member_id);
-		$page_offset = $this->getParameter('page_offset',0);
-		$limit = $this->getParameter('limit',5);
-		$all_current_attend_activity_information = $this->extend_control->getCurrentAttendActivityInformation($member_id,$page_offset,$limit);
-		
-		echo json_encode($all_current_attend_activity_information);
-	}
-	
-	function getCurrentAttentionActivity(){
-		$member_id = $this->getParameter('member_id',$this->current_member_id);
-		$page_offset = $this->getParameter('page_offset',0);
-		$limit = $this->getParameter('limit',5);
-		$all_current_attention_activity_information = $this->extend_control->getCurrentAttentionActivityInformation($member_id,$page_offset,$limit);
-		
-		echo json_encode($all_current_attention_activity_information);
-	}
-	
-	function getCurrentPublishActivity(){
-		$member_id = $this->getParameter('member_id',$this->current_member_id);
-		$page_offset = $this->getParameter('page_offset',0);
-		$limit = $this->getParameter('limit',5);
-		$all_current_publish_activity_information = $this->extend_control->getCurrentPublishActivityInformation($member_id,$page_offset,$limit);
-		
-		echo json_encode($all_current_publish_activity_information);
-	}
-	
 	function getAllMemberInformationByName(){
 		$member_name = $this->getParameter('member_name','');
 		
@@ -387,15 +341,5 @@ Class Base_ajax_action_controller extends BaseActionController {
 		
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
 ?>
