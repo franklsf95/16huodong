@@ -15,18 +15,9 @@ Class Activity Extends BaseActionController {
      * 显示挖活动主页
      */
 	function index(){
-		$all_member_visit_information = $this->extend_control->getMemberVisitInformation($this->current_member_id,5);
-		$all_news_information = $this->extend_control->getAboutMemberNewsInformation($this->current_member_id);
-		$all_new_activity_information = $this->extend_control->getNewActivityInformation();
-		$all_active_attend_activity_information = $this->extend_control->getActiveAttendActivityInformation($this->current_member_id);
-		
-		//$all_activity_information = $this->extend_control->getAllActivitiyInformation($page_offset,$limit);
-		
-		$this->ci_smarty->assign('all_member_visit_information',$all_member_visit_information);
-		$this->ci_smarty->assign('all_news_information',$all_news_information);
-		$this->ci_smarty->assign('all_new_activity_information',$all_new_activity_information);
-		$this->ci_smarty->assign('all_active_attend_activity_information',$all_active_attend_activity_information);
-		
+		$all_hot_activity_tag_information = $this->extend_control->getHotActivityTag(0,10);
+		$this->ci_smarty->assign('all_hot_activity_tag_information',$all_hot_activity_tag_information);
+
 		$this->display( 'index', '挖活动', 'index_css', 'index_js' );
 	}
 	
@@ -119,24 +110,7 @@ Class Activity Extends BaseActionController {
 			$this->index();
 		}
 	}
-	
-	/**
-	* @deprecated
-	*/
-	function new_activity(){
-		$p_page = $this->getParameter('page',1);
-		$p_limit = $this->getParameter('limit', 10);
 		
-		$count = $this->extend_control->countNewActivity();
-		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
-		$all_new_activity_information = $this->extend_control->getNewActivityInformation($page_information['page_offset'],$p_limit);
-		
-		$this->ci_smarty->assign('page_information',$page_information);
-		$this->ci_smarty->assign('all_new_activity_information',$all_new_activity_information);
-		
-		$this->displayWithLayout('new_activity');
-	}
-	
 	/**
      * 显示当前用户所有关注过的活动
      *
@@ -304,128 +278,6 @@ Class Activity Extends BaseActionController {
 		$this->ci_smarty->assign('all_search_activity_information',$all_search_activity_information);
 		
 		$this->displayWithLayout('search_activity');
-	}
-	
-	/**
-	* 处理JSON提交参加活动请求
-	* 若已报名则取消报名，否则报名
-	*
-	* @param 	id 		要参加的活动ID
-	* 
-	* @return 	1=报名成功	2=取消成功
-	*/
-	function attendActivity(){
-		$activity_id = $this->getParameter('id');
-		$member_id = $this->current_member_information['member_id'];
-
-		$return;
-		if ($activity_id) {
-			//检查该会员是否已经参加活动
-			$is_attend = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
-			if( !$is_attend ){
-				$data['member_id'] = $member_id;
-				$data['activity_id'] = $activity_id;
-				$data['created_time'] = $this->current_time;
-				$this->db->insert('activity_attend_member',$data);
-
-				$return = 1;
-				//system_message
-				$this->db->select('member_id');
-				$this->db->where('activity_id',$activity_id);
-				$member_id = idx($this->db->get_first('activity_publish_member'),'member_id');
-				$system_data['target_id'] = $member_id;
-				$system_data['category'] = 'activity';
-				$system_data['type'] = 'attend_activity';
-				$system_data['code'] = $activity_id;
-				$this->system_message($system_data);
-				
-			} else {
-				$this->db->where('member_id',$member_id);
-				$this->db->where('activity_id',$activity_id);
-				$this->db->delete('activity_attend_member');
-				
-				$return = 2;
-			}
-		}
-		echo json_encode($return);
-	}
-
-	/**
-	* 处理JSON提交关注活动
-	* 若已关注则取消关注，否则关注
-	*
-	* @param 	id 		要参加的活动ID
-	* 
-	* @return 	1=关注成功	2=取消成功
-	*/
-	function followActivity(){
-		$activity_id = $this->getParameter('id');
-		$member_id = $this->current_member_information['member_id'];
-		if ($activity_id){
-			//检查该会员是否已经报名活动
-			$is_attention = $this->extend_control->isMemberAttentionActivity($member_id,$activity_id);
-
-			if( !$is_attention ){
-				$data['member_id'] = $member_id;
-				$data['activity_id'] = $activity_id;
-				$data['created_time'] = $this->current_time;
-				
-				$this->db->insert('activity_attention_member',$data);
-				
-				$return = 1;
-				
-			} else {
-				$this->db->where('member_id',$member_id);
-				$this->db->where('activity_id',$activity_id);
-				$this->db->delete('activity_attention_member');
-				
-				$return = 2;
-			}
-			echo json_encode($return);
-		}
-	}
-
-	/**
-     * 处理JSON批准或拒绝报名
-     *
-     * @param	activity_attend_id	活动ID
-     * @param	action				进行的操作，1批准，0拒绝
-     *
-     * @return	status 		状态，1成功，0失败
-     *
-     * @author	suantou franklsf95
-     */
-	function handle_activity_attend(){
-		$activity_attend_id = $this->getParameter('activity_attend_id',Null);
-		$action = $this->getParameter('action',-1);
-		$return_data = array();
-		
-		if( $activity_attend_id && $action >= 0 ) {
-			$this->db->where('activity_attend_id',$activity_attend_id);
-			$activity_attend_information = $this->db->get_first('activity_attend_member');
-			
-			if($activity_attend_id != '') {
-				if( $action ) { //permit
-					//system_message
-					$system_data['target_id'] = $activity_attend_information['member_id'];
-					$system_data['category'] = 'activity';
-					$system_data['type'] = 'activity_apply_pass';
-					$system_data['code'] = $activity_attend_information['activity_id'];
-					$this->system_message($system_data);
-					
-					$data['status'] = 'Y';
-					$this->db->where('activity_attend_id',$activity_attend_id);
-					$this->db->update('activity_attend_member',$data);
-					$return_data['status'] = 1;
-				} else { //deny
-					$this->db->where('activity_attend_id',$activity_attend_id);
-					$this->db->delete('activity_attend_member');
-					$return_data['status'] = 1;
-				}
-			}
-			
-		}
-		echo json_encode($return_data);
 	}
 	
 	/**
@@ -620,6 +472,176 @@ Class Activity Extends BaseActionController {
 			$this->system_message($system_data);
 		}
 	}
+/*--------------ajax段-----------------*/
+
+/**
+	* 处理ajax提交参加活动请求
+	* 若已报名则取消报名，否则报名
+	*
+	* @param 	id 		要参加的活动ID
+	* 
+	* @return 	1=报名成功	2=取消成功
+	*/
+	function attendActivity(){
+		$activity_id = $this->getParameter('id');
+		$member_id = $this->current_member_information['member_id'];
+
+		$return;
+		if ($activity_id) {
+			//检查该会员是否已经参加活动
+			$is_attend = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
+			if( !$is_attend ){
+				$data['member_id'] = $member_id;
+				$data['activity_id'] = $activity_id;
+				$data['created_time'] = $this->current_time;
+				$this->db->insert('activity_attend_member',$data);
+
+				$return = 1;
+				//system_message
+				$this->db->select('member_id');
+				$this->db->where('activity_id',$activity_id);
+				$member_id = idx($this->db->get_first('activity_publish_member'),'member_id');
+				$system_data['target_id'] = $member_id;
+				$system_data['category'] = 'activity';
+				$system_data['type'] = 'attend_activity';
+				$system_data['code'] = $activity_id;
+				$this->system_message($system_data);
+				
+			} else {
+				$this->db->where('member_id',$member_id);
+				$this->db->where('activity_id',$activity_id);
+				$this->db->delete('activity_attend_member');
+				
+				$return = 2;
+			}
+		}
+		echo json_encode($return);
+	}
+
+	/**
+	* 处理ajax提交关注活动
+	* 若已关注则取消关注，否则关注
+	*
+	* @param 	id 		要参加的活动ID
+	* 
+	* @return 	1=关注成功	2=取消成功
+	*/
+	function followActivity(){
+		$activity_id = $this->getParameter('id');
+		$member_id = $this->current_member_information['member_id'];
+		if ($activity_id){
+			//检查该会员是否已经报名活动
+			$is_attention = $this->extend_control->isMemberAttentionActivity($member_id,$activity_id);
+
+			if( !$is_attention ){
+				$data['member_id'] = $member_id;
+				$data['activity_id'] = $activity_id;
+				$data['created_time'] = $this->current_time;
+				
+				$this->db->insert('activity_attention_member',$data);
+				
+				$return = 1;
+				
+			} else {
+				$this->db->where('member_id',$member_id);
+				$this->db->where('activity_id',$activity_id);
+				$this->db->delete('activity_attention_member');
+				
+				$return = 2;
+			}
+			echo json_encode($return);
+		}
+	}
+
+	/**
+     * 处理ajax批准或拒绝报名
+     *
+     * @param	activity_attend_id	活动ID
+     * @param	action				进行的操作，1批准，0拒绝
+     *
+     * @return	status 		状态，1成功，0失败
+     *
+     * @author	suantou franklsf95
+     */
+	function handle_activity_attend(){
+		$activity_attend_id = $this->getParameter('activity_attend_id',Null);
+		$action = $this->getParameter('action',-1);
+		$return_data = array();
+		
+		if( $activity_attend_id && $action >= 0 ) {
+			$this->db->where('activity_attend_id',$activity_attend_id);
+			$activity_attend_information = $this->db->get_first('activity_attend_member');
+			
+			if($activity_attend_id != '') {
+				if( $action ) { //permit
+					//system_message
+					$system_data['target_id'] = $activity_attend_information['member_id'];
+					$system_data['category'] = 'activity';
+					$system_data['type'] = 'activity_apply_pass';
+					$system_data['code'] = $activity_attend_information['activity_id'];
+					$this->system_message($system_data);
+					
+					$data['status'] = 'Y';
+					$this->db->where('activity_attend_id',$activity_attend_id);
+					$this->db->update('activity_attend_member',$data);
+					$return_data['status'] = 1;
+				} else { //deny
+					$this->db->where('activity_attend_id',$activity_attend_id);
+					$this->db->delete('activity_attend_member');
+					$return_data['status'] = 1;
+				}
+			}
+			
+		}
+		echo json_encode($return_data);
+	}
+	
+	function getCurrentAttendActivity(){
+		$member_id = $this->getParameter('member_id',$this->current_member_id);
+		$page_offset = $this->getParameter('page_offset',0);
+		$limit = $this->getParameter('limit',5);
+		$all_current_attend_activity_information = $this->extend_control->getCurrentAttendActivityInformation($member_id,$page_offset,$limit);
+		
+		echo json_encode($all_current_attend_activity_information);
+	}
+	
+	function getCurrentAttentionActivity(){
+		$member_id = $this->getParameter('member_id',$this->current_member_id);
+		$page_offset = $this->getParameter('page_offset',0);
+		$limit = $this->getParameter('limit',5);
+		$all_current_attention_activity_information = $this->extend_control->getCurrentAttentionActivityInformation($member_id,$page_offset,$limit);
+		
+		echo json_encode($all_current_attention_activity_information);
+	}
+	
+	function getCurrentPublishActivity(){
+		$member_id = $this->getParameter('member_id',$this->current_member_id);
+		$page_offset = $this->getParameter('page_offset',0);
+		$limit = $this->getParameter('limit',5);
+		$all_current_publish_activity_information = $this->extend_control->getCurrentPublishActivityInformation($member_id,$page_offset,$limit);
+		
+		echo json_encode($all_current_publish_activity_information);
+	}
+
+	/**
+     * 处理挖活动首页ajax按标签加载活动请求
+     *
+     * @param	activity_attend_id	活动ID
+     * @param	action				进行的操作，1批准，0拒绝
+     *
+     * @return	status 		状态，1成功，0失败
+     *
+     * @author	suantou franklsf95
+     */
+	function ajaxGetActivityInformationByTag(){
+		$tag = $this->getParameter('tag',NULL);
+		$all_activity_information = $this->extend_control->getActivityInformationBySearchFields(null,null,null,$tag,null,null,null,null,null,null);
+		
+		echo json_encode($all_activity_information);
+	}
+
+
+
 }
 
 ?>

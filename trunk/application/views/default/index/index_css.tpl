@@ -12,4 +12,8 @@
 .main-showcase-item img {
   width: 250px;
 }
+
+.content-heading a:hover {
+	text-decoration: none;
+}
 </style>

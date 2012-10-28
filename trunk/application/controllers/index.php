@@ -11,6 +11,9 @@ Class Index Extends BaseActionController {
 		parent::__construct();
 	}
 	
+	/**
+	* 显示全站动态
+	*/
 	function index(){
 		$all_member_visit_information = $this->extend_control->getMemberVisitInformation($this->current_member_id,5);
 		$all_news_information = $this->extend_control->getAboutMemberNewsInformation($this->current_member_id);
