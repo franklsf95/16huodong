@@ -37,53 +37,7 @@ Class Base_ajax_action_controller extends BaseActionController {
 		$all_blog_class_information = $this->db->get('member_blog_class')->result_array();
 		
 		echo json_encode($all_blog_class_information);
-	}
-	
-	
-	function addBlogComment(){
-		$member_blog_id = $this->getParameter('member_blog_id',Null);
-		$content = $this->getParameterWithOutTag('content',Null);
-		
-		$data['member_id'] = $this->current_member_id;
-		$data['member_blog_id'] = $member_blog_id;
-		$data['content'] = $content;
-		$data['created_time'] = $this->current_time;
-		
-		$result = $this->db->insert('member_blog_comment',$data);
-		
-		if($result) {
-			$member_blog_comment_id = $this->db->insert_id();
-			
-			$this->db->select('member_id');
-			$this->db->where('member_blog_id',$member_blog_id);
-			$target_id = idx($this->db->get_first('member_blog'),'member_id');
-			
-			//system_message
-			$system_data['category'] = 'blog';
-			$system_data['type'] = 'new_comment';
-			$system_data['target_id'] = $target_id;
-			$system_data['code'] = $member_blog_id;
-			$this->system_message($system_data);
-			
-			$this->db->select('m.member_id, m.name as member_name, m.image as member_image, mbc.member_blog_comment_id, mbc.member_blog_id, mbc.content, mbc.created_time');
-			$this->db->from('member_blog_comment as mbc');
-			$this->db->join('member as m','m.member_id = mbc.member_id');
-			$this->db->where('mbc.member_blog_comment_id',$member_blog_comment_id);
-			$blog_comment_information = $this->db->get_first();
-			
-			echo json_encode($blog_comment_information);
-		}
-	}
-	
-	
-	function getBlogCommentInformation(){
-		$member_blog_id = $this->getParameter('member_blog_id',Null);
-		$page_offset = $this->getParameter('page_offset',0);
-		$limit = $this->getParameter('limit',5);
-		$all_blog_comment_information = $this->extend_control->getBlogCommentInformation($member_blog_id,$page_offset,$limit);
-		
-		echo json_encode($all_blog_comment_information);
-	}
+	}	
 	
 	function getMemberAlbum(){
 		$member_id = $this->current_member_id;
@@ -221,15 +175,7 @@ Class Base_ajax_action_controller extends BaseActionController {
 		echo json_encode($all_new_activity_information);
 	}
 	
-	function getActivityCommentInformation(){
-		$activity_id = $this->getParameter('activity_id',Null);
-		$page_offset = $this->getParameter('page_offset',0);
-		$limit = $this->getParameter('limit',5);
-		$all_activity_comment_information = $this->extend_control->getActivityCommentInformation($activity_id,$page_offset,$limit);
-		
-		echo json_encode($all_activity_comment_information);
-	}
-	
+	//暂不启用ajax提交评论
 	function addActivityComment(){
 		$activity_id = $this->getParameter('activity_id',Null);
 		$content = $this->getParameterWithOutTag('content',Null);
@@ -267,6 +213,7 @@ Class Base_ajax_action_controller extends BaseActionController {
 		}
 	}
 	
+	//暂不启用ajax提交回复评论
 	function addActivityCommentReply(){
 		$activity_comment_id = $this->getParameter('activity_comment_id',Null);
 		$reply = $this->getParameterWithOutTag('reply',Null);
