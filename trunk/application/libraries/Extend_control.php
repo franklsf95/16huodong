@@ -10,7 +10,7 @@ class Extend_control {
 		$this->CI =& get_instance();
 	}
 	
-/************* member_information相关操作 ***************/
+//--------基础member information读取
 	function getMemberIdByMemberName($member_name){
 		$this->CI->db->select('member_id');
 		$this->CI->db->from('member');
@@ -29,7 +29,7 @@ class Extend_control {
 		return $name;
 	}
 
-/**************** 好友申请 ******************************/
+//--------好友申请
 
 	/**
 	* A是否为B的好友
@@ -59,7 +59,90 @@ class Extend_control {
 		}
 	}
 
-/***************** uncategorized ***********************/
+//-------- 人生图书馆 for Library
+
+////-------- 全站读取
+
+	function getAllMemberBlogInformation($page_offset = 0,$limit = 15, $str_length = 100){
+		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, mb.image as member_blog_image, mb.content as member_blog_content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, mb.member_prefer_blog as prefer_number, member_blog_visit as visit_number');
+		$this->CI->db->from('member_blog as mb');
+		$this->CI->db->join('member as m','mb.member_id = m.member_id');
+		$this->CI->db->group_by('mb.member_blog_id');
+		$this->CI->db->order_by('mb.created_time','DESC');
+		$all_member_blog_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
+		
+		foreach ($all_member_blog_information as &$member_blog_information) {
+			$member_blog_information['content'] = trim($member_blog_information['content']);
+			$member_blog_information['content'] = strip_tags($member_blog_information['content']);
+			if (strlen($member_blog_information['content']) > 150) {
+				$member_blog_information['content'] = mb_substr($member_blog_information['content'], 0, $str_length,'utf-8').'...';
+			}
+			//$member_blog_information['content'] = trim($member_blog_information['content']);
+		}
+		
+		
+		return $all_member_blog_information;
+	}
+	
+	function getHotBlogInformation($page_offset = 0,$limit = 10){
+		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, mb.image as member_blog_image, mb.content as member_blog_content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, mb.member_prefer_blog as prefer_number, member_blog_visit as visit_number');
+		$this->CI->db->from('member_blog as mb');
+		$this->CI->db->join('member as m','mb.member_id = m.member_id');
+		$this->CI->db->group_by('mb.member_blog_id');
+		$this->CI->db->order_by('count(mbv.member_blog_visit_id)','DESC');
+		$this->CI->db->order_by('mb.created_time','DESC');
+		$all_hot_blog_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
+		
+		return $all_hot_blog_information;
+	
+	}
+	
+	function getMemberBlogInformation($member_id,$page_offset = 0,$limit = 15 ,$str_length = 150){
+		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, mb.image as member_blog_image, mb.image_width as member_blog_image_width, mb.image_height as member_blog_image_height, mb.content, mb.created_time, mb.modified_time');
+		$this->CI->db->from('member_blog as mb');
+		$this->CI->db->where('mb.member_id',$member_id);
+		$this->CI->db->order_by('mb.created_time','DESC');
+		$all_member_blog_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
+		
+		foreach ($all_member_blog_information as &$i) {
+			$i['content'] = trim($i['content']);
+			$i['content'] = strip_tags($i['content']);
+			if (strlen($i['content']) > 150) {
+				$i['content'] = mb_substr($i['content'], 0, $str_length,'utf-8').'...';
+			}
+		}
+		
+		return $all_member_blog_information;
+	}
+	
+	function getPreferBlogInformation($member_id,$page_offset = 0,$limit = 15){
+		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, mb.image as member_blog_image, mb.content as member_blog_content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, mb.member_prefer_blog as prefer_number, member_blog_visit as visit_number');
+		$this->CI->db->from('member_blog as mb');
+		$this->CI->db->join('member as m','mb.member_id = m.member_id');
+		$this->CI->db->join('member_prefer_blog as mpb','mpb.member_blog_id = mb.member_blog_id');
+		$this->CI->db->where('mpb.member_id',$member_id);
+		$this->CI->db->group_by('mb.member_blog_id');
+		$this->CI->db->order_by('mb.created_time','DESC');
+		$all_prefer_blog_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
+		
+		return $all_prefer_blog_information;
+	}
+
+
+////-------- 单个微型书读取
+	
+	function getMemberBlogInformationByBlogId($member_blog_id){
+		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, mb.image as member_blog_image, mb.content as member_blog_content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, mb.member_prefer_blog as prefer_number, member_blog_visit as visit_number');
+		$this->CI->db->from('member_blog as mb');
+		$this->CI->db->join('member as m','mb.member_id = m.member_id');
+		$this->CI->db->where('mb.member_blog_id',$member_blog_id);
+		$this->CI->db->group_by('mb.member_blog_id');
+		$member_blog_information = $this->CI->db->get_first();
+		
+		return $member_blog_information;
+	}
+
+//-------- 系统消息读取
 	
 	function getNewSystemMessage($member_id){				//系统信息统计
 		$target_id = $member_id;
@@ -183,7 +266,8 @@ class Extend_control {
 		return $all_member_system_information;
 		
 	}
-	
+
+//--------/系统消息结束
 	
 	function getAttendActivityMemberInformation($activity_id) {
 		
@@ -655,92 +739,6 @@ class Extend_control {
 		
 		return $result;
 	}
-	
-	
-	function getAllMemberBlogInformation($page_offset = 0,$limit = 15, $str_length = 100){
-		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, mb.image as member_blog_image, mb.image_width as member_blog_image_width, mb.image_height as member_blog_image_height, mb.content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, count(DISTINCT mpb.member_prefer_blog_id) as prefer_number, count(DISTINCT mbv.member_blog_visit_id) as visit_number');
-		$this->CI->db->from('member_blog as mb');
-		$this->CI->db->join('member as m','mb.member_id = m.member_id');
-		$this->CI->db->join('member_blog_visit as mbv','mb.member_blog_id = mbv.member_blog_id','LEFT');
-		$this->CI->db->join('member_prefer_blog as mpb','mb.member_blog_id = mpb.member_blog_id','LEFT');
-		$this->CI->db->group_by('mb.member_blog_id');
-		$this->CI->db->order_by('mb.created_time','DESC');
-		$all_member_blog_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
-		
-		foreach ($all_member_blog_information as &$member_blog_information) {
-			$member_blog_information['content'] = trim($member_blog_information['content']);
-			$member_blog_information['content'] = strip_tags($member_blog_information['content']);
-			if (strlen($member_blog_information['content']) > 150) {
-				$member_blog_information['content'] = mb_substr($member_blog_information['content'], 0, $str_length,'utf-8').'...';
-			}
-			//$member_blog_information['content'] = trim($member_blog_information['content']);
-		}
-		
-		
-		return $all_member_blog_information;
-	}
-	
-	function getHotBlogInformation($page_offset = 0,$limit = 10){
-		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, mb.image as member_blog_image, mb.image_width as member_blog_image_width, mb.image_height as member_blog_image_height, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, count(DISTINCT mpb.member_prefer_blog_id) as prefer_number, count(DISTINCT mbv.member_blog_visit_id) as visit_number');
-		$this->CI->db->from('member_blog as mb');
-		$this->CI->db->join('member as m','mb.member_id = m.member_id');
-		$this->CI->db->join('member_blog_visit as mbv','mb.member_blog_id = mbv.member_blog_id','LEFT');
-		$this->CI->db->join('member_prefer_blog as mpb','mb.member_blog_id = mpb.member_blog_id','LEFT');
-		$this->CI->db->group_by('mb.member_blog_id');
-		$this->CI->db->order_by('count(mbv.member_blog_visit_id)','DESC');
-		$this->CI->db->order_by('mb.created_time','DESC');
-		$all_hot_blog_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
-		
-		return $all_hot_blog_information;
-	
-	}
-	
-	function getMemberBlogInformation($member_id,$page_offset = 0,$limit = 15 ,$str_length = 150){
-		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, mb.image as member_blog_image, mb.image_width as member_blog_image_width, mb.image_height as member_blog_image_height, mb.content, mb.created_time, mb.modified_time');
-		$this->CI->db->from('member_blog as mb');
-		$this->CI->db->where('mb.member_id',$member_id);
-		$this->CI->db->order_by('mb.created_time','DESC');
-		$all_member_blog_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
-		
-		foreach ($all_member_blog_information as &$i) {
-			$i['content'] = trim($i['content']);
-			$i['content'] = strip_tags($i['content']);
-			if (strlen($i['content']) > 150) {
-				$i['content'] = mb_substr($i['content'], 0, $str_length,'utf-8').'...';
-			}
-		}
-		
-		return $all_member_blog_information;
-	}
-	
-	
-	function getPreferBlogInformation($member_id,$page_offset = 0,$limit = 15){
-		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, mb.image as member_blog_image, mb.image_width as member_blog_image_width, mb.image_height as member_blog_image_height, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, count(DISTINCT mpb.member_prefer_blog_id) as prefer_number, count(DISTINCT mbv.member_blog_visit_id) as visit_number');
-		$this->CI->db->from('member_blog as mb');
-		$this->CI->db->join('member as m','mb.member_id = m.member_id');
-		$this->CI->db->join('member_prefer_blog as mpb','mpb.member_blog_id = mb.member_blog_id');
-		$this->CI->db->join('member_blog_visit as mbv','mb.member_blog_id = mbv.member_blog_id','LEFT');
-		$this->CI->db->where('mpb.member_id',$member_id);
-		$this->CI->db->group_by('mb.member_blog_id');
-		$this->CI->db->order_by('mb.created_time','DESC');
-		$all_prefer_blog_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
-		
-		return $all_prefer_blog_information;
-	}
-	
-	function getMemberBlogInformationByBlogId($member_blog_id){
-		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, mb.image as member_blog_image, mb.content as member_blog_content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, count(DISTINCT mpb.member_prefer_blog_id) as prefer_number, count(DISTINCT mbv.member_blog_visit_id)as visit_number');
-		$this->CI->db->from('member_blog as mb');
-		$this->CI->db->join('member as m','mb.member_id = m.member_id');
-		$this->CI->db->join('member_prefer_blog as mpb','mpb.member_blog_id = mb.member_blog_id','LEFT');
-		$this->CI->db->join('member_blog_visit as mbv','mbv.member_blog_id = mb.member_blog_id');
-		$this->CI->db->where('mb.member_blog_id',$member_blog_id);
-		$this->CI->db->group_by('mb.member_blog_id');
-		$member_blog_information = $this->CI->db->get_first();
-		
-		return $member_blog_information;
-	}
-	
 	
 	function getMemberLeaveWordInformation($member_id){
 		$this->CI->db->select('mlw.member_leave_word_id, mlw.content, mlw.reply, mlw.created_time, mlw.modified_time, m.member_id, m.name as member_name, m.image as member_image, t.member_id as target_id, t.name as target_name, t.image as target_image');

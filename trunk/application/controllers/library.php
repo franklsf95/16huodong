@@ -51,11 +51,11 @@ Class Library Extends BaseActionController {
 	*/
 	function view(){
 		$member_blog_id = $this->getParameter('id',NULL);
-		$this->addMemberBlogVisit($member_blog_id);
 		$p_page = $this->getParameter('page',1);
 		$p_limit = $this->getParameter('limit', 10);
 		
 		if ($member_blog_id != '') {
+			$this->addMemberBlogVisit($member_blog_id);
 			$member_blog_information = $this->extend_control->getMemberBlogInformationByBlogId($member_blog_id);
 			
 			$count = $this->extend_control->countAllBlogComment($member_blog_id);
@@ -162,6 +162,36 @@ Class Library Extends BaseActionController {
 	}
 
 	/**
+     * 工具函数：处理blog访问量++
+     *
+     * @param	member_blog_id 	书的ID
+     */
+	function addMemberBlogVisit($member_blog_id) {
+		$member_id = $this->current_member_id;
+		$this->db->where('member_blog_id',$member_blog_id);
+		$this->db->where('member_id',$member_id);
+		
+		$data['visited_time'] = $this->current_time;
+		if ($this->db->count_all_results('member_blog_visit') > 0) {
+			$this->db->where('member_blog_id',$member_blog_id);
+			$this->db->where('member_id',$member_id);
+			$this->db->update('member_blog_visit',$data);
+		} else {
+			$data['member_blog_id'] = $member_blog_id;
+			$data['member_id'] = $member_id;
+			$this->db->insert('member_blog_visit',$data);
+			$this->db->where('member_blog_id',$member_blog_id);
+			$this->db->select('member_blog_visit');
+			$this->db->where('member_blog_id',$member_blog_id);
+
+			$blog_information = $this->db->get_first('member_blog');
+			$blog_information['member_blog_visit']++;
+			$this->db->where('member_blog_id',$member_blog_id);
+			$this->db->update('member_blog',$blog_information);
+		}
+	}
+
+	/**
 	* 处理ajax like微型书请求
 	*
 	* @param 	member_blog_id 		书的ID
@@ -186,11 +216,12 @@ Class Library Extends BaseActionController {
 					$member_prefer_blog_data['member_id'] = $member_id;
 					$member_prefer_blog_data['member_blog_id'] = $member_blog_id;
 					$member_prefer_blog_data['created_time'] = $this->current_time;
-					
 					$this->db->insert('member_prefer_blog',$member_prefer_blog_data);
+
 					$blog_information['member_prefer_blog']++;
 					$this->db->where('member_blog_id',$member_blog_id);
 					$this->db->update('member_blog',$blog_information);
+
 					$return_data = 1;
 				} else {
 					//已存在记录
