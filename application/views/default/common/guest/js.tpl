@@ -1,7 +1,13 @@
 <script src="__($config.template_prefix)__asset/js/jquery.validate.min.js"></script>
 <script>
-areaSelector = '#select-area-1';
-schoolSelector = '#select-school-1';
+var areaSelector = '#select-area-1';
+var schoolSelector = '#select-school-1';
+$("#remember-me-anchor").click( function() {
+  if( $("#loginRemember").attr("checked") )
+    $("#loginRemember").removeAttr("checked");
+  else
+    $("#loginRemember").attr("checked", true);
+});
 $( function() {
       initializeArea();
       $('#reg-form').validate({

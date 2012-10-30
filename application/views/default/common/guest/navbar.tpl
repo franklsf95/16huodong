@@ -15,7 +15,7 @@
               <input class="span2" type="password" placeholder="密码" id="loginPassword" name="password">
               <button type="submit" class="btn btn-primary">登录</button>
               <div id="navbar-login-tools">
-                <span class="navbar-login-item navbar-login-remember"><input type="checkbox" id="loginRemember" name="member_cookie" value="Y"><a>记住我</a></span>
+                <span class="navbar-login-item navbar-login-remember"><input type="checkbox" id="loginRemember" name="member_cookie" value="Y"><a href="#" id="remember-me-anchor">记住我</a></span>
                 <span class="navbar-login-item navbar-login-forget" data-toggle="modal" data-target="#modal-findpass"><a href="#">忘记密码</a></span>
               </div>
             </form>

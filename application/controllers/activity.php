@@ -20,96 +20,6 @@ Class Activity Extends BaseActionController {
 
 		$this->display( 'index', '挖活动', 'index_css', 'index_js' );
 	}
-	
-	/**
-     * 给当前活动+1
-     *
-     * @param 	id 	活动ID
-     *
-     * @author wangpeng
-     */
-	function rate1(){
-		$activity_id = $this->getParameter('id');
-		$member_id = $this->current_member_id;
-		if ($activity_id != '') {
-			$this->db->select('a.activity_id');
-			$this->db->from('activity as a');
-			$this->db->where('activity_id',$activity_id);
-			$activity_information = $this->db->get_first();
-			if ($activity_information) {
-				$this->db->select('a.activity_id, a.member_id, a.rate');
-				$this->db->from('activity_rate as a');
-				$this->db->where('activity_id',$activity_id);
-				$this->db->where('member_id',$member_id);
-				$rate = $this->db->get_first();
-				if ($rate) {
-					if ($rate['rate']==-1) {
-						$rate['rate']=1;
-					} else {
-						$rate['rate']=1-$rate['rate'];
-					}
-					$this->db->where('activity_id',$activity_id);
-					$this->db->where('member_id',$member_id);
-					$this->db->update('activity_rate',$rate);
-				} else {
-					$rate['activity_id']=$activity_id;
-					$rate['member_id']=$member_id;
-					$rate['rate']=1;
-					$this->db->insert('activity_rate',$rate);
-				}
-				redirect('activity/view?id='.$activity_id);
-			} else {
-				$this->index();
-			}
-		} else {
-			$this->index();
-		}
-	}
-	
-	/**
-     * 给当前活动-1
-     *
-     * @param 	id 	活动ID
-     *
-     * @author wangpeng
-     */
-	function rate2(){
-		$activity_id = $this->getParameter('id');
-		$member_id = $this->current_member_id;
-		if ($activity_id != '') {
-			$this->db->select('a.activity_id');
-			$this->db->from('activity as a');
-			$this->db->where('activity_id',$activity_id);
-			$activity_information = $this->db->get_first();
-			if ($activity_information) {
-				$this->db->select('a.activity_id, a.member_id, a.rate');
-				$this->db->from('activity_rate as a');
-				$this->db->where('activity_id',$activity_id);
-				$this->db->where('member_id',$member_id);
-				$rate = $this->db->get_first();
-				if ($rate) {
-					if ($rate['rate']==1) {
-						$rate['rate']=-1;
-					} else {
-						$rate['rate']=-1-$rate['rate'];
-					}
-					$this->db->where('activity_id',$activity_id);
-					$this->db->where('member_id',$member_id);
-					$this->db->update('activity_rate',$rate);
-				} else {
-					$rate['activity_id']=$activity_id;
-					$rate['member_id']=$member_id;
-					$rate['rate']=-1;
-					$this->db->insert('activity_rate',$rate);
-				}
-				redirect('activity/view?id='.$activity_id);
-			} else {
-				$this->index();
-			}
-		} else {
-			$this->index();
-		}
-	}
 		
 	/**
      * 显示当前用户所有关注过的活动
@@ -190,7 +100,7 @@ Class Activity Extends BaseActionController {
 	}
 	
 	/**
-     * 显示活动详情
+     * 显示活动详情、活动访问量+1
      *
      * @param	id		活动ID
      * @param	page	当前进行到的页面
@@ -207,15 +117,15 @@ Class Activity Extends BaseActionController {
 		$this->addActivityMemberVisit($activity_id);
 		
 		$activity_information = $this->extend_control->getAcitivityInformationById($activity_id);
-		$activity_information['all_activity_attend_member_information'] = $this->extend_control->getAllActivityAttendMemberInformation($activity_id);
-		$activity_information['all_activity_attention_member_information'] = $this->extend_control->getAllActivityAttentionMemberInformation($activity_id);
+		$activity_information['attend_count'] = count( $this->extend_control->getAllActivityAttendMemberInformation($activity_id) );
+		$activity_information['follow_count'] = count( $this->extend_control->getAllActivityAttentionMemberInformation($activity_id) );
+		$activity_information['is_attend'] = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
+		$activity_information['is_attention'] = $this->extend_control->isMemberAttentionActivity($member_id,$activity_id);
+		$activity_information['is_publisher'] = $this->extend_control->isMemberPublishActivity($member_id,$activity_id);
 		
 		$count = $this->extend_control->countAllActivityComment($activity_id);
 		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
 		$all_activity_comment_information = $this->extend_control->getActivityCommentInformation($activity_id,$page_information['page_offset'],$p_limit);
-		$activity_information['is_attend'] = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
-		$activity_information['is_attention'] = $this->extend_control->isMemberAttentionActivity($member_id,$activity_id);
-		$activity_information['is_publisher'] = $this->extend_control->isMemberPublishActivity($member_id,$activity_id);
 		
 		$rate1=$rate2=$rate1ed=$rate2ed=0;
 		$this->db->select('a.activity_id, a.member_id, a.rate');
@@ -244,13 +154,27 @@ Class Activity Extends BaseActionController {
 		$this->ci_smarty->assign('page_information',$page_information);
 		$this->ci_smarty->assign('activity_information',$activity_information);
 		$this->ci_smarty->assign('all_activity_comment_information',$all_activity_comment_information);
+
+		$this->display('view',$activity_information['activity_name'].' - 活动详情','view_css','view_js');
+	}
+
+	/**
+     * 显示活动管理页面
+     *
+     * @param	id		活动ID
+     *
+     * @author franklsf95
+     */
+	function admin() {
+		$activity_id = $this->getParameter('id');
+		$member_id = $this->current_member_id;
+
+		$activity_information = $this->extend_control->getAcitivityInformationById($activity_id);
+		$activity_information['all_attends'] = $this->extend_control->getAllActivityAttendMemberInformation($activity_id);
+		$activity_information['all_follows'] = $this->extend_control->getAllActivityAttentionMemberInformation($activity_id);
 		
-		//print_r($page_information);exit();
-		if ( $activity_information['is_publisher'] ) {
-			$this->display('publisher_view',$activity_information['activity_name'].' - 管理活动','view_css','publisher_view_js');
-		} else {
-			$this->display('view',$activity_information['activity_name'].' - 活动详情','view_css','view_js');
-		}
+		$this->ci_smarty->assign('activity_information',$activity_information);
+		$this->display('admin',$activity_information['activity_name'].' - 管理活动','view_css','admin_js');
 	}
 	
 	/**
@@ -322,6 +246,29 @@ Class Activity Extends BaseActionController {
 		$this->display( 'edit', $title, 'edit_css', 'edit_js' );
 	}
 	
+//--------工具函数组
+	/**
+     * 工具函数：处理访问量++
+     *
+     * @param	$activity_id 	活动ID
+     */
+	function addActivityMemberVisit($activity_id){
+		$member_id = $this->current_member_id;
+		$this->db->where('activity_id',$activity_id);
+		$this->db->where('member_id',$member_id);
+		
+		$data['visited_time'] = $this->current_time;
+		if ($this->db->count_all_results('activity_visit') > 0) {
+			$this->db->where('activity_id',$activity_id);
+			$this->db->where('member_id',$member_id);
+			$this->db->update('activity_visit',$data);
+		}else {
+			$data['activity_id'] = $activity_id;
+			$data['member_id'] = $member_id;
+			$this->db->insert('activity_visit',$data);
+		}
+	}
+
 	/**
      * 工具函数：处理edit()提交
      *
@@ -425,7 +372,62 @@ Class Activity Extends BaseActionController {
 		}
 		
 	}
-	
+
+	/**
+     * 工具函数：处理打分请求
+     *
+     * @param 	id 		活动ID
+     * @param 	plus 	1=+1; 0=-1
+     *
+     * @author wangpeng
+     */
+	function rate(){
+		$activity_id = $this->getParameter('id');
+		$plus = $this->getParameter('plus');
+		$member_id = $this->current_member_id;
+		if ($activity_id != '') {
+			$this->db->select('a.activity_id');
+			$this->db->from('activity as a');
+			$this->db->where('activity_id',$activity_id);
+			$activity_information = $this->db->get_first();
+			if ($activity_information) {
+				$this->db->select('a.activity_id, a.member_id, a.rate');
+				$this->db->from('activity_rate as a');
+				$this->db->where('activity_id',$activity_id);
+				$this->db->where('member_id',$member_id);
+				$rate = $this->db->get_first();
+				if ($rate) {
+					if ( $plus ) { //to +1
+						if ($rate['rate']==-1) {
+							$rate['rate']=1;
+						} else {
+							$rate['rate']=1-$rate['rate'];
+						}
+					} else { //to -1
+						if ($rate['rate']==1) {
+							$rate['rate']=-1;
+						} else {
+							$rate['rate']=-1-$rate['rate'];
+						}
+					}
+					$this->db->where('activity_id',$activity_id);
+					$this->db->where('member_id',$member_id);
+					$this->db->update('activity_rate',$rate);
+				} else {
+					$rate['activity_id']=$activity_id;
+					$rate['member_id']=$member_id;
+					$rate['rate']= $plus ? 1 : -1;
+					$this->db->insert('activity_rate',$rate);
+				}
+				redirect('activity/view?id='.$activity_id);
+			} else {
+				$this->index();
+			}
+		} else {
+			$this->index();
+		}
+	}
+
 	//评论相关
 	function save_comment(){
 		$activity_id = $this->getParameter('activity_id',NULL);
@@ -472,7 +474,8 @@ Class Activity Extends BaseActionController {
 			$this->system_message($system_data);
 		}
 	}
-/*--------------ajax段-----------------*/
+
+//--------AJAX工具组
 
 /**
 	* 处理ajax提交参加活动请求
