@@ -114,6 +114,7 @@ Class Activity Extends BaseActionController {
 		$p_page = $this->getParameter('page',1);
 		$p_limit = $this->getParameter('limit', 10);
 		
+		if(!$activity_id) redirect('activity');
 		$this->addActivityMemberVisit($activity_id);
 		
 		$activity_information = $this->extend_control->getAcitivityInformationById($activity_id);
@@ -385,50 +386,47 @@ Class Activity Extends BaseActionController {
 		$activity_id = $this->getParameter('id');
 		$plus = $this->getParameter('plus');
 		$member_id = $this->current_member_id;
-		if ($activity_id != '') {
-			$this->db->select('a.activity_id');
-			$this->db->from('activity as a');
-			$this->db->where('activity_id',$activity_id);
-			$activity_information = $this->db->get_first();
-			if ($activity_information) {
-				$this->db->select('a.activity_id, a.member_id, a.rate');
-				$this->db->from('activity_rate as a');
-				$this->db->where('activity_id',$activity_id);
-				$this->db->where('member_id',$member_id);
-				$rate = $this->db->get_first();
-				if ($rate) {
-					if ( $plus ) { //to +1
-						if ($rate['rate']==-1) {
-							$rate['rate']=1;
-						} else {
-							$rate['rate']=1-$rate['rate'];
-						}
-					} else { //to -1
-						if ($rate['rate']==1) {
-							$rate['rate']=-1;
-						} else {
-							$rate['rate']=-1-$rate['rate'];
-						}
-					}
-					$this->db->where('activity_id',$activity_id);
-					$this->db->where('member_id',$member_id);
-					$this->db->update('activity_rate',$rate);
+
+		if( !$activity_id ) redirect('activity');
+
+		$this->db->select('a.activity_id');
+		$this->db->from('activity as a');
+		$this->db->where('activity_id',$activity_id);
+		$activity_information = $this->db->get_first();
+
+		$this->db->select('a.activity_id, a.member_id, a.rate');
+		$this->db->from('activity_rate as a');
+		$this->db->where('activity_id',$activity_id);
+		$this->db->where('member_id',$member_id);
+		$rate = $this->db->get_first();
+		if ($rate) {
+			if ( $plus ) { //to +1
+				if ($rate['rate']==-1) {
+					$rate['rate']=1;
 				} else {
-					$rate['activity_id']=$activity_id;
-					$rate['member_id']=$member_id;
-					$rate['rate']= $plus ? 1 : -1;
-					$this->db->insert('activity_rate',$rate);
+					$rate['rate']=1-$rate['rate'];
 				}
-				redirect('activity/view?id='.$activity_id);
-			} else {
-				$this->index();
+			} else { //to -1
+				if ($rate['rate']==1) {
+					$rate['rate']=-1;
+				} else {
+					$rate['rate']=-1-$rate['rate'];
+				}
 			}
+			$this->db->where('activity_id',$activity_id);
+			$this->db->where('member_id',$member_id);
+			$this->db->update('activity_rate',$rate);
 		} else {
-			$this->index();
+			$rate['activity_id']=$activity_id;
+			$rate['member_id']=$member_id;
+			$rate['rate']= $plus ? 1 : -1;
+			$this->db->insert('activity_rate',$rate);
 		}
+		redirect('activity/view?id='.$activity_id);
 	}
 
-	//评论相关
+
+	//to-be-deprecated: 提交评论
 	function save_comment(){
 		$activity_id = $this->getParameter('activity_id',NULL);
 		$activity_comment = $this->getParameter('activity_comment',NULL);
@@ -597,6 +595,20 @@ Class Activity Extends BaseActionController {
 			
 		}
 		echo json_encode($return_data);
+	}
+
+	/**
+     * 处理ajax获取新评论请求
+     *
+     * @param	activity_id	活动ID
+     */
+	function ajaxGetActivityCommentInformation(){
+		$activity_id = $this->getParameter('activity_id',Null);
+		$page_offset = $this->getParameter('page_offset',0);
+		$limit = $this->getParameter('limit',5);
+		$all_activity_comment_information = $this->extend_control->getActivityCommentInformation($activity_id,$page_offset,$limit);
+		
+		echo json_encode($all_activity_comment_information);
 	}
 	
 	function getCurrentAttendActivity(){

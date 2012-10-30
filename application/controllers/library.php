@@ -54,20 +54,20 @@ Class Library Extends BaseActionController {
 		$p_page = $this->getParameter('page',1);
 		$p_limit = $this->getParameter('limit', 10);
 		
-		if ($member_blog_id != '') {
-			$this->addMemberBlogVisit($member_blog_id);
-			$member_blog_information = $this->extend_control->getMemberBlogInformationByBlogId($member_blog_id);
+		if ( !$member_blog_id ) redirect('library');
+		$this->addMemberBlogVisit($member_blog_id);
+		
+		$member_blog_information = $this->extend_control->getMemberBlogInformationByBlogId($member_blog_id);
 			
-			$count = $this->extend_control->countAllBlogComment($member_blog_id);
-			$page_information = $this->createPageInformation($count, $p_page, $p_limit);
-			$all_blog_comment_information = $this->extend_control->getBlogCommentInformation($member_blog_id,$page_information['page_offset'],$p_limit);
-			$member_blog_information['all_blog_comment_information'] = $all_blog_comment_information;
+		$count = $this->extend_control->countAllBlogComment($member_blog_id);
+		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
+		$all_blog_comment_information = $this->extend_control->getBlogCommentInformation($member_blog_id,$page_information['page_offset'],$p_limit);
 			
-			$this->ci_smarty->assign('member_blog_information',$member_blog_information);
-			$this->ci_smarty->assign('page_information',$page_information);
-			//print_r($member_blog_information);exit();
-			$this->display('view',$member_blog_information['member_blog_name'],'view_css','view_js');
-		}
+		$this->ci_smarty->assign('book_information',$member_blog_information);
+		$this->ci_smarty->assign('page_information',$page_information);
+		$this->ci_smarty->assign('all_book_comment_information',$all_blog_comment_information);
+		//print_r($member_blog_information);exit();
+		$this->display('view',$member_blog_information['member_blog_name'],'view_css','view_js');
 	}
 	
 	/**
@@ -191,6 +191,7 @@ Class Library Extends BaseActionController {
 		}
 	}
 
+//-------- ajax工具组
 	/**
 	* 处理ajax like微型书请求
 	*
@@ -266,6 +267,63 @@ Class Library Extends BaseActionController {
 			$return_data = 1;
 		}
 		echo $return_data;
+	}
+
+	/**
+	* 处理ajax提交评论
+	*
+	* @param 	book_id 	微型书ID
+	* @param 	content 	评论内容
+	*
+	* @return 	刚刚添加的评论
+	*/
+	function ajaxAddComment(){
+		$member_blog_id = $this->getParameter('book_id',Null);
+		$content = $this->getParameterWithOutTag('content',Null);
+		
+		$data['member_id'] = $this->current_member_id;
+		$data['member_blog_id'] = $member_blog_id;
+		$data['content'] = $content;
+		$data['created_time'] = $this->current_time;
+		
+		$result = $this->db->insert('member_blog_comment',$data);
+		
+		if($result) {
+			$member_blog_comment_id = $this->db->insert_id();
+			
+			$this->db->select('member_id');
+			$this->db->where('member_blog_id',$member_blog_id);
+			$target_id = idx($this->db->get_first('member_blog'),'member_id');
+			
+			//system_message
+			$system_data['category'] = 'blog';
+			$system_data['type'] = 'new_comment';
+			$system_data['target_id'] = $target_id;
+			$system_data['code'] = $member_blog_id;
+			$this->system_message($system_data);
+			
+			$this->db->select('m.member_id, m.name as member_name, m.image as member_image, mbc.member_blog_comment_id, mbc.member_blog_id, mbc.content, mbc.created_time');
+			$this->db->from('member_blog_comment as mbc');
+			$this->db->join('member as m','m.member_id = mbc.member_id');
+			$this->db->where('mbc.member_blog_comment_id',$member_blog_comment_id);
+			$blog_comment_information = $this->db->get_first();
+			
+			echo json_encode($blog_comment_information);
+		}
+	}
+	
+	/**
+     * 处理ajax获取新评论请求
+     *
+     * @param	book_id		微型书ID
+     */
+	function ajaxGetBookComment(){
+		$member_blog_id = $this->getParameter('book_id',Null);
+		$page_offset = $this->getParameter('page_offset',0);
+		$limit = $this->getParameter('limit',10);
+		$all_blog_comment_information = $this->extend_control->getBlogCommentInformation($member_blog_id,$page_offset,$limit);
+		
+		echo json_encode($all_blog_comment_information);
 	}
 }
 ?>

@@ -142,6 +142,28 @@ class Extend_control {
 		return $member_blog_information;
 	}
 
+////-------- 微型书评论
+
+	function countAllBlogComment($member_blog_id){
+		$this->CI->db->select('count(mbc.member_blog_comment_id) as count');
+		$this->CI->db->from('member_blog_comment as mbc');
+		$this->CI->db->join('member as m','mbc.member_id = m.member_id');
+		$this->CI->db->where('mbc.member_blog_id',$member_blog_id);
+		$count = idx($this->CI->db->get_first(),'count');
+		return $count;
+	
+	}
+	
+	function getBlogCommentInformation($member_blog_id,$page_offset = 0,$limit = 10){
+		$this->CI->db->select('mbc.member_blog_comment_id, mbc.member_blog_id, mbc.member_id, mbc.content, mbc.created_time, m.name as member_name, m.image as member_image');
+		$this->CI->db->from('member_blog_comment as mbc');
+		$this->CI->db->join('member as m','mbc.member_id = m.member_id');
+		$this->CI->db->where('mbc.member_blog_id',$member_blog_id);
+		$this->CI->db->order_by('mbc.created_time','DESC');
+		$all_blog_comment_information = $this->CI->db->get('', $limit, $page_offset)->result_array();
+		return $all_blog_comment_information;
+	}
+
 //-------- 系统消息读取
 	
 	function getNewSystemMessage($member_id){				//系统信息统计
@@ -689,32 +711,7 @@ class Extend_control {
 		$all_activity_attention_member_information = $this->CI->db->get('')->result_array();
 		return $all_activity_attention_member_information;
 	}
-	
-	
-	function countAllBlogComment($member_blog_id){
-		$this->CI->db->select('count(mbc.member_blog_comment_id) as count');
-		$this->CI->db->from('member_blog_comment as mbc');
-		$this->CI->db->join('member as m','mbc.member_id = m.member_id');
-		$this->CI->db->where('mbc.member_blog_id',$member_blog_id);
 		
-		$count = idx($this->CI->db->get_first(),'count');
-		
-		return $count;
-	
-	}
-	
-	function getBlogCommentInformation($member_blog_id,$page_offset = 0,$limit = 5){
-		$this->CI->db->select('mbc.member_blog_comment_id, mbc.member_blog_id, mbc.member_id, mbc.content, mbc.created_time, m.name as member_name, m.image as member_image');
-		$this->CI->db->from('member_blog_comment as mbc');
-		$this->CI->db->join('member as m','mbc.member_id = m.member_id');
-		$this->CI->db->where('mbc.member_blog_id',$member_blog_id);
-		$this->CI->db->order_by('mbc.created_time','DESC');
-		$all_blog_comment_information = $this->CI->db->get('', $limit, $page_offset)->result_array();
-		return $all_blog_comment_information;
-	}
-	
-	
-	
 	function getNewBlogInformation(){
 		$follow_member_list = $this->getFollowMemberList($this->CI->current_member_id,'array');
 	
