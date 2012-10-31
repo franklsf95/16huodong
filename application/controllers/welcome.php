@@ -47,7 +47,7 @@ class Welcome extends BaseController {
 		$email = $this->getParameter('email',NULL);
 		$member_type = $this->getParameter('member_type',NULL);
 		$status = $this->getParameter('status','1');					//1为正常
-		$image = $this->getParameter('image',$this->config->item('asset').'/img/default/portrait.jpg');
+		$image = $this->config->item('asset').'/img/default/portrait.jpg';
 		$name = $this->getParameter($member_type.'-name',NULL);
 		$current_school = $this->getParameter('current_school_id',NULL);
 		$school = $this->getParameter($member_type.'-school',NULL);
