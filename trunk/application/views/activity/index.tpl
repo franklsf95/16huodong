@@ -5,7 +5,12 @@
     </div>
     <div id="collapse-search" class="accordion-body collapse">
       <div class="accordion-inner" data-collapse="hide">
-		这里是一个搜索栏
+	    <form id="search-form" action="{'search'|site_url}" method="post">
+	    <fieldset>
+	    	<label>test</label>
+	    	<input type="submit" class="btn btn-primary pull-right" value="留言 (Ctrl+Enter)" />
+	    </fielset>
+	    </form>
       </div><!--/accordion-inner-->
     </div><!--/accordion-body-->
   </div><!--/accordion-group-->

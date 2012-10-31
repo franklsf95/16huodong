@@ -34,12 +34,12 @@
               <li><a href="#reg-chr" data-toggle="tab" id="tab-chr">公益组织</a></li>
               <li><a href="#reg-com" data-toggle="tab" id="tab-com">公司</a></li>
           </ul>
-          <input type="hidden" name="member_type" value="student" id="input-type">
+          <input type="hidden" name="member_type" value="stu" id="input-type">
               <div class="tab-pane active" id="reg-stu">
                 <div class="control-group">
                   <label class="control-label" for="name">真实姓名</label>
                   <div class="controls">
-                    <input type="text" name="student-name" id="name">
+                    <input type="text" name="stu-name" id="name">
                   </div>
                 </div>
                 <div class="control-group">
@@ -57,7 +57,7 @@
                 <div class="control-group">
                   <label class="control-label" for="select-school-1">学校</label>
                   <div class="controls">
-                    <input type="text" class="typeahead" id="select-school-1" name="student-school" data-provide="typeahead" placeholder="输入中有下拉提示~">
+                    <input type="text" class="typeahead" id="select-school-1" name="stu-school" data-provide="typeahead" placeholder="输入中有下拉提示~">
                     <input type="hidden" id="input-school-id" name="current_school_id">
                   </div>
                 </div>
@@ -66,7 +66,7 @@
                 <div class="control-group">
                   <label class="control-label" for="orgName">组织全名</label>
                   <div class="controls">
-                    <input type="text" name="student_organization-name" id="orgName">
+                    <input type="text" name="org-name" id="orgName">
                   </div>
                 </div>
                 <div class="control-group">
@@ -84,7 +84,7 @@
                 <div class="control-group">
                   <label class="control-label" for="select-school-2">学校</label>
                   <div class="controls">
-                    <input type="text" class="typeahead" id="select-school-2" name="student_organization-school" data-provide="typeahead" placeholder="输入中有下拉提示~">
+                    <input type="text" class="typeahead" id="select-school-2" name="org-school" data-provide="typeahead" placeholder="输入中有下拉提示~">
                   </div>
                 </div>
               </div>
@@ -92,7 +92,7 @@
                 <div class="control-group">
                   <label class="control-label" for="chrName">组织全名</label>
                   <div class="controls">
-                    <input type="text" name="commonweal_organization-name" id="chrName">
+                    <input type="text" name="chr-name" id="chrName">
                   </div>
                 </div>
               </div>
@@ -100,7 +100,7 @@
                 <div class="control-group">
                   <label class="control-label" for="comName">公司全名</label>
                   <div class="controls">
-                    <input type="text" name="company-name" id="comName" placeholder="与公益组织相同，暂不启用">
+                    <input type="text" name="com-name" id="comName" placeholder="与公益组织相同，暂不启用">
                   </div>
                 </div>
               </div>
