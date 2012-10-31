@@ -2,20 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>__($site_name)__</title>
-<meta name="keywords" content="__($site_keyword)__" />
-<meta name="description" content="__($site_description)__" />
+<title>{$site_name}</title>
+<meta name="keywords" content="{$site_keyword}" />
+<meta name="description" content="{$site_description}" />
 
 <!-- CSS -->
- <link href="__($config.template_prefix)__css/login.css" rel="stylesheet" type="text/css" media="screen" />
+ <link href="{$config.template_prefix}css/login.css" rel="stylesheet" type="text/css" media="screen" />
 <!-- CSS End -->
 
-<script type="text/javascript" src="__($config.application_inc)__jquery/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="{$config.application_inc}jquery/jquery-1.7.2.min.js"></script>
 
 <!--validationEngine-->
-<script type="text/javascript" src="__($config.application_inc)__jquery/validationEngine/jquery.validationEngine.js"></script>
-<script type="text/javascript" src="__($config.application_inc)__jquery/validationEngine/languages/jquery.validationEngine-zh_CN.js"></script>
-<link rel="stylesheet" href="__($config.application_inc)__jquery/validationEngine/css/validationEngine.jquery.css" type="text/css" media="all" />
+<script type="text/javascript" src="{$config.application_inc}jquery/validationEngine/jquery.validationEngine.js"></script>
+<script type="text/javascript" src="{$config.application_inc}jquery/validationEngine/languages/jquery.validationEngine-zh_CN.js"></script>
+<link rel="stylesheet" href="{$config.application_inc}jquery/validationEngine/css/validationEngine.jquery.css" type="text/css" media="all" />
 <!--end-->
 
 
@@ -45,7 +45,7 @@ function refreshCaptcha()
 	
 	<div id="login_main">
 		<div id="login_box">
-			<form action="__('findpass/findPassSubmit'|site_url)__" method="post">
+			<form action="{'findpass/findPassSubmit'|site_url}" method="post">
 				<h3>输入用户名</h3>
 				<fieldset>
 					<p><input name="account" class="validate[required]" type="text" /></p>

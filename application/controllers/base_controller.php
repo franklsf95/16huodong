@@ -168,19 +168,6 @@ class BaseController extends CI_Controller {
 	}
 	
 	/**
-	* 给游客显示页面（直接加载）
-	*
-	* @deprecated
-	*/
-	function displayWithoutLayout($templateName) {					//打开模版
-		if ($this->viewFolder != '') {
-			$this->ci_smarty->view($this->viewFolder . '/' . $templateName);
-		} else {
-			$this->ci_smarty->view($templateName);
-		}
-	}
-
-	/**
 	* 显示页面
 	*
 	* @author franklsf95

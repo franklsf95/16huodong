@@ -1,25 +1,25 @@
-					<form name="adminForm" action="__('admin/member'|site_url)__" method="post" id="adminForm">
+					<form name="adminForm" action="{'admin/member'|site_url}" method="post" id="adminForm">
 					<div id="main">
-						<h3>__('global_article'|lang_line)__</h3>
-						<!--input type="button" class="toolbar-button" value="__('global_add'|lang_line)__"  onclick="window.location.href='__('admin/article/edit'|site_url)__'" /-->
+						<h3>{'global_article'|lang_line}</h3>
+						<!--input type="button" class="toolbar-button" value="{'global_add'|lang_line}"  onclick="window.location.href='{'admin/article/edit'|site_url}'" /-->
 						
-						<select class="class_select" id="class_select" onchange="window.location.href='__('admin/member'|site_url)__?member_type='+this.value">
+						<select class="class_select" id="class_select" onchange="window.location.href='{'admin/member'|site_url}?member_type='+this.value">
 							<option value="">All</option>
-							<option value="student" __(if $member_type == 'student')__selected="selected"__(/if)__>学生</option>
-							<option value="student_organization" __(if $member_type == 'student_organization')__selected="student_organization"__(/if)__>学生组织</option>
-							<option value="commonweal_organizat" __(if $member_type == 'commonweal_organizat')__selected="selected"__(/if)__>公益组织</option>
-							<option value="company" __(if $member_type == 'company')__selected="selected"__(/if)__>公司</option>
+							<option value="student" {if $member_type == 'student'}selected="selected"{/if}>学生</option>
+							<option value="student_organization" {if $member_type == 'student_organization'}selected="student_organization"{/if}>学生组织</option>
+							<option value="commonweal_organizat" {if $member_type == 'commonweal_organizat'}selected="selected"{/if}>公益组织</option>
+							<option value="company" {if $member_type == 'company'}selected="selected"{/if}>公司</option>
 						</select>
 						
 						<table cellpadding="0" cellspacing="0">
 							<thead>
 								<tr align="center">
-								   <th><input class="check-all" type="checkbox"  name="toggle" onclick="checkAll(__($count)__)"  /></th>
-								   <th>__('global_id'|lang_line)__</th>
+								   <th><input class="check-all" type="checkbox"  name="toggle" onclick="checkAll({$count})"  /></th>
+								   <th>{'global_id'|lang_line}</th>
 								   <th>帐号</th>
 								   <th>类型</th>
 								   <th>名称</th>
-								   <th>__('global_edit'|lang_line)__</th>
+								   <th>{'global_edit'|lang_line}</th>
 								</tr>
 								
 							</thead>
@@ -29,15 +29,15 @@
 									<td colspan="7">
 										<div class="bulk-actions align-left">
 											<select name="task">
-												<option value="">__('global_choose_action'|lang_line)__</option>
-												<option value="remove">__('global_delete'|lang_line)__</option>
+												<option value="">{'global_choose_action'|lang_line}</option>
+												<option value="remove">{'global_delete'|lang_line}</option>
 											</select>
-											<a href="#" onclick="applyFormAction();">__('global_apply_action'|lang_line)__</a>
+											<a href="#" onclick="applyFormAction();">{'global_apply_action'|lang_line}</a>
 										</div>
 										
 										<div class="pagination">
-										__(assign var="index_page_name" value="admin/member")__
-										__(include file="admin/layout/pagination.tpl")__
+										{assign var="index_page_name" value="admin/member"}
+										{include file="admin/layout/pagination.tpl"}
 										</div>
 										<div class="clear"></div>
 									</td>
@@ -45,17 +45,17 @@
 							</tfoot>
 						 
 							<tbody>
-							__(foreach name=all_member_information from=$all_member_information item=member_information)__
-							__(assign var="tr_class" value = $smarty.foreach.all_member_information.index%2)__
-								<tr align="center" __(if $tr_class)__ class="odd" __(/if)__ >
-									<td><input type="checkbox" id="cb__($smarty.foreach.all_member_information.index)__" name="cid[]" value="__($member_information.member_id)__"  onclick="isChecked(this.checked);" /></td>
-									<td>__($member_information.member_id)__</td>
-									<td>__($member_information.account)__</td>
-									<td>__($member_information.member_type)__</td>
-									<td>__($member_information.name)__</td>
-									<td class="action"><a href="__('member/index'|site_url)__?id=__($member_information.member_id)__" target="_blank" class="view">__('global_view'|lang_line)__</a><a href="__('admin/member/edit'|site_url)__?cid=__($member_information.member_id)__" class="edit">__('global_edit'|lang_line)__</a><a href="__('admin/member/remove'|site_url)__?cid=__($member_information.member_id)__" class="delete" onclick="if(confirm('确认删除？')){return true;}else{return false;}">__('global_delete'|lang_line)__</a></td>
+							{foreach name=all_member_information from=$all_member_information item=member_information}
+							{assign var="tr_class" value = $smarty.foreach.all_member_information.index%2}
+								<tr align="center" {if $tr_class} class="odd" {/if} >
+									<td><input type="checkbox" id="cb{$smarty.foreach.all_member_information.index}" name="cid[]" value="{$member_information.member_id}"  onclick="isChecked(this.checked);" /></td>
+									<td>{$member_information.member_id}</td>
+									<td>{$member_information.account}</td>
+									<td>{$member_information.member_type}</td>
+									<td>{$member_information.name}</td>
+									<td class="action"><a href="{'member/index'|site_url}?id={$member_information.member_id}" target="_blank" class="view">{'global_view'|lang_line}</a><a href="{'admin/member/edit'|site_url}?cid={$member_information.member_id}" class="edit">{'global_edit'|lang_line}</a><a href="{'admin/member/remove'|site_url}?cid={$member_information.member_id}" class="delete" onclick="if(confirm('确认删除？')){return true;}else{return false;}">{'global_delete'|lang_line}</a></td>
 								</tr>
-							__(/foreach)__
+							{/foreach}
 							</tbody>
 						</table>
 						<input type="hidden" name="boxchecked" value="0" />

@@ -359,8 +359,8 @@ $config['proxy_ips'] = '';
 
 $config['smarty_template_dir'] = '';
 $config['smarty_compile_dir']  = '';
-$config['smarty_left_delimiter']  = '__(';
-$config['smarty_right_delimiter']  = ')__';
+$config['smarty_left_delimiter']  = '{';
+$config['smarty_right_delimiter']  = '}';
 
 
 include $_SERVER['DOCUMENT_ROOT']."/common-setting.php";
@@ -374,14 +374,9 @@ if (array_key_exists('HTTPS', $_SERVER) && $_SERVER["HTTPS"] == 'on') {
 if (!array_key_exists('inc_prefix', $config)) {
 	$config['inc_prefix'] = $config['application_prefix'] . 'inc/';
 }
-if (!array_key_exists('extjs_prefix', $config)) {
-	$config['extjs_prefix'] = $config['application_prefix'] . 'extjs/';
+if (!array_key_exists('asset', $config)) {
+	$config['asset'] = $config['application_prefix'] . 'asset';
 }
-
-$config['fck_base_path'] = $config['inc_prefix'] . 'FCKeditor/';
-$config['fck_user_files_path'] = $config['application_prefix'] . "files/";
-$config['fck_user_files_absolute_path'] = $config['application_path'] . "files/";
-
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */

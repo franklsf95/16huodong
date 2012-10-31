@@ -1,7 +1,7 @@
 				<div id="sidebar">
                 	<ul class="sideNav">
-                    	<li><a href="__('admin/site_manage'|site_url)__">__('site_manage'|lang_line)__</a></li>
-						<li><a href="__('admin/application_user'|site_url)__" class="active">__('application_user_manage'|lang_line)__</a></li>
+                    	<li><a href="{'admin/site_manage'|site_url}">{'site_manage'|lang_line}</a></li>
+						<li><a href="{'admin/application_user'|site_url}" class="active">{'application_user_manage'|lang_line}</a></li>
                     </ul>
                     <!-- // .sideNav -->
                 </div>

@@ -7,40 +7,40 @@
 				});
 </script>
 					<div id="main">
-						<h3>__('site_manage'|lang_line)__</h3>
+						<h3>{'site_manage'|lang_line}</h3>
 						<div class="clear"></div>
-						<form action="__('admin/site_manage/save_form'|site_url)__" method="post" class="jNice">
+						<form action="{'admin/site_manage/save_form'|site_url}" method="post" class="jNice">
 							<fieldset>
 								<p>
-									<label>__('site_status'|lang_line)__</label>
+									<label>{'site_status'|lang_line}</label>
 										<select name="site_status" class="text-small">
-											<option value="Y">__('global_open'|lang_line)__</option>
-											<option value="N" __(if ($site_manage_information.site_status == 'N'))__ selected="selected" __(/if)__>__('global_close'|lang_line)__</option>
+											<option value="Y">{'global_open'|lang_line}</option>
+											<option value="N" {if ($site_manage_information.site_status == 'N')} selected="selected" {/if}>{'global_close'|lang_line}</option>
 										</select>
 										
 								</p>
 								<p>
-									<label>__('site_name'|lang_line)__</label>
-									<input class="text-small" type="text" name="site_name" value="__($site_manage_information.site_name)__" />
+									<label>{'site_name'|lang_line}</label>
+									<input class="text-small" type="text" name="site_name" value="{$site_manage_information.site_name}" />
 								</p>
 								
 								<p>
-									<label>__('site_keyword'|lang_line)__</label>
-									<input class="text-medium" type="text" name="site_keyword" value="__($site_manage_information.site_keyword)__"/>
+									<label>{'site_keyword'|lang_line}</label>
+									<input class="text-medium" type="text" name="site_keyword" value="{$site_manage_information.site_keyword}"/>
 								</p>
 								
 								<p>
-									<label>__('site_description'|lang_line)__</label>
-									<textarea class="text-medium textarea" name="site_description">__($site_manage_information.site_description)__</textarea>
+									<label>{'site_description'|lang_line}</label>
+									<textarea class="text-medium textarea" name="site_description">{$site_manage_information.site_description}</textarea>
 								</p>
 								
 								<p>
-									<label>__('site_copyright'|lang_line)__</label>
-									<textarea name="site_copyright" id="copyright" style="width:650px">__($site_manage_information.site_copyright)__</textarea>
+									<label>{'site_copyright'|lang_line}</label>
+									<textarea name="site_copyright" id="copyright" style="width:650px">{$site_manage_information.site_copyright}</textarea>
 								</p>
 								
 								<p>
-									<input type="submit" value="__('global_submit'|lang_line)__" />
+									<input type="submit" value="{'global_submit'|lang_line}" />
 								</p>
 								
 							</fieldset>

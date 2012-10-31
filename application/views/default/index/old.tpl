@@ -11,7 +11,7 @@
 		if (!refresh_lock) {
 			refresh_lock = true;
 			$.ajax({
-				url:"__('base_ajax_action_controller/getNewActivityInformation'|site_url)__",
+				url:"{'base_ajax_action_controller/getNewActivityInformation'|site_url}",
 				data:'page_offset='+page_offset+'&limit='+limit,
 				type: "GET",
 				dataType: "JSON",
@@ -22,9 +22,9 @@
 						current_id = 'ia_'+ current_id_num;
 						var index_activity_show = ''+
 													'<div class=\"index_activity_show\" id=\"'+current_id+'\">'+
-														'<div class=\"image\"><a href=\"__("activity/view"|site_url)__?id='+data[i].activity_id+'\"><img src=\"'+data[i].activity_image+'\" /></a></div>'+
+														'<div class=\"image\"><a href=\"{"activity/view"|site_url}?id='+data[i].activity_id+'\"><img src=\"'+data[i].activity_image+'\" /></a></div>'+
 														'<div class="title">'+
-															'<a href=\"__("member"|site_url)__?id='+data[i].member_id+'\" class=\"publisher\">'+data[i].member_name+'</a> 发起活动 <a href=\"__("activity/view"|site_url)__?id='+data[i].activity_id+'\" class=\"activity_name\">'+data[i].activity_name+'</a>'+
+															'<a href=\"{"member"|site_url}?id='+data[i].member_id+'\" class=\"publisher\">'+data[i].member_name+'</a> 发起活动 <a href=\"{"activity/view"|site_url}?id='+data[i].activity_id+'\" class=\"activity_name\">'+data[i].activity_name+'</a>'+
 														'</div>'+
 														'<div class=\"start_time\">开始时间: '+data[i].start_time+'</div>'+
 														'<div class=\"end_time\">结束时间: '+data[i].end_time+'</div>'+
@@ -87,7 +87,7 @@
 	function getIndexActivityRecommend(action_type){
 		if (action_type == 'add_activity') {
 			$.ajax({
-				url:"__('base_ajax_action_controller/getHotActivityInformation'|site_url)__",
+				url:"{'base_ajax_action_controller/getHotActivityInformation'|site_url}",
 				data:'page_offset='+0+'&limit='+10,
 				type: "GET",
 				dataType: "JSON",
@@ -100,12 +100,12 @@
 							data[i].activity_name = data[i].activity_name.substr(0,11) + '...';
 						}
 						var index_activity_recommend_show = '<div class=\"index_activity_recommend_show\" id="index_activity_recommend_'+n+'" >'+
-																'<div class=\"image\"><a href=\"__("activity/view"|site_url)__?id='+data[i].activity_id+'\"><img src=\"'+data[i].activity_image+'\" width=\"105\" height=\"105\"></a></div>'+
+																'<div class=\"image\"><a href=\"{"activity/view"|site_url}?id='+data[i].activity_id+'\"><img src=\"'+data[i].activity_image+'\" width=\"105\" height=\"105\"></a></div>'+
 																'<div class="context">'+
-																	'<div class="title"><a href="__("activity/view"|site_url)__?id='+data[i].activity_id+'">'+data[i].activity_name+'</a></div>'+
+																	'<div class="title"><a href="{"activity/view"|site_url}?id='+data[i].activity_id+'">'+data[i].activity_name+'</a></div>'+
 																	'<div class="start_time">开始时间: '+data[i].start_time+'</div>'+
 																	'<div class="end_time">结束时间: '+data[i].end_time+'</div>'+
-																	'<div class="publisher"><a href=\"__("member"|site_url)__?id='+data[i].member_id+'\">'+data[i].member_name+'</a></div>'+
+																	'<div class="publisher"><a href=\"{"member"|site_url}?id='+data[i].member_id+'\">'+data[i].member_name+'</a></div>'+
 																	'<div class="number">'+
 																		'<div class="attend_number"><span>'+data[i].attend_number+'</span>人参加</div>'+
 																		'<div class="attention_number"><span>'+data[i].attention_number+'</span>人关注</div>'+
@@ -181,7 +181,7 @@
 
 <div id="index_frame">
 	<div class="left_side">
-	__(include file="__($template)__/layout/menu_box.tpl")__
+	{include file="{$template}/layout/menu_box.tpl"}
 	</div>
 	
 	<div class="right_side">
@@ -189,8 +189,8 @@
 			<span class="title">热门活动TOP10</span>
 			
 			<div class="content" id="activity_recommend_content">
-				<div class="arrows_left"><img src="__($config.template_prefix)__images/ico/arrows_left.gif" onclick="getIndexActivityRecommend('left')" ></div>
-				<div class="arrows_right"><img src="__($config.template_prefix)__images/ico/arrows_right.gif" onclick="getIndexActivityRecommend('right')" ></div>
+				<div class="arrows_left"><img src="{$config.template_prefix}images/ico/arrows_left.gif" onclick="getIndexActivityRecommend('left')" ></div>
+				<div class="arrows_right"><img src="{$config.template_prefix}images/ico/arrows_right.gif" onclick="getIndexActivityRecommend('right')" ></div>
 			</div>
 		</div>
 		

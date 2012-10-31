@@ -1,15 +1,15 @@
-__(if ($page_information.current_page > 1))__
-	<a href="__($index_page_name|site_url)__?__($page_information.query_string_paging)__&page=__($page_information.first_page)__" title="First Page">&laquo; First</a>
+{if ($page_information.current_page > 1)}
+	<a href="{$index_page_name|site_url}?{$page_information.query_string_paging}&page={$page_information.first_page}" title="First Page">&laquo; First</a>
 
-	<a href="__($index_page_name|site_url)__?__($page_information.query_string_paging)__&page=__($page_information.previous_page)__" title="Previous Page">&laquo; Previous</a>
-__(/if)__
+	<a href="{$index_page_name|site_url}?{$page_information.query_string_paging}&page={$page_information.previous_page}" title="Previous Page">&laquo; Previous</a>
+{/if}
 
-__(foreach name=pages from=$page_information.all_pages item=page)__
-	<a href="__($index_page_name|site_url)__?__($page_information.query_string_paging)__&page=__($page)__" class="number __(if $page == $page_information.current_page)__current__(/if)__" title="__($page)__">__($page)__</a>
-__(/foreach)__
+{foreach name=pages from=$page_information.all_pages item=page}
+	<a href="{$index_page_name|site_url}?{$page_information.query_string_paging}&page={$page}" class="number {if $page == $page_information.current_page}current{/if}" title="{$page}">{$page}</a>
+{/foreach}
 
-__(if $page_information.current_page < $page_information.last_page)__
-	<a href="__($index_page_name|site_url)__?__($page_information.query_string_paging)__&page=__($page_information.next_page)__" title="Next Page">Next &raquo;</a>
-	<a href="__($index_page_name|site_url)__?__($page_information.query_string_paging)__&page=__($page_information.last_page)__" title="Last Page">Last &raquo;</a>
-__(/if)__
-	<a>__('gloabl_record_number'|lang_line)__:__($page_information.count)__</a>
+{if $page_information.current_page < $page_information.last_page}
+	<a href="{$index_page_name|site_url}?{$page_information.query_string_paging}&page={$page_information.next_page}" title="Next Page">Next &raquo;</a>
+	<a href="{$index_page_name|site_url}?{$page_information.query_string_paging}&page={$page_information.last_page}" title="Last Page">Last &raquo;</a>
+{/if}
+	<a>{'gloabl_record_number'|lang_line}:{$page_information.count}</a>

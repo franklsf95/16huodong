@@ -1,4 +1,4 @@
-<script src="__($config.template_prefix)__asset/js/jquery.masonry.min.js"></script>
+<script src="{$config.asset}/js/jquery.masonry.min.js"></script>
 <script>
 $( function(){
   $('#container').masonry({

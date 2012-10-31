@@ -2,12 +2,12 @@
 .banner {
   margin: 0 0 40px 0;
   height: 344px;
-  background: url('__($config.template_prefix)__asset/img/library_banner.jpg') no-repeat;
+  background: url('{$config.asset}/img/library_banner.jpg') no-repeat;
   clear: both;
 }
 
 .banner:hover {
-  background: url('__($config.template_prefix)__asset/img/library_banner_mask.jpg') no-repeat;
+  background: url('{$config.asset}/img/library_banner_mask.jpg') no-repeat;
 }
 
 .banner:hover .slogan {

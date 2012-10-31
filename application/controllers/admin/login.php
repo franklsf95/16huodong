@@ -20,9 +20,7 @@ Class Login Extends BaseController {
 	}
 	
 	function index(){
-		
-		$this->displayWithOutLayout('index');
-		
+		$this->ci_smarty->view($this->viewFolder . '/index');
 	}
 	
 	function loginSubmit(){
