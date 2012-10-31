@@ -2,10 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>{$template_title} |{if $current_member_information} {$current_member_information.member_name} |{/if} 16活动网，我们中学生自己的活动网站</title>
+    <title>{$template_title} | 16活动网，我们中学生自己的活动网站</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
-    {if $base_tpl == 'default/common/member'}<meta name="robots" content="noindex">{/if}
+    {if $base_tpl == 'common/member'}<meta name="robots" content="noindex">{/if}
 
     <link href="{$config.asset}/css/global.css" rel="stylesheet" type="text/css" />
     <link href="{$config.asset}/css/bootstrap.css" rel="stylesheet" type="text/css" />
@@ -25,7 +25,7 @@
     <div class="container">
       <div class="row">
 <!--sidebar-->
-{if $base_tpl == 'default/common/guest'}
+{if $base_tpl == 'common/guest'}
 <div class="span4">
 {else}
 <div class="span3">
@@ -35,7 +35,7 @@
 <!--/sidebar-->
 
 <!--content-->
-{if $base_tpl == 'default/common/guest'}
+{if $base_tpl == 'common/guest'}
 <div class="span8">
 {else}
 <div class="span9">

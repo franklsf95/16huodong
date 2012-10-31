@@ -42,11 +42,11 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = '';
+$db['default']['username'] = 'root';
 $db['default']['password'] = '';
-$db['default']['database'] = '';
+$db['default']['database'] = '16huodong';
 $db['default']['dbdriver'] = 'mysql';
-$db['default']['dbprefix'] = '';
+$db['default']['dbprefix'] = '16_';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;
 $db['default']['cache_on'] = FALSE;
@@ -57,15 +57,7 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
-
-include_once $_SERVER['DOCUMENT_ROOT']."/common-setting.php";
-global $dsn;
-$db['default']['hostname'] = $dsn['hostspec'];
-$db['default']['username'] = $dsn['username'];
-$db['default']['password'] = $dsn['password'];
-$db['default']['database'] = $dsn['database'];
-$db['default']['dbprefix'] = $dsn['dbprefix'];
-$db['default']['dbdriver'] = $dsn['dbdriver'];
+$config['dbprefix'] = '16_';
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */

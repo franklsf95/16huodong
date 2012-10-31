@@ -166,13 +166,17 @@ class Extend_control {
 
 //-------- 系统消息读取
 	
-	function getNewSystemMessage($member_id){				//系统信息统计
-		$target_id = $member_id;
-		
+	/**
+	* 获取所有新消息提醒
+	* 用于member/sidebar
+	* BaseActionController@__constructor()
+	*/
+	function getNewSystemMessage($member_id){		
 		$this->CI->db->from('system_message');
-		$this->CI->db->where('target_id',$target_id);
+		$this->CI->db->where('target_id',$member_id);
 		$this->CI->db->where('status','Y');
 		$this->CI->db->where('is_new','Y');
+		$all_new_system_message_information = $this->CI->db->get()->result_array();
 		
 		$activity_count = 0;
 		$friend_count = 0;
@@ -184,9 +188,7 @@ class Extend_control {
 		$friend_add_count = 0;
 		$blog_comment_count = 0;
 		$member_message_count = 0;
-		
-		$all_new_system_message_information = $this->CI->db->get()->result_array();
-		
+				
 		foreach($all_new_system_message_information as $system_message_information) {
 			
 			if ($system_message_information['category'] == 'activity'){
@@ -221,20 +223,18 @@ class Extend_control {
 			}
 			
 		}
-		
+		$all_system_message = array();
+
 		if ($activity_count > 0) $all_system_message[] = array('type' => 'activity','count' => $activity_count);
 		if ($friend_count > 0) $all_system_message[] = array('type' => 'friend','count' => $friend_count);
 		if ($blog_count > 0) $all_system_message[] = array('type' => 'blog','count' => $blog_count);
 		if ($member_message_count > 0) $all_system_message[] = array('type' => 'member_message','count' => $member_message_count);
-		
-		
 		
 		if ($activity_comment_count > 0) $all_system_message[] = array('type' => 'activity_comment','count' => $activity_comment_count);
 		if ($activity_reply_count > 0) $all_system_message[] = array('type' => 'activity_reply','count' => $activity_reply_count);
 		if ($friend_apply_count > 0) $all_system_message[] = array('type' => 'friend_apply','count' => $friend_apply_count);
 		if ($friend_add_count > 0) $all_system_message[] = array('type' => 'friend_add','count' => $friend_add_count);
 		if ($blog_comment_count > 0) $all_system_message[] = array('type' => 'blog_comment','count' => $blog_comment_count);
-		
 		
 		return $all_system_message;
 	}
