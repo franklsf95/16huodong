@@ -6,11 +6,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="__('index'|site_url)__"><img alt="16活动网" src="__($config.template_prefix)__asset/img/banner_logo.png"></a>
+          <a class="brand" href="{'index'|site_url}"><img alt="16活动网" src="{$config.asset}/img/banner_logo.png"></a>
           <div class="nav-collapse collapse">
-            <a class="navbar-highlight" id="navbar-demo" href="__('welcome/demo'|site_url)__">随便看看</a>
-            <a class="navbar-highlight" id="navbar-contact" href="__('contact'|site_url)__">联系我们</a>
-            <form class="navbar-form pull-right" id="navbar-login" action="__('login/loginSubmit'|site_url)__" method="post">
+            <a class="navbar-highlight" id="navbar-demo" href="{'welcome/demo'|site_url}">随便看看</a>
+            <a class="navbar-highlight" id="navbar-contact" href="{'contact'|site_url}">联系我们</a>
+            <form class="navbar-form pull-right" id="navbar-login" action="{'login/loginSubmit'|site_url}" method="post">
               <input class="span2" type="text" placeholder="用户名" id="loginUsername" name="account">
               <input class="span2" type="password" placeholder="密码" id="loginPassword" name="password">
               <button type="submit" class="btn btn-primary">登录</button>
@@ -29,7 +29,7 @@
     <h3>找回密码</h3>
   </div>
   <div class="modal-body">
-  <form id="forget-form" class="form-horizontal" action="__('findpass/findPassSubmit'|site_url)__" method="post">
+  <form id="forget-form" class="form-horizontal" action="{'findpass/findPassSubmit'|site_url}" method="post">
     <div class="control-group">
       <label class="control-label" for="findUsername">用户名</label>
       <div class="controls">

@@ -1,14 +1,14 @@
               <div id="myCarousel" class="carousel slide">
                 <div class="carousel-inner">
                   <div class="item active">
-                    <img src="__($config.template_prefix)__/asset/img/slider1.png" alt="">
+                    <img src="{$config.asset}/img/slider1.png" alt="">
                     <div class="carousel-caption">
                       <h4>这只石榴疯了</h4>
                       <p>她真的疯了~~~啦啦啦啦</p>
                     </div>
                   </div>
                   <div class="item">
-                    <img src="__($config.template_prefix)__/asset/img/slider2.jpg" alt="">
+                    <img src="{$config.asset}/img/slider2.jpg" alt="">
                   </div>
                 </div>
                 <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>

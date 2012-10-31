@@ -1,5 +1,5 @@
           <div class="well sidebar-reg">
-          <form id="reg-form" class="form-horizontal" action="__('welcome/register'|site_url)__" method="post">
+          <form id="reg-form" class="form-horizontal" action="{'welcome/register'|site_url}" method="post">
             <fieldset>
               <legend>加入16活动网~</legend>
               <div class="control-group">

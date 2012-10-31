@@ -1,6 +1,6 @@
 	<h3>找回密码</h3>
 	<hr>
-<form class="form-horizontal" action="__('findpass/resetPassSubmit'|site_url)__?vcode=__($vcode)__" method="post">
+<form class="form-horizontal" action="{'findpass/resetPassSubmit'|site_url}?vcode={$vcode}" method="post">
   <div class="control-group">
     <label class="control-label" for="password">输入新密码</label>
     <div class="controls">

@@ -1,60 +1,60 @@
 					<div id="main">
-						<h3>__('application_user_manage'|lang_line)__</h3>
+						<h3>{'application_user_manage'|lang_line}</h3>
 						<div class="clear"></div>
-						<form action="__('admin/application_user/save_form'|site_url)__" method="post" class="jNice" name="adminForm">
+						<form action="{'admin/application_user/save_form'|site_url}" method="post" class="jNice" name="adminForm">
 							<fieldset>
 								<p>
-									<label>__('global_application_group'|lang_line)__</label>
+									<label>{'global_application_group'|lang_line}</label>
 										<select name="application_group_id" class="text-small">
-											__(foreach name="all_application_group_information" from=$all_application_group_information item=application_group)__
-											<option value="__($application_group.application_group_id)__">__($application_group.name)__</option>
-											__(/foreach)__
+											{foreach name="all_application_group_information" from=$all_application_group_information item=application_group}
+											<option value="{$application_group.application_group_id}">{$application_group.name}</option>
+											{/foreach}
 										</select>
 										
 								</p>
 								
 								<p>
-									<label>__('global_status'|lang_line)__</label>
+									<label>{'global_status'|lang_line}</label>
 									<select name="status" class="text-small">
-										<option value="Y">__('global_show'|lang_line)__</option>
-										<option value="N" __(if $application_user_information.status == 'N')__ checked="checked" __(/if)__>__('global_hidden'|lang_line)__</option>
+										<option value="Y">{'global_show'|lang_line}</option>
+										<option value="N" {if $application_user_information.status == 'N'} checked="checked" {/if}>{'global_hidden'|lang_line}</option>
 									</select>
 								</p>
 								
 								<p>
-									<label>__('global_username'|lang_line)__</label>
-									<input class="text-small" type="text" name="username" value="__($application_user_information.username)__" __(if ($application_user_information.username != ''))__ readonly="readonly"__(else if)__ onblur="checkUsername(this.value)" __(/if)__/><img id="username_right" src="__($config.application_prefix)__resources/admin/img/activity.png" /><img id="username_wrong" src="__($config.application_prefix)__resources/admin/img/unactivity.png" />
+									<label>{'global_username'|lang_line}</label>
+									<input class="text-small" type="text" name="username" value="{$application_user_information.username}" {if ($application_user_information.username != '')} readonly="readonly"{else if} onblur="checkUsername(this.value)" {/if}/><img id="username_right" src="/asset/admin/img/activity.png" /><img id="username_wrong" src="/asset/admin/img/unactivity.png" />
 								</p>
 								
-								__(if ($cid != ''))__
+								{if ($cid != '')}
 								<p>
-									<label>__('global_old_password'|lang_line)__</label>
-									<input class="text-medium" type="password" name="old_password" value="" onchange="checkPassword('__($cid)__',this.value)"/><img id="password_right" src="__($config.application_prefix)__resources/admin/img/activity.png" /><img id="password_wrong" src="__($config.application_prefix)__resources/admin/img/unactivity.png" />
+									<label>{'global_old_password'|lang_line}</label>
+									<input class="text-medium" type="password" name="old_password" value="" onchange="checkPassword('{$cid}',this.value)"/><img id="password_right" src="/asset/admin/img/activity.png" /><img id="password_wrong" src="/asset/admin/img/unactivity.png" />
 								</p>
-								__(/if)__
+								{/if}
 								
 								<p>
-									<label>__('global_password'|lang_line)__</label>
+									<label>{'global_password'|lang_line}</label>
 									<input class="text-medium" type="password" name="password" value="" onblur="checkRepeatPassword()"/>
 								</p>
 								
 								<p>
-									<label>__('global_repeat_password'|lang_line)__</label>
+									<label>{'global_repeat_password'|lang_line}</label>
 									<input class="text-medium" type="password" name="repeat_password" value="" onblur="checkRepeatPassword()"/><span id="message_repeat_password" style="color:red; line-height:24px;"></a>
 								</p>
 								
 								<p>
-									<label>__('global_name'|lang_line)__</label>
-									<input class="text-small" type="text" name="name" id="name" value="__($application_user_information.name)__" />
+									<label>{'global_name'|lang_line}</label>
+									<input class="text-small" type="text" name="name" id="name" value="{$application_user_information.name}" />
 								</p>
 								
 								<p>
-									<label>__('global_email'|lang_line)__</label>
-									<input class="text-small" type="text" name="email" id="email" value="__($application_user_information.email)__" />
+									<label>{'global_email'|lang_line}</label>
+									<input class="text-small" type="text" name="email" id="email" value="{$application_user_information.email}" />
 								</p>
-								<input type="hidden" value="__($cid)__" name="cid" id="cid" />
+								<input type="hidden" value="{$cid}" name="cid" id="cid" />
 								<p>
-									<input class="button" type="button" value="__('global_submit'|lang_line)__" onclick="checkForm()" />
+									<input class="button" type="button" value="{'global_submit'|lang_line}" onclick="checkForm()" />
 								</p>
 								
 							</fieldset>
@@ -73,7 +73,7 @@
 			$("#password_wrong").css('display','none');
 		} else {
 			$.ajax({
-				url:"__('admin/ajax_controller/checkPassword'|site_url)__",
+				url:"{'admin/ajax_controller/checkPassword'|site_url}",
 				data:"application_user_id="+application_user_id+"&password="+password,
 				type:"GET",
 				dataType:"json",
@@ -98,7 +98,7 @@
 			$("#username_wrong").css('display','none');
 		} else {
 			$.ajax({
-				url:"__('admin/ajax_controller/checkUsername'|site_url)__",
+				url:"{'admin/ajax_controller/checkUsername'|site_url}",
 				data:"username="+username,
 				type:"GET",
 				dataType:"json",
@@ -152,6 +152,6 @@
 </script>
 
 <script>
-	checkPassword('__($cid)__','');
+	checkPassword('{$cid}','');
 	checkUsername('');
 </script>

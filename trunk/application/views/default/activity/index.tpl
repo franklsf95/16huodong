@@ -18,9 +18,9 @@
 	<div class="span3">
 		<div class="content-heading">热门标签</div>
 		<div class="hot-tag-showcase toolbox">
-			__(foreach $all_hot_activity_tag_information as $i)__
-				<a class="badge tag">__($i.tag)__</a>
-			__(/foreach)__
+			{foreach $all_hot_activity_tag_information as $i}
+				<a class="badge tag">{$i.tag}</a>
+			{/foreach}
 		</div>
 		<div class="content-heading">本周活跃</div>
 		<div class="toolbox">

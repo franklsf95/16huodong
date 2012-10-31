@@ -1,56 +1,56 @@
 <del class="container">
 <div class="pagination">
-  <div class="limit">__('page_display'|lang_line)__ #
+  <div class="limit">{'page_display'|lang_line} #
     <select name="limit" id="limit" class="inputbox" size="1" onchange="this.form.page.value=1;submitformget();">
-      <option value="5" __(if ($page_information.limit == 5))__selected="selected"__(/if)__>5</option>
-      <option value="20" __(if ($page_information.limit == 20))__selected="selected"__(/if)__>20</option>
-      <option value="50" __(if ($page_information.limit == 50))__selected="selected"__(/if)__>50</option>
-      <option value="100" __(if ($page_information.limit == 100))__selected="selected"__(/if)__>100</option>
-      <option value="1000000" __(if ($page_information.limit == 1000000))__selected="selected"__(/if)__>__('page_all'|lang_line)__</option>
+      <option value="5" {if ($page_information.limit == 5)}selected="selected"{/if}>5</option>
+      <option value="20" {if ($page_information.limit == 20)}selected="selected"{/if}>20</option>
+      <option value="50" {if ($page_information.limit == 50)}selected="selected"{/if}>50</option>
+      <option value="100" {if ($page_information.limit == 100)}selected="selected"{/if}>100</option>
+      <option value="1000000" {if ($page_information.limit == 1000000)}selected="selected"{/if}>{'page_all'|lang_line}</option>
     </select>
   </div>
-  __(if ($page_information.current_page > 1))__
+  {if ($page_information.current_page > 1)}
   <div class="button2-right">
-    <div class="start"><a href="__($index_page_name|site_url)__?__($page_information.query_string_paging)__&page=__($page_information.first_page)__">__('page_first'|lang_line)__</a></div>
+    <div class="start"><a href="{$index_page_name|site_url}?{$page_information.query_string_paging}&page={$page_information.first_page}">{'page_first'|lang_line}</a></div>
   </div>
-  __(else)__
+  {else}
   <div class="button2-right off">
-    <div class="start"><span>__('page_first'|lang_line)__</span></div>
+    <div class="start"><span>{'page_first'|lang_line}</span></div>
   </div>
-  __(/if)__ 
-  __(if ($page_information.current_page > 1))__
+  {/if} 
+  {if ($page_information.current_page > 1)}
   <div class="button2-right">
-    <div class="prev"><a href="__($index_page_name|site_url)__?__($page_information.query_string_paging)__&page=__($page_information.previous_page)__">__('page_previous'|lang_line)__</a></div>
+    <div class="prev"><a href="{$index_page_name|site_url}?{$page_information.query_string_paging}&page={$page_information.previous_page}">{'page_previous'|lang_line}</a></div>
   </div>
-  __(else)__
+  {else}
   <div class="button2-right off">
-    <div class="start"><span>__('page_previous'|lang_line)__</span></div>
+    <div class="start"><span>{'page_previous'|lang_line}</span></div>
   </div>
-  __(/if)__
+  {/if}
   <div class="button2-left">
-    <div class="page"> __(foreach name=pages from=$page_information.all_pages item=page)__
-      __(if $page == $page_information.current_page)__ <span>__($page)__</span> __(else)__ <a href="__($index_page_name|site_url)__?__($page_information.query_string_paging)__&page=__($page)__">__($page)__</a> __(/if)__
-      __(/foreach)__ </div>
+    <div class="page"> {foreach name=pages from=$page_information.all_pages item=page}
+      {if $page == $page_information.current_page} <span>{$page}</span> {else} <a href="{$index_page_name|site_url}?{$page_information.query_string_paging}&page={$page}">{$page}</a> {/if}
+      {/foreach} </div>
   </div>
-  __(if ($page_information.current_page < $page_information.last_page))__
+  {if ($page_information.current_page < $page_information.last_page)}
   <div class="button2-left">
-    <div class="next"><a href="__($index_page_name|site_url)__?__($page_information.query_string_paging)__&page=__($page_information.next_page)__">__('page_next'|lang_line)__</a></div>
+    <div class="next"><a href="{$index_page_name|site_url}?{$page_information.query_string_paging}&page={$page_information.next_page}">{'page_next'|lang_line}</a></div>
   </div>
-  __(else)__
+  {else}
   <div class="button2-left off">
-    <div class="next"><span>__('page_next'|lang_line)__</span></div>
+    <div class="next"><span>{'page_next'|lang_line}</span></div>
   </div>
-  __(/if)__
-  __(if ($page_information.current_page < $page_information.last_page))__
+  {/if}
+  {if ($page_information.current_page < $page_information.last_page)}
   <div class="button2-left">
-    <div class="end"><a href="__($index_page_name|site_url)__?__($page_information.query_string_paging)__&page=__($page_information.last_page)__">__('page_end'|lang_line)__</a></div>
+    <div class="end"><a href="{$index_page_name|site_url}?{$page_information.query_string_paging}&page={$page_information.last_page}">{'page_end'|lang_line}</a></div>
   </div>
-  __(else)__
+  {else}
   <div class="button2-left off">
-    <div class="end"><span>__('page_end'|lang_line)__</span></div>
+    <div class="end"><span>{'page_end'|lang_line}</span></div>
   </div>
-  __(/if)__
-  <div class="limit">__('page_total'|lang_line)__: __($page_information.count)__ __('page_records'|lang_line)__</div>
-  <input type="hidden" name="page" value="__($page_information.current_page)__" />
+  {/if}
+  <div class="limit">{'page_total'|lang_line}: {$page_information.count} {'page_records'|lang_line}</div>
+  <input type="hidden" name="page" value="{$page_information.current_page}" />
 </div>
 </del>
