@@ -9,8 +9,12 @@ class Extend_control {
 	function __construct() {
 		$this->CI =& get_instance();
 	}
-	
-//--------基础member information读取
+
+/*
+ *---------------------------------------------------------------
+ * 会员信息处理
+ *---------------------------------------------------------------
+ */
 	function getMemberIdByMemberName($member_name){
 		$this->CI->db->select('member_id');
 		$this->CI->db->from('member');
@@ -29,10 +33,8 @@ class Extend_control {
 		return $name;
 	}
 
-//--------好友申请
-
 	/**
-	* A是否为B的好友
+	* 检查好友状态
 	*
 	* @param 	$member_id 		A的ID
 	* @param 	$target_id 		B的ID
@@ -59,7 +61,11 @@ class Extend_control {
 		}
 	}
 
-//-------- 人生图书馆 for Library
+/*
+ *---------------------------------------------------------------
+ * 人生图书馆
+ *---------------------------------------------------------------
+ */
 
 ////-------- 全站读取
 
@@ -164,7 +170,11 @@ class Extend_control {
 		return $all_blog_comment_information;
 	}
 
-//-------- 系统消息读取
+/*
+ *---------------------------------------------------------------
+ * 系统消息读取
+ *---------------------------------------------------------------
+ */
 	
 	/**
 	* 获取所有新消息提醒
@@ -289,7 +299,99 @@ class Extend_control {
 		
 	}
 
-//--------/系统消息结束
+/*
+ *---------------------------------------------------------------
+ * 搜索
+ *---------------------------------------------------------------
+ */
+	/**
+	* 搜索会员
+	*
+	* @param 	string 	$member_name 	查询的会员名
+	* @param 	int 	$limit 			返回数量上限，0表示无上限
+	*/
+	function searchMemberByName($member_name,$limit=10){
+		$this->CI->db->select('member_id, name as member_name, member_type, image as member_image');
+		$this->CI->db->from('member');
+		$this->CI->db->like('name',$member_name);
+		$this->CI->db->order_by('member_id','DESC');
+		if( $limit > 0 ) {
+			$this->CI->db->limit($limit);
+		}
+		return $this->CI->db->get()->result_array();
+	}
+
+	/**
+	* 搜索活动
+	*
+	* @param 	string 	$member_name 	查询的会员名
+	* @param 	int 	$limit 			返回数量上限，0表示无上限
+	*/
+	function searchActivity($activity_name = null, $school_id = null, $member_id = null, $tag= null, $apply_start_time = null, $apply_end_time = null, $start_time = null, $end_time = null, $activity_type = null, $status = null){
+		$this->CI->db->select('a.activity_id, a.name as activity_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.description, a.created_time, m.member_id, m.name as member_name, m.image as member_image, count(DISTINCT aam.member_id) as attend_number, count(DISTINCT aam2.member_id) as attention_number');
+		$this->CI->db->from('activity as a');
+		$this->CI->db->join('activity_publish_member as apm','apm.activity_id = a.activity_id');
+		$this->CI->db->join('member as m','apm.member_id = m.member_id');
+		$this->CI->db->join('activity_attend_member as aam','aam.activity_id = a.activity_id','left');
+		$this->CI->db->join('activity_attention_member as aam2','aam2.activity_id = a.activity_id','left');
+		
+		if ($activity_name != '') {
+			$this->db->like('a.name',$activity_name);
+		}
+		
+		if ($school_id != '') {
+			$this->CI->db->where('m.current_school',$school_id);
+		}
+		
+		if ($member_id != '') {
+			$this->CI->db->where('m.member_id',$member_id);
+		}
+		
+		if ($tag != ''){
+			$this->CI->db->join('activity_tag as at','a.activity_id = at.activity_id');
+			$this->CI->db->where('at.tag',$tag);
+		}
+		
+		if ($apply_start_time != ''){
+			$this->CI->db->where('a.apply_start_time >=',$apply_start_time);
+		}
+		
+		if ($apply_end_time != ''){
+			$this->CI->db->where('a.apply_end_time <=',$apply_end_time);
+		}
+		
+		if ($start_time != ''){
+			$this->CI->db->where('a.start_time >=',$start_time);
+		}
+		
+		if ($end_time != ''){
+			$this->CI->db->where('a.end_time <=',$end_time);
+		}
+		
+		if ($activity_type == 'new') {
+			
+		}elseif ($activity_type == 'attention') {
+			$this->CI->db->where('aam2.member_id',$this->CI->current_member_id);
+		}elseif ($activity_type == 'attend') {
+			$this->CI->db->where('aam.member_id',$this->CI->current_member_id);
+		}
+		
+		if ($status == 'active') {
+			$this->CI->db->where('a.end_time >=',date('Y-m-d'));
+		}
+		
+		$this->CI->db->group_by('a.activity_id');
+		$this->CI->db->order_by('a.created_time','DESC');
+		$all_new_activity_information = $this->CI->db->get()->result_array();
+		
+		return $all_new_activity_information;
+	}
+
+/*
+ *---------------------------------------------------------------
+ * uncat
+ *---------------------------------------------------------------
+ */
 	
 	function getAttendActivityMemberInformation($activity_id) {
 		
@@ -1021,23 +1123,20 @@ class Extend_control {
 	
 	}
 	
-	function getMemberInformationBySearch($member_name,$member_type,$rand=false){
-		$this->CI->db->select('member_id, name as member_name, member_type, image as member_image');
-		$this->CI->db->from('member');
-		
-		if ($rand == 'false') {
-			$this->CI->db->like('name',$member_name);
-			$this->CI->db->where('member_type',$member_type);
-			$this->CI->db->order_by('member_id','DESC');
-		} else {
-			$this->CI->db->where('member_type',$member_type);
-			//$this->CI->db->or_where('member_type','company');
-			$this->CI->db->order_by('member_id',random);
-		}
-		$all_member_information = $this->CI->db->get()->result_array();
-		
-		return $all_member_information;
-		
+	
+
+	/**
+	* 按类别随机展示会员
+	*
+	* @param 	string 	$member_type 	查询的会员类型
+	* @param 	int 	$limit 			返回数量
+	*/
+	function randomMemberByType($member_type,$limit=10) {
+		$this->CI->db->where('member_type',$member_type);
+		$this->CI->db->order_by('member_id',random);
+		$this->CI->db->limit($limit);
+
+		return $this->CI->db->get()->result_array();
 	}
 	
 	function getMemberInformationBySchoolId($school_id,$member_type){
@@ -1089,67 +1188,6 @@ class Extend_control {
 		
 		return $all_new_activity_information;
 	}
-	
-	function getActivityInformationBySearchFields($activity_name = null, $school_id = null, $member_id = null, $tag= null, $apply_start_time = null, $apply_end_time = null, $start_time = null, $end_time = null, $activity_type = null, $status = null){
-		$this->CI->db->select('a.activity_id, a.name as activity_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.description, a.created_time, m.member_id, m.name as member_name, m.image as member_image, count(DISTINCT aam.member_id) as attend_number, count(DISTINCT aam2.member_id) as attention_number');
-		$this->CI->db->from('activity as a');
-		$this->CI->db->join('activity_publish_member as apm','apm.activity_id = a.activity_id');
-		$this->CI->db->join('member as m','apm.member_id = m.member_id');
-		$this->CI->db->join('activity_attend_member as aam','aam.activity_id = a.activity_id','left');
-		$this->CI->db->join('activity_attention_member as aam2','aam2.activity_id = a.activity_id','left');
-		
-		if ($activity_name != '') {
-			$this->db->like('a.name',$activity_name);
-		}
-		
-		if ($school_id != '') {
-			$this->CI->db->where('m.current_school',$school_id);
-		}
-		
-		if ($member_id != '') {
-			$this->CI->db->where('m.member_id',$member_id);
-		}
-		
-		if ($tag != ''){
-			$this->CI->db->join('activity_tag as at','a.activity_id = at.activity_id');
-			$this->CI->db->where('at.tag',$tag);
-		}
-		
-		if ($apply_start_time != ''){
-			$this->CI->db->where('a.apply_start_time >=',$apply_start_time);
-		}
-		
-		if ($apply_end_time != ''){
-			$this->CI->db->where('a.apply_end_time <=',$apply_end_time);
-		}
-		
-		if ($start_time != ''){
-			$this->CI->db->where('a.start_time >=',$start_time);
-		}
-		
-		if ($end_time != ''){
-			$this->CI->db->where('a.end_time <=',$end_time);
-		}
-		
-		if ($activity_type == 'new') {
-			
-		}elseif ($activity_type == 'attention') {
-			$this->CI->db->where('aam2.member_id',$this->CI->current_member_id);
-		}elseif ($activity_type == 'attend') {
-			$this->CI->db->where('aam.member_id',$this->CI->current_member_id);
-		}
-		
-		if ($status == 'active') {
-			$this->CI->db->where('a.end_time >=',date('Y-m-d'));
-		}
-		
-		$this->CI->db->group_by('a.activity_id');
-		$this->CI->db->order_by('a.created_time','DESC');
-		$all_new_activity_information = $this->CI->db->get()->result_array();
-		
-		return $all_new_activity_information;
-	}
-	
 	
 	function getHotActivityTag($page_offset = 0, $limit = NULL){
 		$this->CI->db->select('tag, count(activity_tag_id) as tag_count');

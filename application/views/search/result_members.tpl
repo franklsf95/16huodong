@@ -1,0 +1,1 @@
+<ul>{foreach $all_members as $i}	<li>{$i.member_name}  {$i.member_id}</li>{/foreach}</ul>

@@ -43,20 +43,20 @@ $( function() {
       } });
     });
 $("#tab-stu").click(function() {
-  $("#input-type").val( 'student' );
+  $("#input-type").val( 'stu' );
   areaSelector = '#select-area-1';
   schoolSelector = '#select-school-1';
 });
 $("#tab-org").click(function() {
-  $("#input-type").val( 'student_organization' );
+  $("#input-type").val( 'org' );
   areaSelector = '#select-area-2';
   schoolSelector = '#select-school-2';
 });
 $("#tab-chr").click(function() {
-  $("#input-type").val( 'commonweal_organization' );
+  $("#input-type").val( 'chr' );
 });
 $("#tab-com").click(function() {
-  $("#input-type").val( 'company' );
+  $("#input-type").val( 'com' );
 });
 $(".area-list").change(function() {
   initializeSchool( $(this).val() );
