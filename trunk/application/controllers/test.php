@@ -13,7 +13,7 @@ Class Test Extends BaseActionController {
 	}
 
 	function index(){
-		$new_system_message = $this->extend_control->getNewSystemMessage($this->current_member_id);			//新的系统消息数
+		$this->ci_smarty->view( $this->config->item('template').'/library/view_js' );
 	}
 	
 	

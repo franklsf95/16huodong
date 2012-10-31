@@ -98,14 +98,12 @@ Class Library Extends BaseActionController {
      * 工具函数：处理edit()提交
      *
      * @param	很多
-     *
-     * @author suantou
      */
 	function _saveItem($isNew, &$id, &$param) {
 		$member_id = $this->current_member_information['member_id'];
 		
 		$name = $this->getParameterWithOutTag('name',NULL);
-		$image = $this->getParameter('image',NULL);
+		$image = $this->getParameter('image',$this->config->item('asset').'/img/default/book_cover.jpg');
 		$content = $this->getParameter('content',NULL);
 		
 		$data['name'] = $name;
@@ -114,8 +112,8 @@ Class Library Extends BaseActionController {
 		
 		//处理图片高宽问题
 		$image_url = $this->getImageUrl($image);
-		if ($image_url === false) {
-			show_error('活动封面有问题');
+		if ( !$image_url ) {
+			show_error('微型书封面不合法');
 		}
 		$image_parameter = @getimagesize($image_url['absolute_path']);
 		$data['image_width'] = $image_parameter['0'];

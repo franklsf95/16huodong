@@ -452,7 +452,7 @@ class BaseController extends CI_Controller {
 			$return_url['relative_path'] = $url;
 			$return_url['absolute_path'] = "http://" . $_SERVER['HTTP_HOST'].$url;
 			return $return_url;
-		}elseif (preg_match("/^(\/application\/views\/){1}([a-z0-9_-])*(\/images\/blog\/default_album.jpg){1}$/",$url)){
+		}elseif (preg_match("/^\/asset\/img\/default\/book_cover\.jpg$/",$url)){
 			$return_url['relative_path'] = $url;
 			$return_url['absolute_path'] = "http://" . $_SERVER['HTTP_HOST'].$url;
 			return $return_url;
