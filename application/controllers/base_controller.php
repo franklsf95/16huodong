@@ -47,14 +47,12 @@ class BaseController extends CI_Controller {
 		$this->lang->load('alert');			//读取语言文件
 		$this->ci_smarty->registerPlugin('modifier','lang_line', array($this->lang, 'line'));	//启用语言模版
 		
+		//Smarty模板路径
+		$this->layoutFolder = 'layout/';
+		$this->commonFolder = 'common/';
 		
-		//修改输出模版路径
-		$this->layoutFolder = $this->config->item('template').'/layout/';
-		$this->commonFolder = $this->config->item('template').'/common/';
-		
-		$this->viewFolder = $this->config->item('template');
 		if ($this->applicationFolder) {
-			$this->viewFolder = $this->viewFolder.'/'.$this->applicationFolder;
+			$this->viewFolder = $this->applicationFolder;
 		}
 		
 		$this->ci_smarty->assign('template',$this->config->item('template'));

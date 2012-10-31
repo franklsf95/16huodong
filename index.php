@@ -34,7 +34,7 @@ if (defined('ENVIRONMENT'))
 	switch (ENVIRONMENT)
 	{
 		case 'development':
-			error_reporting(E_ALL);
+			error_reporting(E_ALL & ~E_NOTICE);
 		break;
 	
 		case 'testing':
@@ -97,8 +97,7 @@ function idx($arr, $idx, $default=null) {
  * NO TRAILING SLASH!
  *
  */
-	include_once "common-setting.php";
-	$application_folder = $ci_application_folder;
+	$application_folder = $_SERVER['DOCUMENT_ROOT'] . "/application";
 
 /*
  * --------------------------------------------------------------------

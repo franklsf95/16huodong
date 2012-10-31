@@ -10,18 +10,16 @@
               <li id="sidebar-friend"><a href="{'friend'|site_url}"><i class="icon-user"></i> 我的好友</a></li>
               <li id="sidebar-message"><a href="{'message'|site_url}"><i class="icon-envelope"></i> 站内信</a></li>
               <li id="sidebar-logout"><a href="{'login/logout'|site_url}"><i class="icon-off"></i> 登出</a></li>
-              {if $all_system_message_count}
+              {if $all_system_message_notice|@count}
               <li class="nav-header">你有新消息~</li>
-              {foreach $all_system_message_count as $i}
-                {if ($i.type == 'activity')}
-                <li class="active"><a href="{'message'|site_url}#tabs-2">{$i.count}个新的活动通知</a></li>
-                {elseif ($i.type == 'friend')}
-                <li class="active"><a href="{'message'|site_url}#tabs-2">{$i.count}个新的好友通知</a></li>
-                {elseif ($i.type == 'blog')}
-                <li class="active"><a href="{'message'|site_url}#tabs-2">{$i.count}个新的日志通知</a></li>
-                {elseif ($i.type == 'member_message')}
-                <li class="active"><a href="{'message'|site_url}">{$i.count}条新的站内信</a></li>
+              {foreach $all_system_message_notice as $i}
+                <li class="active"><a href="{'message'|site_url}">
+                {if $i.type == 'activity'}{$i.count}个新的活动通知
+                {elseif $i.type == 'friend'}{$i.count}个新的好友通知
+                {elseif $i.type == 'blog'}{$i.count}个新的日志通知
+                {elseif $i.type == 'member_message'}{$i.count}条新的站内信
                 {/if}
+                </a></li>
               {/foreach}
               {/if}
             </ul>
