@@ -18,6 +18,7 @@ DROP TABLE IF EXISTS `16_activity`;
 CREATE TABLE `16_activity` (
   `activity_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
+  `publisher`  int(11) DEFAULT NULL,
   `status` char(1) DEFAULT 'Y',
   `publish` char(1) DEFAULT 'Y',
   `apply_start_time` date DEFAULT NULL,
@@ -37,7 +38,7 @@ CREATE TABLE `16_activity` (
   PRIMARY KEY (`activity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `16_activity_rate` */
+/*Table structure for the table `16_activity_rate` */
 CREATE TABLE `16_activity_rate` (
    `activity_id` int(11) DEFAULT NULL,
    `member_id` int(11) DEFAULT NULL,
@@ -119,18 +120,6 @@ CREATE TABLE `16_activity_link_blog` (
 
 /*Data for the table `16_activity_link_blog` */
 
-/*Table structure for table `16_activity_publish_member` */
-
-DROP TABLE IF EXISTS `16_activity_publish_member`;
-
-CREATE TABLE `16_activity_publish_member` (
-  `activity_id` int(11) DEFAULT NULL,
-  `member_id` int(11) DEFAULT NULL,
-  `publisher` char(1) DEFAULT 'N'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `16_activity_publish_member` */
-
 /*Table structure for table `16_activity_tag` */
 
 DROP TABLE IF EXISTS `16_activity_tag`;
@@ -210,7 +199,7 @@ CREATE TABLE `16_member` (
   `member_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '会员id',
   `account` varchar(50) NOT NULL COMMENT '帐号',
   `password` varchar(32) DEFAULT NULL COMMENT '密码',
-  `member_type` varchar(50) NOT NULL COMMENT '会员类别',
+  `member_type` varchar(4) NOT NULL COMMENT '会员类别',
   `member_type_2` varchar(50) DEFAULT NULL COMMENT '会员类别2',
   `status` int(4) NOT NULL DEFAULT '1' COMMENT '会员状态',
   `image` varchar(255) DEFAULT '/upload/portrait.jpg' COMMENT '会员头像',

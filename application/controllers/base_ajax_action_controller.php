@@ -191,14 +191,13 @@ Class Base_ajax_action_controller extends BaseActionController {
 		if($result) {
 			$activity_comment_id = $this->db->insert_id();
 			
-			$this->db->select('member_id');
-			$this->db->where('activity_id',$activity_id);
-			$target_id = idx($this->db->get_first('activity_publish_member'),'member_id');
-			
 			//system_message
+			$this->db->select('publisher');
+			$this->db->where('activity_id',$activity_id);
+			
+			$system_data['target_id'] = idx($this->db->get_first(),'publisher');
 			$system_data['category'] = 'activity';
 			$system_data['type'] = 'new_comment';
-			$system_data['target_id'] = $target_id;
 			$system_data['code'] = $activity_id;
 			
 			$this->system_message($system_data);
