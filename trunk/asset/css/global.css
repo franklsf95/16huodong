@@ -45,7 +45,7 @@ body {
 label.valid {
 	width: 24px;
 	height: 24px;
-	background: url("__($config.template_prefix)__asset/img/valid.png") center center no-repeat;
+	background: url("/asset/img/valid.png") center center no-repeat;
 	display: inline-block;
 	text-indent: -9999px;
 }

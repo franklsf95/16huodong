@@ -15,6 +15,38 @@ class Extend_control {
  * 会员信息处理
  *---------------------------------------------------------------
  */
+
+	/**
+	* 初始化会员信息
+	*
+	* @return 	PHP全局变量 	current_member_information
+	* @return 	PHP sessionValue 	current_member_information
+	* @return 	Smarty全局变量 	current_member_id, current_member_information
+	*/
+	function setCurrentMemberInformation() {
+		$cmid = $this->CI->current_member_id;
+
+		$this->CI->db->select('m.member_id, m.account, m.member_type, m.member_type_2, m.status, m.image as member_image, m.name as member_name, m.principal, m.gender, m.birthday, m.hobby, m.qq, m.mobilephone, m.phone, m.email, m.address, m.tag, m.description, m.content, m.created_time, m.modified_time, m.current_school, m.school_name, organisation, title');
+		$this->CI->db->from('member as m');
+		$this->CI->db->where('member_id',$cmid);
+		$cmi = $this->CI->db->get_first();
+		$this->CI->db->select('tag');
+		$this->CI->db->from('member_tag');
+		$this->CI->db->where('member_id',$member_id);
+		$tag_array = $this->CI->db->get()->result_array();
+		$tags = array();
+		foreach( $tag_array as $t ) {
+			$tags[] = $t['tag'];
+		}
+		$cmi['tags'] = $tags;
+
+		$this->CI->setSessionValue('current_member_information',$cmi);
+		$this->CI->current_member_information = $cmi;
+
+		$this->CI->ci_smarty->assign('current_member_information',$cmi);
+		$this->CI->ci_smarty->assign('current_member_id',$cmid);
+	}
+
 	function getMemberIdByMemberName($member_name){
 		$this->CI->db->select('member_id');
 		$this->CI->db->from('member');
@@ -31,6 +63,34 @@ class Extend_control {
 		$name = idx($this->CI->db->get_first(),'name');
 		
 		return $name;
+	}
+
+	function getMemberInformation($member_id) {
+		$this->CI->db->select('m.member_id, m.account, m.name as member_name, m.member_type, m.member_type_2, m.status as member_status, m.image as member_image,m.organisation as member_organisation, m.title as member_title, m.principal as member_principal, m.gender as member_gender, m.birthday as member_birthday, m.hobby as member_hobby, m.qq as member_qq, m.mobilephone as member_mobilephone, m.phone as member_phone, m.email as member_email, m.address as member_address, m.tag as member_tag, m.description as member_description, m.created_time, m.modified_time, , m.content, m.school_name');
+		$this->CI->db->from('member as m');
+		$this->CI->db->where('m.member_id',$member_id);
+		$member_information = $this->CI->db->get_first();
+
+		$this->CI->db->select('tag');
+		$this->CI->db->from('member_tag');
+		$this->CI->db->where('member_id',$member_id);
+		$tag_array = $this->CI->db->get()->result_array();
+		$tags = array();
+		foreach( $tag_array as $t ) {
+			$tags[] = $t['tag'];
+		}
+		$member_information['tags'] = $tags;
+
+		return $member_information;
+	}
+	
+	function getMemberBaseInformation($member_id) {
+		$this->CI->db->select('member_id, name as member_name, image as member_image');
+		$this->CI->db->from('member');
+		$this->CI->db->where('member_id',$member_id);
+		$member_information = $this->CI->db->get_first();
+		
+		return $member_information;
 	}
 
 	/**
@@ -919,25 +979,7 @@ class Extend_control {
 		
 		return $all_friend_information;
 	}
-	
-	function getMemberInformation($member_id) {
-		$this->CI->db->select('m.member_id, m.account, m.name as member_name, m.member_type, m.member_type_2, m.status as member_status, m.image as member_image,m.organisation as member_organisation, m.title as member_title, m.principal as member_principal, m.gender as member_gender, m.birthday as member_birthday, m.hobby as member_hobby, m.qq as member_qq, m.mobilephone as member_mobilephone, m.phone as member_phone, m.email as member_email, m.address as member_address, m.tag as member_tag, m.description as member_description, m.created_time, m.modified_time, , m.content, m.school_name');
-		$this->CI->db->from('member as m');
-		$this->CI->db->where('m.member_id',$member_id);
-		$member_information = $this->CI->db->get_first();
 		
-		return $member_information;
-	}
-	
-	function getMemberBaseInformation($member_id) {
-		$this->CI->db->select('member_id, name as member_name, image as member_image');
-		$this->CI->db->from('member');
-		$this->CI->db->where('member_id',$member_id);
-		$member_information = $this->CI->db->get_first();
-		
-		return $member_information;
-	}
-	
 	function countMemberMessageByGroup($target_id){
 		$this->CI->db->select('count(DISTINCT(`group`)) as count');
 		$this->CI->db->from('member_message');

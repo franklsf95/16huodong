@@ -1,16 +1,19 @@
 <script src="{$config.asset}/js/jquery.validate.min.js"></script>
 <script>
-var areaSelector = '#select-area-1';
-var schoolSelector = '#select-school-1';
+areaSelector = '#select-area-1';
+schoolSelector = '#select-school-1';
+schoolArray = new Array('aaaaaaa');
+schoolIdArray = new Array();
+$( function() {
+  initializeArea();
+});
 $("#remember-me-anchor").click( function() {
   if( $("#loginRemember").attr("checked") )
     $("#loginRemember").removeAttr("checked");
   else
     $("#loginRemember").attr("checked", true);
 });
-$( function() {
-      initializeArea();
-      $('#reg-form').validate({
+$('#reg-form').validate({
       rules: {
         username: {
           minlength: 6,
@@ -40,8 +43,8 @@ $( function() {
         label
           .text('OK!').addClass('valid')
           .closest('.control-group').addClass('success').removeClass('error');
-      } });
-    });
+      }
+});
 $("#tab-stu").click(function() {
   $("#input-type").val( 'stu' );
   areaSelector = '#select-area-1';
@@ -58,19 +61,18 @@ $("#tab-chr").click(function() {
 $("#tab-com").click(function() {
   $("#input-type").val( 'com' );
 });
-$(".area-list").change(function() {
-  initializeSchool( $(this).val() );
-});
-schoolArray = new Array();
-schoolIdArray = new Array();
 $("#submit-btn").click(function() {
   school = $(schoolSelector).val();
   id = schoolIdArray[ schoolArray.indexOf(school) ];
   $("#input-school-id").val(id);
 });
 
+$(".area-list").change(function() {
+  initializeSchool( $(this).val() );
+});
+
 function initializeArea() {
-        $.getJSON("{'welcome/ajaxGetAllAreaInformation'|site_url}?city_id=1",function(data){
+      $.getJSON("{'welcome/ajaxGetAllAreaInformation'|site_url}?city_id=1",function(data){
         for (i in data) {
           op = "<option value="+data[i].area_id+">"+data[i].name+"</option>";
           $(".area-list").append(op);
@@ -78,17 +80,20 @@ function initializeArea() {
       });
 }
 function initializeSchool(area) {
-        $.getJSON("{'welcome/getAllSchoolInformation'|site_url}?area_id="+area,function(data) {
-          schoolArray = [];
-          schoolIdArray = [];
-          for (i in data) {
-            schoolArray.push( data[i].name );
-            schoolIdArray.push( data[i].school_id );
-          }
-          console.log(schoolArray);
-          console.log(schoolIdArray);
-          $(schoolSelector).typeahead( { source: schoolArray, minLength: 2, items: 12 } );
-      });
+  schoolArray = [];
+  schoolIdArray = [];
+  $.getJSON("{'welcome/ajaxGetAllSchoolInformation'|site_url}?area_id="+area,function(data) {
+      for (i in data) {
+        schoolArray.push( data[i].name );
+        schoolIdArray.push( data[i].school_id );
+      }
+      console.log(schoolArray);
+  });
+  $(schoolSelector).typeahead( {
+    source: function() { return schoolArray; }, 
+    minLength: 2,
+    items: 12
+  });
 }
 
 </script>
