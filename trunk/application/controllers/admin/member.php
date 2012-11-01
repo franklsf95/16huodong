@@ -130,9 +130,8 @@ Class Member Extends AdminController {
 			
 			//活动操作
 			$this->db->select('GROUP_CONCAT(activity_id) as all_activity_id');
-			$this->db->where('member_id',$member_id);
-			$this->db->where('publisher','Y');
-			$all_activity_id = idx($this->db->get_first('activity_publish_member'),'all_activity_id');
+			$this->db->where('publisher',$member_id);
+			$all_activity_id = idx($this->db->get_first('activity'),'all_activity_id');
 			
 			if($all_activity_id != '') {
 			

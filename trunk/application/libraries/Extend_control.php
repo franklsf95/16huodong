@@ -327,64 +327,51 @@ class Extend_control {
 	* @param 	string 	$member_name 	查询的会员名
 	* @param 	int 	$limit 			返回数量上限，0表示无上限
 	*/
-	function searchActivity($activity_name = null, $school_id = null, $member_id = null, $tag= null, $apply_start_time = null, $apply_end_time = null, $start_time = null, $end_time = null, $activity_type = null, $status = null){
+	function searchActivity( 
+		$activity_name = null, 
+		$school_id = null, 
+		$publisher_id = null, 
+		$member_type = null,
+		$tag= null, 
+		$is_open = null,
+		$is_active = null,
+		$is_following = null,
+		$is_attending = null,
+		$apply_start_time = null, 
+		$apply_end_time = null, 
+		$start_time = null, 
+		$end_time = null ) {
+
 		$this->CI->db->select('a.activity_id, a.name as activity_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.description, a.created_time, m.member_id, m.name as member_name, m.image as member_image, count(DISTINCT aam.member_id) as attend_number, count(DISTINCT aam2.member_id) as attention_number');
 		$this->CI->db->from('activity as a');
-		$this->CI->db->join('activity_publish_member as apm','apm.activity_id = a.activity_id');
-		$this->CI->db->join('member as m','apm.member_id = m.member_id');
+		$this->CI->db->join('member as m','a.publisher = m.member_id');
 		$this->CI->db->join('activity_attend_member as aam','aam.activity_id = a.activity_id','left');
 		$this->CI->db->join('activity_attention_member as aam2','aam2.activity_id = a.activity_id','left');
 		
-		if ($activity_name != '') {
-			$this->db->like('a.name',$activity_name);
-		}
-		
-		if ($school_id != '') {
-			$this->CI->db->where('m.current_school',$school_id);
-		}
-		
-		if ($member_id != '') {
-			$this->CI->db->where('m.member_id',$member_id);
-		}
-		
-		if ($tag != ''){
+		//if ($activity_name!='') $this->db->like('a.name',$activity_name);
+		if ($school_id)	$this->CI->db->where('m.current_school',$school_id);
+		if ($publisher_id)	$this->CI->db->where('a.publisher',$publisher_id);	
+
+		if ($tag) {
 			$this->CI->db->join('activity_tag as at','a.activity_id = at.activity_id');
 			$this->CI->db->where('at.tag',$tag);
 		}
+		if ($member_type)	$this->CI->db->where('m.member_type',$member_type);	
+
+		if ($is_open) 	$this->CI->db->where('a.apply_end_time >=',date('Y-m-d'));
+		if ($is_active)	$this->CI->db->where('a.end_time >=',date('Y-m-d'));
+		if ($is_following) 	$this->CI->db->where('aam2.member_id',$this->CI->current_member_id);
+		if ($is_attending) 	$this->CI->db->where('aam.member_id',$this->CI->current_member_id);
 		
-		if ($apply_start_time != ''){
-			$this->CI->db->where('a.apply_start_time >=',$apply_start_time);
-		}
-		
-		if ($apply_end_time != ''){
-			$this->CI->db->where('a.apply_end_time <=',$apply_end_time);
-		}
-		
-		if ($start_time != ''){
-			$this->CI->db->where('a.start_time >=',$start_time);
-		}
-		
-		if ($end_time != ''){
-			$this->CI->db->where('a.end_time <=',$end_time);
-		}
-		
-		if ($activity_type == 'new') {
-			
-		}elseif ($activity_type == 'attention') {
-			$this->CI->db->where('aam2.member_id',$this->CI->current_member_id);
-		}elseif ($activity_type == 'attend') {
-			$this->CI->db->where('aam.member_id',$this->CI->current_member_id);
-		}
-		
-		if ($status == 'active') {
-			$this->CI->db->where('a.end_time >=',date('Y-m-d'));
-		}
+		if ($apply_start_time)	$this->CI->db->where('a.apply_start_time >=',$apply_start_time);
+		if ($apply_end_time)	$this->CI->db->where('a.apply_end_time <=',$apply_end_time);
+		if ($start_time) 		$this->CI->db->where('a.start_time >=',$start_time);
+		if ($end_time) 			$this->CI->db->where('a.end_time <=',$end_time);		
 		
 		$this->CI->db->group_by('a.activity_id');
 		$this->CI->db->order_by('a.created_time','DESC');
-		$all_new_activity_information = $this->CI->db->get()->result_array();
 		
-		return $all_new_activity_information;
+		return $this->CI->db->get()->result_array();
 	}
 
 /*
@@ -566,47 +553,39 @@ class Extend_control {
 	function countNewActivity(){
 		$this->CI->db->select('count(a.activity_id) as count');
 		$this->CI->db->from('activity as a');
-		$this->CI->db->join('activity_publish_member as apm','apm.activity_id = a.activity_id');
-		$this->CI->db->join('member as m','apm.member_id = m.member_id');
-		$this->CI->db->where('apm.publisher','Y');
 		$this->CI->db->where('date(a.end_time) >=',$this->CI->current_date);
-		$result = idx($this->CI->db->get_first(),'count');
 		
-		return $result;
+		return idx($this->CI->db->get_first(),'count');
 	}
 	
 	
 	function getNewActivityInformation($page_offset = 0,$limit = 5) {
 		$this->CI->db->select('a.activity_id, a.name as activity_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.image_width as activity_image_width, a.image_height as activity_image_height, a.description, a.created_time, m.member_id, m.name as member_name, m.image as member_image, count(distinct aam.member_id) as attend_number, count(distinct aam2.member_id) as attention_number');
 		$this->CI->db->from('activity as a');
-		$this->CI->db->join('activity_publish_member as apm','apm.activity_id = a.activity_id');
-		$this->CI->db->join('member as m','apm.member_id = m.member_id');
+		$this->CI->db->join('member as m','a.publisher = m.member_id');
 		$this->CI->db->join('activity_attend_member as aam','aam.activity_id = a.activity_id','left');
 		$this->CI->db->join('activity_attention_member as aam2','aam2.activity_id = a.activity_id','left');
-		$this->CI->db->where('apm.publisher','Y');
 		$this->CI->db->where('date(a.end_time) >=',$this->CI->current_date);
+
 		$this->CI->db->group_by('a.activity_id');
 		$this->CI->db->order_by('a.created_time','DESC');
-		$all_new_activity_information = $this->CI->db->get('',$limit,$page_offset )->result_array();
 		
-		return $all_new_activity_information;
+		return $this->CI->db->get('',$limit,$page_offset )->result_array();
 	}
 	
 	function getHotActivityInformation($page_offset = 0,$limit = 5) {
 		$this->CI->db->select('a.activity_id, a.name as activity_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.image_width as activity_image_width, a.image_height as activity_image_height, a.description, a.created_time, m.member_id, m.name as member_name, m.image as member_image, count(distinct aam.member_id) as attend_number, count(distinct aam2.member_id) as attention_number, count(av.activity_visit_id) as visit_number');
 		$this->CI->db->from('activity as a');
-		$this->CI->db->join('activity_publish_member as apm','apm.activity_id = a.activity_id');
 		$this->CI->db->join('activity_visit as av','a.activity_id = av.activity_id');
-		$this->CI->db->join('member as m','apm.member_id = m.member_id');
+		$this->CI->db->join('member as m','a.publisher = m.member_id');
 		$this->CI->db->join('activity_attend_member as aam','aam.activity_id = a.activity_id','left');
 		$this->CI->db->join('activity_attention_member as aam2','aam2.activity_id = a.activity_id','left');
-		$this->CI->db->where('apm.publisher','Y');
 		$this->CI->db->where('date(a.end_time) >=',$this->CI->current_date);
+
 		$this->CI->db->group_by('a.activity_id');
 		$this->CI->db->order_by('count(av.activity_visit_id)','DESC');
-		$all_new_activity_information = $this->CI->db->get('',$limit,$page_offset )->result_array();
 		
-		return $all_new_activity_information;
+		return $this->CI->db->get('',$limit,$page_offset )->result_array();
 	}
 	
 	
@@ -624,10 +603,8 @@ class Extend_control {
 	function getActiveAttendActivityInformation($member_id,$page_offset = Null,$limit = Null){
 		$this->CI->db->select('a.activity_id, a.name as activity_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.description, m.member_id, m.name as member_name, m.image as member_image');
 		$this->CI->db->from('activity as a');
-		$this->CI->db->join('activity_publish_member as apm','apm.activity_id = a.activity_id');
-		$this->CI->db->join('member as m','apm.member_id = m.member_id');
+		$this->CI->db->join('member as m','a.publisher = m.member_id');
 		$this->CI->db->join('activity_attend_member as aam','a.activity_id = aam.activity_id');
-		$this->CI->db->where('apm.publisher','Y');
 		$this->CI->db->where('aam.member_id',$member_id);
 		$this->CI->db->where('date(a.end_time) >=',$this->CI->current_date);
 		$this->CI->db->order_by('a.created_time','DESC');
@@ -649,12 +626,10 @@ class Extend_control {
 	function getAllMemberAttentionActivityInformation($member_id,$page_offset = 0,$limit = 5){
 		$this->CI->db->select('a.activity_id, a.name as activity_name, a.image as activity_image, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.description, m.member_id, m.name as member_name, m.image as member_image,count(aam.member_id) as attention_count, count(aam2.member_id) as attend_count, count(ac.activity_comment_id) as comment_count');
 		$this->CI->db->from('activity as a');
-		$this->CI->db->join('activity_publish_member as apm','apm.activity_id = a.activity_id');
-		$this->CI->db->join('member as m','apm.member_id = m.member_id');
+		$this->CI->db->join('member as m','a.publisher = m.member_id');
 		$this->CI->db->join('activity_attention_member as aam','a.activity_id = aam.activity_id');
 		$this->CI->db->join('activity_attend_member as aam2','a.activity_id = aam2.activity_id','LEFT');
 		$this->CI->db->join('activity_comment as ac','a.activity_id = ac.activity_id','LEFT');
-		$this->CI->db->where('apm.publisher','Y');
 		$this->CI->db->where('aam.member_id',$member_id);
 		$this->CI->db->group_by('a.activity_id');
 		$this->CI->db->order_by('a.created_time','DESC');
@@ -677,12 +652,10 @@ class Extend_control {
 	function getAllMemberAttendActivityInformation($member_id,$page_offset = 0,$limit = 5){
 		$this->CI->db->select('a.activity_id, a.name as activity_name, a.image as activity_image, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.description, m.member_id, m.name as member_name, m.image as member_image,count(aam.member_id) as attention_count, count(aam2.member_id) as attend_count, count(ac.activity_comment_id) as comment_count');
 		$this->CI->db->from('activity as a');
-		$this->CI->db->join('activity_publish_member as apm','apm.activity_id = a.activity_id');
-		$this->CI->db->join('member as m','apm.member_id = m.member_id');
+		$this->CI->db->join('member as m','a.publisher = m.member_id');
 		$this->CI->db->join('activity_attention_member as aam','a.activity_id = aam.activity_id');
 		$this->CI->db->join('activity_attend_member as aam2','a.activity_id = aam2.activity_id','LEFT');
 		$this->CI->db->join('activity_comment as ac','a.activity_id = ac.activity_id','LEFT');
-		$this->CI->db->where('apm.publisher','Y');
 		$this->CI->db->where('aam2.member_id',$member_id);
 		$this->CI->db->group_by('a.activity_id');
 		$this->CI->db->order_by('a.created_time','DESC');
@@ -695,8 +668,7 @@ class Extend_control {
 	function countAllMemberPublishActivity($member_id) {
 		$this->CI->db->select('count(a.activity_id) as count');
 		$this->CI->db->from('activity as a');
-		$this->CI->db->join('activity_publish_member as apm','a.activity_id = apm.activity_id');
-		$this->CI->db->where('apm.member_id',$member_id);
+		$this->CI->db->where('a.publisher',$member_id);
 		$result = idx($this->CI->db->get_first(),'count');
 		
 		return $result;
@@ -705,13 +677,11 @@ class Extend_control {
 	function getAllMemberPublishActivityInformation($member_id,$page_offset = 0,$limit = 5){
 		$this->CI->db->select('a.activity_id, a.name as activity_name, a.image as activity_image, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.description, m.member_id, m.name as member_name, m.image as member_image,count(aam.member_id) as attention_count, count(aam2.member_id) as attend_count, count(ac.activity_comment_id) as comment_count');
 		$this->CI->db->from('activity as a');
-		$this->CI->db->join('activity_publish_member as apm','apm.activity_id = a.activity_id');
-		$this->CI->db->join('member as m','apm.member_id = m.member_id');
+		$this->CI->db->join('member as m','a.publisher = m.member_id');
 		$this->CI->db->join('activity_attention_member as aam','a.activity_id = aam.activity_id','LEFT');
 		$this->CI->db->join('activity_attend_member as aam2','a.activity_id = aam2.activity_id','LEFT');
 		$this->CI->db->join('activity_comment as ac','a.activity_id = ac.activity_id','LEFT');
-		$this->CI->db->where('apm.publisher','Y');
-		$this->CI->db->where('apm.member_id',$member_id);
+		$this->CI->db->where('a.publisher',$member_id);
 		$this->CI->db->group_by('a.activity_id');
 		$this->CI->db->order_by('a.created_time','DESC');
 		$all_member_publish_activity_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
@@ -722,13 +692,10 @@ class Extend_control {
 	function getCurrentAttentionActivityInformation($member_id){
 		$this->CI->db->select('a.activity_id, a.name as activity_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.image_width as activity_image_width, a.image_height as activity_image_height, a.description, a.created_time, m.member_id, m.name as member_name, m.image as member_image, count(distinct aam.member_id) as attend_number, count(distinct aam2.member_id) as attention_number');
 		$this->CI->db->from('activity as a');
-		$this->CI->db->join('activity_publish_member as apm','apm.activity_id = a.activity_id');
-		$this->CI->db->join('member as m','apm.member_id = m.member_id');
+		$this->CI->db->join('member as m','a.publisher = m.member_id');
 		$this->CI->db->join('activity_attend_member as aam','aam.activity_id = a.activity_id','left');
-		$this->CI->db->join('activity_attention_member as aam2','aam2.activity_id = a.activity_id','left');
-		$this->CI->db->join('activity_attention_member as aam3','aam3.activity_id = a.activity_id');
-		$this->CI->db->where('apm.publisher','Y');
-		$this->CI->db->where('aam3.member_id',$member_id);
+		$this->CI->db->join('activity_attention_member as aam2','aam2.activity_id = a.activity_id');
+		$this->CI->db->where('aam2.member_id',$member_id);
 		$this->CI->db->where('date(a.end_time) >=',$this->CI->current_date);
 		$this->CI->db->group_by('a.activity_id');
 		$this->CI->db->order_by('a.created_time','DESC');
@@ -741,13 +708,10 @@ class Extend_control {
 	function getCurrentAttendActivityInformation($member_id,$page_offset,$limit){
 		$this->CI->db->select('a.activity_id, a.name as activity_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.image_width as activity_image_width, a.image_height as activity_image_height, a.description, a.created_time, m.member_id, m.name as member_name, m.image as member_image, count(distinct aam.member_id) as attend_number, count(distinct aam2.member_id) as attention_number');
 		$this->CI->db->from('activity as a');
-		$this->CI->db->join('activity_publish_member as apm','apm.activity_id = a.activity_id');
-		$this->CI->db->join('member as m','apm.member_id = m.member_id');
+		$this->CI->db->join('member as m','a.publisher = m.member_id');
 		$this->CI->db->join('activity_attend_member as aam','aam.activity_id = a.activity_id','left');
-		$this->CI->db->join('activity_attention_member as aam2','aam2.activity_id = a.activity_id','left');
-		$this->CI->db->join('activity_attend_member as aam3','aam3.activity_id = a.activity_id');
-		$this->CI->db->where('apm.publisher','Y');
-		$this->CI->db->where('aam3.member_id',$member_id);
+		$this->CI->db->join('activity_attention_member as aam2','aam2.activity_id = a.activity_id');
+		$this->CI->db->where('aam2.member_id',$member_id);
 		$this->CI->db->where('date(a.end_time) >=',$this->CI->current_date);
 		$this->CI->db->group_by('a.activity_id');
 		$this->CI->db->order_by('a.created_time','DESC');
@@ -760,12 +724,10 @@ class Extend_control {
 	function getCurrentPublishActivityInformation($member_id,$page_offset,$limit){
 		$this->CI->db->select('a.activity_id, a.name as activity_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.image_width as activity_image_width, a.image_height as activity_image_height, a.description, a.created_time, m.member_id, m.name as member_name, m.image as member_image, count(distinct aam.member_id) as attend_number, count(distinct aam2.member_id) as attention_number');
 		$this->CI->db->from('activity as a');
-		$this->CI->db->join('activity_publish_member as apm','apm.activity_id = a.activity_id');
-		$this->CI->db->join('member as m','apm.member_id = m.member_id');
+		$this->CI->db->join('member as m','a.publisher = m.member_id');
 		$this->CI->db->join('activity_attend_member as aam','aam.activity_id = a.activity_id','left');
 		$this->CI->db->join('activity_attention_member as aam2','aam2.activity_id = a.activity_id','left');
-		$this->CI->db->where('apm.publisher','Y');
-		$this->CI->db->where('apm.member_id',$member_id);
+		$this->CI->db->where('a.publisher',$member_id);
 		$this->CI->db->where('date(a.end_time) >=',$this->CI->current_date);
 		$this->CI->db->group_by('a.activity_id');
 		$this->CI->db->order_by('a.created_time','DESC');
@@ -1153,8 +1115,7 @@ class Extend_control {
 	function getAcitivityInformationById($activity_id){
 		$this->CI->db->select('a.activity_id, a.name as activity_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.image_width as activity_image_width, a.image_height as activity_image_height, a.price as activity_price, a.address as activity_address, a.description as activity_description, a.content as activity_content, a.created_time, m.member_id, m.name as member_name, m.image as member_image');
 		$this->CI->db->from('activity as a');
-		$this->CI->db->join('activity_publish_member as apm','apm.activity_id = a.activity_id');
-		$this->CI->db->join('member as m','apm.member_id = m.member_id');
+		$this->CI->db->join('member as m','a.publisher = m.member_id');
 		$this->CI->db->where('a.activity_id',$activity_id);
 		$activity_information = $this->CI->db->get_first();
 		
@@ -1164,11 +1125,9 @@ class Extend_control {
 	function getActivityInformationByName($activity_name,$activity_type,$rand = false){
 		$this->CI->db->select('a.activity_id, a.name as activity_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.description, a.created_time, m.member_id, m.name as member_name, m.image as member_image, count(DISTINCT aam.member_id) as attend_number, count(DISTINCT aam2.member_id) as attention_number');
 		$this->CI->db->from('activity as a');
-		$this->CI->db->join('activity_publish_member as apm','apm.activity_id = a.activity_id');
-		$this->CI->db->join('member as m','apm.member_id = m.member_id');
+		$this->CI->db->join('member as m','a.publisher = m.member_id');
 		$this->CI->db->join('activity_attend_member as aam','aam.activity_id = a.activity_id','left');
 		$this->CI->db->join('activity_attention_member as aam2','aam2.activity_id = a.activity_id','left');
-		$this->CI->db->where('apm.publisher','Y');
 		if ($rand == 'false'){
 			$this->CI->db->like('a.name',$activity_name);
 		}else {
@@ -1206,36 +1165,22 @@ class Extend_control {
 	function isMemberAttendActivity($member_id,$activity_id){
 		$this->CI->db->where('member_id',$member_id);
 		$this->CI->db->where('activity_id',$activity_id);
-		$count = $this->CI->db->count_all_results('activity_attend_member');
-				
-		if ($count == 1) {
-			return 1;
-		}else {
-			return 0;
-		}
+		
+		return $this->CI->db->count_all_results('activity_attend_member');
 	}
 	
 	function isMemberAttentionActivity($member_id,$activity_id){
 		$this->CI->db->where('member_id',$member_id);
 		$this->CI->db->where('activity_id',$activity_id);
-		$count = $this->CI->db->count_all_results('activity_attention_member');
 				
-		if ($count == 1) {
-			return 1;
-		}else {
-			return 0;
-		}
+		return $this->CI->db->count_all_results('activity_attention_member');
 	}
 	
 	function isMemberPublishActivity($member_id,$activity_id){
-		$this->CI->db->where('member_id',$member_id);
+		$this->CI->db->where('publisher',$member_id);
 		$this->CI->db->where('activity_id',$activity_id);
-		$count = $this->CI->db->count_all_results('activity_publish_member');
-		if ($count > 0){
-			return 1;
-		}else {
-			return 0;
-		}
+
+		return $this->CI->db->count_all_results('activity');
 	}
 	
 	function getAllMemberInformationByName($member_name){

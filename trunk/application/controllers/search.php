@@ -43,6 +43,28 @@ Class Search Extends BaseActionController {
 		//print_r($all_members);exit();
 		$this->display('result_members','搜索'.$query.'的结果');
 	}
+
+	/**
+	* 处理搜活动请求
+	*
+	* @param 	string 	$query 	搜索人名或组织
+	*/
+	function queryActivity() {
+		$activity_name = $this->getParameter('activity_name');
+		$member_type = $this->getParameter('member_type');
+		$is_current_school = $this->getParameter('is_current_school');
+		$is_open = $this->getParameter('is_open');
+		$is_active = $this->getParameter('is_active');
+
+		if( $is_current_school ) {
+			$school_id = $this->current_member_information['current_school'];
+		}
+
+		$all_activities = $this->extend_control->searchActivity($activity_name,$school_id,null,$member_type,null,$is_open,$is_active);
+		$this->ci_smarty->assign('all_activities',$all_activities);
+		print_r($all_activities);exit();
+		$this->display('result_activities','搜索'.$query.'的结果');
+	}
 }
 
 

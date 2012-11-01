@@ -177,34 +177,7 @@ Class Activity Extends BaseActionController {
 		$this->ci_smarty->assign('activity_information',$activity_information);
 		$this->display('admin',$activity_information['activity_name'].' - 管理活动','view_css','admin_js');
 	}
-	
-	/**
-	* @deprecated
-	*/
-	function search_activity(){
-		$search = $this->getParameter('search',NULL);
 		
-		$this->db->select('a.activity_id, a.name as activity_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.description, m.member_id, m.name as member_name, m.image as member_image');
-		$this->db->from('activity as a');
-		$this->db->join('activity_publish_member as apm','apm.activity_id = a.activity_id');
-		$this->db->join('member as m','m.member_id = apm.member_id');
-		
-		if ($search['activity_name'] != '') {
-			$this->db->like('a.name',$search['activity_name']);
-		}
-		
-		if ($search['member_name'] != '') {
-			$this->db->like('m.name',$search['member_name']);
-		}
-		
-		$this->db->order_by('a.created_time','DESC');
-		$all_search_activity_information = $this->db->get()->result_array();
-		
-		$this->ci_smarty->assign('all_search_activity_information',$all_search_activity_information);
-		
-		$this->displayWithLayout('search_activity');
-	}
-	
 	/**
      * 显示活动创建和编辑页面
      *
@@ -214,17 +187,15 @@ Class Activity Extends BaseActionController {
      */
 	function edit() {
 		$id = $this->getParameter('id',NULL);
-		$member_id = $this->current_member_information['member_id'];
+		$member_id = $this->current_member_id;
 		$title = '发起新活动';
 		
 		if ( $id ) {
 			$title = '编辑活动 #'.$id;
 			$this->db->from('activity as a');
-			$this->db->join('activity_publish_member as apm','a.activity_id = apm.activity_id');
 			$this->db->where('a.activity_id',$id);
-			$this->db->where('apm.member_id',$member_id);
-			$this->db->where('apm.publisher','Y');
-			$activity_information = $this->db->get_first('');
+			$this->db->where('a.publisher',$member_id);
+			$activity_information = $this->db->get_first();
 			$activity_information['member_name'] = $this->current_member_information['member_name'];
 			
 			//获取活动标签
@@ -282,7 +253,7 @@ Class Activity Extends BaseActionController {
 		$name = $this->getParameterWithOutTag('name',NULL);
 		$apply_start_time = $this->getParameter('apply_start_time',NULL);
 		$apply_end_time = $this->getParameter('apply_end_time',NULL);
-		$start_time = $this->getParameter('start_time',NULL);					//1为正常
+		$start_time = $this->getParameter('start_time',NULL);
 		$end_time = $this->getParameter('end_time',NULL);
 		$price = $this->getParameterWithOutTag('price',NULL);
 		$address = $this->getParameterWithOutTag('address',NULL);
@@ -294,6 +265,7 @@ Class Activity Extends BaseActionController {
 		//$tag = trim(trim(str_replace('/',',',str_replace('.',',',str_replace(';',',',str_replace('，',',',str_replace(' ',',',$tag)))))),',');
 		
 		$data['name'] = $name;
+		$data['publisher'] = $this->current_member_id;
 		$data['apply_start_time'] = $apply_start_time;
 		$data['apply_end_time'] = $apply_end_time;
 		$data['start_time'] = $start_time;
@@ -317,15 +289,7 @@ Class Activity Extends BaseActionController {
 			//写入activity
 			$data['created_time'] = $this->current_time;
 			$this->db->insert('activity',$data);
-			
 			$activity_id = $this->db->insert_id();
-			
-			//写入activity_publisher
-			$activity_publisher_data['activity_id'] = $activity_id;
-			$activity_publisher_data['member_id'] = $this->current_member_information['member_id'];
-			$activity_publisher_data['publisher'] = 'Y';
-			
-			$this->db->insert('activity_publish_member',$activity_publisher_data);
 			
 			//写入activity_tag
 			foreach($tag_array as $tag_value){
@@ -498,11 +462,11 @@ Class Activity Extends BaseActionController {
 				$this->db->insert('activity_attend_member',$data);
 
 				$return = 1;
+				
 				//system_message
-				$this->db->select('member_id');
+				$this->db->select('publisher');
 				$this->db->where('activity_id',$activity_id);
-				$member_id = idx($this->db->get_first('activity_publish_member'),'member_id');
-				$system_data['target_id'] = $member_id;
+				$system_data['target_id'] = idx($this->CI->db->get_first(),'publisher');
 				$system_data['category'] = 'activity';
 				$system_data['type'] = 'attend_activity';
 				$system_data['code'] = $activity_id;
@@ -650,7 +614,7 @@ Class Activity Extends BaseActionController {
      */
 	function ajaxGetActivityInformationByTag(){
 		$tag = $this->getParameter('tag',NULL);
-		$all_activity_information = $this->extend_control->getActivityInformationBySearchFields(null,null,null,$tag,null,null,null,null,null,null);
+		$all_activity_information = $this->extend_control->searchActivity(null,null,null,null,$tag);
 		
 		echo json_encode($all_activity_information);
 	}

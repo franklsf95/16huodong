@@ -26,8 +26,7 @@ Class Activity Extends AdminController {
 		
 		$this->db->select('a.*,m.member_id, m.name as member_name');
 		$this->db->from('activity as a');
-		$this->db->join('activity_publish_member as apm','a.activity_id = apm.activity_id');
-		$this->db->join('member as m','m.member_id = apm.member_id');
+		$this->db->join('member as m','m.member_id = a.publisher');
 		if ($p_expiry == 'Y') {
 			$this->db->where('end_time <',date('Y-m-d'));
 		}elseif ($p_expiry == 'N') {
@@ -106,14 +105,9 @@ Class Activity Extends AdminController {
 			$this->db->where('activity_id',$activity_id);
 			$this->db->delete('activity_comment');
 			
-			
 			//删除所有会员标签
 			$this->db->where('activity_id',$activity_id);
 			$this->db->delete('activity_tag');
-			
-			//删除所有发布者
-			$this->db->where('activity_id',$activity_id);
-			$this->db->delete('activity_publish_member');
 			
 			//删除活动
 			$this->db->where('activity_id',$activity_id);
