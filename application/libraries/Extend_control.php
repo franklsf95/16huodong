@@ -30,9 +30,10 @@ class Extend_control {
 		$this->CI->db->from('member as m');
 		$this->CI->db->where('member_id',$cmid);
 		$cmi = $this->CI->db->get_first();
+
 		$this->CI->db->select('tag');
 		$this->CI->db->from('member_tag');
-		$this->CI->db->where('member_id',$member_id);
+		$this->CI->db->where('member_id',$cmid);
 		$tag_array = $this->CI->db->get()->result_array();
 		$tags = array();
 		foreach( $tag_array as $t ) {
@@ -88,9 +89,8 @@ class Extend_control {
 		$this->CI->db->select('member_id, name as member_name, image as member_image');
 		$this->CI->db->from('member');
 		$this->CI->db->where('member_id',$member_id);
-		$member_information = $this->CI->db->get_first();
 		
-		return $member_information;
+		return $this->CI->db->get_first();
 	}
 
 	/**
