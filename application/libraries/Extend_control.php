@@ -408,7 +408,7 @@ class Extend_control {
 		$this->CI->db->join('activity_attend_member as aam','aam.activity_id = a.activity_id','left');
 		$this->CI->db->join('activity_attention_member as aam2','aam2.activity_id = a.activity_id','left');
 		
-		//if ($activity_name!='') $this->db->like('a.name',$activity_name);
+		if ($activity_name!='') $this->CI->db->like('a.name',$activity_name);
 		if ($school_id)	$this->CI->db->where('m.current_school',$school_id);
 		if ($publisher_id)	$this->CI->db->where('a.publisher',$publisher_id);	
 

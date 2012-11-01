@@ -451,7 +451,6 @@ Class Activity Extends BaseActionController {
 		$activity_id = $this->getParameter('id');
 		$member_id = $this->current_member_information['member_id'];
 
-		$return;
 		if ($activity_id) {
 			//检查该会员是否已经参加活动
 			$is_attend = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
@@ -460,13 +459,13 @@ Class Activity Extends BaseActionController {
 				$data['activity_id'] = $activity_id;
 				$data['created_time'] = $this->current_time;
 				$this->db->insert('activity_attend_member',$data);
-
 				$return = 1;
 				
 				//system_message
 				$this->db->select('publisher');
 				$this->db->where('activity_id',$activity_id);
-				$system_data['target_id'] = idx($this->CI->db->get_first(),'publisher');
+				$this->db->from('activity');
+				$system_data['target_id'] = idx($this->db->get_first(),'publisher');
 				$system_data['category'] = 'activity';
 				$system_data['type'] = 'attend_activity';
 				$system_data['code'] = $activity_id;
