@@ -7,8 +7,8 @@
     <meta name="description" content="">
     <meta name="robots" content="noindex">
     
-    <link href="/application/views/default/asset/css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <link href="/application/views/default/asset/css/global.css" rel="stylesheet" type="text/css" />
+    <link href="/asset/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="/asset/css/global.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
     	.error_container {
     		background-image: url('/application/errors/error.png');
@@ -36,7 +36,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="/"><img alt="16活动网" src="/application/views/default/asset/img/banner_logo.png"></a>
+          <a class="brand" href="/"><img alt="16活动网" src="/asset/img/banner_logo.png"></a>
           <div class="nav-collapse collapse">
             <a class="navbar-highlight" id="navbar-contact" href="/contact">联系我们</a>
           </div><!--/.nav-collapse -->

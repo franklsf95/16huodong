@@ -38,23 +38,16 @@ Class Profile Extends BaseActionController {
      * 显示会员资料编辑页面，为不同的会员显示不同的页面
      */
 	function edit(){
-		$member_id = $this->current_member_id;
-		$this->db->select('m.member_id, m.account as member_account, m.name as member_name, m.image as member_image, m.gender as member_gender, m.birthday as member_birthday, m.current_school as member_current_school, m.member_type, m.member_type_2, m.principal, m.qq as member_qq, m.email as member_email, m.phone as member_phone, m.organisation as member_organisation, m.title as member_title, m.address as member_address, m.tag as member_tag, m.description as member_description, m.content, m.school_name');
-		$this->db->from('member as m');
-		$this->db->where('m.member_id',$member_id);
-		$member_information = $this->db->get_first();
-		$this->ci_smarty->assign('member_information',$member_information);
-
-		$template_name = 'edit_'.$member_information['member_type'];
-		if( $member_information['member_type']=='student' ) {
+		$member_type = $this->current_member_information['member_type'];
+		if( $member_type=='stu' ) {
 			$template_title = '编辑个人资料';
-		} else if ( $member_information['member_type']=='company' ) {
+		} else if ( $member_type=='com' ) {
 			$template_title = '编辑公司资料';
 		} else {
 			$template_title = '编辑组织资料';
 		}
-		//print_r($member_information);exit();
-		$this->display($template_name,$template_title,'edit_css','edit_js');
+		//print_r($this->current_member_information);exit();
+		$this->display('edit_'.$member_type, $template_title, 'edit_css', 'edit_js');
 	}
 
 	/**
@@ -75,12 +68,10 @@ Class Profile Extends BaseActionController {
 		$principal = $this->getParameterWithOutTag('principal',Null);		//负责人
 		$phone = $this->getParameterWithOutTag('phone',Null);		//电话
 		$address = $this->getParameterWithOutTag('address',Null);		//地址
-		$tag = $this->getParameterWithOutTag('tag',Null);		//标签
+		$tag_array = $this->getParameter('tag',Null);		//标签
 		$description = $this->getParameterWithOutTag('description',Null);		//关于我
 		$content = $this->getParameter('content',Null);	//组织介绍页
 
-		$tag = trim(trim(str_replace('/',',',str_replace('.',',',str_replace(';',',',str_replace('，',',',str_replace(' ',',',$tag)))))),',');
-		
 		$member_data['name'] = $name;
 		$member_data['image'] = $image;
 		$member_data['gender'] = $gender;
@@ -92,24 +83,17 @@ Class Profile Extends BaseActionController {
 		$member_data['principal'] = $principal;
 		$member_data['phone'] = $phone;
 		$member_data['address'] = $address;
-		$member_data['tag'] = $tag;
 		$member_data['description'] = $description;
 		$member_data['content'] = $content;
 		$member_data['qq'] = $qq;
-		//print_r($member_data);exit();
 
 		$this->db->where('member_id',$member_id);
 		$this->db->update('member',$member_data);
 		
 		//处理会员标签
-		
 		$this->db->where('member_id',$member_id);
 		$this->db->delete('member_tag');
-		
-		$tag_array = explode(',',$tag);
-		
-		//print_r($tag_array);
-		
+
 		foreach ($tag_array as $tag_value) {
 			$member_tag_data = array();
 			$member_tag_data['member_id'] = $member_id;
@@ -125,7 +109,6 @@ Class Profile Extends BaseActionController {
 		$new_password = $this->getParameter('new_password',Null);
 		$repeat_password = $this->getParameter('repeat_password',Null);
 		
-		
 		if ($old_password != '' && $new_password != '' && $repeat_password != '' && $new_password == $repeat_password) {
 			$this->db->where('member_id',$member_id);
 			$this->db->where('password',md5($old_password));
@@ -138,16 +121,7 @@ Class Profile Extends BaseActionController {
 				$this->db->update('member',$member_password_data);
 			}
 		}
-		
-		$this->db->select('m.member_id, m.account, m.member_type, m.member_type_2, m.status as member_status, m.image as member_image, m.name as member_name, m.principal, m.gender, m.birthday, m.hobby, m.qq, m.mobilephone, m.phone, m.email, m.address, m.tag, m.description, m.content, m.created_time, m.modified_time, m.current_school, m.school_name as current_school_name');
-		$this->db->from('member as m');
-		//$this->db->join('public_school as ps','ps.school_id = m.current_school','LEFT');
-		$this->db->where('member_id',$member_id);
-		$member_information = $this->db->get_first();
-					
-		if ($member_information) {
-			$this->setSessionValue('current_member_information',$member_information);
-		}
+		$this->extend_control->setCurrentMemberInformation();
 		
 		redirect('profile');
 	}

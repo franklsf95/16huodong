@@ -10,6 +10,10 @@ class Welcome extends BaseController {
 	function __construct() {
 		parent::__construct();
 
+		if ($this->getSessionValue('current_member_id')) {
+			redirect('index');
+		}
+
 		$this->load->model('db_public_area');
 		$this->load->model('db_public_school');
 	}
@@ -19,9 +23,6 @@ class Welcome extends BaseController {
 	*/
 	function index()
 	{
-		if ($this->getSessionValue('current_member_information')) {
-			redirect('index');
-		}
 		$this->display('index','欢迎');
 	}
 
@@ -30,9 +31,6 @@ class Welcome extends BaseController {
 	*/
 	function demo()
 	{
-		if ($this->getSessionValue('current_member_information')) {
-			redirect('index');
-		}
 		$this->display('demo','随便看看','demo_css','demo_js');
 	}
 
@@ -74,17 +72,10 @@ class Welcome extends BaseController {
 					$data['email'] = $email;
 					$data['school_name']=$school;
 					$this->db->insert('member',$data);
-					$member_id = $this->db->insert_id();
-					$this->db->select('m.member_id, m.account, m.member_type, m.member_type_2, m.status as member_status, m.image as member_image, m.name as member_name, m.principal, m.gender, m.birthday, m.hobby, m.qq, m.mobilephone, m.phone, m.email, m.address, m.tag, m.description, m.content, m.created_time, m.modified_time, m.current_school, m.school_name as school_name');
-					$this->db->from('member as m');
-					$this->db->where('member_id',$member_id);
-					$this->db->where('password',md5($password));
-					$member_information = $this->db->get_first();
-					
-					if ($member_information) {
-						$this->setSessionValue('current_member_information',$member_information);
-						redirect('index');
-					}
+					$newID = $this->db->insert_id();
+
+					$this->setSessionValue('current_member_id',$newID);
+					redirect('index');
 				}
 			}
 		} else {

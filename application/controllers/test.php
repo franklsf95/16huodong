@@ -13,6 +13,7 @@ Class Test Extends BaseActionController {
 	}
 
 	function index(){
+		print_r($this->current_member_information);exit();
 		$this->ci_smarty->view( $this->config->item('template').'/library/view_js' );
 	}
 	
