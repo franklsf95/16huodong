@@ -1,6 +1,6 @@
 body {
-        padding-top: 100px;
-        padding-bottom: 40px;
+	padding-top: 100px;
+	padding-bottom: 40px;
 }
 
 .clear {
@@ -59,11 +59,24 @@ label.error {
 }
 
 /***** avatars ****/
+.avatar-large {
+	height: 100px;
+	max-width: 100px;
+	float: left;
+	margin-right: 20px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+}
+
 .avatar-medium {
 	height: 50px;
 	max-width: 50px;
 	float: left;
 	margin-right: 10px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
 }
 
 .avatar-small {
@@ -71,4 +84,38 @@ label.error {
 	max-width: 20px;
 	float: left;
 	margin-right: 5px;
+}
+
+.activity-cover {
+	float: left;
+	max-width: 300px;
+	height: 120px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+}
+
+/* activity history */
+/* search */
+.history-item, .result-item {
+  margin: 30px 0;
+  height: 120px;
+}
+
+.item-description {
+  float: left;
+  margin-left: 40px;
+}
+
+.result-item hr {
+	margin: 0;
+}
+.result-member-row {
+	height: 22px;
+}
+.result-member-description {
+	margin: 0 20px 0 10px;
+}
+.result-activity {
+	height: 150px;
 }

@@ -3,9 +3,13 @@
 * 公共控制器，用来数据库存取
 */
 
+define( 'MEMBER_BRIEF', 	'm.member_id, m.name as member_name, m.image as member_image');
+define( 'ACTIVITY_BRIEF',	'a.activity_id, a.name as activity_name, a.image as activity_image, a.start_time, a.end_time, a.publisher' );
+define( 'ACTIVITY_DETAIL', 	'a.activity_id, a.name as activity_name, a.image as activity_image, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.description, count(aam.member_id) as attention_count, count(aam2.member_id) as attend_count, count(ac.activity_comment_id) as comment_count, m.member_id, m.name as member_name, m.image as member_image');
+
 class Extend_control {
 	var $CI;
-	
+
 	function __construct() {
 		$this->CI =& get_instance();
 	}
@@ -85,9 +89,9 @@ class Extend_control {
 		return $member_information;
 	}
 	
-	function getMemberBaseInformation($member_id) {
-		$this->CI->db->select('member_id, name as member_name, image as member_image');
-		$this->CI->db->from('member');
+	function getMemberBriefById($member_id) {
+		$this->CI->db->select(MEMBER_BRIEF);
+		$this->CI->db->from('member as m');
 		$this->CI->db->where('member_id',$member_id);
 		
 		return $this->CI->db->get_first();
@@ -123,6 +127,44 @@ class Extend_control {
 
 /*
  *---------------------------------------------------------------
+ * 全站活动加载
+ *---------------------------------------------------------------
+ */
+	function getHotActivities($limit = 3) {
+		$this->CI->db->select(ACTIVITY_BRIEF);
+		$this->CI->db->from('activity as a');
+		$this->CI->db->join('activity_attend_member as aam','aam.activity_id = a.activity_id','left');
+		$this->CI->db->join('activity_attention_member as aam2','aam2.activity_id = a.activity_id','left');
+		$this->CI->db->where('date(a.end_time) >=',$this->CI->current_date);
+
+		$this->CI->db->group_by('a.activity_id');
+		$this->CI->db->order_by('view_count','DESC');
+		
+		return $this->CI->db->get('',$limit )->result_array();
+	}
+
+/*
+ *---------------------------------------------------------------
+ * 单个活动信息处理
+ *---------------------------------------------------------------
+ */
+	/**
+	* 更新活动访问量
+	*/
+	function AddActivityVisit($activity_id) {
+		$this->CI->db->select('view_count');
+		$this->CI->db->from('activity');
+		$this->CI->db->where('activity_id',$activity_id);
+		$currentCount = idx( $this->CI->db->get_first(), 'view_count' );
+
+		$data['view_count'] = $currentCount+1;
+		$this->CI->db->where('activity_id',$activity_id);
+		$this->CI->db->update('activity',$data);
+	}
+
+
+/*
+ *---------------------------------------------------------------
  * member活动历史
  *---------------------------------------------------------------
  */
@@ -138,7 +180,7 @@ class Extend_control {
 	}
 	
 	function getAllMemberFollowActivityInformation($member_id,$offset=0,$limit){
-		$this->CI->db->select('a.activity_id, a.name as activity_name, a.image as activity_image, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.description, m.member_id, m.name as member_name, m.image as member_image,count(aam.member_id) as attention_count, count(aam2.member_id) as attend_count, count(ac.activity_comment_id) as comment_count');
+		$this->CI->db->select(ACTIVITY_DETAIL);
 		$this->CI->db->from('activity as a');
 		$this->CI->db->join('member as m','a.publisher = m.member_id');
 		$this->CI->db->join('activity_attention_member as aam','a.activity_id = aam.activity_id');
@@ -163,7 +205,7 @@ class Extend_control {
 	}
 	
 	function getAllMemberAttendActivityInformation($member_id,$offset=0,$limit){
-		$this->CI->db->select('a.activity_id, a.name as activity_name, a.image as activity_image, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.description, m.member_id, m.name as member_name, m.image as member_image,count(aam.member_id) as attention_count, count(aam2.member_id) as attend_count, count(ac.activity_comment_id) as comment_count');
+		$this->CI->db->select(ACTIVITY_DETAIL);
 		$this->CI->db->from('activity as a');
 		$this->CI->db->join('member as m','a.publisher = m.member_id');
 		$this->CI->db->join('activity_attention_member as aam','a.activity_id = aam.activity_id');
@@ -187,7 +229,7 @@ class Extend_control {
 	}
 	
 	function getAllMemberPublishActivityInformation($member_id,$offset=0,$limit){
-		$this->CI->db->select('a.activity_id, a.name as activity_name, a.image as activity_image, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.description, m.member_id, m.name as member_name, m.image as member_image,count(aam.member_id) as attention_count, count(aam2.member_id) as attend_count, count(ac.activity_comment_id) as comment_count');
+		$this->CI->db->select(ACTIVITY_DETAIL);
 		$this->CI->db->from('activity as a');
 		$this->CI->db->join('member as m','a.publisher = m.member_id');
 		$this->CI->db->join('activity_attention_member as aam','a.activity_id = aam.activity_id','LEFT');
@@ -694,20 +736,7 @@ class Extend_control {
 		return $this->CI->db->get('',$limit,$page_offset )->result_array();
 	}
 	
-	function getHotActivityInformation($page_offset = 0,$limit = 5) {
-		$this->CI->db->select('a.activity_id, a.name as activity_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.image_width as activity_image_width, a.image_height as activity_image_height, a.description, a.created_time, m.member_id, m.name as member_name, m.image as member_image, count(distinct aam.member_id) as attend_number, count(distinct aam2.member_id) as attention_number, count(av.activity_visit_id) as visit_number');
-		$this->CI->db->from('activity as a');
-		$this->CI->db->join('activity_visit as av','a.activity_id = av.activity_id');
-		$this->CI->db->join('member as m','a.publisher = m.member_id');
-		$this->CI->db->join('activity_attend_member as aam','aam.activity_id = a.activity_id','left');
-		$this->CI->db->join('activity_attention_member as aam2','aam2.activity_id = a.activity_id','left');
-		$this->CI->db->where('date(a.end_time) >=',$this->CI->current_date);
-
-		$this->CI->db->group_by('a.activity_id');
-		$this->CI->db->order_by('count(av.activity_visit_id)','DESC');
-		
-		return $this->CI->db->get('',$limit,$page_offset )->result_array();
-	}
+	
 	
 	
 	function countActiveAttendActivity($member_id) {

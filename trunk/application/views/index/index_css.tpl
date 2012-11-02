@@ -1,16 +1,16 @@
 <style type="text/css">
-.main-showcase-item {
-  width: 260px;
+.hot-showcase-item {
+  width: 240px;
   margin: 10px;
   float: left;
 }
 
-.main-showcase-item a:hover {
+.hot-showcase-item a:hover {
   text-decoration: none;
 }
 
-.main-showcase-item img {
-  width: 250px;
+.hot-showcase-item img {
+  width: 220px;
 }
 
 .content-heading a:hover {

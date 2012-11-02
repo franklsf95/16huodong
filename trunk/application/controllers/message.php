@@ -9,9 +9,6 @@ Class Message Extends BaseActionController {
 	
 	function __construct() {
 		parent::__construct();
-		$member_id = $this->current_member_id;
-		$member_base_information = $this->extend_control->getMemberBaseInformation($member_id);
-		$this->ci_smarty->assign('member_base_information',$member_base_information);
 	}
 	
 	/**
@@ -124,8 +121,8 @@ Class Message Extends BaseActionController {
 		$this->setPageInformation( $count, $page, $limit, 'message/view' );
 		
 		$all_member_message_information = $this->extend_control->getAllMemberMessageInformationByMemberId($target_id,($page-1)*$limit,$limit);
-		$target_info = $this->extend_control->getMemberBaseInformation($target_id);
-		$my_info = $this->extend_control->getMemberBaseInformation($this->current_member_id);
+		$target_info = $this->extend_control->getMemberBriefById($target_id);
+		$my_info = $this->extend_control->getMemberBriefById($this->current_member_id);
 		
 		//浏览过就把通知删除掉
 		$this->db->where('member_id',$target_id);

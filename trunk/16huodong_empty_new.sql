@@ -1,9 +1,4 @@
-﻿/*
-SQLyog Enterprise - MySQL GUI v6.15
-MySQL - 5.1.48-log : Database - hdm0320288_db
-*********************************************************************
-*/
-/*!40101 SET NAMES utf8 */;
+﻿/*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
 
@@ -35,6 +30,7 @@ CREATE TABLE `16_activity` (
   `tag` varchar(255) DEFAULT NULL,
   `created_time` datetime DEFAULT NULL,
   `modified_time` datetime DEFAULT NULL,
+  `view_count` int(11) DEFAULT 0,
   PRIMARY KEY (`activity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -133,20 +129,6 @@ CREATE TABLE `16_activity_tag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_activity_tag` */
-
-/*Table structure for table `16_activity_visit` */
-
-DROP TABLE IF EXISTS `16_activity_visit`;
-
-CREATE TABLE `16_activity_visit` (
-  `activity_visit_id` int(11) NOT NULL AUTO_INCREMENT,
-  `activity_id` int(11) NOT NULL,
-  `member_id` int(11) NOT NULL,
-  `visited_time` datetime NOT NULL,
-  PRIMARY KEY (`activity_visit_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `16_activity_visit` */
 
 /*Table structure for table `16_application_group` */
 
