@@ -15,10 +15,9 @@ class BaseController extends CI_Controller {
 	var $site_name;
 	var $site_keyword;
 	var $site_description;
-	var $LIMIT = 2;
+	var $LIMIT = 10;
 	var $CLIMIT = 10;	//单页评论加载数量
 	var $MLIMIT = 50; 	//单页留言加载数量
-	
 	
 	function __construct() {
 		parent::__construct();

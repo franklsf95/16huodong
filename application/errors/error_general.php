@@ -10,17 +10,18 @@
     <link href="/asset/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="/asset/css/global.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
-    	.error_container {
+    	.error-container {
     		background-image: url('/application/errors/error.png');
     		background-repeat: no-repeat;
     		margin-top: -50px;
+        padding: 500px 0 0 660px;
     		height: 600px;
     	}
-      	.error_container p {
-        	font-size: 24px;
-        	margin: 100px 0 0 560px;
-        	line-height: 40px;
-      	}
+      .error-container p {
+        color: #111;
+        font-size: 28px;
+        line-height: 40px;
+      }
     </style>
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -45,7 +46,7 @@
     </div>
     <div class="container">
       <div class="row">
-      <div class="span12 error_container">
+      <div class="span12 error-container">
       	<?php echo $message ?>
       </div>
       </div><!--/row-->
