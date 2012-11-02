@@ -34,7 +34,7 @@ Class Activity Extends BaseActionController {
 		$limit = $this->CLIMIT;
 		
 		if(!$activity_id) redirect('activity');
-		$this->addActivityMemberVisit($activity_id);
+		$this->extend_control->AddActivityVisit($activity_id);
 		
 		$activity_information = $this->extend_control->getAcitivityInformationById($activity_id);
 		$activity_information['attend_count'] = count( $this->extend_control->getAllActivityAttendMemberInformation($activity_id) );
@@ -138,28 +138,6 @@ Class Activity Extends BaseActionController {
 	}
 	
 //--------工具函数组
-	/**
-     * 工具函数：处理访问量++
-     *
-     * @param	$activity_id 	活动ID
-     */
-	function addActivityMemberVisit($activity_id){
-		$member_id = $this->current_member_id;
-		$this->db->where('activity_id',$activity_id);
-		$this->db->where('member_id',$member_id);
-		
-		$data['visited_time'] = $this->current_time;
-		if ($this->db->count_all_results('activity_visit') > 0) {
-			$this->db->where('activity_id',$activity_id);
-			$this->db->where('member_id',$member_id);
-			$this->db->update('activity_visit',$data);
-		}else {
-			$data['activity_id'] = $activity_id;
-			$data['member_id'] = $member_id;
-			$this->db->insert('activity_visit',$data);
-		}
-	}
-
 	/**
      * 工具函数：处理edit()提交
      *

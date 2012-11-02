@@ -243,13 +243,6 @@ Class Base_ajax_action_controller extends BaseActionController {
 		}
 	}
 	
-	function getHotActivityInformation(){
-		$page_offset = $this->getParameter('page_offset',0);
-		$limit = $this->getParameter('limit',5);
-		$all_hot_activity_information = $this->extend_control->getHotActivityInformation($page_offset,$limit);
-		echo json_encode($all_hot_activity_information);
-	}
-	
 	function getMemberInformationBySearch(){
 		$member_name = $this->getParameter('member_name',NULL);
 		$member_type = $this->getParameter('member_type',NULL);
