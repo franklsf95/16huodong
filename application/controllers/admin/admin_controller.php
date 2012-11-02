@@ -86,17 +86,5 @@ Class AdminController extends BaseController {
 	function _removeCheck(){
 		return true;
 	}
-	
-	
-	function forward($templateName, $param = NULL) {
-		if ($this->applicationFolder != '') {
-			redirect('admin/'.$this->applicationFolder . '/' . $templateName . $this->getAdditionalQueryString($param));
-		} else {
-			$controller_name = strtolower(get_class($this));
-			redirect('admin/'.$controller_name . '/' . $templateName . $this->getAdditionalQueryString($param));
-		}
-	}
-	
-	
 }
 ?>

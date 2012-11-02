@@ -18,15 +18,15 @@ Class Message Extends BaseActionController {
 	* 显示站内信主页、发送消息、收件箱
 	*
 	* @param 	page 	当前页数
-	* @param 	limit 	每页消息数
 	*/
 	function index(){
 		$member_id = $this->current_member_id;
-		$p_page = $this->getParameter('page',1);
-		$p_limit = $this->getParameter('limit',50);
+		$page = $this->getParameter('page',1);
+		$limit = $this->MLIMIT;
+		$offset = ($page-1) * $limit;
 		
-		$count = $this->extend_control->countMemberMessageByGroup($member_id);
-		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
+		$count = $this->extend_control->countMemberMessageGroups($member_id);
+		$this->setPageInformation( $count, $page, $limit, 'message' );
 		
 		$all_member_message_information = $this->extend_control->getAllMemberMessageInformationByGroup($member_id,$page_information['page_offset'],$p_limit);
 		$all_system_message_information = $this->extend_control->getAllSystemMessageInformation($member_id);
@@ -116,13 +116,14 @@ Class Message Extends BaseActionController {
 	*/
 	function view(){
 		$target_id = $this->getParameter('target_id',NULL);
-		$p_page = $this->getParameter('page',1);
-		$p_limit = $this->getParameter('limit',999);
+		$page = $this->getParameter('page',1);
+		$limit = $this->MLIMIT;
 		
 		$count = $this->extend_control->countMemberMessageByMemberId($target_id);
-		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
+
+		$this->setPageInformation( $count, $page, $limit, 'message/view' );
 		
-		$all_member_message_information = $this->extend_control->getAllMemberMessageInformationByMemberId($target_id,$page_information['page_offset'],$p_limit);
+		$all_member_message_information = $this->extend_control->getAllMemberMessageInformationByMemberId($target_id,($page-1)*$limit,$limit);
 		$target_info = $this->extend_control->getMemberBaseInformation($target_id);
 		$my_info = $this->extend_control->getMemberBaseInformation($this->current_member_id);
 		
@@ -143,24 +144,6 @@ Class Message Extends BaseActionController {
 		$this->display('view','消息记录 - '.$member_base_information['member_name'],'','view_js');
 	}
 	
-	/**
-	* @deprecated
-	*/
-	function outbox(){
-		$member_id = $this->current_member_id;
-		$p_page = $this->getParameter('page',1);
-		$p_limit = $this->getParameter('limit',10);
-		
-		$count = $this->extend_control->countMemberOutMessage($member_id);
-		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
-		
-		$all_member_out_message_information = $this->extend_control->getMemberOutMessageInformation($member_id,$page_information['page_offset'],$p_limit);
-		
-		$this->ci_smarty->assign('all_member_out_message_information',$all_member_out_message_information);
-		$this->ci_smarty->assign('page_information',$page_information);
-		
-		$this->displayWithLayout('outbox');
-	}
 	
 	/**
 	* 处理发站内信表单

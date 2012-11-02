@@ -20,99 +20,18 @@ Class Activity Extends BaseActionController {
 
 		$this->display( 'index', '挖活动', 'index_css', 'index_js' );
 	}
-		
-	/**
-     * 显示当前用户所有关注过的活动
-     *
-     * @param	member_id	要显示的用户的ID
-     * @param	page		当前进行到的页面
-     * @param	limit		每页取回的活动数
-     *
-     * @author	suantou
-     */
-	function allFollows(){
-		$member_id = $this->getParameter('member_id',$this->current_member_id);
-		$p_page = $this->getParameter('page',1);
-		$p_limit = $this->getParameter('limit', 10);
-		
-		$count = $this->extend_control->countAllMemberAttentionActivity($member_id);
-		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
-		$all_member_attention_activity_information = $this->extend_control->getAllMemberAttentionActivityInformation($member_id,$page_information['page_offset'],$p_limit);
-		
-		$this->ci_smarty->assign('page_information',$page_information);
-		$this->ci_smarty->assign('history',$all_member_attention_activity_information);
-		$this->ci_smarty->assign('title','我关注的活动');
-		$this->ci_smarty->assign('index_page_name','activity/AllFollows');
-		
-		$this->display('history','我关注的活动','history_css');
-	}
-	
-	/**
-     * 显示当前用户所有参加过的活动
-     *
-     * @param	member_id	要显示的用户的ID
-     * @param	page		当前进行到的页面
-     * @param	limit		每页取回的活动数
-     *
-     * @author suantou
-     */
-	function allAttends(){
-		$member_id = $this->getParameter('member_id',$this->current_member_id);
-		$p_page = $this->getParameter('page',1);
-		$p_limit = $this->getParameter('limit', 10);
-		
-		$count = $this->extend_control->countAllMemberAttendActivity($member_id);
-		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
-		$all_member_attend_activity_information = $this->extend_control->getAllMemberAttendActivityInformation($member_id,$page_information['page_offset'],$p_limit);
-		
-		$this->ci_smarty->assign('page_information',$page_information);
-		$this->ci_smarty->assign('history',$all_member_attend_activity_information);
-		$this->ci_smarty->assign('title','我参加的活动');
-		$this->ci_smarty->assign('index_page_name','activity/AllAttends');
-		
-		$this->display('history','我参加的活动','history_css');
-	}
-	
-	/**
-     * 显示当前用户所有发布的活动
-     *
-     * @param	member_id	要显示的用户的ID
-     * @param	page		当前进行到的页面
-     * @param	limit		每页取回的活动数
-     *
-     * @author suantou
-     */
-	function allPublishes(){
-		$member_id = $this->getParameter('member_id',$this->current_member_id);
-		$p_page = $this->getParameter('page',1);
-		$p_limit = $this->getParameter('limit', 1);
-		
-		$count = $this->extend_control->countAllMemberPublishActivity($member_id);
-		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
-		$all_member_publish_activity_information = $this->extend_control->getAllMemberPublishActivityInformation($member_id,$page_information['page_offset'],$p_limit);
-		
-		$this->ci_smarty->assign('page_information',$page_information);
-		$this->ci_smarty->assign('history',$all_member_publish_activity_information);
-		$this->ci_smarty->assign('title','我发起的活动');
-		$this->ci_smarty->assign('index_page_name','activity/AllPublishes');
-		
-		$this->display('history','我发起的活动','history_css');
-	}
 	
 	/**
      * 显示活动详情、活动访问量+1
      *
      * @param	id		活动ID
-     * @param	page	当前进行到的页面
-     * @param	limit	每页取回的活动数
-     *
-     * @author suantou
+     * @param	page	评论页数
      */
 	function view(){
 		$activity_id = $this->getParameter('id');
 		$member_id = $this->current_member_id;
-		$p_page = $this->getParameter('page',1);
-		$p_limit = $this->getParameter('limit', 10);
+		$page = $this->getParameter('page',1);
+		$limit = $this->CLIMIT;
 		
 		if(!$activity_id) redirect('activity');
 		$this->addActivityMemberVisit($activity_id);
@@ -125,9 +44,10 @@ Class Activity Extends BaseActionController {
 		$activity_information['is_publisher'] = $this->extend_control->isMemberPublishActivity($member_id,$activity_id);
 		
 		$count = $this->extend_control->countAllActivityComment($activity_id);
-		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
-		$all_activity_comment_information = $this->extend_control->getActivityCommentInformation($activity_id,$page_information['page_offset'],$p_limit);
+		$all_activity_comment_information = $this->extend_control->getActivityCommentInformation($activity_id,($page-1)*$limit,$limit);
 		
+		$this->setPageInformation( $count, $page, $limit );
+
 		$rate1=$rate2=$rate1ed=$rate2ed=0;
 		$this->db->select('a.activity_id, a.member_id, a.rate');
 		$this->db->from('activity_rate as a');
@@ -152,7 +72,6 @@ Class Activity Extends BaseActionController {
 		$this->ci_smarty->assign('rate1ed',$rate1ed);
 		$this->ci_smarty->assign('rate2ed',$rate2ed);
 		
-		$this->ci_smarty->assign('page_information',$page_information);
 		$this->ci_smarty->assign('activity_information',$activity_information);
 		$this->ci_smarty->assign('all_activity_comment_information',$all_activity_comment_information);
 

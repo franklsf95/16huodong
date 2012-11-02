@@ -27,15 +27,14 @@ Class Library Extends BaseActionController {
 		$member_id = $this->getParameter('id',$this->current_member_id);
 		$member_name = $this->extend_control->getMemberNameByMemberId($member_id);
 		$p_page = $this->getParameter('page',1);
-		$p_limit = $this->getParameter('limit',5);
+		$limit = $this->CLIMIT;
+		$offset = ($p_page-1) * $limit;
 		
-		$count = $this->extend_control->countMemberBlog($member_id);
-		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
-		
-		$all_member_blog_information = $this->extend_control->getMemberBlogInformation($member_id,$page_information['page_offset'],$p_limit);
+		$count = $this->extend_control->countMemberBlog($member_id);		
+		$all_member_blog_information = $this->extend_control->getMemberBlogInformation($member_id,$offset,$limit);
+		$this->setPageInformation($count, $p_page, $limit);
 
 		$this->ci_smarty->assign('information',$all_member_blog_information);
-		$this->ci_smarty->assign('page_information',$page_information);
 		$this->ci_smarty->assign('member_id',$member_id);
 		$this->ci_smarty->assign('member_name',$member_name);
 		$this->ci_smarty->assign('my_page', $member_id == $this->current_member_id ? 1 : 0);
@@ -52,7 +51,8 @@ Class Library Extends BaseActionController {
 	function view(){
 		$member_blog_id = $this->getParameter('id',NULL);
 		$p_page = $this->getParameter('page',1);
-		$p_limit = $this->getParameter('limit', 10);
+		$limit = $this->CLIMIT;
+		$offset = ($p_page-1) * $limit;
 		
 		if ( !$member_blog_id ) redirect('library');
 		$this->addMemberBlogVisit($member_blog_id);
@@ -60,11 +60,11 @@ Class Library Extends BaseActionController {
 		$member_blog_information = $this->extend_control->getMemberBlogInformationByBlogId($member_blog_id);
 			
 		$count = $this->extend_control->countAllBlogComment($member_blog_id);
-		$page_information = $this->createPageInformation($count, $p_page, $p_limit);
-		$all_blog_comment_information = $this->extend_control->getBlogCommentInformation($member_blog_id,$page_information['page_offset'],$p_limit);
-			
+		$all_blog_comment_information = $this->extend_control->getBlogCommentInformation($member_blog_id,$offset,$limit);
+		
+		$this->setPageInformation($count, $p_page, $limit);
+
 		$this->ci_smarty->assign('book_information',$member_blog_information);
-		$this->ci_smarty->assign('page_information',$page_information);
 		$this->ci_smarty->assign('all_book_comment_information',$all_blog_comment_information);
 		//print_r($member_blog_information);exit();
 		$this->display('view',$member_blog_information['member_blog_name'],'view_css','view_js');

@@ -14,7 +14,7 @@
               <li id="navbar-activity"><a href="{'activity'|site_url}">挖活动</a></li>
               <li id="navbar-library"><a href="{'library'|site_url}">人生图书馆</a></li>
             </ul>
-            <form class="navbar-search pull-right" action="{'search/query'|site_url}" method="post">
+            <form class="navbar-search pull-right" action="{'search/queryMember'|site_url}" method="get">
               <fieldset>
                 <input type="text" class="search-query" placeholder="搜人、组织或公司~" name="member_name">
                 <button type="submit" class="btn hidden">Search</button>
