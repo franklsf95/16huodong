@@ -539,7 +539,7 @@ Class Activity Extends BaseActionController {
      */
 	function ajaxGetActivityInformationByTag(){
 		$tag = $this->getParameter('tag',NULL);
-		$all_activity_information = $this->extend_control->searchActivity(null,null,null,null,$tag);
+		$all_activity_information = $this->extend_control->searchActivity(0,10,null,null,null,null,$tag);
 		
 		echo json_encode($all_activity_information);
 	}
