@@ -277,10 +277,19 @@ class BaseController extends CI_Controller {
 		$page_information['next_page'] = $page + 1;
 		$page_information['last_page'] = $page_count;
 		$page_information['page_count'] = $page_count;
+		$page_information['more_left'] = 0;		//是否显示左侧省略号
+		$page_information['more_right'] = 0;	//是否显示右侧省略号
 
-		$start = ($page>5) ? $page-5 : 1;
-		$end = ($page+5 < $page_count) ? $page+5 : $page_count;
-
+		$start = 1;
+		if ( $page > 5 ) {
+			$start = $page-5;
+			$page_information['more_left'] = 1;
+		}
+		$end = $page_count;
+		if ( $page+5 < $page_count ) {
+			$end = $page+5;
+			$page_information['more_right'] = 1;
+		}
 		$page_information['all_pages'] = range( $start, $end );
 
 		//处理已经提交的get数据，继续放入get请求
