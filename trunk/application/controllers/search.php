@@ -53,7 +53,7 @@ Class Search Extends BaseActionController {
 		$is_active = $this->getParameter('is_active');
 
 		if( $is_current_school ) {
-			$school_id = $this->current_member_information['current_school'];
+			$school_id = $this->current_member_information['school_id'];
 		}
 
 		$all_activities = $this->extend_control->searchActivity($activity_name,$school_id,null,$member_type,null,$is_open,$is_active);

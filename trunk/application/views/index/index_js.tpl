@@ -1,1 +1,1 @@
-<script>$( function(){    $("#navbar-index").addClass("active");});</script>
+<script>$("#navbar-index").addClass("active");$( function(){    });</script>

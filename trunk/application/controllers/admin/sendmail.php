@@ -12,12 +12,12 @@ Class SendMail Extends AdminController {
 		$this->load->library('email');
 		$this->db->select('member_id, email');
 		$this->db->from('member');
-		$this->db->where('notify_me','Y');
+		$this->db->where('accept_notification',1);
 		$all_member_information = $this->db->get('')->result_array();
 		foreach ($all_member_information as $member_information){
 			$mail='';
 			$this->db->select('activity_id');
-			$this->db->from('activity_attend_member');
+			$this->db->from('activity_attend');
 			$this->db->where('member_id',$member_information['member_id']);
 			$this->db->where('notified','N');
 			$this->db->where('status','Y');
@@ -30,18 +30,18 @@ Class SendMail Extends AdminController {
 				$this->db->where('date(a.start_time) <=',date('y-m-d',time()+(24*60*60*1)));
 				$activity_information = $this->db->get_first();
 				if ($activity_information) {
-					$mail.='»î¶¯<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/activity/view?id='. $activity_information['activity_id']
-					.'">'.$activity_information['activity_name'].'</a>½«ÓÚ'.$activity_information['start_time'].'¿ªÊ¼¡£<br/>';
+					$mail.='æ´»åŠ¨<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/activity/view?id='. $activity_information['activity_id']
+					.'">'.$activity_information['activity_name'].'</a>å°†äº'.$activity_information['start_time'].'å¼€å§‹<br/>';
 					$attendance['notified']='Y';
 					$this->db->where('member_id',$member_information['member_id']);
 					$this->db->where('activity_id',$attendance['activity_id']);
-					$this->db->update('activity_attend_member',$attendance);
+					$this->db->update('activity_attend',$attendance);
 				}
 			}
 			if ($mail != '') {
 				$mail='<html><body>'.$mail.'</body></html>';
 				$to = $member_information['email'];
-				$subject = "16»î¶¯Íø-ÄúÓĞ×î½ü¿ªÊ¼µÄ»î¶¯";
+				$subject = "ã€æ´»åŠ¨æé†’ã€‘16æ´»åŠ¨ç½‘";
 				$config["protocol"]     = "smtp";
 				$config["smtp_host"]    = "smtp.ym.163.com";
 				$config["smtp_user"]    = "guanliyuan@16huodong.com";

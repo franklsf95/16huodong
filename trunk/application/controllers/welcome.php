@@ -47,8 +47,8 @@ class Welcome extends BaseController {
 		$status = $this->getParameter('status','1');					//1为正常
 		$image = $this->config->item('asset').'/img/default/portrait.jpg';
 		$name = $this->getParameter($member_type.'-name',NULL);
-		$current_school = $this->getParameter('current_school_id',NULL);
-		$school = $this->getParameter($member_type.'-school',NULL);
+		$school_id = $this->getParameter('current_school_id',NULL);
+		$school_name = $this->getParameter($member_type.'-school',NULL);
 
 		if ($account != '' && $password != '' && $member_type != '' && $email != '') {
 			$this->db->where('account',$account);
@@ -68,9 +68,9 @@ class Welcome extends BaseController {
 					$data['status'] = $status;
 					$data['image'] = $image;
 					$data['name'] = $name;
-					$data['current_school'] = $current_school;
+					$data['school_id'] = $school_id;
+					$data['school_name']=$school_name;
 					$data['email'] = $email;
-					$data['school_name']=$school;
 					$this->db->insert('member',$data);
 					$newID = $this->db->insert_id();
 
@@ -110,7 +110,7 @@ class Welcome extends BaseController {
 	* 处理ajax请求：获取demo活动信息（前10个）
 	*/
 	function ajaxGetDemoActivityInformation() {
-		$all_new_activity_information = $this->extend_control->getNewActivityInformation(0,10);
+		$all_new_activity_information = $this->extend_control->getLatestActivities(0,10);
 		echo json_encode($all_new_activity_information);
 	}
 }

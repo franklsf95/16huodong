@@ -95,11 +95,11 @@ Class Activity Extends AdminController {
 			
 			//删除所有参加的活动
 			$this->db->where('activity_id',$activity_id);
-			$this->db->delete('activity_attend_member');
+			$this->db->delete('activity_attend');
 			
 			//删除所有关注的活动
 			$this->db->where('activity_id',$activity_id);
-			$this->db->delete('activity_attention_member');
+			$this->db->delete('activity_follow');
 			
 			//删除所有活动留言
 			$this->db->where('activity_id',$activity_id);

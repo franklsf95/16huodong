@@ -157,24 +157,6 @@ Class Base_ajax_action_controller extends BaseActionController {
 		echo json_encode($all_prefer_blog_information);
 	}
 	
-	/*
-	function getMemberAlbumInformation(){
-		$member_album_id = $this->getParameter('member_album_id',NULL);
-		$this->db->where('member_album_id',$member_album_id);
-		$member_album_information = $this->db->get_first('member_album');
-		
-		echo json_encode($member_album_information);
-	}
-	*/
-	
-	function getNewActivityInformation(){
-		$page_offset = $this->getParameter('page_offset',0);
-		$limit = $this->getParameter('limit',5);
-		$all_new_activity_information = $this->extend_control->getNewActivityInformation($page_offset,$limit);
-		
-		echo json_encode($all_new_activity_information);
-	}
-	
 	//暂不启用ajax提交评论
 	function addActivityComment(){
 		$activity_id = $this->getParameter('activity_id',Null);
@@ -187,15 +169,14 @@ Class Base_ajax_action_controller extends BaseActionController {
 		
 		$result = $this->db->insert('activity_comment',$data);
 		
-		
 		if($result) {
 			$activity_comment_id = $this->db->insert_id();
 			
 			//system_message
-			$this->db->select('publisher');
+			$this->db->select('publisher_id');
 			$this->db->where('activity_id',$activity_id);
 			
-			$system_data['target_id'] = idx($this->db->get_first(),'publisher');
+			$system_data['target_id'] = idx($this->db->get_first(),'publisher_id');
 			$system_data['category'] = 'activity';
 			$system_data['type'] = 'new_comment';
 			$system_data['code'] = $activity_id;
