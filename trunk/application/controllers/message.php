@@ -28,7 +28,7 @@ Class Message Extends BaseActionController {
 		$count = $this->extend_control->countMemberMessageGroups($member_id);
 		$this->setPageInformation( $count, $page, $limit, 'message' );
 		
-		$all_member_message_information = $this->extend_control->getAllMemberMessageInformationByGroup($member_id,$page_information['page_offset'],$p_limit);
+		$all_member_message_information = $this->extend_control->getAllMemberMessageInformationGroups($member_id,$offset, $limit);
 		$all_system_message_information = $this->extend_control->getAllSystemMessageInformation($member_id);
 		
 		$this->ci_smarty->assign('all_member_message_information',$all_member_message_information);

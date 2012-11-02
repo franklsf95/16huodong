@@ -321,7 +321,7 @@ class Extend_control {
 	* 用于member/sidebar
 	* BaseActionController@__constructor()
 	*/
-	function getNewSystemMessage($member_id){		
+	function getNewSystemMessageCategories($member_id){		
 		$this->CI->db->from('system_message');
 		$this->CI->db->where('target_id',$member_id);
 		$this->CI->db->where('status','Y');
@@ -331,61 +331,29 @@ class Extend_control {
 		$activity_count = 0;
 		$friend_count = 0;
 		$blog_count = 0;
-		$activity_edit_count = 0;
-		$activity_comment_count = 0;
-		$activity_reply_count = 0;
-		$friend_apply_count = 0;
-		$friend_add_count = 0;
-		$blog_comment_count = 0;
-		$member_message_count = 0;
-				
-		foreach($all_new_system_message_information as $system_message_information) {
-			
-			if ($system_message_information['category'] == 'activity'){
-				$activity_count++;
-				if($system_message_information['type'] == 'edit_activity'){
-					$activity_edit_count++;
-				}elseif ($system_message_information['type'] == 'new_comment'){
-					$activity_comment_count++;
-				}elseif ($system_message_information['type'] == 'new_reply'){
-					$activity_reply_count++;
-				}
-				
-			}elseif ($system_message_information['category'] == 'friend') {
-				$friend_count++;
-				if($system_message_information['type'] == 'apply_friend'){
-					$friend_apply_count++;
-				}elseif ($system_message_information['type'] == 'add_friend'){
-					$friend_add_count++;
-				}
-				
-			}elseif ($system_message_information['category'] == 'blog') {
-				$blog_count++;
-				if($system_message_information['type'] == 'new_comment'){
-					$blog_comment_count++;
-				}
-				
-			}elseif ($system_message_information['category'] == 'member_message') {
-				//$member_message_count++;
-				if($system_message_information['type'] == 'new_message'){
-					$member_message_count++;
-				}
-			}
-			
+		$member_message = 0;
+		
+		foreach( $all_new_system_message_information as $i )
+		{
+			if ($i['category'] == 'activity') 		$activity_count++;				
+			elseif ($i['category'] == 'friend')		$friend_count++;
+			elseif ($i['category'] == 'blog')		$blog_count++;
+			elseif ($i['category'] == 'member_message') 	$member_message_count++;
 		}
-		$all_system_message = array();
 
+		$all_system_message = array();
 		if ($activity_count > 0) $all_system_message[] = array('type' => 'activity','count' => $activity_count);
 		if ($friend_count > 0) $all_system_message[] = array('type' => 'friend','count' => $friend_count);
 		if ($blog_count > 0) $all_system_message[] = array('type' => 'blog','count' => $blog_count);
 		if ($member_message_count > 0) $all_system_message[] = array('type' => 'member_message','count' => $member_message_count);
 		
+		/*
 		if ($activity_comment_count > 0) $all_system_message[] = array('type' => 'activity_comment','count' => $activity_comment_count);
 		if ($activity_reply_count > 0) $all_system_message[] = array('type' => 'activity_reply','count' => $activity_reply_count);
 		if ($friend_apply_count > 0) $all_system_message[] = array('type' => 'friend_apply','count' => $friend_apply_count);
 		if ($friend_add_count > 0) $all_system_message[] = array('type' => 'friend_add','count' => $friend_add_count);
 		if ($blog_comment_count > 0) $all_system_message[] = array('type' => 'blog_comment','count' => $blog_comment_count);
-		
+		*/
 		return $all_system_message;
 	}
 	
@@ -1008,9 +976,8 @@ class Extend_control {
 		return $result;
 	}
 	
-	
-	function getAllMemberMessageInformationByGroup($member_id,$page_offset = 0, $limit = 999){
-		
+	//rewrite needed
+	function getAllMemberMessageInformationGroups($member_id,$page_offset = 0, $limit = 999){
 		$sql = "SELECT mm2.member_message_id, mm2.content, mm2.created_time, mm2.member_id, m.name as member_name, m.image as member_image, mm2.target_id, t.name as target_name, t.image as target_image, count FROM";
 		$sql .= " (SELECT *, count(*) as count FROM";
 		$sql .= " (SELECT * FROM `".$this->CI->db->dbprefix('member_message')."` WHERE member_id = '".$member_id."' OR target_id = '".$member_id."' ORDER BY created_time DESC) as mm1";
