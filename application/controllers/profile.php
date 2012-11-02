@@ -51,16 +51,16 @@ Class Profile Extends BaseActionController {
 		$title = $member_name;
 
 		if( $type == 'a' ) {
-			$count = $this->extend_control->countAllMemberFollowActivity($member_id);
-			$information = $this->extend_control->getAllMemberFollowActivityInformation($member_id,$offset,$limit);
+			$count = $this->extend_control->countAllMemberFollowActivities($member_id);
+			$information = $this->extend_control->getAllMemberFollowActivities($member_id,$offset,$limit);
 			$title .= '参加的活动';
 		} elseif( $type == 'f' ) {
-			$count = $this->extend_control->countAllMemberAttendActivity($member_id);
-			$information = $this->extend_control->getAllMemberAttendActivityInformation($member_id,$offset,$limit);
+			$count = $this->extend_control->countAllMemberAttendActivities($member_id);
+			$information = $this->extend_control->getAllMemberAttendActivities($member_id,$offset,$limit);
 			$title .= '关注的活动';
 		} elseif( $type == 'p' ) {
-			$count = $this->extend_control->countAllMemberPublishActivity($member_id);
-			$information = $this->extend_control->getAllMemberPublishActivityInformation($member_id,$offset,$limit);
+			$count = $this->extend_control->countAllMemberPublishActivities($member_id);
+			$information = $this->extend_control->getAllMemberPublishActivities($member_id,$offset,$limit);
 			$title .= '发起的活动';
 		} else {
 			show_error('没有指定活动类型！');

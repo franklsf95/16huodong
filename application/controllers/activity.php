@@ -40,7 +40,7 @@ Class Activity Extends BaseActionController {
 		$activity_information['attend_count'] = count( $this->extend_control->getAllActivityAttendMemberInformation($activity_id) );
 		$activity_information['follow_count'] = count( $this->extend_control->getAllActivityAttentionMemberInformation($activity_id) );
 		$activity_information['is_attend'] = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
-		$activity_information['is_attention'] = $this->extend_control->isMemberAttentionActivity($member_id,$activity_id);
+		$activity_information['is_attention'] = $this->extend_control->isMemberFollowActivity($member_id,$activity_id);
 		$activity_information['is_publisher'] = $this->extend_control->isMemberPublishActivity($member_id,$activity_id);
 		
 		$count = $this->extend_control->countAllActivityComment($activity_id);
@@ -162,7 +162,8 @@ Class Activity Extends BaseActionController {
 		//$tag = trim(trim(str_replace('/',',',str_replace('.',',',str_replace(';',',',str_replace('，',',',str_replace(' ',',',$tag)))))),',');
 		
 		$data['name'] = $name;
-		$data['publisher'] = $this->current_member_id;
+		$data['publisher_id'] = $this->current_member_id;
+		$data['publisher_name'] = $this->current_member_information['member_name'];
 		$data['apply_start_time'] = $apply_start_time;
 		$data['apply_end_time'] = $apply_end_time;
 		$data['start_time'] = $start_time;
@@ -349,34 +350,50 @@ Class Activity Extends BaseActionController {
 		$member_id = $this->current_member_information['member_id'];
 
 		if ($activity_id) {
-			//检查该会员是否已经参加活动
 			$is_attend = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
+			$this->CI->db->select('attend_count');
+			$this->CI->db->from('activity');
+			$this->CI->db->where('activity_id',$activity_id);
+			$attend_count = idx( $this->CI->db->get_first(), 'attend_count' );
+
 			if( !$is_attend ){
+				//添加参加列表
 				$data['member_id'] = $member_id;
 				$data['activity_id'] = $activity_id;
 				$data['created_time'] = $this->current_time;
-				$this->db->insert('activity_attend_member',$data);
+				$this->db->insert('activity_attend',$data);
+
+				//更新参加人数
+				$data2['attend_count'] = $attend_count+1;
+				$this->CI->db->where('activity_id',$activity_id);
+				$this->CI->db->update('activity',$data2);
+
 				$return = 1;
 				
 				//system_message
-				$this->db->select('publisher');
+				$this->db->select('publisher_id');
 				$this->db->where('activity_id',$activity_id);
 				$this->db->from('activity');
-				$system_data['target_id'] = idx($this->db->get_first(),'publisher');
+				$system_data['target_id'] = idx($this->db->get_first(),'publisher_id');
 				$system_data['category'] = 'activity';
 				$system_data['type'] = 'attend_activity';
 				$system_data['code'] = $activity_id;
 				$this->system_message($system_data);
 				
 			} else {
+				//从参加列表删除
 				$this->db->where('member_id',$member_id);
 				$this->db->where('activity_id',$activity_id);
-				$this->db->delete('activity_attend_member');
+				$this->db->delete('activity_attend');
+
+				$data2['attend_count'] = $attend_count-1;
+				$this->CI->db->where('activity_id',$activity_id);
+				$this->CI->db->update('activity',$data2);
 				
 				$return = 2;
 			}
 		}
-		echo json_encode($return);
+		echo $return;
 	}
 
 	/**
@@ -392,21 +409,33 @@ Class Activity Extends BaseActionController {
 		$member_id = $this->current_member_information['member_id'];
 		if ($activity_id){
 			//检查该会员是否已经报名活动
-			$is_attention = $this->extend_control->isMemberAttentionActivity($member_id,$activity_id);
+			$is_attention = $this->extend_control->isMemberFollowActivity($member_id,$activity_id);
+			//get follow count
+			$this->CI->db->select('follow_count');
+			$this->CI->db->from('activity');
+			$this->CI->db->where('activity_id',$activity_id);
+			$follow_count = idx( $this->CI->db->get_first(), 'follow_count' );
 
 			if( !$is_attention ){
 				$data['member_id'] = $member_id;
 				$data['activity_id'] = $activity_id;
 				$data['created_time'] = $this->current_time;
-				
-				$this->db->insert('activity_attention_member',$data);
+				$this->db->insert('activity_follow',$data);
+
+				$data2['follow_count'] = $follow_count+1;
+				$this->CI->db->where('activity_id',$activity_id);
+				$this->CI->db->update('activity',$data2);
 				
 				$return = 1;
 				
 			} else {
 				$this->db->where('member_id',$member_id);
 				$this->db->where('activity_id',$activity_id);
-				$this->db->delete('activity_attention_member');
+				$this->db->delete('activity_follow');
+
+				$data2['follow_count'] = $attend_count-1;
+				$this->CI->db->where('activity_id',$activity_id);
+				$this->CI->db->update('activity',$data2);
 				
 				$return = 2;
 			}
@@ -431,7 +460,7 @@ Class Activity Extends BaseActionController {
 		
 		if( $activity_attend_id && $action >= 0 ) {
 			$this->db->where('activity_attend_id',$activity_attend_id);
-			$activity_attend_information = $this->db->get_first('activity_attend_member');
+			$activity_attend_information = $this->db->get_first('activity_attend');
 			
 			if($activity_attend_id != '') {
 				if( $action ) { //permit
@@ -444,11 +473,11 @@ Class Activity Extends BaseActionController {
 					
 					$data['status'] = 'Y';
 					$this->db->where('activity_attend_id',$activity_attend_id);
-					$this->db->update('activity_attend_member',$data);
+					$this->db->update('activity_attend',$data);
 					$return_data['status'] = 1;
 				} else { //deny
 					$this->db->where('activity_attend_id',$activity_attend_id);
-					$this->db->delete('activity_attend_member');
+					$this->db->delete('activity_attend');
 					$return_data['status'] = 1;
 				}
 			}
@@ -515,7 +544,13 @@ Class Activity Extends BaseActionController {
 		echo json_encode($all_activity_information);
 	}
 
-
+	function ajaxGetLatestActivities(){
+		$page_offset = $this->getParameter('page_offset',0);
+		$limit = $this->getParameter('limit',5);
+		$all_new_activity_information = $this->extend_control->getLatestActivities($page_offset,$limit);
+		
+		echo json_encode($all_new_activity_information);
+	}
 
 }
 

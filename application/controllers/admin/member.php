@@ -89,11 +89,11 @@ Class Member Extends AdminController {
 			
 			//删除所有参加的活动
 			$this->db->where('member_id',$member_id);
-			$this->db->delete('activity_attend_member');
+			$this->db->delete('activity_attend');
 			
 			//删除所有关注的活动
 			$this->db->where('member_id',$member_id);
-			$this->db->delete('activity_attention_member');
+			$this->db->delete('activity_follow');
 			
 			//删除所有活动留言
 			$this->db->where('member_id',$member_id);
@@ -135,10 +135,10 @@ Class Member Extends AdminController {
 			
 			if($all_activity_id != '') {
 			
-				$sql = "delete from ".$this->db->dbprefix('activity_attend_member')." where activity_id in (".$all_activity_id.")";
+				$sql = "delete from ".$this->db->dbprefix('activity_attend')." where activity_id in (".$all_activity_id.")";
 				$this->db->query($sql);
 				
-				$sql = "delete from ".$this->db->dbprefix('activity_attention_member')." where activity_id in (".$all_activity_id.")";
+				$sql = "delete from ".$this->db->dbprefix('activity_follow')." where activity_id in (".$all_activity_id.")";
 				$this->db->query($sql);
 				
 				$sql = "delete from ".$this->db->dbprefix('activity_comment')." where activity_id in (".$all_activity_id.")";

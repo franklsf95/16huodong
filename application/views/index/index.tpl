@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="span6">
 		<div class="content-heading">全站动态</div>
-		<p>此处应滚动显示全站动态</p>
+		<div class="news-feed-container"></div>
 	</div>
 	<div class="span3">
 		<div class="content-heading"><a href="{'activity'|site_url}">热门活动</a></div>
@@ -13,8 +13,8 @@
 	<ul>
 		<li>开始时间: {$i.start_time}</li>
 		<li>结束时间: {$i.end_time}</li>
-		<li>发起人: <a href="{"profile"|site_url}?id={$i.publisher}">-</a></li>
-		<li><code>-</code>人参与&nbsp;&nbsp;|&nbsp;&nbsp;<code>-</code>人关注</li>
+		<li>发起人: <a href="{"profile"|site_url}?id={$i.publisher_id}">{$i.publisher_name}</a></li>
+		<li><code>{$i.attend_count}</code>人参与&nbsp;&nbsp;|&nbsp;&nbsp;<code>{$i.follow_count}</code>人关注</li>
 	</ul>
 </div>
 {/foreach}

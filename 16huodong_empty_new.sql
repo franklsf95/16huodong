@@ -13,7 +13,8 @@ DROP TABLE IF EXISTS `16_activity`;
 CREATE TABLE `16_activity` (
   `activity_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
-  `publisher`  int(11) DEFAULT NULL,
+  `publisher_id`  int(11) DEFAULT NULL,
+  `publisher_name` varchar(50) DEFAULT NULL,
   `status` char(1) DEFAULT 'Y',
   `publish` char(1) DEFAULT 'Y',
   `apply_start_time` date DEFAULT NULL,
@@ -31,6 +32,9 @@ CREATE TABLE `16_activity` (
   `created_time` datetime DEFAULT NULL,
   `modified_time` datetime DEFAULT NULL,
   `view_count` int(11) DEFAULT 0,
+  `attend_count` int(11) DEFAULT 0,
+  `follow_count` int(11) DEFAULT 0,
+  `book_id` int(11) DEFAULT 0 COMMENT '相关的书ID',
   PRIMARY KEY (`activity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -71,11 +75,11 @@ CREATE TABLE `16_activity_attend_member` (
 
 /*Data for the table `16_activity_attend_member` */
 
-/*Table structure for table `16_activity_attention_member` */
+/*Table structure for table `16_activity_follow` */
 
-DROP TABLE IF EXISTS `16_activity_attention_member`;
+DROP TABLE IF EXISTS `16_activity_follow`;
 
-CREATE TABLE `16_activity_attention_member` (
+CREATE TABLE `16_activity_follow` (
   `activity_attention_id` int(11) NOT NULL AUTO_INCREMENT,
   `activity_id` int(11) NOT NULL,
   `member_id` int(11) NOT NULL,
@@ -83,7 +87,7 @@ CREATE TABLE `16_activity_attention_member` (
   PRIMARY KEY (`activity_attention_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `16_activity_attention_member` */
+/*Data for the table `16_activity_follow` */
 
 /*Table structure for table `16_activity_comment` */
 
@@ -100,21 +104,6 @@ CREATE TABLE `16_activity_comment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_activity_comment` */
-
-/*Table structure for table `16_activity_link_blog` */
-
-DROP TABLE IF EXISTS `16_activity_link_blog`;
-
-CREATE TABLE `16_activity_link_blog` (
-  `activity_link_blog_id` int(11) NOT NULL AUTO_INCREMENT,
-  `activity_id` int(11) DEFAULT NULL,
-  `member_blog_id` int(11) DEFAULT NULL,
-  `member_id` int(11) DEFAULT NULL,
-  `created_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`activity_link_blog_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `16_activity_link_blog` */
 
 /*Table structure for table `16_activity_tag` */
 
@@ -178,34 +167,31 @@ insert  into `16_application_user`(`application_user_id`,`application_group_id`,
 DROP TABLE IF EXISTS `16_member`;
 
 CREATE TABLE `16_member` (
-  `member_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '会员id',
-  `account` varchar(50) NOT NULL COMMENT '帐号',
-  `password` varchar(32) DEFAULT NULL COMMENT '密码',
-  `member_type` varchar(4) NOT NULL COMMENT '会员类别',
-  `member_type_2` varchar(50) DEFAULT NULL COMMENT '会员类别2',
-  `status` int(4) NOT NULL DEFAULT '1' COMMENT '会员状态',
-  `image` varchar(255) DEFAULT '/upload/portrait.jpg' COMMENT '会员头像',
+  `member_id` int(11) NOT NULL AUTO_INCREMENT,
+  `account` varchar(50) NOT NULL COMMENT,
+  `password` varchar(32) DEFAULT NULL COMMENT,
+  `member_type` varchar(4) NOT NULL COMMENT,
+  `status` int(4) NOT NULL DEFAULT '1',
+  `image` varchar(255) DEFAULT '/upload/portrait.jpg',
   `name` varchar(20) NOT NULL COMMENT '姓名或组织名称',
   `principal` varchar(255) DEFAULT NULL COMMENT '机构负责人',
   `gender` char(1) DEFAULT NULL COMMENT '性别',
   `birthday` date DEFAULT NULL COMMENT '生日',
-  `current_school` int(11) DEFAULT NULL COMMENT '当前学校',
-  `hobby` varchar(255) DEFAULT NULL COMMENT '爱好',
-  `qq` int(20) DEFAULT NULL COMMENT 'QQ',
-  `mobilephone` varchar(20) DEFAULT NULL COMMENT '手机',
-  `phone` varchar(20) DEFAULT NULL COMMENT '电话',
-  `email` varchar(50) DEFAULT NULL COMMENT '电邮',
+  `school_id` int(11) DEFAULT NULL COMMENT '学校ID',
+  `school_name` varchar(50) DEFAULT NULL COMMENT '学校名',
+  `qq` int(20) DEFAULT NULL,
+  `mobilephone` varchar(20) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
   `organisation` varchar(50) DEFAULT NULL,
   `title` varchar(50) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL COMMENT '地址',
-  `tag` varchar(255) DEFAULT NULL COMMENT '标签',
   `description` varchar(255) DEFAULT NULL COMMENT '简介',
-  `content` text COMMENT '详细内容',
+  `content` text COMMENT '富文本简介',
   `created_time` datetime DEFAULT NULL COMMENT '创建时间',
   `modified_time` datetime DEFAULT NULL COMMENT '修改时间',
   `last_ip` varchar(20) DEFAULT NULL COMMENT '最后登录ip',
-  `notify_me` char(1) DEFAULT 'Y',
-  `school_name` varchar(50) DEFAULT NULL,
+  `accept_notification` tinyint(1) DEFAULT 1,
   PRIMARY KEY (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
