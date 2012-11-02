@@ -33,6 +33,47 @@ Class Profile Extends BaseActionController {
 		//print_r($member_information);exit();
 		$this->display($template_view, $member_information['member_name'].'的主页','view_css','view_js');
 	}
+
+	/**
+     * 显示用户的活动历史
+     *
+     * @param	member_id	要显示的用户的ID
+     * @param 	type 		类型：a参加；f关注；p发起
+     * @param	page		当前进行到的页面
+     */
+	function history(){
+		$member_id = $this->getParameter('member_id',$this->current_member_id);
+		$member_name = $this->extend_control->getMemberNameByMemberId($member_id);
+		$type = $this->getParameter('type');
+		$page = $this->getParameter('page',1);
+		$limit = $this->LIMIT;
+		$offset = ($page-1) * $limit;
+		$title = $member_name;
+
+		if( $type == 'a' ) {
+			$count = $this->extend_control->countAllMemberFollowActivity($member_id);
+			$information = $this->extend_control->getAllMemberFollowActivityInformation($member_id,$offset,$limit);
+			$title .= '参加的活动';
+		} elseif( $type == 'f' ) {
+			$count = $this->extend_control->countAllMemberAttendActivity($member_id);
+			$information = $this->extend_control->getAllMemberAttendActivityInformation($member_id,$offset,$limit);
+			$title .= '关注的活动';
+		} elseif( $type == 'p' ) {
+			$count = $this->extend_control->countAllMemberPublishActivity($member_id);
+			$information = $this->extend_control->getAllMemberPublishActivityInformation($member_id,$offset,$limit);
+			$title .= '发起的活动';
+		} else {
+			show_error('没有指定活动类型！');
+		}
+		$this->setPageInformation( $count, $page, $limit, 'profile/history' );
+
+		$this->ci_smarty->assign('history',$information);
+		$this->ci_smarty->assign('title',$title);
+		$this->ci_smarty->assign('member_id',$member_id);
+		$this->ci_smarty->assign('member_name',$member_name);
+		
+		$this->display('history',$title);
+	}
 	
 	/**
      * 显示会员资料编辑页面，为不同的会员显示不同的页面
@@ -124,27 +165,6 @@ Class Profile Extends BaseActionController {
 		$this->extend_control->setCurrentMemberInformation();
 		
 		redirect('profile');
-	}
-
-	function save_member_leave_word(){
-		$member_id = $this->current_member_id;
-		$target_id = $this->getParameter('member_id',NULL);
-		$content = $this->getParameter('content',NULL);
-		
-		if ($member_id != '' && $target_id != '' && $content != '') {
-		
-			$data['member_id'] = $member_id;
-			$data['target_id'] = $target_id;
-			$data['content'] = $content;
-			$data['created_time'] = $this->current_time;
-			
-			$this->db->insert('member_leave_word',$data);
-			
-			redirect("member?id=$target_id");
-		
-		} else {
-			print_r($_POST);
-		}
 	}
 		
 	function save_member_visit($member_id){

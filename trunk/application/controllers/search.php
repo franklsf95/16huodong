@@ -20,28 +20,24 @@ Class Search Extends BaseActionController {
 	}
 
 	/**
-	* 分拣搜索请求
+	* 处理搜人请求
 	*
 	* @param 	post 	member_name 	搜索的人或组织名字
 	*/
-	function query() {
-		$query_member_name = $this->getParameter('member_name');
+	function queryMember() {
+		$member_name = $this->getParameter('member_name');
+		$p_page = $this->getParameter('page',1);
+		$limit = $this->LIMIT;
+		$offset = ($p_page-1) * $limit;
 
-		if( $query_member_name ) {
-			$this->queryMember( $query_member_name );
-		}
-	}
+		$count = $this->extend_control->searchMemberCountByName($member_name);
+		$all_members = $this->extend_control->searchMemberByName($member_name,$offset, $limit);
+		$this->setPageInformation($count, $p_page, $limit, 'search/queryMember');
 
-	/**
-	* 处理搜人请求
-	*
-	* @param 	string 	$query 	搜索人名或组织
-	*/
-	function queryMember( $query ) {
-		$all_members = $this->extend_control->searchMemberByName($query,0);
+		$this->ci_smarty->assign('search_query',$member_name);
 		$this->ci_smarty->assign('all_members',$all_members);
-		//print_r($all_members);exit();
-		$this->display('result_members','搜索'.$query.'的结果');
+		//print_r($page_information);exit();
+		$this->display('result_members','搜索'.$member_name.'的结果');
 	}
 
 	/**
@@ -62,7 +58,7 @@ Class Search Extends BaseActionController {
 
 		$all_activities = $this->extend_control->searchActivity($activity_name,$school_id,null,$member_type,null,$is_open,$is_active);
 		$this->ci_smarty->assign('all_activities',$all_activities);
-		print_r($all_activities);exit();
+		//print_r($all_activities);exit();
 		$this->display('result_activities','搜索'.$query.'的结果');
 	}
 }

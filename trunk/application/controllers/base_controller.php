@@ -15,6 +15,9 @@ class BaseController extends CI_Controller {
 	var $site_name;
 	var $site_keyword;
 	var $site_description;
+	var $LIMIT = 2;
+	var $CLIMIT = 10;	//单页评论加载数量
+	var $MLIMIT = 50; 	//单页留言加载数量
 	
 	
 	function __construct() {
@@ -38,10 +41,10 @@ class BaseController extends CI_Controller {
 		$this->ci_smarty->assign('all_avaliable_language',$this->all_avaliable_language);
 		
 		
-		//修改smarty函数
-		$this->ci_smarty->registerPlugin('modifier','site_url', 'site_url');			//启用链接功能
-		$this->ci_smarty->registerPlugin('modifier','base_url', 'base_url');			//启用链接功能
-		$this->ci_smarty->registerPlugin('modifier','strtotime', 'strtotime');			//启用链接功能
+		//注册smarty模板可调用的函数
+		$this->ci_smarty->registerPlugin('modifier','site_url', 'site_url');
+		$this->ci_smarty->registerPlugin('modifier','base_url', 'base_url');
+		$this->ci_smarty->registerPlugin('modifier','strtotime', 'strtotime');
 		
 		$this->lang->load('global');			//读取语言文件
 		$this->lang->load('alert');			//读取语言文件
@@ -246,199 +249,69 @@ class BaseController extends CI_Controller {
 		return $results;
 	}
 	
-	function simpleCreatePageInformation($count, $limit){
+	/**
+	* 创建分页信息并赋给smarty
+	*
+	* @param 	int 	$count 	条目总数
+	* @param 	int 	$page 	当前页面
+	* @param 	int 	$limit 	每页条目数
+	* @param 	string 	$url 	主URL 	ajax控制则可留空
+	*
+	* @author 	franklsf95
+	*
+	* @return 	smarty 	array 	$page_information
+	*/
+	function &setPageInformation( $count, $page, $limit, $url='' ) {
 		$page_information = array();
-		
-		$page_information['limit'] = $limit;
-		$page_information['first_page'] = 1;
-		$page_information['last_page'] = (int)ceil($count / $limit);
-		$page_information['page_count'] = $count / $limit;
-		
 
-		for ($i = 0; $i < $page_information['page_count']; $i++) {
-			$page_information['all_pages'][] = $i + 1;
-		}
-		
-		return $page_information;
-	}
-	
-	
-	
-	function &createPageInformation($count, $page, $limit, $excluding_query_parts = null) {						//分页函数
-		$page_information = array();
-		
-		$internal_page = $page - 1;
-		$page_offset = $internal_page * $limit;
-		if ($page_offset < 0) {
-			$internal_page = 0;
-			$page_offset = 0;
-		}
-		if ($page_offset > $count) {
-			$internal_page = (int)($count / $limit);
-			$page_offset = $count - $count % $limit;
-		}
-		
+		$page_count = ceil( $count / $this->LIMIT );
+		$page_offset = ($page-1) * $this->LIMIT;
+		if( $page_offset < 0 ) 	$page_offset = 0;
+		elseif( $page_offset > $count )	$page_offset = $page_count;
+
 		$page_information['count'] = $count;
 		$page_information['page'] = $page;
-		$page_information['limit'] = $limit;
-		$page_information['rearrange'] = $limit;
-		$page_information['internal_page'] = $internal_page;
 		$page_information['page_offset'] = $page_offset;
-		
-		$page_information['current_page'] = $internal_page + 1;
+		$page_information['url'] = site_url($url);
 		$page_information['first_page'] = 1;
-		$page_information['previous_page'] = $internal_page - 1 + 1;
-		$page_information['next_page'] = $internal_page + 1 + 1;
-		$page_information['last_page'] = (int)ceil($count / $limit);
-		$page_information['page_count'] = $count / $limit;
-		
-		$page_information['all_pages'] = array();
-		if ($page_information['page_count'] <= 10) {
-			for ($i = 0; $i < $page_information['page_count']; $i++) {
-				$page_information['all_pages'][] = $i + 1;
+		$page_information['previous_page'] = $page - 1;
+		$page_information['next_page'] = $page + 1;
+		$page_information['last_page'] = $page_count;
+		$page_information['page_count'] = $page_count;
+
+		$start = ($page>5) ? $page-5 : 1;
+		$end = ($page+5 < $page_count) ? $page+5 : $page_count;
+
+		$page_information['all_pages'] = range( $start, $end );
+
+		//处理已经提交的get数据，继续放入get请求
+		$get_data = $this->input->get();
+		$get_string = '';
+		if( !empty($get_data) ) {
+			foreach( $get_data as $key => $value ) {
+				if( $key != 'page' )
+					$get_string .= ('&'.$key.'='.$value);
 			}
-		} else {
-			$page_length_1 = $internal_page;
-			$page_length_2 = $page_information['page_count'] - $internal_page;
-		
-			$page_count_1 = 0;
-			$page_count_2 = 0;
-		
-			if ($page_length_1 < 5) {
-				$page_count_1 = $internal_page;
-				$page_count_2 = 10 - $page_count_1 - 1; 
-			} else if ($page_length_2 < 4) {
-				$page_count_2 = $page_length_2; 
-				$page_count_1 = 10 - $page_count_2 - 1; 
-			} else {
-				$page_count_1 = 5;
-				$page_count_2 = 4;
-			}
-		
-			for ($i = $internal_page; $i >= $internal_page - $page_count_1; $i--) {
-				$page_information['all_pages'][] = $i + 1;
-			}
-			for ($i = $internal_page + 1; $i <= $internal_page + $page_count_2; $i++) {
-				$page_information['all_pages'][] = $i + 1;
-			}
-			sort($page_information['all_pages']);
-			reset($page_information['all_pages']);
 		}
+		$page_information['get_string'] = $get_string;
 
-
-		$p_page = $this->getParameterInt('page', 1);
-		$p_sort = $this->getParameter('sort', '');
-        $p_order = $this->getParameter('order', '');
-
-		// For searching and paging
-        $original_gets = $_GET;
-		$query_parts = array();
-        foreach ($original_gets as $key => $value) {
-			$keep = true;
-            if ($key == "sort" || $key == "order" || $key == "page") {
-				$keep = false;
-			} else if (isset($excluding_query_parts) && is_array($excluding_query_parts)) {
-		        foreach ($excluding_query_parts as $excluding_query_part) {
-		            if ($excluding_query_part == $key) {
-						$keep = false;
-						break;
-					}
-				}
-			}
-			if ($keep) {
-				if (is_array($value)) {
-					foreach ($value as $array_key => $array_value) {
-						if (is_array($array_value)) {
-						} else {
-							$query_parts[] = urlencode($key . '[' . $array_key . ']') . "=" . urlencode($array_value);
-						}
-					}
-				} else {
-					$query_parts[] = urlencode($key) . "=" . urlencode($value);
-				}
-			}
-        }
-
-        $page_information['query_string_filter'] = join("&", $query_parts);
-        $page_information['query_string_paging'] = join("&", array(
-            $page_information['query_string_filter'],
-            "sort=" . urlencode($p_sort),
-            "order=" . urlencode($p_order)
-        ));
-        $page_information['query_string_sort'] = join("&", array(
-            $page_information['query_string_filter'],
-            "page=" . urlencode($p_page),
-        ));
-
-		
-		return $page_information;
+        //print_r($page_information);exit();
+        $this->ci_smarty->assign('page_information',$page_information);
+        return $page_information;
 	}
 	
-	function _setAdditionalQueryString(&$param) {
-	}
-	
+	/**
+	* @deprecated
+	*/
 	function getAdditionalQueryString($param = NULL) {
-		if ($param == NULL) {
-			$param = array();
-		}
-		$this->_setAdditionalQueryString($param);
-		$query_string = '';
-		if (count($param) > 0) {
-			$query_string_parts = array();
-			foreach ($param as $key => $value) {
-				if ($value) {
-					if (is_array($value)) {
-						foreach ($value as $sub_key => $sub_value) {
-							$query_string_parts[] = $key . "[$sub_key]=" . $sub_value;
-						}
-					} else {
-						$query_string_parts[] = $key . '=' . $value;
-					}
-				}
-			}
-			$query_string = '?' . join('&', $query_string_parts);
-		}
-		return $query_string;
+		return $param;
 	}
 	
+	/**
+	* @deprecated
+	*/
 	function forward($templateName, $param = NULL) {
-		if ($this->applicationFolder != '') {
-			redirect($this->applicationFolder . '/' . $templateName . $this->getAdditionalQueryString($param));
-		} else {
-			$controller_name = strtolower(get_class($this));
-			redirect($controller_name . '/' . $templateName . $this->getAdditionalQueryString($param));
-		}
-	}
-	
-	
-	function getFieldByArray($array = array(), $field){
-		$fields = array();
-		if (is_array($array)){
-			foreach ($array as $vo) {
-				$fields[] = $vo[$field]; 
-			}
-		}
-		return $fields;
-	}
-	
-	
-	function _saveItem($isNew, &$id, &$param) {
-	
-	}
-
-	function save_form() {
-		$isNew = true;
-		$p_id = $this->getParameter('cid', 0);
-		if ($p_id != 0) {
-			$isNew = false;
-		}
-		$param = null;
-		$error_message = $this->_saveItem($isNew, $p_id, $param);
-		if ($error_message) {
-			$this->displayError($error_message);
-		} else {
-			$this->forward('index', $param);
-		}
+		redirect($this->applicationFolder . '/' . $templateName);
 	}
 	
 	function getImageUrl($url){
