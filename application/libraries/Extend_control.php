@@ -93,7 +93,7 @@ class Extend_control {
 		return $member_information;
 	}
 	
-	function getMemberBriefById($member_id) {
+	function getMemberBasicById($member_id) {
 		$this->CI->db->select(MEMBER_BASIC);
 		$this->CI->db->from('member as m');
 		$this->CI->db->where('member_id',$member_id);
@@ -107,7 +107,7 @@ class Extend_control {
 	* @param 	$member_id 		A的ID
 	* @param 	$target_id 		B的ID
 	*
-	* @return 	0不是好友	1是好友	-1加过好友	-2被加过好友
+	* @return 	0不是好友	1是好友	-1 A加过B	-2 B加过A
 	*/
 	function isFriend($member_id,$target_id){
 		$this->CI->db->where('member_id',$member_id);
@@ -210,6 +210,14 @@ class Extend_control {
 		return $activity_information;
 	}
 
+	function getActivityCountsById( $activity_id ) {
+		$this->CI->db->select('a.view_count, a.attend_count, a.follow_count');
+		$this->CI->db->from('activity as a');
+		$this->CI->db->where('a.activity_id',$activity_id);
+		
+		return $this->CI->db->get_first();
+	}
+
 	function getActivityCommentInformation($activity_id,$page_offset = 0,$limit = 5){
 		$this->CI->db->select(COMMENT);
 		$this->CI->db->from('activity_comment as ac');
@@ -221,7 +229,7 @@ class Extend_control {
 	}
 	
 	function getAllActivityAttendMemberInformation($activity_id){
-		$this->CI->db->select(MEMBER_CONTACT.' am.activity_attend_id, am.status');
+		$this->CI->db->select(MEMBER_CONTACT.', am.activity_attend_id, am.status');
 		$this->CI->db->from('activity_attend as am');
 		$this->CI->db->join('member as m','m.member_id = am.member_id');
 		$this->CI->db->where('am.activity_id',$activity_id);
@@ -573,12 +581,29 @@ class Extend_control {
 	* @param 	int 	$limit 			返回数量上限
 	*/
 	function searchMemberByName($member_name, $offset=0, $limit=0){
-		$this->CI->db->select();
+		$this->CI->db->select(MEMBER_BRIEF);
 		$this->CI->db->from('member as m');
 		$this->CI->db->like('name',$member_name);
 		$this->CI->db->order_by('member_id','DESC');
 
 		return $this->CI->db->get('',$limit,$offset)->result_array();
+	}
+
+	/**
+	* 按人名搜索好友，返回基本信息
+	*
+	* @param 	int 	$member_name 	查询的好友名
+	*/
+	function getFriendBasicByName($member_name){
+		$this->CI->db->select(MEMBER_BASIC);
+		$this->CI->db->from('member as m');
+		if($member_name) $this->CI->db->like('m.name',$member_name);
+
+		$this->CI->db->join('member_friend as mf','mf.target_id = m.member_id');
+		$this->CI->db->where('mf.member_id',$this->CI->current_member_id);
+		$this->CI->db->where('mf.approved',1);
+
+		return $this->CI->db->get('')->result_array();
 	}
 
 	/**
@@ -1171,19 +1196,6 @@ class Extend_control {
 		
 		return $all_hot_activity_tag;
 		
-	}
-	
-	
-	/*--------------------------Activity-----------------------------*/
-	
-	
-	
-	function getAllMemberInformationByName($member_name){
-		$this->CI->db->select('member_id, name as member_name, image as member_image');
-		$this->CI->db->from('member');
-		$this->CI->db->like('name',$member_name);
-		$all_member_information = $this->CI->db->get('')->result_array();
-		return $all_member_information;
 	}
 	
 	

@@ -127,11 +127,9 @@ Class Activity Extends BaseActionController {
      * 工具函数：处理edit()提交
      *
      * @param	很多
-     *
-     * @author suantou
      */
 	function save_form() {
-		
+		$activity_id = $this->getParameter('activity_id',NULL);
 		$name = $this->getParameterWithOutTag('name',NULL);
 		$apply_start_time = $this->getParameter('apply_start_time',NULL);
 		$apply_end_time = $this->getParameter('apply_end_time',NULL);
@@ -143,9 +141,7 @@ Class Activity Extends BaseActionController {
 		$description = $this->getParameterWithOutTag('description',NULL);
 		$tag_array = $this->getParameter('tag',NULL);
 		$content = $this->getParameter('content',NULL);
-		$invite_member = $this->getParameter('invite_member',NULL);
-		//$tag = trim(trim(str_replace('/',',',str_replace('.',',',str_replace(';',',',str_replace('，',',',str_replace(' ',',',$tag)))))),',');
-		
+
 		$data['name'] = $name;
 		$data['publisher_id'] = $this->current_member_id;
 		$data['publisher_name'] = $this->current_member_information['member_name'];
@@ -168,57 +164,35 @@ Class Activity Extends BaseActionController {
 		$data['image_height'] = $image_parameter['1'];
 		$data['image'] = $image_url['relative_path'];
 
-		if ($isNew){
+		if ( !$activity_id ) {	//new
 			//写入activity
 			$data['created_time'] = $this->current_time;
 			$this->db->insert('activity',$data);
 			$activity_id = $this->db->insert_id();
-			
-			//写入activity_tag
-			foreach($tag_array as $tag_value){
-				$activity_tag_data = array();
-				$activity_tag_data['activity_id'] = $activity_id;
-				$activity_tag_data['tag'] = $tag_value;
-				$activity_tag_data['created_time'] = date('Y-m-d H:i:s');
-				$this->db->insert('activity_tag',$activity_tag_data);
-			}
-			
-			if (count($invite_member) >0 ){
-				$this->invite_member_attend_activity($activity_id,$invite_member);
-			}
-			redirect('activity/view?id='.$activity_id);
-			
-		}else {
+		} else {
 			$data['modified_time'] = $this->current_time;
-			$this->db->where('activity_id',$id);
+			$this->db->where('activity_id',$activity_id);
 			$this->db->update('activity',$data);
 			
 			//删除activity_tag
-			$this->db->where('activity_id',$id);
+			$this->db->where('activity_id',$activity_id);
 			$this->db->delete('activity_tag');
-			
-			//写入activity_tag
-			foreach($tag_array as $tag_value){
-				$activity_tag_data = array();
-				$activity_tag_data['activity_id'] = $id;
-				$activity_tag_data['tag'] = $tag_value;
-				$activity_tag_data['created_time'] = date('Y-m-d H:i:s');
-				$this->db->insert('activity_tag',$activity_tag_data);
-			}
 			
 			$system_data['category'] = "activity";
 			$system_data['type'] = "edit_activity";
-			$system_data['code'] = $id;
+			$system_data['code'] = $activity_id;
 			$this->system_message($system_data);
-			
-			if (count($invite_member) >0 ){
-				$this->invite_member_attend_activity($id,$invite_member);
-			}
-			
-			
-			redirect('activity/view?id='.$id);
 		}
-		
+		//写入activity_tag
+		foreach($tag_array as $tag_value){
+			$activity_tag_data = array();
+			$activity_tag_data['activity_id'] = $activity_id;
+			$activity_tag_data['tag'] = $tag_value;
+			$activity_tag_data['created_time'] = date('Y-m-d H:i:s');
+			$this->db->insert('activity_tag',$activity_tag_data);
+		}
+
+		redirect('activity/view?id='.$activity_id);
 	}
 
 	/**
@@ -336,10 +310,7 @@ Class Activity Extends BaseActionController {
 
 		if ($activity_id) {
 			$is_attend = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
-			$this->CI->db->select('attend_count');
-			$this->CI->db->from('activity');
-			$this->CI->db->where('activity_id',$activity_id);
-			$attend_count = idx( $this->CI->db->get_first(), 'attend_count' );
+			$attend_count = idx( $this->extend_control->getActivityCountsById($activity_id), 'attend_count' );
 
 			if( !$is_attend ){
 				//添加参加列表
@@ -350,8 +321,8 @@ Class Activity Extends BaseActionController {
 
 				//更新参加人数
 				$data2['attend_count'] = $attend_count+1;
-				$this->CI->db->where('activity_id',$activity_id);
-				$this->CI->db->update('activity',$data2);
+				$this->db->where('activity_id',$activity_id);
+				$this->db->update('activity',$data2);
 
 				$return = 1;
 				
@@ -372,8 +343,8 @@ Class Activity Extends BaseActionController {
 				$this->db->delete('activity_attend');
 
 				$data2['attend_count'] = $attend_count-1;
-				$this->CI->db->where('activity_id',$activity_id);
-				$this->CI->db->update('activity',$data2);
+				$this->db->where('activity_id',$activity_id);
+				$this->db->update('activity',$data2);
 				
 				$return = 2;
 			}
@@ -395,11 +366,7 @@ Class Activity Extends BaseActionController {
 		if ($activity_id){
 			//检查该会员是否已经报名活动
 			$is_attention = $this->extend_control->isMemberFollowActivity($member_id,$activity_id);
-			//get follow count
-			$this->CI->db->select('follow_count');
-			$this->CI->db->from('activity');
-			$this->CI->db->where('activity_id',$activity_id);
-			$follow_count = idx( $this->CI->db->get_first(), 'follow_count' );
+			$follow_count = idx( $this->extend_control->getActivityCountsById($activity_id), 'follow_count' );
 
 			if( !$is_attention ){
 				$data['member_id'] = $member_id;
@@ -408,8 +375,8 @@ Class Activity Extends BaseActionController {
 				$this->db->insert('activity_follow',$data);
 
 				$data2['follow_count'] = $follow_count+1;
-				$this->CI->db->where('activity_id',$activity_id);
-				$this->CI->db->update('activity',$data2);
+				$this->db->where('activity_id',$activity_id);
+				$this->db->update('activity',$data2);
 				
 				$return = 1;
 				
@@ -419,8 +386,8 @@ Class Activity Extends BaseActionController {
 				$this->db->delete('activity_follow');
 
 				$data2['follow_count'] = $attend_count-1;
-				$this->CI->db->where('activity_id',$activity_id);
-				$this->CI->db->update('activity',$data2);
+				$this->db->where('activity_id',$activity_id);
+				$this->db->update('activity',$data2);
 				
 				$return = 2;
 			}
