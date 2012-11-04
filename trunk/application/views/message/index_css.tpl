@@ -19,7 +19,21 @@
 .modal-body {
 	padding: 20px 40px;
 }
-#form-compose {
+#member-list {
+	float: right;
+}
+#message-compose-form {
 	float: left;
+}
+#message-content {
+	width: 300px;
+	height: 120px;
+}
+#tag-list {
+	line-height: 30px;
+	height: 40px;
+}
+.tag:hover {
+	text-decoration: line-through;
 }
 </style>

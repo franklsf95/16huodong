@@ -12,8 +12,4 @@
 .hot-showcase-item img {
   width: 220px;
 }
-
-.content-heading a:hover {
-	text-decoration: none;
-}
 </style>

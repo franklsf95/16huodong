@@ -99,9 +99,9 @@ Class Library Extends BaseActionController {
      *
      * @param	很多
      */
-	function _saveItem($isNew, &$id, &$param) {
-		$member_id = $this->current_member_information['member_id'];
-		
+	function save_form() {
+		$member_id = $this->current_member_id;
+		$book_id = $this->getParameter('book_id',NULL);
 		$name = $this->getParameterWithOutTag('name',NULL);
 		$image = $this->getParameter('image',$this->config->item('asset').'/img/default/book_cover.jpg');
 		$content = $this->getParameter('content',NULL);
@@ -118,21 +118,18 @@ Class Library Extends BaseActionController {
 		$image_parameter = @getimagesize($image_url['absolute_path']);
 		$data['image_width'] = $image_parameter['0'];
 		$data['image_height'] = $image_parameter['1'];
-		
 		$data['image'] = $image_url['relative_path'];
 		
-		if ($isNew){
+		if ( !$book_id ){
 			$data['created_time'] = $this->current_time;
-			
 			$this->db->insert('member_blog',$data);
-			$member_blog_id = $this->db->insert_id();
+			$book_id = $this->db->insert_id();
 		} else {
 			$data['modified_time'] = $this->current_time;
-			
-			$this->db->where('member_blog_id',$id);
+			$this->db->where('member_blog_id',$book_id);
 			$this->db->update('member_blog',$data);
 		}
-		redirect('library/view?id='.$id);
+		redirect('library/view?id='.$book_id);
 		
 	}
 	

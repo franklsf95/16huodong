@@ -23,14 +23,6 @@
 	height: 40px;
 }
 
-.tag {
-	background-color: #640805;
-	font-size: 14px;
-	font-weight: normal;
-	padding: 4px 12px;
-	margin-right: 6px;
-}
-
 .tag:hover {
 	text-decoration: line-through;
 }

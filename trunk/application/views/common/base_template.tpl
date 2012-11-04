@@ -7,9 +7,9 @@
     <meta name="description" content="">
     {if $base_tpl == 'common/member'}<meta name="robots" content="noindex">{/if}
 
-    <link href="{$config.asset}/css/global.css" rel="stylesheet" type="text/css" />
     <link href="{$config.asset}/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="{$config.asset}/css/jasny-bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="{$config.asset}/css/global.css" rel="stylesheet" type="text/css" />
     {include file="$base_tpl/css.tpl"}
     {if $more_css }
     {include file="$view_folder/$more_css.tpl"}

@@ -3,6 +3,22 @@ body {
 	padding-bottom: 40px;
 }
 
+.content-heading {
+  color: #444;
+  font-size: 24px;
+  line-height: 24px;
+  padding-top: 10px;
+  margin-bottom: 16px;
+}
+
+.tag {
+	background-color: #640805;
+	font-size: 14px;
+	font-weight: normal;
+	padding: 4px 12px;
+	margin-right: 6px;
+}
+
 .clear {
 	clear: both;
 }
@@ -59,6 +75,10 @@ label.error {
 }
 
 /***** avatars ****/
+.portrait {
+	width: 180px;
+}
+
 .avatar-large {
 	height: 100px;
 	max-width: 100px;

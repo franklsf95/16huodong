@@ -104,17 +104,6 @@ Class Base_ajax_action_controller extends BaseActionController {
 		$this->db->delete('member_friend');
 	}
 	
-	function updateSystemMessage(){
-		$system_message_id = $this->getParameter('system_message_id');
-		$target_id = $this->current_member_id;
-		$data['is_new'] = 'N';
-		$this->db->where('system_message_id',$system_message_id);
-		$this->db->where('target_id',$target_id);
-		$this->db->update('system_message',$data);
-		
-	}
-	
-	
 	function getBlogInformationById(){
 		$member_blog_id = $this->getParameter('member_blog_id',NULL);
 		$this->db->where('member_blog_id',$member_blog_id);
@@ -252,14 +241,5 @@ Class Base_ajax_action_controller extends BaseActionController {
 		echo json_encode($all_activity_information);
 	}
 	
-	function getAllMemberInformationByName(){
-		$member_name = $this->getParameter('member_name','');
-		
-		$all_member_information = $this->extend_control->getAllMemberInformationByName($member_name);
-		
-		echo json_encode($all_member_information);
-		
-		
-	}
 }
 ?>
