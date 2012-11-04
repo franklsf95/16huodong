@@ -34,11 +34,10 @@ Class Activity Extends BaseActionController {
 		$limit = $this->CLIMIT;
 		
 		if(!$activity_id) redirect('activity');
+		
 		$this->extend_control->AddActivityVisit($activity_id);
 		
 		$activity_information = $this->extend_control->getAcitivityInformationById($activity_id);
-		$activity_information['attend_count'] = count( $this->extend_control->getAllActivityAttendMemberInformation($activity_id) );
-		$activity_information['follow_count'] = count( $this->extend_control->getAllActivityAttentionMemberInformation($activity_id) );
 		$activity_information['is_attend'] = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
 		$activity_information['is_attention'] = $this->extend_control->isMemberFollowActivity($member_id,$activity_id);
 		$activity_information['is_publisher'] = $this->extend_control->isMemberPublishActivity($member_id,$activity_id);
@@ -91,8 +90,11 @@ Class Activity Extends BaseActionController {
 
 		$activity_information = $this->extend_control->getAcitivityInformationById($activity_id);
 		$activity_information['all_attends'] = $this->extend_control->getAllActivityAttendMemberInformation($activity_id);
-		$activity_information['all_follows'] = $this->extend_control->getAllActivityAttentionMemberInformation($activity_id);
+		$activity_information['all_follows'] = $this->extend_control->getAllActivityFollowMemberInformation($activity_id);
 		
+		if( $activity_information['publisher_id'] != $this->current_member_id )
+				show_error('你没有权限管理此活动');
+
 		$this->ci_smarty->assign('activity_information',$activity_information);
 		$this->display('admin',$activity_information['activity_name'].' - 管理活动','view_css','admin_js');
 	}
@@ -101,38 +103,21 @@ Class Activity Extends BaseActionController {
      * 显示活动创建和编辑页面
      *
      * @param	id		活动ID，如为空则创建新活动
-     *
-     * @author suantou
      */
 	function edit() {
 		$id = $this->getParameter('id',NULL);
-		$member_id = $this->current_member_id;
 		$title = '发起新活动';
 		
 		if ( $id ) {
 			$title = '编辑活动 #'.$id;
-			$this->db->from('activity as a');
-			$this->db->where('a.activity_id',$id);
-			$this->db->where('a.publisher',$member_id);
-			$activity_information = $this->db->get_first();
-			$activity_information['member_name'] = $this->current_member_information['member_name'];
-			
-			//获取活动标签
-			$this->db->select('tag');
-			$this->db->from('activity_tag');
-			$this->db->where('activity_id',$id);
-			$all_tag = $this->db->get()->result_array();
-			
-			if(is_array($all_tag)){
-				foreach ($all_tag as $tag) {
-					$activity_information['tag'][] = $tag['tag'];
-				}
-			}
+			$activity_information = $this->extend_control->getAcitivityInformationById( $id );
+
+			if( $activity_information['publisher_id'] != $this->current_member_id )
+				show_error('你没有权限编辑此活动');
 			
 			$this->ci_smarty->assign('activity_information',$activity_information);
 		}
-		$this->ci_smarty->assign('all_member_friend_information',$this->current_member_information['all_member_friend_information']);
-		
+
 		//print_r($activity_information);exit();
 		$this->display( 'edit', $title, 'edit_css', 'edit_js' );
 	}
@@ -145,7 +130,7 @@ Class Activity Extends BaseActionController {
      *
      * @author suantou
      */
-	function _saveItem($isNew, &$id, &$param) {
+	function save_form() {
 		
 		$name = $this->getParameterWithOutTag('name',NULL);
 		$apply_start_time = $this->getParameter('apply_start_time',NULL);
