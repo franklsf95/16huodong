@@ -61,7 +61,7 @@ Class Search Extends BaseActionController {
 		}
 
 		$all_activities = $this->extend_control->searchActivity($offset,$limit,$activity_name,$school_id,null,$member_type,null,$is_open,$is_active);
-		$count = 100;
+		$count = $this->extend_control->searchActivityCount($activity_name,$school_id,null,$member_type,null,$is_open,$is_active);
 
 		$this->setPageInformation($count, $page, $limit, 'search/queryActivity');
 

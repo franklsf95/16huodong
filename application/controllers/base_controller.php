@@ -270,6 +270,7 @@ class BaseController extends CI_Controller {
 
 		$page_information['count'] = $count;
 		$page_information['page'] = $page;
+		$page_information['limit'] = $limit;	//for ajax
 		$page_information['page_offset'] = $page_offset;
 		$page_information['url'] = site_url($url);
 		$page_information['first_page'] = 1;

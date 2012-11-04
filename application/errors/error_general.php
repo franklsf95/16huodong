@@ -15,7 +15,7 @@
     		background-repeat: no-repeat;
     		margin-top: -50px;
         padding: 500px 0 0 660px;
-    		height: 600px;
+    		height: 120px;
     	}
       .error-container p {
         color: #111;
