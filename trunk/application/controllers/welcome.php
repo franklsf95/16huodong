@@ -23,6 +23,8 @@ class Welcome extends BaseController {
 	*/
 	function index()
 	{
+		$ref = $this->input->get('ref',TRUE);
+		$this->ci_smarty->assign('ref',$ref);
 		$this->display('index','欢迎');
 	}
 

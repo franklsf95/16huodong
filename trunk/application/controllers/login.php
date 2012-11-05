@@ -25,7 +25,7 @@ Class Login Extends BaseController {
 		$account = $this->getParameter('account',NULL);
 		$password = $this->getParameter('password',NULL);
 		$member_cookie = $this->getParameter('member_cookie',False);
-		
+		$ref = $this->getParameter('ref',NULL);
 		if ( $account == '' || $password == '' ) 	show_error('用户名或密码为空!');
 
 		$this->db->select('member_id');
@@ -43,8 +43,11 @@ Class Login Extends BaseController {
 			setcookie('member_cookie[key]',$member_cookie['key'],time()+3600*24*30,'/');
 		}
 		$this->setSessionValue('current_member_id',$current_member_id);
-
-		redirect('index');
+		if($ref){
+			redirect(rawurldecode($ref));
+		}else{
+			redirect('index');
+		}
 	}
 	
 	/**
