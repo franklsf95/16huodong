@@ -32,7 +32,7 @@ Class Login Extends BaseController {
 		$this->db->from('member');
 		$this->db->where('account',$account);
 		$this->db->where('password',md5($password));
-		$current_member_id = $this->db->get_first();
+		$current_member_id = idx( $this->db->get_first(), 'member_id' );
 
 		if ( !$current_member_id ) 	show_error('该用户不存在!');
 

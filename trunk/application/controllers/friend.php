@@ -43,7 +43,7 @@ Class Friend Extends BaseActionController {
 		$member_id = $this->current_member_id;
 		$deny = $this->getParameter('deny',NULL);
 		
-		$is_friend = $this->extend_control->isFriend($member_id,$target_id);
+		$is_friend = $this->extend_control->getFriendStatus($member_id,$target_id);
 		
 		$return = 0;
 		if ($is_friend==1) {	//是好友，删除好友

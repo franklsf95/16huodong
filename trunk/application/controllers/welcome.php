@@ -72,9 +72,8 @@ class Welcome extends BaseController {
 					$data['school_name']=$school_name;
 					$data['email'] = $email;
 					$this->db->insert('member',$data);
-					$newID = $this->db->insert_id();
 
-					$this->setSessionValue('current_member_id',$newID);
+					$this->setSessionValue('current_member_id', $this->db->insert_id() );
 					redirect('index');
 				}
 			}

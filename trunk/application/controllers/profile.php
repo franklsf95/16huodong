@@ -27,7 +27,7 @@ Class Profile Extends BaseActionController {
 		$this->ci_smarty->assign('member_information',$member_information);
 		$this->ci_smarty->assign('member_id',$member_id);
 		$this->ci_smarty->assign('is_me', $member_id == $this->current_member_id );
-		$this->ci_smarty->assign('is_friend',$this->extend_control->isFriend($this->current_member_id,$member_id) );
+		$this->ci_smarty->assign('is_friend',$this->extend_control->getFriendStatus($this->current_member_id,$member_id) );
 		
 		$template_view = $member_information['member_type'];
 		//print_r($member_information);exit();

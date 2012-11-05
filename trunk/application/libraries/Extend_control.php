@@ -109,7 +109,7 @@ class Extend_control {
 	*
 	* @return 	0不是好友	1是好友	-1 A加过B	-2 B加过A
 	*/
-	function isFriend($member_id,$target_id){
+	function getFriendStatus($member_id,$target_id){
 		$this->CI->db->where('member_id',$member_id);
 		$this->CI->db->where('target_id',$target_id);
 		$count1 = $this->CI->db->count_all_results('member_friend');
@@ -127,6 +127,24 @@ class Extend_control {
 		} else {
 			return 0;
 		}
+	}
+
+	/**
+	* 检查是否为好友
+	*
+	* @param 	$member_id 		A的ID
+	* @param 	$target_id 		B的ID
+	*
+	* @return 	0不是好友	1是好友
+	*/
+	function isFriend($member_id,$target_id) {
+		$this->CI->db->select('approved');
+		$this->CI->db->where('member_id',$member_id);
+		$this->CI->db->where('target_id',$target_id);
+
+		$result = $this->CI->db->get_first('member_friend');
+
+		return $result['approved'];
 	}
 
 /*
