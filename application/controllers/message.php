@@ -15,10 +15,12 @@ Class Message Extends BaseActionController {
 	* 显示站内信主页、发送消息、收件箱
 	*
 	* @param 	page 	当前页数
+	* @param 	target_id 	直接给target_id发送消息
 	*/
 	function index(){
 		$member_id = $this->current_member_id;
 		$page = $this->getParameter('page',1);
+		$target_id = $this->getParameter('target_id',NULL);
 		$limit = $this->MLIMIT;
 		$offset = ($page-1) * $limit;
 		
@@ -33,8 +35,14 @@ Class Message Extends BaseActionController {
 
 		$all_friends = $this->extend_control->getFriendBasicByName('');
 		$this->ci_smarty->assign('all_friends',$all_friends);
+
+		if( $target_id && $this->extend_control->isFriend($member_id,$target_id) ) {
+			$this->ci_smarty->assign('target_id', $target_id);
+			$target_name = $this->extend_control->getMemberNameByMemberId($target_id);
+			$this->ci_smarty->assign('target_name', $target_name);
+		}
 		
-		//print_r($all_friends);exit();
+		//print_r($target_name);exit();
 
 		$this->display('index','站内信','index_css','index_js');
 	}
@@ -74,7 +82,7 @@ Class Message Extends BaseActionController {
 
 		if( $aid )	redirect('activity/view?id='.$aid);
 		if( $bid )	redirect('book/view?id='.$bid);
-		if( $pid )	redirect('profile/view?id='.$pid);
+		if( $pid )	redirect('profile?id='.$pid);
 	}
 	
 	/**
