@@ -59,11 +59,11 @@ CREATE TABLE `16_member_findpass` (
 
 /*Data for the table `16_member_findpass` */
 
-/*Table structure for table `16_activity_attend_member` */
+/*Table structure for table `16_activity_attend` */
 
-DROP TABLE IF EXISTS `16_activity_attend_member`;
+DROP TABLE IF EXISTS `16_activity_attend`;
 
-CREATE TABLE `16_activity_attend_member` (
+CREATE TABLE `16_activity_attend` (
   `activity_attend_id` int(11) NOT NULL AUTO_INCREMENT,
   `activity_id` int(11) NOT NULL,
   `member_id` int(11) NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE `16_activity_attend_member` (
   PRIMARY KEY (`activity_attend_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `16_activity_attend_member` */
+/*Data for the table `16_activity_attend` */
 
 /*Table structure for table `16_activity_follow` */
 
@@ -168,9 +168,9 @@ DROP TABLE IF EXISTS `16_member`;
 
 CREATE TABLE `16_member` (
   `member_id` int(11) NOT NULL AUTO_INCREMENT,
-  `account` varchar(50) NOT NULL COMMENT,
-  `password` varchar(32) DEFAULT NULL COMMENT,
-  `member_type` varchar(4) NOT NULL COMMENT,
+  `account` varchar(50) NOT NULL,
+  `password` varchar(32) DEFAULT NULL,
+  `member_type` varchar(4) NOT NULL,
   `status` int(4) NOT NULL DEFAULT '1',
   `image` varchar(255) DEFAULT '/upload/portrait.jpg',
   `name` varchar(20) NOT NULL COMMENT '姓名或组织名称',
