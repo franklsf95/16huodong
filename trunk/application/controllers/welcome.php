@@ -52,7 +52,7 @@ class Welcome extends BaseController {
 		$count = $this->extend_control->countAllActivityComment($activity_id);
 		$this->ci_smarty->assign('activity_information',$activity_information);
 
-		$this->display('demo_activity_view',$activity_information['activity_name'].' | 随便看看','demo_activity_view_css');
+		$this->display('demo_activity_view',$activity_information['activity_name'].' | 随便看看','demo_activity_view_css','demo_activity_view_js');
 	}
 
 	/**
