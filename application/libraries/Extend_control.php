@@ -247,7 +247,7 @@ class Extend_control {
 	}
 	
 	function getActivityAttendMemberInformation($activity_id){
-		$this->CI->db->select(MEMBER_CONTACT.', am.activity_attend_id, am.status');
+		$this->CI->db->select(MEMBER_CONTACT.', am.activity_attend_id, am.approved');
 		$this->CI->db->from('activity_attend as am');
 		$this->CI->db->join('member as m','m.member_id = am.member_id');
 		$this->CI->db->where('am.activity_id',$activity_id);
@@ -964,7 +964,7 @@ class Extend_control {
 		$this->CI->db->where('sm.target_id',$member_id);
 		$this->CI->db->where('sm.category','friend');
 		$this->CI->db->where('sm.status','Y');
-		$all_member_message_information = $this->CI->db->get()->result_array();
+		$friend = $this->CI->db->get()->result_array();
 		
 		//category == 'activity'
 		$this->CI->db->select('sm.system_message_id, sm.category, sm.type, sm.code, sm.created_time, sm.status, sm.is_new, m.member_id, m.name as member_name, m.image as member_image, t.member_id as target_id, t.name as target_name, t.image as target_image, a.activity_id, a.name as activity_name, a.image as activity_image');
@@ -975,10 +975,9 @@ class Extend_control {
 		$this->CI->db->where('sm.target_id',$member_id);
 		$this->CI->db->where('sm.category','activity');
 		$this->CI->db->where('sm.status','Y');
-		$all_activity_message_information = $this->CI->db->get()->result_array();
+		$activity = $this->CI->db->get()->result_array();
 		
 		//category == 'blog'
-		
 		$this->CI->db->select('sm.system_message_id, sm.category, sm.type, sm.created_time, sm.status, sm.is_new, ,m.member_id, m.name as member_name, m.image as member_image, mb.book_id, mb.name as book_name');
 		$this->CI->db->from('system_message as sm');
 		$this->CI->db->join('member as m','m.member_id = sm.member_id');
@@ -986,15 +985,13 @@ class Extend_control {
 		$this->CI->db->where('sm.target_id',$member_id);
 		$this->CI->db->where('sm.category','blog');
 		$this->CI->db->where('sm.status','Y');
-		$all_blog_message_information = $this->CI->db->get()->result_array();
+		$book = $this->CI->db->get()->result_array();
 		
-		
-		$all_system_message_information['all_member_message_information'] = $all_member_message_information;
-		$all_system_message_information['all_activity_message_information'] = $all_activity_message_information;
-		$all_system_message_information['all_blog_message_information'] = $all_blog_message_information;
+		$all_system_message_information['friend'] = $friend;
+		$all_system_message_information['activity'] = $activity;
+		$all_system_message_information['book'] = $book;
 
 		return $all_system_message_information;
-		
 	}
 	
 	

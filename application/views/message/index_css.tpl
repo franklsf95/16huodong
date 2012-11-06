@@ -26,11 +26,4 @@
 	width: 300px;
 	height: 120px;
 }
-#tag-list {
-	line-height: 30px;
-	height: 40px;
-}
-.tag:hover {
-	text-decoration: line-through;
-}
 </style>
