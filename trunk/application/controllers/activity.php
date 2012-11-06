@@ -89,8 +89,8 @@ Class Activity Extends BaseActionController {
 		$member_id = $this->current_member_id;
 
 		$activity_information = $this->extend_control->getAcitivityInformationById($activity_id);
-		$activity_information['all_attends'] = $this->extend_control->getAllActivityAttendMemberInformation($activity_id);
-		$activity_information['all_follows'] = $this->extend_control->getAllActivityFollowMemberInformation($activity_id);
+		$activity_information['all_attends'] = $this->extend_control->getActivityAttendMemberInformation($activity_id);
+		$activity_information['all_follows'] = $this->extend_control->getActivityFollowMemberInformation($activity_id);
 		
 		if( $activity_information['publisher_id'] != $this->current_member_id )
 				show_error('你没有权限管理此活动');

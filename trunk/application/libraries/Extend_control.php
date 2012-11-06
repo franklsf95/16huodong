@@ -246,7 +246,7 @@ class Extend_control {
 		return $all_activity_comment_information;
 	}
 	
-	function getAllActivityAttendMemberInformation($activity_id){
+	function getActivityAttendMemberInformation($activity_id){
 		$this->CI->db->select(MEMBER_CONTACT.', am.activity_attend_id, am.status');
 		$this->CI->db->from('activity_attend as am');
 		$this->CI->db->join('member as m','m.member_id = am.member_id');
@@ -255,7 +255,14 @@ class Extend_control {
 		return $this->CI->db->get()->result_array();
 	}
 	
-	function getAllActivityFollowMemberInformation($activity_id){
+	function getActivityAttendMemberId($activity_id) {
+		$this->CI->db->select('member_id');
+		$this->CI->db->where('activity_id',$activity_id);
+		
+		return $this->CI->db->get('activity_attend')->result_array();
+	}
+	
+	function getActivityFollowMemberInformation($activity_id){
 		$this->CI->db->select(MEMBER_CONTACT);
 		$this->CI->db->from('activity_follow as am');
 		$this->CI->db->join('member as m','m.member_id = am.member_id');
@@ -319,10 +326,7 @@ class Extend_control {
 	function getAllMemberFollowActivities($member_id,$offset=0,$limit){
 		$this->CI->db->select(ACTIVITY_BRIEF);
 		$this->CI->db->from('activity as a');
-		$this->CI->db->join('member as m','a.publisher_id = m.member_id');
 		$this->CI->db->join('activity_follow as am','a.activity_id = am.activity_id');
-		$this->CI->db->join('activity_attend as af','a.activity_id = af.activity_id','LEFT');
-		$this->CI->db->join('activity_comment as ac','a.activity_id = ac.activity_id','LEFT');
 		$this->CI->db->where('am.member_id',$member_id);
 		$this->CI->db->group_by('a.activity_id');
 		$this->CI->db->order_by('a.created_time','DESC');
@@ -344,11 +348,8 @@ class Extend_control {
 	function getAllMemberAttendActivities($member_id,$offset=0,$limit){
 		$this->CI->db->select(ACTIVITY_BRIEF);
 		$this->CI->db->from('activity as a');
-		$this->CI->db->join('member as m','a.publisher_id = m.member_id');
-		$this->CI->db->join('activity_follow as am','a.activity_id = am.activity_id');
-		$this->CI->db->join('activity_attend as af','a.activity_id = af.activity_id','LEFT');
-		$this->CI->db->join('activity_comment as ac','a.activity_id = ac.activity_id','LEFT');
-		$this->CI->db->where('af.member_id',$member_id);
+		$this->CI->db->join('activity_attend as aa','a.activity_id = aa.activity_id','LEFT');
+		$this->CI->db->where('aa.member_id',$member_id);
 		$this->CI->db->group_by('a.activity_id');
 		$this->CI->db->order_by('a.created_time','DESC');
 		$all_member_attend_activity_information = $this->CI->db->get('',$limit,$offset)->result_array();
@@ -368,10 +369,6 @@ class Extend_control {
 	function getAllMemberPublishActivities($member_id,$offset=0,$limit){
 		$this->CI->db->select(ACTIVITY_BRIEF);
 		$this->CI->db->from('activity as a');
-		$this->CI->db->join('member as m','a.publisher_id = m.member_id');
-		$this->CI->db->join('activity_follow as am','a.activity_id = am.activity_id','LEFT');
-		$this->CI->db->join('activity_attend as af','a.activity_id = af.activity_id','LEFT');
-		$this->CI->db->join('activity_comment as ac','a.activity_id = ac.activity_id','LEFT');
 		$this->CI->db->where('a.publisher_id',$member_id);
 		$this->CI->db->group_by('a.activity_id');
 		$this->CI->db->order_by('a.created_time','DESC');
@@ -741,16 +738,6 @@ class Extend_control {
  * uncat
  *---------------------------------------------------------------
  */
-	
-	function getAttendActivityMemberInformation($activity_id) {
-		
-		$this->CI->db->select('activity_id,member_id,created_time');
-		$this->CI->db->where('activity_id',$activity_id);
-		$all_member_information = $this->CI->db->get('activity_attend')->result_array();
-		return $all_member_information;
-	}
-	
-	
 	function getAboutMemberList($member_id,$type = 'array'){			//拿取自己关注会员及自己的会员id加入数组返回
 	
 		$this->CI->db->select('target_id');
