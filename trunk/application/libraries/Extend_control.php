@@ -7,7 +7,7 @@ define( 'MEMBER_BASIC', 	'm.member_id, m.name as member_name, m.image as member_
 define( 'MEMBER_BRIEF',		'm.member_id, m.name as member_name, m.image as member_image, m.member_type, m.school_id, m.school_name, m.gender, m.organisation, m.title, m.principal');
 define( 'MEMBER_CONTACT', 	'm.member_id, m.name as member_name, m.image as member_image, m.school_id, m.school_name, m.phone, m.email, m.qq');
 define( 'MEMBER_DETAIL', 	'm.member_id, m.account, m.name as member_name, m.member_type, m.school_id, m.school_name, m.image as member_image, m.organisation as member_organisation, m.title as member_title, m.principal as member_principal, m.gender as member_gender, m.birthday as member_birthday, m.qq as member_qq, m.phone as member_phone, m.email as member_email, m.address as member_address, m.description as member_description, m.content as member_content, m.created_time, m.modified_time');
-define( 'ACTIVITY_BRIEF', 	'a.activity_id, a.name as activity_name, a.image as activity_image, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.description, a.publisher_name, a.follow_count, a.attend_count, a.view_count');
+define( 'ACTIVITY_BRIEF', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.description, a.follow_count, a.attend_count, a.view_count');
 define( 'ACTIVITY_DETAIL', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.price, a.address, a.description, a.content, a.created_time, a.modified_time, a.view_count, a.attend_count, a.follow_count, a.book_id');
 define( 'COMMENT',			'ac.activity_comment_id, ac.activity_id, ac.member_id, ac.content, ac.reply, ac.created_time, m.name as member_name, m.image as member_image');
 
@@ -343,9 +343,44 @@ class Extend_control {
 
 /*
  *---------------------------------------------------------------
- * member活动历史
+ * 单个会员所有活动读取
  *---------------------------------------------------------------
  */
+
+	function getCurrentFollowActivityInformation($member_id){
+		$this->CI->db->select(ACTIVITY_BRIEF);
+		$this->CI->db->from('activity as a');
+		$this->CI->db->join('activity_follow as af','af.activity_id = a.activity_id');
+		$this->CI->db->where('af.member_id',$member_id);
+		$this->CI->db->where('date(a.end_time) >=',$this->CI->current_date);
+		$this->CI->db->group_by('a.activity_id');
+		$this->CI->db->order_by('a.created_time','DESC');
+		
+		return $this->CI->db->get('',$limit,$page_offset )->result_array();
+	}
+	
+	function getCurrentAttendActivityInformation($member_id,$page_offset,$limit){
+		$this->CI->db->select(ACTIVITY_BRIEF);
+		$this->CI->db->from('activity as a');
+		$this->CI->db->join('activity_attend as am','am.activity_id = a.activity_id');
+		$this->CI->db->where('am.member_id',$member_id);
+		$this->CI->db->where('date(a.end_time) >=',$this->CI->current_date);
+		$this->CI->db->group_by('a.activity_id');
+		$this->CI->db->order_by('a.created_time','DESC');
+		
+		return $this->CI->db->get('',$limit,$page_offset )->result_array();
+	}
+	
+	function getCurrentPublishActivityInformation($member_id,$page_offset,$limit){
+		$this->CI->db->select(ACTIVITY_BRIEF);
+		$this->CI->db->from('activity as a');
+		$this->CI->db->where('a.publisher_id',$member_id);
+		$this->CI->db->where('date(a.end_time) >=',$this->CI->current_date);
+		$this->CI->db->group_by('a.activity_id');
+		$this->CI->db->order_by('a.created_time','DESC');
+		
+		return $this->CI->db->get('',$limit,$page_offset )->result_array();
+	}
 
 	function countAllMemberFollowActivities($member_id) {
 		$this->CI->db->select('count(a.activity_id) as count');
@@ -772,71 +807,16 @@ class Extend_control {
  * uncat
  *---------------------------------------------------------------
  */
-	function getAboutMemberList($member_id,$type = 'array'){			//拿取自己关注会员及自己的会员id加入数组返回
-	
-		$this->CI->db->select('target_id');
-		$this->CI->db->where('member_id',$this->CI->current_member_id);
-		$this->CI->db->where('status','Y');
-		$all_fllow_information = $this->CI->db->get('member_friend')->result_array();
-		
-		if ($type == 'array') {
-		
-			$about_member_list[] = $member_id;
-			
-			foreach ($all_fllow_information as $vo) {
-				
-				$about_member_list[] = $vo['target_id'];
-			}
-		} elseif ($type == 'str'){
-			$about_member_list = "('".$member_id."'";
-			
-			foreach ($all_fllow_information as $vo) {
-				
-				$about_member_list .= ",'".$vo['target_id']."'";
-			}
-			
-			$about_member_list .= ")";
-		}
-		return $about_member_list;
-	}
-	
-	
-	function getFollowMemberList($member_id,$type = 'array'){			//拿取自己关注会员及自己的会员id加入数组返回
-	
-		$this->CI->db->select('friend_id');
-		$this->CI->db->where('member_id',$member_id);
-		$all_fllow_information = $this->CI->db->get('member_friend')->result_array();
-		
-		if ($type == 'array') {
-			
-			foreach ($all_fllow_information as $vo) {
-				
-				$follow_member_list[] = $vo['friend_id'];
-			}
-		} elseif ($type == 'str'){
-			$follow_member_list = "('".$member_id."'";
-			
-			foreach ($all_fllow_information as $vo) {
-				
-				$follow_member_list .= ",'".$vo['friend_id']."'";
-			}
-			
-			$follow_member_list .= ")";
-		}
-		return $follow_member_list;
-	}
 	
 	function getMemberVisitInformation($member_id,$limit = 5){
-		$this->CI->db->select('m.member_id, m.name as member_name, m.image as member_image,mv.visit_time');
+		$this->CI->db->select(MEMBER_BRIEF.', mv.visit_time');
 		$this->CI->db->from('member_visit as mv');
 		$this->CI->db->join('member as m','mv.visitor_id = m.member_id');
 		$this->CI->db->where('mv.member_id',$member_id);
 		$this->CI->db->limit($limit);
 		$this->CI->db->order_by('mv.visit_time','DESC');
 		
-		$all_member_visit_information = $this->CI->db->get()->result_array();
-		
-		return $all_member_visit_information;
+		return $this->CI->db->get()->result_array();
 	}
 	
 	
@@ -846,53 +826,6 @@ class Extend_control {
 		$this->CI->db->where('date(a.end_time) >=',$this->CI->current_date);
 		
 		return idx($this->CI->db->get_first(),'count');
-	}
-	
-	function getCurrentAttentionActivityInformation($member_id){
-		$this->CI->db->select('a.activity_id, a.name as activity_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.image_width as activity_image_width, a.image_height as activity_image_height, a.description, a.created_time, m.member_id, m.name as member_name, m.image as member_image, count(distinct am.member_id) as attend_number, count(distinct af.member_id) as attention_number');
-		$this->CI->db->from('activity as a');
-		$this->CI->db->join('member as m','a.publisher_id = m.member_id');
-		$this->CI->db->join('activity_attend as am','am.activity_id = a.activity_id','left');
-		$this->CI->db->join('activity_follow as af','af.activity_id = a.activity_id');
-		$this->CI->db->where('af.member_id',$member_id);
-		$this->CI->db->where('date(a.end_time) >=',$this->CI->current_date);
-		$this->CI->db->group_by('a.activity_id');
-		$this->CI->db->order_by('a.created_time','DESC');
-		$all_attention_activity_information = $this->CI->db->get('',$limit,$page_offset )->result_array();
-		
-		
-		return $all_attention_activity_information;
-	}
-	
-	function getCurrentAttendActivityInformation($member_id,$page_offset,$limit){
-		$this->CI->db->select('a.activity_id, a.name as activity_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.image_width as activity_image_width, a.image_height as activity_image_height, a.description, a.created_time, m.member_id, m.name as member_name, m.image as member_image, count(distinct am.member_id) as attend_number, count(distinct af.member_id) as attention_number');
-		$this->CI->db->from('activity as a');
-		$this->CI->db->join('member as m','a.publisher_id = m.member_id');
-		$this->CI->db->join('activity_attend as am','am.activity_id = a.activity_id','left');
-		$this->CI->db->join('activity_follow as af','af.activity_id = a.activity_id');
-		$this->CI->db->where('af.member_id',$member_id);
-		$this->CI->db->where('date(a.end_time) >=',$this->CI->current_date);
-		$this->CI->db->group_by('a.activity_id');
-		$this->CI->db->order_by('a.created_time','DESC');
-		$all_attend_activity_information = $this->CI->db->get('',$limit,$page_offset )->result_array();
-		
-		return $all_attend_activity_information;
-	}
-	
-	
-	function getCurrentPublishActivityInformation($member_id,$page_offset,$limit){
-		$this->CI->db->select('a.activity_id, a.name as activity_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.image_width as activity_image_width, a.image_height as activity_image_height, a.description, a.created_time, m.member_id, m.name as member_name, m.image as member_image, count(distinct am.member_id) as attend_number, count(distinct af.member_id) as attention_number');
-		$this->CI->db->from('activity as a');
-		$this->CI->db->join('member as m','a.publisher_id = m.member_id');
-		$this->CI->db->join('activity_attend as am','am.activity_id = a.activity_id','left');
-		$this->CI->db->join('activity_follow as af','af.activity_id = a.activity_id','left');
-		$this->CI->db->where('a.publisher_id',$member_id);
-		$this->CI->db->where('date(a.end_time) >=',$this->CI->current_date);
-		$this->CI->db->group_by('a.activity_id');
-		$this->CI->db->order_by('a.created_time','DESC');
-		$all_publish_activity_information = $this->CI->db->get('',$limit,$page_offset )->result_array();
-		
-		return $all_publish_activity_information;
 	}
 	
 	function countAllActivityComment($activity_id){

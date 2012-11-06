@@ -428,33 +428,6 @@ Class Activity Extends BaseActionController {
 		
 		echo json_encode($all_activity_comment_information);
 	}
-	
-	function getCurrentAttendActivity(){
-		$member_id = $this->getParameter('member_id',$this->current_member_id);
-		$page_offset = $this->getParameter('page_offset',0);
-		$limit = $this->getParameter('limit',5);
-		$all_current_attend_activity_information = $this->extend_control->getCurrentAttendActivityInformation($member_id,$page_offset,$limit);
-		
-		echo json_encode($all_current_attend_activity_information);
-	}
-	
-	function getCurrentAttentionActivity(){
-		$member_id = $this->getParameter('member_id',$this->current_member_id);
-		$page_offset = $this->getParameter('page_offset',0);
-		$limit = $this->getParameter('limit',5);
-		$all_current_attention_activity_information = $this->extend_control->getCurrentAttentionActivityInformation($member_id,$page_offset,$limit);
-		
-		echo json_encode($all_current_attention_activity_information);
-	}
-	
-	function getCurrentPublishActivity(){
-		$member_id = $this->getParameter('member_id',$this->current_member_id);
-		$page_offset = $this->getParameter('page_offset',0);
-		$limit = $this->getParameter('limit',5);
-		$all_current_publish_activity_information = $this->extend_control->getCurrentPublishActivityInformation($member_id,$page_offset,$limit);
-		
-		echo json_encode($all_current_publish_activity_information);
-	}
 
 	/**
      * 处理挖活动首页ajax按标签加载活动请求
