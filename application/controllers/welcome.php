@@ -68,39 +68,33 @@ class Welcome extends BaseController {
 		$status = $this->getParameter('status','1');					//1为正常
 		$image = $this->config->item('asset').'/img/default/portrait.jpg';
 		$name = $this->getParameter($member_type.'-name',NULL);
-		$school_id = $this->getParameter('current_school_id',NULL);
+		$school_id = $this->getParameter('school_id',NULL);
 		$school_name = $this->getParameter($member_type.'-school',NULL);
 
-		if ($account != '' && $password != '' && $member_type != '' && $email != '') {
-			$this->db->where('account',$account);
-			$member_information = $this->db->get_first('member');
-			if ($member_information) {
-				show_error('你注册的用户名已经存在');
-			} else {
-				$this->db->where('email',$email);
-				$member_information = $this->db->get_first('member');
-				
-				if ($member_information) {
-					show_error('每个邮箱只能注册一个用户');
-				}else {
-					$data['account'] = $account;
-					$data['password'] = md5($password);
-					$data['member_type'] = $member_type;
-					$data['status'] = $status;
-					$data['image'] = $image;
-					$data['name'] = $name;
-					$data['school_id'] = $school_id;
-					$data['school_name']=$school_name;
-					$data['email'] = $email;
-					$this->db->insert('member',$data);
+		if( !$school_id && ( $member_type=='stu'||$member_type=='org' ) )
+			show_error('请输入一个数据库中存在的学校~ 从下拉列表中选择即可。');
 
-					$this->setSessionValue('current_member_id', $this->db->insert_id() );
-					redirect('index');
-				}
-			}
-		} else {
-			show_error('首页是怎么检查你的！用户名、密码和邮箱有一项为空');
-		}
+		$this->db->where('account',$account);
+		if( $this->db->get_first('member') )
+			show_error('这个用户名已经被人注册过啦~');
+
+		$this->db->where('email',$email);
+		if( $this->db->get_first('member') )
+			show_error('你已经用这个 E-mail 地址注册过啦~');
+
+		$data['account'] = $account;
+		$data['password'] = md5($password);
+		$data['member_type'] = $member_type;
+		$data['status'] = $status;
+		$data['image'] = $image;
+		$data['name'] = $name;
+		$data['school_id'] = $school_id;
+		$data['school_name']=$school_name;
+		$data['email'] = $email;
+		$this->db->insert('member',$data);
+
+		$this->setSessionValue('current_member_id', $this->db->insert_id() );
+		redirect('index');
 	}
 /*-----------------AJAX段---------------------*/
 

@@ -58,7 +58,7 @@
                   <label class="control-label" for="select-school-1">学校</label>
                   <div class="controls">
                     <input type="text" class="typeahead" id="select-school-1" name="stu-school" data-provide="typeahead" placeholder="输入中有下拉提示~">
-                    <input type="hidden" id="input-school-id" name="current_school_id">
+                    <input type="hidden" id="input-school-id" name="school_id">
                   </div>
                 </div>
               </div>
