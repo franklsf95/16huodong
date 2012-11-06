@@ -16,6 +16,10 @@
 	max-height: 300px;
 }
 
+.input-append {
+  margin-left: 21px !important; 
+}
+
 #badge-add-tag {
 	background-color: #640805;
 	padding: 0 6px;
