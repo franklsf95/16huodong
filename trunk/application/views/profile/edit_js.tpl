@@ -17,7 +17,7 @@ $("#memberTag").keydown(function() {
 $("#badge-add-tag").click(function(){
       tag = $("#memberTag").val();
       if( tag != '' ) {
-        newTag = '<span class="badge tag" onclick="$(this).remove()">'+tag+'<input type="hidden" name="tag[]" value="'+tag+'"></span>';
+        newTag = '<span class="badge tag tag-edit" onclick="$(this).remove()">'+tag+'<input type="hidden" name="tag[]" value="'+tag+'"></span>';
         $(".tag-list").append( newTag );
         $("#memberTag").val('');
         $("#memberTag").focus();
@@ -62,16 +62,15 @@ var editor = KindEditor.create('.richtext',{ resizeType : 1,
   items : ['fontsize', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline','removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist','insertunorderedlist', '|', 'emoticons', 'image', 'link']
 });
 $('.portrait-upload').click(function() {
-      editor.uploadJson = '{$config.inc}/kindeditor/php/upload_portrait_json.php',
-			editor.loadPlugin('image', function() {
-				editor.plugin.imageDialog({
-					imageUrl : $('#portrait-url').val(),
-					clickFn : function(url, title) {
-						$('#portrait-view').attr('src',url);
-						$('#portrait-url').val(url);
-						editor.hideDialog();
-					}
-				});
+		editor.loadPlugin('image', function() {
+			editor.plugin.imageDialog({
+				imageUrl : $('#portrait-url').val(),
+				clickFn : function(url, title, width, height, border, align) {
+					$('#portrait-view').attr('src',url);
+					$('#portrait-url').val(url);
+					editor.hideDialog();
+				}
 			});
+		});
 });
 </script>

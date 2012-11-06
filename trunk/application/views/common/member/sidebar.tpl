@@ -1,4 +1,4 @@
-          <div class="affix sidebar">
+          <div class="sidebar">
             <img src="{$current_member_information.member_image}" class="img-polaroid portrait" alt="{$current_member_information.member_name}">
             <h4 id="my_name">{$current_member_information.member_name}</h4>
             <h5 id="my_school">{$current_member_information.school_name}</h5>
@@ -13,6 +13,8 @@
               <li id="sidebar-message"><a href="{'message'|site_url}"><i class="icon-envelope"></i> 站内信</a></li>
               <li class="divider"></li>
               <li id="sidebar-logout"><a href="{'login/logout'|site_url}"><i class="icon-off"></i> 登出</a></li>
+              <li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li>
+
               {if $all_system_message_notice|@count}
               <li class="nav-header">你有新消息~</li>
               {foreach $all_system_message_notice as $i}
