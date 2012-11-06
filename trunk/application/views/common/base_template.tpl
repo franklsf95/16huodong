@@ -21,7 +21,7 @@
 
   <body>
 {include file="$base_tpl/navbar.tpl"}
-    <div class="container-semifluid">
+    <div class="container">
       <div class="row">
 <!--sidebar-->
 {if $base_tpl == 'common/guest'}
