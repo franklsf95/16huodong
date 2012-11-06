@@ -18,7 +18,7 @@ $("#badge-add-tag").click(function(){
       tag = $("#memberTag").val();
       if( tag != '' ) {
         newTag = '<span class="badge tag" onclick="$(this).remove()">'+tag+'<input type="hidden" name="tag[]" value="'+tag+'"></span>';
-        $("#tag-list").append( newTag );
+        $(".tag-list").append( newTag );
         $("#memberTag").val('');
         $("#memberTag").focus();
       }

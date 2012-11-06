@@ -13,15 +13,6 @@
   padding-bottom: 12px;
 }
 
-#tag-list {
-	line-height: 30px;
-	height: 40px;
-}
-
-.tag:hover {
-	text-decoration: line-through;
-}
-
 #badge-add-tag {
 	background-color: #640805;
 	padding: 0 6px;

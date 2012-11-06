@@ -25,6 +25,15 @@ a:hover {
 	height: 20px;
 }
 
+.tag-list {
+	line-height: 30px;
+	height: 40px;
+}
+
+.tag-edit:hover {
+	text-decoration: line-through;
+}
+
 .clear {
 	clear: both;
 }
