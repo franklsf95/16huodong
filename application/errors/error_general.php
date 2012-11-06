@@ -22,6 +22,14 @@
         font-size: 28px;
         line-height: 40px;
       }
+      .btn-error {
+        position: relative;
+        left: -400px;
+        top: -240px;
+        font-size: 32px;
+        color: #000;
+        cursor: pointer;
+      }
     </style>
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -47,6 +55,7 @@
     <div class="container">
       <div class="row">
       <div class="span12 error-container">
+        <a class="btn-error" onclick="history.back()">点我返回&gt;&lt;</a>
       	<?php echo $message ?>
       </div>
       </div><!--/row-->

@@ -11,6 +11,7 @@
               <li id="sidebar-my-library"><a href="{'library/profile'|site_url}"><i class="icon-th"></i> 我的图书馆</a></li>
               <li id="sidebar-friend"><a href="{'friend'|site_url}"><i class="icon-user"></i> 我的好友</a></li>
               <li id="sidebar-message"><a href="{'message'|site_url}"><i class="icon-envelope"></i> 站内信</a></li>
+              <li class="divider"></li>
               <li id="sidebar-logout"><a href="{'login/logout'|site_url}"><i class="icon-off"></i> 登出</a></li>
               {if $all_system_message_notice|@count}
               <li class="nav-header">你有新消息~</li>
