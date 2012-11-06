@@ -187,7 +187,34 @@ Class Profile Extends BaseActionController {
 			}
 		}
 	}
+//--------AJAX工具组
+
+	function ajaxGetCurrentAttendActivity(){
+		$member_id = $this->getParameter('member_id',$this->current_member_id);
+		$page_offset = $this->getParameter('page_offset',0);
+		$limit = $this->getParameter('limit',5);
+		$all_current_attend_activity_information = $this->extend_control->getCurrentAttendActivityInformation($member_id,$page_offset,$limit);
+		
+		echo json_encode($all_current_attend_activity_information);
+	}
 	
+	function ajaxGetCurrentFollowActivity(){
+		$member_id = $this->getParameter('member_id',$this->current_member_id);
+		$page_offset = $this->getParameter('page_offset',0);
+		$limit = $this->getParameter('limit',5);
+		$all_current_attention_activity_information = $this->extend_control->getCurrentFollowActivityInformation($member_id,$page_offset,$limit);
+		
+		echo json_encode($all_current_attention_activity_information);
+	}
+	
+	function ajaxGetCurrentPublishActivity(){
+		$member_id = $this->getParameter('member_id',$this->current_member_id);
+		$page_offset = $this->getParameter('page_offset',0);
+		$limit = $this->getParameter('limit',5);
+		$all_current_publish_activity_information = $this->extend_control->getCurrentPublishActivityInformation($member_id,$page_offset,$limit);
+		
+		echo json_encode($all_current_publish_activity_information);
+	}
 	
 }
 
