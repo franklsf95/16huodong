@@ -172,7 +172,6 @@ CREATE TABLE `16_member` (
   `school_id` int(11) DEFAULT NULL COMMENT '学校ID',
   `school_name` varchar(50) DEFAULT NULL COMMENT '学校名',
   `qq` int(20) DEFAULT NULL,
-  `mobilephone` varchar(20) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `organisation` varchar(50) DEFAULT NULL,
