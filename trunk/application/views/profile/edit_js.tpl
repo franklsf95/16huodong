@@ -58,17 +58,15 @@ $(".datepicker").datepicker( {
     	format:'yyyy-mm-dd',
       viewMode: 2 //'years'
 } );
-$(".richtext").wysihtml5();
-
-var editor = KindEditor.editor( {
-      allowImageParameter : false
-} );
+var editor = KindEditor.create('.richtext',{ resizeType : 1,
+  items : ['fontsize', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline','removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist','insertunorderedlist', '|', 'emoticons', 'image', 'link']
+});
 $('.portrait-upload').click(function() {
       editor.uploadJson = '{$config.inc}/kindeditor/php/upload_portrait_json.php',
 			editor.loadPlugin('image', function() {
 				editor.plugin.imageDialog({
 					imageUrl : $('#portrait-url').val(),
-					clickFn : function(url, title, width, height, border, align) {
+					clickFn : function(url, title) {
 						$('#portrait-view').attr('src',url);
 						$('#portrait-url').val(url);
 						editor.hideDialog();
