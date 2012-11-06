@@ -15,8 +15,7 @@ CREATE TABLE `16_activity` (
   `name` varchar(50) DEFAULT NULL,
   `publisher_id`  int(11) DEFAULT NULL,
   `publisher_name` varchar(50) DEFAULT NULL,
-  `status` char(1) DEFAULT 'Y',
-  `publish` char(1) DEFAULT 'Y',
+  `status` smallint(6) DEFAULT 1,
   `apply_start_time` date DEFAULT NULL,
   `apply_end_time` date DEFAULT NULL,
   `start_time` date DEFAULT NULL,
@@ -35,29 +34,22 @@ CREATE TABLE `16_activity` (
   `attend_count` int(11) DEFAULT 0,
   `follow_count` int(11) DEFAULT 0,
   `book_id` int(11) DEFAULT 0 COMMENT '相关的书ID',
+  `area-0` int(11) DEFAULT NULL COMMENT '学校ID',
+  `area-1` int(11) DEFAULT NULL COMMENT '区ID',
+  `area-2` int(11) DEFAULT 0 COMMENT '市ID',
+  `area-3` int(11) DEFAULT 0 COMMENT '省份',
+  `area-4` int(11) DEFAULT 0 COMMENT '中国',
   PRIMARY KEY (`activity_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 /*Table structure for the table `16_activity_rate` */
 CREATE TABLE `16_activity_rate` (
    `activity_id` int(11) DEFAULT NULL,
    `member_id` int(11) DEFAULT NULL,
    `rate` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_activity_rate` */
-
-/*Table structure for table `16_member_findpass` */
-
-DROP TABLE IF EXISTS `16_member_findpass`;
-
-CREATE TABLE `16_member_findpass` (
-  `member_id` int(11) DEFAULT NULL,
-   `vcode` varchar(50) DEFAULT NULL,
-   `valid` int(4) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `16_member_findpass` */
 
 /*Table structure for table `16_activity_attend` */
 
@@ -67,11 +59,11 @@ CREATE TABLE `16_activity_attend` (
   `activity_attend_id` int(11) NOT NULL AUTO_INCREMENT,
   `activity_id` int(11) NOT NULL,
   `member_id` int(11) NOT NULL,
-  `status` char(1) NOT NULL DEFAULT 'N',
   `created_time` datetime NOT NULL,
-  `notified` char(1) DEFAULT 'N',
+  `approved` tinyint(1) DEFAULT 0,
+  `notified` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`activity_attend_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_activity_attend` */
 
@@ -85,7 +77,7 @@ CREATE TABLE `16_activity_follow` (
   `member_id` int(11) NOT NULL,
   `created_time` datetime NOT NULL,
   PRIMARY KEY (`activity_attention_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_activity_follow` */
 
@@ -101,7 +93,7 @@ CREATE TABLE `16_activity_comment` (
   `reply` varchar(255) DEFAULT NULL,
   `created_time` datetime DEFAULT NULL,
   PRIMARY KEY (`activity_comment_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_activity_comment` */
 
@@ -115,7 +107,7 @@ CREATE TABLE `16_activity_tag` (
   `tag` varchar(255) DEFAULT NULL,
   `created_time` datetime DEFAULT NULL,
   PRIMARY KEY (`activity_tag_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_activity_tag` */
 
@@ -133,7 +125,7 @@ CREATE TABLE `16_application_group` (
   `modified_by` int(11) DEFAULT NULL,
   `modified_time` datetime DEFAULT NULL,
   PRIMARY KEY (`application_group_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_application_group` */
 
@@ -156,7 +148,7 @@ CREATE TABLE `16_application_user` (
   `modified_time` datetime DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`application_user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_application_user` */
 
@@ -171,7 +163,7 @@ CREATE TABLE `16_member` (
   `account` varchar(50) NOT NULL,
   `password` varchar(32) DEFAULT NULL,
   `member_type` varchar(4) NOT NULL,
-  `status` int(4) NOT NULL DEFAULT '1',
+  `status` int(4) NOT NULL DEFAULT 1,
   `image` varchar(255) DEFAULT '/upload/portrait.jpg',
   `name` varchar(20) NOT NULL COMMENT '姓名或组织名称',
   `principal` varchar(255) DEFAULT NULL COMMENT '机构负责人',
@@ -192,106 +184,80 @@ CREATE TABLE `16_member` (
   `modified_time` datetime DEFAULT NULL COMMENT '修改时间',
   `last_ip` varchar(20) DEFAULT NULL COMMENT '最后登录ip',
   `accept_notification` tinyint(1) DEFAULT 1,
+  `area-0` int(11) DEFAULT NULL COMMENT '学校ID',
+  `area-1` int(11) DEFAULT NULL COMMENT '区ID',
+  `area-2` int(11) DEFAULT 0 COMMENT '市ID',
+  `area-3` int(11) DEFAULT 0 COMMENT '省份',
+  `area-4` int(11) DEFAULT 0 COMMENT '中国',
   PRIMARY KEY (`member_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_member` */
 
-/*Table structure for table `16_member_album` */
+/*Table structure for table `16_book` */
 
-DROP TABLE IF EXISTS `16_member_album`;
+DROP TABLE IF EXISTS `16_book`;
 
-CREATE TABLE `16_member_album` (
-  `member_album_id` int(11) NOT NULL AUTO_INCREMENT,
-  `member_id` int(11) DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `created_time` datetime DEFAULT NULL,
-  `modified_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`member_album_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `16_member_album` */
-
-/*Table structure for table `16_member_blog` */
-
-DROP TABLE IF EXISTS `16_member_blog`;
-
-CREATE TABLE `16_member_blog` (
-  `member_blog_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `16_book` (
+  `book_id` int(11) NOT NULL AUTO_INCREMENT,
   `member_id` int(11) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `image_width` int(11) DEFAULT NULL,
   `image_height` int(11) DEFAULT NULL,
-  `member_blog_class_id` int(11) DEFAULT NULL,
+  `book_tag_id` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `content` text,
   `created_time` datetime DEFAULT NULL,
   `modified_time` datetime DEFAULT NULL,
-  `member_prefer_blog` int(11) DEFAULT '0',
-  `member_blog_visit` int(11) DEFAULT '0',
-  PRIMARY KEY (`member_blog_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `like_count` int(11) DEFAULT 0,
+  `book_visit` int(11) DEFAULT 0,
+  PRIMARY KEY (`book_id`)
+) DEFAULT CHARSET=utf8;
 
-/*Data for the table `16_member_blog` */
+/*Data for the table `16_book` */
 
-/*Table structure for table `16_member_blog_class` */
+/*Table structure for table `16_book_tag` */
 
-DROP TABLE IF EXISTS `16_member_blog_class`;
+DROP TABLE IF EXISTS `16_book_tag`;
 
-CREATE TABLE `16_member_blog_class` (
-  `member_blog_class_id` int(11) NOT NULL AUTO_INCREMENT,
-  `member_id` int(11) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
+CREATE TABLE `16_book_tag` (
+  `book_tag_id` int(11) NOT NULL AUTO_INCREMENT,
+  `book_id` int(11) DEFAULT NULL,
+  `tag` varchar(255) DEFAULT NULL,
   `created_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`member_blog_class_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`book_tag_id`)
+) DEFAULT CHARSET=utf8;
 
-/*Data for the table `16_member_blog_class` */
+/*Data for the table `16_book_tag` */
 
-/*Table structure for table `16_member_blog_comment` */
+/*Table structure for table `16_book_comment` */
 
-DROP TABLE IF EXISTS `16_member_blog_comment`;
+DROP TABLE IF EXISTS `16_book_comment`;
 
-CREATE TABLE `16_member_blog_comment` (
-  `member_blog_comment_id` int(11) NOT NULL AUTO_INCREMENT,
-  `member_blog_id` int(11) DEFAULT NULL,
+CREATE TABLE `16_book_comment` (
+  `book_comment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `book_id` int(11) DEFAULT NULL,
   `member_id` int(11) DEFAULT NULL,
   `content` varchar(255) DEFAULT NULL,
   `created_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`member_blog_comment_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`book_comment_id`)
+) DEFAULT CHARSET=utf8;
 
-/*Data for the table `16_member_blog_comment` */
+/*Data for the table `16_book_comment` */
 
-/*Table structure for table `16_member_blog_visit` */
+/*Table structure for table `16_book_visit` */
 
-DROP TABLE IF EXISTS `16_member_blog_visit`;
+DROP TABLE IF EXISTS `16_book_visit`;
 
-CREATE TABLE `16_member_blog_visit` (
-  `member_blog_visit_id` int(11) NOT NULL AUTO_INCREMENT,
-  `member_blog_id` int(11) NOT NULL,
+CREATE TABLE `16_book_visit` (
+  `book_visit_id` int(11) NOT NULL AUTO_INCREMENT,
+  `book_id` int(11) NOT NULL,
   `member_id` int(11) NOT NULL,
   `visited_time` datetime NOT NULL,
-  PRIMARY KEY (`member_blog_visit_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`book_visit_id`)
+) DEFAULT CHARSET=utf8;
 
-/*Data for the table `16_member_blog_visit` */
-
-/*Table structure for table `16_member_card` */
-
-DROP TABLE IF EXISTS `16_member_card`;
-
-CREATE TABLE `16_member_card` (
-  `member_card_id` int(11) NOT NULL AUTO_INCREMENT,
-  `member_id` int(11) DEFAULT NULL,
-  `target_id` int(11) DEFAULT NULL,
-  `created_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`member_card_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `16_member_card` */
+/*Data for the table `16_book_visit` */
 
 /*Table structure for table `16_member_friend` */
 
@@ -304,26 +270,9 @@ CREATE TABLE `16_member_friend` (
   `approved`  tinyint(1)  DEFAULT 0,
   `created_time` datetime DEFAULT NULL,
   PRIMARY KEY (`member_friend_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_member_friend` */
-
-/*Table structure for table `16_member_leave_word` */
-
-DROP TABLE IF EXISTS `16_member_leave_word`;
-
-CREATE TABLE `16_member_leave_word` (
-  `member_leave_word_id` int(11) NOT NULL AUTO_INCREMENT,
-  `member_id` int(11) DEFAULT NULL,
-  `target_id` int(11) DEFAULT NULL,
-  `content` varchar(255) DEFAULT NULL,
-  `reply` varchar(255) DEFAULT NULL,
-  `created_time` datetime DEFAULT NULL,
-  `modified_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`member_leave_word_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `16_member_leave_word` */
 
 /*Table structure for table `16_member_message` */
 
@@ -337,55 +286,23 @@ CREATE TABLE `16_member_message` (
   `created_time` datetime DEFAULT NULL,
   `group` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`member_message_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_member_message` */
 
-/*Table structure for table `16_member_photo` */
+/*Table structure for table `16_member_like_book` */
 
-DROP TABLE IF EXISTS `16_member_photo`;
+DROP TABLE IF EXISTS `16_member_like_book`;
 
-CREATE TABLE `16_member_photo` (
-  `member_photo_id` int(11) NOT NULL AUTO_INCREMENT,
-  `member_id` int(11) DEFAULT NULL,
-  `member_album_id` int(11) DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `created_time` datetime DEFAULT NULL,
-  `modified_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`member_photo_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `16_member_photo` */
-
-/*Table structure for table `16_member_prefer_blog` */
-
-DROP TABLE IF EXISTS `16_member_prefer_blog`;
-
-CREATE TABLE `16_member_prefer_blog` (
-  `member_prefer_blog_id` int(11) NOT NULL AUTO_INCREMENT,
-  `member_blog_id` int(11) NOT NULL,
+CREATE TABLE `16_member_like_book` (
+  `member_like_book_id` int(11) NOT NULL AUTO_INCREMENT,
+  `book_id` int(11) NOT NULL,
   `member_id` int(11) NOT NULL,
   `created_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`member_prefer_blog_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`member_like_book_id`)
+) DEFAULT CHARSET=utf8;
 
-/*Data for the table `16_member_prefer_blog` */
-
-/*Table structure for table `16_member_say` */
-
-DROP TABLE IF EXISTS `16_member_say`;
-
-CREATE TABLE `16_member_say` (
-  `member_say_id` int(11) NOT NULL AUTO_INCREMENT,
-  `member_id` int(11) DEFAULT NULL,
-  `content` varchar(255) DEFAULT NULL,
-  `created_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`member_say_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `16_member_say` */
+/*Data for the table `16_member_like_book` */
 
 /*Table structure for table `16_member_tag` */
 
@@ -397,25 +314,9 @@ CREATE TABLE `16_member_tag` (
   `tag` varchar(50) NOT NULL,
   `created_time` datetime DEFAULT NULL,
   PRIMARY KEY (`member_tag_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_member_tag` */
-
-/*Table structure for table `16_member_type` */
-
-DROP TABLE IF EXISTS `16_member_type`;
-
-CREATE TABLE `16_member_type` (
-  `member_type_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '会员类别id',
-  `name` varchar(255) NOT NULL COMMENT '名称',
-  `code` varchar(20) NOT NULL COMMENT '类型代码',
-  `description` varchar(255) DEFAULT NULL COMMENT '描述',
-  PRIMARY KEY (`member_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
-/*Data for the table `16_member_type` */
-
-insert  into `16_member_type`(`member_type_id`,`name`,`code`,`description`) values (1,'学生会员','student','学生会员'),(2,'学生组织','student_organization','学生组织'),(3,'公益组织','commonweal_organizat','公益组织'),(4,'公司','company','公司');
 
 /*Table structure for table `16_member_visit` */
 
@@ -425,9 +326,21 @@ CREATE TABLE `16_member_visit` (
   `member_id` int(11) DEFAULT NULL,
   `visitor_id` int(11) DEFAULT NULL,
   `visit_time` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_member_visit` */
+
+/*Table structure for table `16_member_findpass` */
+
+DROP TABLE IF EXISTS `16_member_findpass`;
+
+CREATE TABLE `16_member_findpass` (
+  `member_id` int(11) DEFAULT NULL,
+   `vcode` varchar(50) DEFAULT NULL,
+   `valid` tinyint(4) DEFAULT NULL
+) DEFAULT CHARSET=utf8;
+
+/*Data for the table `16_member_findpass` */
 
 /*Table structure for table `16_public_area` */
 
@@ -440,7 +353,7 @@ CREATE TABLE `16_public_area` (
   `parent_id` int(11) DEFAULT NULL,
   `has_city` char(1) DEFAULT 'Y',
   PRIMARY KEY (`area_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_public_area` */
 
@@ -462,7 +375,7 @@ CREATE TABLE `16_public_school` (
   `description` varchar(255) DEFAULT NULL,
   `content` text,
   PRIMARY KEY (`school_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=727 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=727 DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_public_school` */
 
@@ -479,7 +392,7 @@ CREATE TABLE `16_running_value` (
   `value` text COMMENT '配置',
   `description` varchar(255) DEFAULT NULL COMMENT '配置描述',
   PRIMARY KEY (`running_value_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_running_value` */
 
@@ -502,7 +415,7 @@ CREATE TABLE `16_system_message` (
   `status` char(1) DEFAULT 'Y',
   `is_new` char(1) DEFAULT 'Y',
   PRIMARY KEY (`system_message_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_system_message` */
 

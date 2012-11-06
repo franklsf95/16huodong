@@ -3,8 +3,8 @@ include_once "admin_controller.php";
 Class Blog Extends AdminController {
 
 	var $applicationFolder = "blog"; 
-	var $tableName="member_blog";
-	var $idFieldName = 'member_blog_id';
+	var $tableName="book";
+	var $idFieldName = 'book_id';
 	
 	function __construct() {
 		parent::__construct();
@@ -15,11 +15,11 @@ Class Blog Extends AdminController {
 		$p_limit = $this->getParameter('limit',10);
 		
 		
-		$count = $this->db->count_all_results('member_blog');
+		$count = $this->db->count_all_results('book');
 		$page_information = $this->createPageInformation($count,$p_page,$p_limit);
 		
 		$this->db->select('mb.*, m.name as member_name');
-		$this->db->from('member_blog as mb');
+		$this->db->from('book as mb');
 		$this->db->join('member as m','m.member_id = mb.member_id');
 		
 		$all_blog_information = $this->db->get('',$limit,$page_information['page_offset'])->result_array();
@@ -31,14 +31,14 @@ Class Blog Extends AdminController {
 	}
 	
 	function edit(){
-		$member_blog_id = $this->getParameter('cid',NULL);
+		$book_id = $this->getParameter('cid',NULL);
 		
-		if ($member_blog_id) {
+		if ($book_id) {
 			
-			$this->db->where('member_blog_id',$member_blog_id);
-			$blog_information = $this->db->get_first('member_blog');;
+			$this->db->where('book_id',$book_id);
+			$blog_information = $this->db->get_first('book');;
 			$this->ci_smarty->assign('blog_information',$blog_information);
-			$this->ci_smarty->assign('member_blog_id',$member_blog_id);
+			$this->ci_smarty->assign('book_id',$book_id);
 		}
 		
 		$this->displayWithLayout('edit');
@@ -59,35 +59,34 @@ Class Blog Extends AdminController {
 		if ($isNew) {
 			$data['created_time'] = $date_time;
 			$data['modified_time'] = $date_time;
-			$this->db->insert('member_blog',$data);
+			$this->db->insert('book',$data);
 		} else {
 			$data['modified_time'] = $date_time;
-			$this->db->where('member_blog_id',$id);
-			$this->db->update('member_blog',$data);
+			$this->db->where('book_id',$id);
+			$this->db->update('book',$data);
 		}
 		$this->forward('index');
 	}
 	
 	function remove(){
-		$member_blog_id = $this->getParameter('cid',Null);
-		if ($member_blog_id != '') {
+		$book_id = $this->getParameter('cid',Null);
+		if ($book_id != '') {
 			//删除所有点击
-			$this->db->where('member_blog_id',$member_blog_id);
-			$this->db->delete('member_blog_hits');
+			$this->db->where('book_id',$book_id);
+			$this->db->delete('book_hits');
 			
 			
 			//删除所有评论
-			$this->db->where('member_blog_id',$member_blog_id);
-			$this->db->delete('member_blog_comment');
+			$this->db->where('book_id',$book_id);
+			$this->db->delete('book_comment');
 			
 			//删除所有喜欢
-			$this->db->where('member_blog_id',$member_blog_id);
-			$this->db->delete('member_prefer_blog');
-			
+			$this->db->where('book_id',$book_id);
+			$this->db->delete('member_like_book');
 			
 			//删除活动
-			$this->db->where('member_blog_id',$member_blog_id);
-			$this->db->delete('member_blog');
+			$this->db->where('book_id',$book_id);
+			$this->db->delete('book');
 			
 			$this->forward('index');
 			

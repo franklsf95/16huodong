@@ -5,10 +5,6 @@
   float: left;
 }
 
-.hot-showcase-item a:hover {
-  text-decoration: none;
-}
-
 .hot-showcase-item img {
   width: 220px;
 }

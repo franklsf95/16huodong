@@ -423,7 +423,7 @@ Class Activity Extends BaseActionController {
 					$system_data['code'] = $activity_attend_information['activity_id'];
 					$this->system_message($system_data);
 					
-					$data['status'] = 'Y';
+					$data['approved'] = 1;
 					$this->db->where('activity_attend_id',$activity_attend_id);
 					$this->db->update('activity_attend',$data);
 					$return_data['status'] = 1;

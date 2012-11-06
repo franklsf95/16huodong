@@ -36,9 +36,4 @@
 #badge-add-tag a {
 	color: white;
 }
-
-#badge-add-tag a:hover {
-	text-decoration: none;
-}
-
     </style>

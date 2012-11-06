@@ -62,7 +62,7 @@ Class FindPass Extends BaseController {
 			$this->db->where('vcode',$vcode);
 			$vcode_information = $this->db->get_first();
 			
-			if ($vcode_information && $vcode_information['valid']!=0) {
+			if ($vcode_information && $vcode_information['valid']) {
 				$vcode_information['valid']=0;
 				$new_password = $this->getParameter('password',Null);
 				

@@ -5,10 +5,6 @@
   float: left;
 }
 
-.main-showcase-item a:hover {
-  text-decoration: none;
-}
-
 .main-showcase-item img {
   width: 250px;
 }
@@ -21,9 +17,5 @@
 .accordion-toggle {
 	font-size: 18px;
 	line-height: 24px;
-}
-
-.accordion-toggle:hover {
-	text-decoration: none;
 }
 </style>
