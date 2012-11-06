@@ -31,7 +31,7 @@ Class Profile Extends BaseActionController {
 		
 		$template_view = $member_information['member_type'];
 		//print_r($member_information);exit();
-		$this->display($template_view, $member_information['member_name'].'的主页','view_css','view_js');
+		$this->display('view/index', $member_information['member_name'].'的主页','view_css','view_js');
 	}
 
 	/**
@@ -88,7 +88,7 @@ Class Profile Extends BaseActionController {
 			$template_title = '编辑组织资料';
 		}
 		//print_r($this->current_member_information);exit();
-		$this->display('edit_'.$member_type, $template_title, 'edit_css', 'edit_js');
+		$this->display('edit/index', $template_title, 'edit_css', 'edit_js');
 	}
 
 	/**

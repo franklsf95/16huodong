@@ -1,5 +1,3 @@
-<link href="{$config.asset}/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css">
-<link href="{$config.asset}/css/bootstrap-wysihtml5.css" rel="stylesheet" type="text/css">
 <link href="{$config.inc}/kindeditor/themes/default/default.css" rel="stylesheet" type="text/css">
 
 <style type="text/css">
