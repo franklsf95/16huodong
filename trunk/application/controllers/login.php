@@ -34,7 +34,7 @@ Class Login Extends BaseController {
 		$this->db->where('password',md5($password));
 		$current_member_id = idx( $this->db->get_first(), 'member_id' );
 
-		if ( !$current_member_id ) 	show_error('该用户不存在!');
+		if ( !$current_member_id ) 	show_error('用户名或密码错误!');
 
 		if ($member_cookie == 'Y') {
 			$member_cookie = array('remember' => 'Y','account' => $member_information['account'],'key'=>md5(md5($password).md5($password)));
