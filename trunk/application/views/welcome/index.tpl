@@ -20,18 +20,12 @@
               <div id="welcome-carousel" class="carousel slide">
                 <div class="carousel-inner">
                   <div class="item active">
-                    <img src="{$config.asset}/img/slider1.png" alt="">
-                    <div class="carousel-caption">
-                      <h4>测试Carousel</h4>
-                      <p>从前有座山，山上有棵石榴树……</p>
-                    </div>
+                    <img src="{$config.asset}/img/slider1.jpg" width="770px" height="360px" alt="">
                   </div>
                   <div class="item">
                     <img src="{$config.asset}/img/slider2.jpg" alt="">
                   </div>
                 </div>
-                <a class="left carousel-control" href="#welcome-carousel" data-slide="prev">&lsaquo;</a>
-                <a class="right carousel-control" href="#welcome-carousel" data-slide="next">&rsaquo;</a>
               </div>
 
           <div class="hero-unit">
