@@ -5,10 +5,6 @@
   float: left;
 }
 
-.main-showcase-item a:hover {
-  text-decoration: none;
-}
-
 .main-showcase-item img {
   width: 220px;
 }

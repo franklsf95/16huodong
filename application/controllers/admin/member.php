@@ -111,21 +111,21 @@ Class Member Extends AdminController {
 			
 			//删除会员所有喜欢日志
 			$this->db->where('member_id',$member_id);
-			$this->db->delete('member_prefer_blog');
+			$this->db->delete('member_like_book');
 			
 			//日志操作
 			
-			$this->db->select('GROUP_CONCAT(member_blog_id) as all_blog_id');
+			$this->db->select('GROUP_CONCAT(book_id) as all_blog_id');
 			$this->db->where('member_id',$member_id);
-			$all_blog_id = idx($this->db->get_first('member_blog'),'all_blog_id');
+			$all_blog_id = idx($this->db->get_first('book'),'all_blog_id');
 			
 			if($all_blog_id != '') {
 			
-				$sql = "delete from ".$this->db->dbprefix('member_prefer_blog')." where member_blog_id in (".$all_blog_id.")";
+				$sql = "delete from ".$this->db->dbprefix('member_like_book')." where book_id in (".$all_blog_id.")";
 				$this->db->query($sql);
 				
 				$this->db->where('member_id',$member_id);
-				$this->db->delete('member_blog');
+				$this->db->delete('book');
 			}
 			
 			//活动操作

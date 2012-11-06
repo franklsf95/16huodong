@@ -1,1 +1,1 @@
-    <style type="text/css">.member-item a:hover {  text-decoration: none;}.member-item-avatar {  float: left;  height: 60px;  max-width: 60px;  margin: 0;}.member-item-subtitle {  color: #3C0000;  font-size: 18px;  margin-left: 20px;}    </style>
+    <style type="text/css">.member-item-avatar {  float: left;  height: 60px;  max-width: 60px;  margin: 0;}.member-item-subtitle {  color: #3C0000;  font-size: 18px;  margin-left: 20px;}    </style>

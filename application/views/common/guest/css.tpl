@@ -33,7 +33,7 @@
       color: #aaa;
     }
     .navbar-login-item a:hover {
-      text-decoration: none;
+      font-weight: normal;
       color: #eee;
     }
     .controls input {

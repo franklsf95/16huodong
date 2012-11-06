@@ -2,9 +2,6 @@
 .accordion-toggle {
   font-size: 18px;
 }
-.accordion-toggle:hover {
-	text-decoration: none;
-}
 .new-message {
   font-weight: bold;
   color: red;

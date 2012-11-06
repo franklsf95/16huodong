@@ -39,12 +39,12 @@
 							{foreach name=all_blog_information from=$all_blog_information item=blog_information}
 							{assign var="tr_class" value = $smarty.foreach.all_blog_information.index%2}
 								<tr align="center" {if $tr_class} class="odd" {/if} >
-									<td><input type="checkbox" id="cb{$smarty.foreach.all_blog_information.index}" name="cid[]" value="{$blog_information.member_blog_id}"  onclick="isChecked(this.checked);" /></td>
-									<td>{$blog_information.member_blog_id}</td>
+									<td><input type="checkbox" id="cb{$smarty.foreach.all_blog_information.index}" name="cid[]" value="{$blog_information.book_id}"  onclick="isChecked(this.checked);" /></td>
+									<td>{$blog_information.book_id}</td>
 									<td>{$blog_information.name|truncate:14}</td>
 									<td>{$blog_information.member_name}</td>
 									<td>{$blog_information.created_time|date_format:"%Y-%m-%d"}</td>
-									<td class="action"><a href="{'member_blog/index'|site_url}?id={$blog_information.member_blog_id}" target="_blank" class="view">{'global_view'|lang_line}</a><a href="{'admin/blog/edit'|site_url}?cid={$blog_information.member_blog_id}" class="edit">{'global_edit'|lang_line}</a><a href="{'admin/blog/remove'|site_url}?cid={$blog_information.member_blog_id}" class="delete" onclick="if(confirm('确认删除？')){return true;}else{return false;}">{'global_delete'|lang_line}</a></td>
+									<td class="action"><a href="{'book/index'|site_url}?id={$blog_information.book_id}" target="_blank" class="view">{'global_view'|lang_line}</a><a href="{'admin/blog/edit'|site_url}?cid={$blog_information.book_id}" class="edit">{'global_edit'|lang_line}</a><a href="{'admin/blog/remove'|site_url}?cid={$blog_information.book_id}" class="delete" onclick="if(confirm('确认删除？')){return true;}else{return false;}">{'global_delete'|lang_line}</a></td>
 								</tr>
 							{/foreach}
 							</tbody>

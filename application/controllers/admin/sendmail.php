@@ -19,7 +19,7 @@ Class SendMail Extends AdminController {
 			$this->db->select('activity_id');
 			$this->db->from('activity_attend');
 			$this->db->where('member_id',$member_information['member_id']);
-			$this->db->where('notified','N');
+			$this->db->where('notified',0);
 			$this->db->where('status','Y');
 			$all_attend_information = $this->db->get('')->result_array();
 			foreach ($all_attend_information as $attendance){
@@ -32,7 +32,7 @@ Class SendMail Extends AdminController {
 				if ($activity_information) {
 					$mail.='活动<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/activity/view?id='. $activity_information['activity_id']
 					.'">'.$activity_information['activity_name'].'</a>将于'.$activity_information['start_time'].'开始<br/>';
-					$attendance['notified']='Y';
+					$attendance['notified']=1;
 					$this->db->where('member_id',$member_information['member_id']);
 					$this->db->where('activity_id',$attendance['activity_id']);
 					$this->db->update('activity_attend',$attendance);

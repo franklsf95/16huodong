@@ -7,6 +7,10 @@ schoolIdArray = new Array();
 $( function() {
   initializeArea();
 });
+$(".carousel").carousel({
+  interval: 3000,
+  pause: 'hover'
+});
 $("#remember-me-anchor").click( function() {
   if( $("#loginRemember").attr("checked") )
     $("#loginRemember").removeAttr("checked");

@@ -13,7 +13,7 @@
 									<textarea>{$blog_information.content}</textarea>
 								</p>
 								
-								<input type="hidden" value="{$member_blog_id}" name="cid" id="cid" />
+								<input type="hidden" value="{$book_id}" name="cid" id="cid" />
 								<p>
 									<input class="button" type="submit" value="Submit" />
 								</p>

@@ -1,4 +1,4 @@
-              <div id="myCarousel" class="carousel slide">
+              <div id="welcome-carousel" class="carousel slide">
                 <div class="carousel-inner">
                   <div class="item active">
                     <img src="{$config.asset}/img/slider1.png" alt="">
@@ -11,8 +11,8 @@
                     <img src="{$config.asset}/img/slider2.jpg" alt="">
                   </div>
                 </div>
-                <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-                <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+                <a class="left carousel-control" href="#welcome-carousel" data-slide="prev">&lsaquo;</a>
+                <a class="right carousel-control" href="#welcome-carousel" data-slide="next">&rsaquo;</a>
               </div>
 
           <div class="hero-unit">

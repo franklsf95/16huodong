@@ -9,57 +9,12 @@ Class Base_ajax_action_controller extends BaseActionController {
 		$this->load->model('db_public_school');
 	}
 	
-		
-	//资料传送
-	
-	function saveMemberSay(){
-		$member_id = $this->current_member_information['member_id'];
-		$content = $this->getParameter('content',NULL);
-		
-		if ($member_id != '' && $content != '') {
-			$data['member_id'] = $member_id;
-			$data['content'] = $content;
-			$data['created_time'] = $this->current_time;
-			
-			$result = $this->db->insert('member_say',$data);
-		}
-		
-		if ($result) {
-			$data['result'] = 'Y';
-			echo json_encode($data);
-		}
-	
-	}
-	
 	function getBlogClass(){
 		$member_id = $this->current_member_information['member_id'];
 		$this->db->where('member_id',$member_id);
-		$all_blog_class_information = $this->db->get('member_blog_class')->result_array();
+		$all_blog_class_information = $this->db->get('book_class')->result_array();
 		
 		echo json_encode($all_blog_class_information);
-	}	
-	
-	function getMemberAlbum(){
-		$member_id = $this->current_member_id;
-		$this->db->where('member_id',$member_id);
-		$all_member_album_information = $this->db->get('member_album')->result_array();
-		
-		echo json_encode($all_member_album_information);
-	}
-	
-	function addMemberAlbum(){
-		$name = $this->getParameter('name',NULL);
-		$image = $this->getParameter('image',NULL);
-		$description = $this->getParameter('description',NULL);
-		$member_id = $this->current_member_information['member_id'];
-		if ($name != '') {
-			$data['name'] = $name;
-			$data['member_id'] = $member_id;
-			$data['image'] = $image;
-			$data['description'] = $description;
-			$data['created_time'] = $this->current_time;
-			$this->db->insert('member_album',$data);
-		}
 	}
 	
 	function addBlogClass(){
@@ -69,20 +24,7 @@ Class Base_ajax_action_controller extends BaseActionController {
 			$data['name'] = $name;
 			$data['member_id'] = $member_id;
 			$data['created_time'] = $this->current_time;
-			$this->db->insert('member_blog_class',$data);
-		}
-	}
-	
-	function addLeaveWordReply(){
-		$member_id = $this->current_member_id;
-		$leave_word_id = $this->getParameter('leave_word_id',NULL);
-		$leave_word_reply = $this->getParameter('leave_word_reply',NULL);
-		$this->db->where('member_leave_word_id',$leave_word_id);
-		$member_leave_word_information = $this->db->get_first('member_leave_word');
-		if ($member_leave_word_information['reply'] == '' && $leave_word_reply != '') {
-			$data['reply'] = $leave_word_reply;
-			$this->db->where('member_leave_word_id',$leave_word_id);
-			$this->db->update('member_leave_word',$data);
+			$this->db->insert('book_class',$data);
 		}
 	}
 	
@@ -105,19 +47,19 @@ Class Base_ajax_action_controller extends BaseActionController {
 	}
 	
 	function getBlogInformationById(){
-		$member_blog_id = $this->getParameter('member_blog_id',NULL);
-		$this->db->where('member_blog_id',$member_blog_id);
-		$member_blog_information = $this->db->get_first('member_blog');
+		$book_id = $this->getParameter('book_id',NULL);
+		$this->db->where('book_id',$book_id);
+		$book_information = $this->db->get_first('book');
 		
-		echo json_encode($member_blog_information);
+		echo json_encode($book_information);
 	}
 	
 	function getAllMemberBlogInformation(){
 		$page_offset = $this->getParameter('page_offset',0);
 		$limit = $this->getParameter('limit',6);
-		$all_member_blog_information = $this->extend_control->getAllMemberBlogInformation($page_offset,$limit);
+		$all_book_information = $this->extend_control->getAllMemberBlogInformation($page_offset,$limit);
 		
-		echo json_encode($all_member_blog_information);
+		echo json_encode($all_book_information);
 	}
 	
 	function getHotBlogInformation(){
@@ -132,9 +74,9 @@ Class Base_ajax_action_controller extends BaseActionController {
 		$member_id = $this->getParameter('member_id',$this->current_member_id);
 		$page_offset = $this->getParameter('page_offset',0);
 		$limit = $this->getParameter('limit',6);
-		$all_member_blog_information = $this->extend_control->getMemberBlogInformation($member_id,$page_offset,$limit);
+		$all_book_information = $this->extend_control->getMemberBlogInformation($member_id,$page_offset,$limit);
 		
-		echo json_encode($all_member_blog_information);
+		echo json_encode($all_book_information);
 	}
 	
 	function getPreferBlogInformation(){

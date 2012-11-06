@@ -389,32 +389,32 @@ class Extend_control {
 ////-------- 全站读取
 
 	function getAllMemberBlogInformation($page_offset = 0,$limit = 15, $str_length = 100){
-		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, mb.image as member_blog_image, mb.content as member_blog_content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, mb.member_prefer_blog as prefer_number, member_blog_visit as visit_number');
-		$this->CI->db->from('member_blog as mb');
+		$this->CI->db->select('mb.book_id, mb.name as book_name, mb.image as book_image, mb.content as book_content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, mb.like_count as prefer_number, book_visit as visit_number');
+		$this->CI->db->from('book as mb');
 		$this->CI->db->join('member as m','mb.member_id = m.member_id');
-		$this->CI->db->group_by('mb.member_blog_id');
+		$this->CI->db->group_by('mb.book_id');
 		$this->CI->db->order_by('mb.created_time','DESC');
-		$all_member_blog_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
+		$all_book_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
 		
-		foreach ($all_member_blog_information as &$member_blog_information) {
-			$member_blog_information['content'] = trim($member_blog_information['content']);
-			$member_blog_information['content'] = strip_tags($member_blog_information['content']);
-			if (strlen($member_blog_information['content']) > 150) {
-				$member_blog_information['content'] = mb_substr($member_blog_information['content'], 0, $str_length,'utf-8').'...';
+		foreach ($all_book_information as &$book_information) {
+			$book_information['content'] = trim($book_information['content']);
+			$book_information['content'] = strip_tags($book_information['content']);
+			if (strlen($book_information['content']) > 150) {
+				$book_information['content'] = mb_substr($book_information['content'], 0, $str_length,'utf-8').'...';
 			}
-			//$member_blog_information['content'] = trim($member_blog_information['content']);
+			//$book_information['content'] = trim($book_information['content']);
 		}
 		
 		
-		return $all_member_blog_information;
+		return $all_book_information;
 	}
 	
 	function getHotBlogInformation($page_offset = 0,$limit = 10){
-		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, mb.image as member_blog_image, mb.content as member_blog_content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, mb.member_prefer_blog as prefer_number, member_blog_visit as visit_number');
-		$this->CI->db->from('member_blog as mb');
+		$this->CI->db->select('mb.book_id, mb.name as book_name, mb.image as book_image, mb.content as book_content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, mb.like_count as prefer_number, book_visit as visit_number');
+		$this->CI->db->from('book as mb');
 		$this->CI->db->join('member as m','mb.member_id = m.member_id');
-		$this->CI->db->group_by('mb.member_blog_id');
-		$this->CI->db->order_by('count(mbv.member_blog_visit_id)','DESC');
+		$this->CI->db->group_by('mb.book_id');
+		$this->CI->db->order_by('count(mbv.book_visit_id)','DESC');
 		$this->CI->db->order_by('mb.created_time','DESC');
 		$all_hot_blog_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
 		
@@ -423,13 +423,13 @@ class Extend_control {
 	}
 	
 	function getMemberBlogInformation($member_id,$page_offset = 0,$limit = 15 ,$str_length = 150){
-		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, mb.image as member_blog_image, mb.image_width as member_blog_image_width, mb.image_height as member_blog_image_height, mb.content, mb.created_time, mb.modified_time');
-		$this->CI->db->from('member_blog as mb');
+		$this->CI->db->select('mb.book_id, mb.name as book_name, mb.image as book_image, mb.image_width as book_image_width, mb.image_height as book_image_height, mb.content, mb.created_time, mb.modified_time');
+		$this->CI->db->from('book as mb');
 		$this->CI->db->where('mb.member_id',$member_id);
 		$this->CI->db->order_by('mb.created_time','DESC');
-		$all_member_blog_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
+		$all_book_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
 		
-		foreach ($all_member_blog_information as &$i) {
+		foreach ($all_book_information as &$i) {
 			$i['content'] = trim($i['content']);
 			$i['content'] = strip_tags($i['content']);
 			if (strlen($i['content']) > 150) {
@@ -437,16 +437,16 @@ class Extend_control {
 			}
 		}
 		
-		return $all_member_blog_information;
+		return $all_book_information;
 	}
 	
 	function getPreferBlogInformation($member_id,$page_offset = 0,$limit = 15){
-		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, mb.image as member_blog_image, mb.content as member_blog_content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, mb.member_prefer_blog as prefer_number, member_blog_visit as visit_number');
-		$this->CI->db->from('member_blog as mb');
+		$this->CI->db->select('mb.book_id, mb.name as book_name, mb.image as book_image, mb.content as book_content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, mb.like_count as prefer_number, book_visit as visit_number');
+		$this->CI->db->from('book as mb');
 		$this->CI->db->join('member as m','mb.member_id = m.member_id');
-		$this->CI->db->join('member_prefer_blog as mpb','mpb.member_blog_id = mb.member_blog_id');
+		$this->CI->db->join('member_like_book as mpb','mpb.book_id = mb.book_id');
 		$this->CI->db->where('mpb.member_id',$member_id);
-		$this->CI->db->group_by('mb.member_blog_id');
+		$this->CI->db->group_by('mb.book_id');
 		$this->CI->db->order_by('mb.created_time','DESC');
 		$all_prefer_blog_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
 		
@@ -456,34 +456,34 @@ class Extend_control {
 
 ////-------- 单个微型书读取
 	
-	function getMemberBlogInformationByBlogId($member_blog_id){
-		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, mb.image as member_blog_image, mb.content as member_blog_content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, mb.member_prefer_blog as prefer_number, member_blog_visit as visit_number');
-		$this->CI->db->from('member_blog as mb');
+	function getMemberBlogInformationByBlogId($book_id){
+		$this->CI->db->select('mb.book_id, mb.name as book_name, mb.image as book_image, mb.content as book_content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, mb.like_count as prefer_number, book_visit as visit_number');
+		$this->CI->db->from('book as mb');
 		$this->CI->db->join('member as m','mb.member_id = m.member_id');
-		$this->CI->db->where('mb.member_blog_id',$member_blog_id);
-		$this->CI->db->group_by('mb.member_blog_id');
-		$member_blog_information = $this->CI->db->get_first();
+		$this->CI->db->where('mb.book_id',$book_id);
+		$this->CI->db->group_by('mb.book_id');
+		$book_information = $this->CI->db->get_first();
 		
-		return $member_blog_information;
+		return $book_information;
 	}
 
 ////-------- 微型书评论
 
-	function countAllBlogComment($member_blog_id){
-		$this->CI->db->select('count(mbc.member_blog_comment_id) as count');
-		$this->CI->db->from('member_blog_comment as mbc');
+	function countAllBlogComment($book_id){
+		$this->CI->db->select('count(mbc.book_comment_id) as count');
+		$this->CI->db->from('book_comment as mbc');
 		$this->CI->db->join('member as m','mbc.member_id = m.member_id');
-		$this->CI->db->where('mbc.member_blog_id',$member_blog_id);
+		$this->CI->db->where('mbc.book_id',$book_id);
 		$count = idx($this->CI->db->get_first(),'count');
 		return $count;
 	
 	}
 	
-	function getBlogCommentInformation($member_blog_id,$page_offset = 0,$limit = 10){
-		$this->CI->db->select('mbc.member_blog_comment_id, mbc.member_blog_id, mbc.member_id, mbc.content, mbc.created_time, m.name as member_name, m.image as member_image');
-		$this->CI->db->from('member_blog_comment as mbc');
+	function getBlogCommentInformation($book_id,$page_offset = 0,$limit = 10){
+		$this->CI->db->select('mbc.book_comment_id, mbc.book_id, mbc.member_id, mbc.content, mbc.created_time, m.name as member_name, m.image as member_image');
+		$this->CI->db->from('book_comment as mbc');
 		$this->CI->db->join('member as m','mbc.member_id = m.member_id');
-		$this->CI->db->where('mbc.member_blog_id',$member_blog_id);
+		$this->CI->db->where('mbc.book_id',$book_id);
 		$this->CI->db->order_by('mbc.created_time','DESC');
 		$all_blog_comment_information = $this->CI->db->get('', $limit, $page_offset)->result_array();
 		return $all_blog_comment_information;
@@ -890,20 +890,20 @@ class Extend_control {
 	function getNewBlogInformation(){
 		$follow_member_list = $this->getFollowMemberList($this->CI->current_member_id,'array');
 	
-		$this->CI->db->select('mb.member_blog_id, mb.name as member_blog_name, left(mb.content,150) as member_blog_description, mb.created_time, mb.modified_time, mbc.name as member_blog_class_name, m.member_id, m.name as member_name, m.image as member_image',false);
-		$this->CI->db->from('member_blog as mb');
-		$this->CI->db->join('member_blog_class as mbc','mb.member_blog_class_id = mbc.member_blog_class_id','LEFT');
+		$this->CI->db->select('mb.book_id, mb.name as book_name, left(mb.content,150) as book_description, mb.created_time, mb.modified_time, mbc.name as book_class_name, m.member_id, m.name as member_name, m.image as member_image',false);
+		$this->CI->db->from('book as mb');
+		$this->CI->db->join('book_class as mbc','mb.book_class_id = mbc.book_class_id','LEFT');
 		$this->CI->db->join('member as m','mb.member_id = m.member_id');
 		$this->CI->db->where_in('mb.member_id',$follow_member_list);
 		$this->CI->db->order_by('mb.created_time','DESC',false);
-		$all_member_blog_information = $this->CI->db->get()->result_array();
+		$all_book_information = $this->CI->db->get()->result_array();
 		
-		return $all_member_blog_information;
+		return $all_book_information;
 	}
 	
 	function countMemberBlog($member_id){
-		$this->CI->db->select('count(mb.member_blog_id) as count');
-		$this->CI->db->from('member_blog as mb');
+		$this->CI->db->select('count(mb.book_id) as count');
+		$this->CI->db->from('book as mb');
 		$this->CI->db->join('member as m','mb.member_id = m.member_id');
 		$this->CI->db->where('mb.member_id',$member_id);
 		
@@ -911,97 +911,7 @@ class Extend_control {
 		
 		return $result;
 	}
-	
-	function getMemberLeaveWordInformation($member_id){
-		$this->CI->db->select('mlw.member_leave_word_id, mlw.content, mlw.reply, mlw.created_time, mlw.modified_time, m.member_id, m.name as member_name, m.image as member_image, t.member_id as target_id, t.name as target_name, t.image as target_image');
-		$this->CI->db->from('member_leave_word as mlw');
-		$this->CI->db->join('member as m','m.member_id = mlw.member_id');
-		$this->CI->db->join('member as t','t.member_id = mlw.target_id');
-		$this->CI->db->where('mlw.target_id',$member_id);
-		$this->CI->db->order_by('mlw.created_time','DESC',false);
-		
-		$all_member_leave_word_information = $this->CI->db->get()->result_array();
-		
-		return $all_member_leave_word_information;
-	}
-	
-	
-	function getNewAlbumInformation(){
-		$friend_list = $this->getAboutMemberList($this->CI->current_member_id,'array');
-		
-		$this->CI->db->select('ma.member_album_id, ma.name as album_name, ma.image as album_image, ma.created_time, ma.modified_time, m.member_id, m.name as member_name');
-		$this->CI->db->from('member_album as ma');
-		$this->CI->db->join('member as m','m.member_id = ma.member_id');
-		$this->CI->db->where_in('ma.member_id',$friend_list);
-		$this->CI->db->order_by('ma.created_time','DESC');
-		
-		$all_new_album_information = $this->CI->db->get()->result_array();
-		
-		return $all_new_album_information;
-	}
-	
-	function getMemberAlbumInformation($member_id){
-		$this->CI->db->select('ma.member_album_id, ma.name as album_name, ma.image as album_image, ma.created_time, ma.modified_time, m.member_id, m.name as member_name');
-		$this->CI->db->from('member_album as ma');
-		$this->CI->db->join('member as m','m.member_id = ma.member_id');
-		$this->CI->db->where('ma.member_id',$member_id);
-		$this->CI->db->order_by('ma.created_time','DESC');
-		
-		$all_member_album_information = $this->CI->db->get()->result_array();
-		
-		return $all_member_album_information;
-	}
-	
-	
-	function getAlbumBaseInformation($album_id) {
-		$this->CI->db->select('member_album_id,name as album_name');
-		$this->CI->db->from('member_album');
-		$this->CI->db->where('member_album_id',$album_id);
-		
-		$album_base_information = $this->CI->db->get_first();
-		
-		return $album_base_information;
-	
-	}
-	
-	function countAlbumPhoto($album_id){
-		$this->CI->db->select('count(member_photo_id) as count');
-		$this->CI->db->from('member_photo');
-		$this->CI->db->where('member_album_id',$album_id);
-		$result = idx($this->CI->db->get_first(),'count');
-		
-		return $result;
-	
-	}
-	
-	function getAlbumPhotoInformation($member_id,$album_id,$page_offset = 0,$limit = NULL){
-		$this->CI->db->select('mp.member_photo_id, mp.name as photo_name, mp.image as photo_image, mp.description as photo_description, mp.created_time, mp.modified_time, ma.member_album_id, ma.name as album_name, m.member_id, m.name as member_name');
-		$this->CI->db->from('member_photo as mp');
-		$this->CI->db->join('member_album as ma','ma.member_album_id = mp.member_album_id');
-		$this->CI->db->join('member as m','ma.member_id = m.member_id');
-		$this->CI->db->where('mp.member_album_id',$album_id);
-		$this->CI->db->where('mp.member_id',$member_id);
-		$this->CI->db->order_by('mp.created_time','DESC');
-		
-		$all_album_photo_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
-		
-		return $all_album_photo_information;
-	}
-	
-	function getPhotoInformation($photo_id){
-		$this->CI->db->select('mp.member_photo_id, mp.name as photo_name, mp.image as photo_image, mp.description as photo_description, mp.created_time, mp.modified_time, ma.member_album_id, ma.name as album_name, m.member_id, m.name as member_name');
-		$this->CI->db->from('member_photo as mp');
-		$this->CI->db->join('member_album as ma','ma.member_album_id = mp.member_album_id');
-		$this->CI->db->join('member as m','ma.member_id = m.member_id');
-		$this->CI->db->where('mp.member_photo_id',$photo_id);
-		$this->CI->db->order_by('mp.created_time','DESC');
-		
-		$photo_information = $this->CI->db->get_first();
-		
-		return $photo_information;
-		
-	}
-	
+
 	function getFollowMemberInformation($member_id){
 		$this->CI->db->select('m.member_id, m.name as member_name, m.image as member_image');
 		$this->CI->db->from('member_friend as mf');
@@ -1082,10 +992,10 @@ class Extend_control {
 		
 		//category == 'blog'
 		
-		$this->CI->db->select('sm.system_message_id, sm.category, sm.type, sm.created_time, sm.status, sm.is_new, ,m.member_id, m.name as member_name, m.image as member_image, mb.member_blog_id, mb.name as member_blog_name');
+		$this->CI->db->select('sm.system_message_id, sm.category, sm.type, sm.created_time, sm.status, sm.is_new, ,m.member_id, m.name as member_name, m.image as member_image, mb.book_id, mb.name as book_name');
 		$this->CI->db->from('system_message as sm');
 		$this->CI->db->join('member as m','m.member_id = sm.member_id');
-		$this->CI->db->join('member_blog as mb','mb.member_blog_id = sm.code');
+		$this->CI->db->join('book as mb','mb.book_id = sm.code');
 		$this->CI->db->where('sm.target_id',$member_id);
 		$this->CI->db->where('sm.category','blog');
 		$this->CI->db->where('sm.status','Y');

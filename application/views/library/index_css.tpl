@@ -26,10 +26,6 @@
   float: left;
 }
 
-.main-showcase-item a:hover {
-  text-decoration: none;
-}
-
 .main-showcase-item img {
   max-width: 250px;
   max-height: 300px;

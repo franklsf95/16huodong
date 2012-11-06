@@ -8,7 +8,6 @@
     {if $base_tpl == 'common/member'}<meta name="robots" content="noindex">{/if}
 
     <link href="{$config.asset}/css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <link href="{$config.asset}/css/jasny-bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="{$config.asset}/css/global.css" rel="stylesheet" type="text/css" />
     {include file="$base_tpl/css.tpl"}
     {if $more_css }
@@ -22,7 +21,7 @@
 
   <body>
 {include file="$base_tpl/navbar.tpl"}
-    <div class="container">
+    <div class="container-semifluid">
       <div class="row">
 <!--sidebar-->
 {if $base_tpl == 'common/guest'}

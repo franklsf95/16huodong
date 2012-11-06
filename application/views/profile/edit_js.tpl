@@ -1,7 +1,5 @@
 <script src="{$config.asset}/js/bootstrap-datepicker.js"></script>
 <script src="{$config.asset}/js/jquery.validate.min.js"></script>
-<script src="{$config.asset}/js/wysihtml5-0.3.0.js"></script>
-<script src="{$config.asset}/js/bootstrap-wysihtml5.js"></script>
 <script type="text/javascript" charset="utf-8" src="{$config.inc}/kindeditor/kindeditor-min.js"></script>
 <script type="text/javascript" charset="utf-8" src="{$config.inc}/kindeditor/lang/zh_CN.js"></script>
 <script>
@@ -66,7 +64,7 @@ var editor = KindEditor.editor( {
       allowImageParameter : false
 } );
 $('.portrait-upload').click(function() {
-      editor.uploadJson = '__($config.application_inc)__kindeditor/php/upload_portrait_json.php',
+      editor.uploadJson = '{$config.inc}/kindeditor/php/upload_portrait_json.php',
 			editor.loadPlugin('image', function() {
 				editor.plugin.imageDialog({
 					imageUrl : $('#portrait-url').val(),
