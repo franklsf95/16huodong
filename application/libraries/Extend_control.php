@@ -271,6 +271,40 @@ class Extend_control {
 		return $this->CI->db->get()->result_array();
 	}
 
+	/**
+	* 获取单个活动的rate信息
+	*
+	* @return 	Array 	rate1, rate2, rate1ed, rate2ed
+	*/
+	function getActivityRateInformation($activity_id) {
+		$member_id = $this->CI->current_member_id;
+
+		$rate_array['rate1'] = 0;
+		$rate_array['rate2'] = 0;
+		$rate_array['rate1ed'] = false;
+		$rate_array['rate2ed'] = false;
+
+		$this->CI->db->select('a.activity_id, a.member_id, a.rate');
+		$this->CI->db->from('activity_rate as a');
+		$this->CI->db->where('activity_id',$activity_id);
+		$results=$this->CI->db->get()->result_array();
+		
+		foreach ($results as $item) {
+			if ($item['rate']==1) {
+				$rate_array['rate1']++;
+				if ($member_id && $item['member_id'] == $member_id) {
+					$rate_array['rate1ed'] = true;
+				}
+			} else if ($item['rate']==-1) {
+				$rate_array['rate2']++;
+				if ($member_id && $item['member_id'] == $member_id) {
+					$rate_array['rate2ed'] = true;
+				}
+			}
+		}
+		return $rate_array;
+	}
+
 	function isMemberAttendActivity($member_id,$activity_id){
 		$this->CI->db->where('member_id',$member_id);
 		$this->CI->db->where('activity_id',$activity_id);

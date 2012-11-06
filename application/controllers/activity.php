@@ -41,35 +41,12 @@ Class Activity Extends BaseActionController {
 		$activity_information['is_attend'] = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
 		$activity_information['is_attention'] = $this->extend_control->isMemberFollowActivity($member_id,$activity_id);
 		$activity_information['is_publisher'] = $this->extend_control->isMemberPublishActivity($member_id,$activity_id);
-		
+		$activity_information['rate'] = $this->extend_control->getActivityRateInformation($activity_id);
+
 		$count = $this->extend_control->countAllActivityComment($activity_id);
 		$all_activity_comment_information = $this->extend_control->getActivityCommentInformation($activity_id,($page-1)*$limit,$limit);
 		
 		$this->setPageInformation( $count, $page, $limit );
-
-		$rate1=$rate2=$rate1ed=$rate2ed=0;
-		$this->db->select('a.activity_id, a.member_id, a.rate');
-		$this->db->from('activity_rate as a');
-		$this->db->where('activity_id',$activity_id);
-		$results=$this->db->get()->result_array();
-		
-		foreach ($results as $item) {
-			if ($item['rate']==1) {
-				$rate1++;
-				if ($item['member_id'] == $member_id) {
-					$rate1ed = 1;
-				}
-			} else if ($item['rate']==-1) {
-				$rate2++;
-				if ($item['member_id'] == $member_id) {
-					$rate2ed = 1;
-				}
-			}
-		}
-		$this->ci_smarty->assign('rate1',$rate1);
-		$this->ci_smarty->assign('rate2',$rate2);
-		$this->ci_smarty->assign('rate1ed',$rate1ed);
-		$this->ci_smarty->assign('rate2ed',$rate2ed);
 		
 		$this->ci_smarty->assign('activity_information',$activity_information);
 		$this->ci_smarty->assign('all_activity_comment_information',$all_activity_comment_information);
