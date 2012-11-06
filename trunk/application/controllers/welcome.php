@@ -19,7 +19,7 @@ class Welcome extends BaseController {
 	}
 	
 	/**
-	* 显示欢迎界面 或 重定向到主页
+	* 显示欢迎界面
 	*/
 	function index()
 	{
@@ -29,11 +29,30 @@ class Welcome extends BaseController {
 	}
 
 	/**
-	* 显示随便看看页面 或 重定向到主页
+	* 显示随便看看页面
 	*/
-	function demo()
-	{
+	function demo() {
 		$this->display('demo','随便看看','demo_css','demo_js');
+	}
+
+	/**
+	* 给未登录用户显示活动详情
+	*/
+	function demo_activity_view() {
+		$activity_id = $this->getParameter('id');
+		
+		if(!$activity_id) redirect('welcome/demo');
+		
+		$activity_information = $this->extend_control->getAcitivityInformationById($activity_id);
+		$activity_information['is_attend'] = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
+		$activity_information['is_attention'] = $this->extend_control->isMemberFollowActivity($member_id,$activity_id);
+		$activity_information['is_publisher'] = $this->extend_control->isMemberPublishActivity($member_id,$activity_id);
+		$activity_information['rate'] = $this->extend_control->getActivityRateInformation($activity_id);
+
+		$count = $this->extend_control->countAllActivityComment($activity_id);
+		$this->ci_smarty->assign('activity_information',$activity_information);
+
+		$this->display('demo_activity_view',$activity_information['activity_name'].' | 随便看看','demo_activity_view_css');
 	}
 
 	/**
