@@ -90,7 +90,7 @@ Class Activity Extends BaseActionController {
 			$activity_information = $this->extend_control->getActivityInformationById( $id );
 
 			if( $activity_information['publisher_id'] != $this->current_member_id )
-				show_error('你没有权限编辑此活动');
+				show_error('你不能编辑别人发起的活动！');
 			
 			$this->ci_smarty->assign('activity_information',$activity_information);
 		}
@@ -146,11 +146,9 @@ Class Activity Extends BaseActionController {
 			$data['created_time'] = $this->current_time;
 			$this->db->insert('activity',$data);
 			$activity_id = $this->db->insert_id();
-			
-			$system_data['category'] = "activity";
-			$system_data['type'] = "publish_activity";
-			$system_data['code'] = $activity_id;
-			$this->system_message($system_data);
+
+			$this->newSystemMessage('activity','new_activity',$activity_id);
+
 		} else {
 			$data['modified_time'] = $this->current_time;
 			$this->db->where('activity_id',$activity_id);
@@ -160,10 +158,7 @@ Class Activity Extends BaseActionController {
 			$this->db->where('activity_id',$activity_id);
 			$this->db->delete('activity_tag');
 			
-			$system_data['category'] = "activity";
-			$system_data['type'] = "edit_activity";
-			$system_data['code'] = $activity_id;
-			$this->system_message($system_data);
+			$this->newSystemMessage('activity','edit_activity',$activity_id);
 		}
 		//写入activity_tag
 		foreach($tag_array as $tag_value){
@@ -260,21 +255,6 @@ Class Activity Extends BaseActionController {
 		
 		redirect(site_url("activity/view?id=$activity_comment_information[activity_id]"));
 	}
-	
-	function invite_member_attend_activity($activity_id,$member_list){
-		$member_id = $this->current_member_id;
-		
-		foreach ($member_list as $target_id) {
-			$system_data['member_id'] = $this->current_member_id;
-			$system_data['target_id'] = $target_id;
-			$system_data['category'] = "activity";
-			$system_data['type'] = "invite_attend_activity";
-			$system_data['code'] = $activity_id;
-			
-				
-			$this->system_message($system_data);
-		}
-	}
 
 //--------AJAX工具组
 
@@ -308,15 +288,8 @@ Class Activity Extends BaseActionController {
 
 				$return = 1;
 				
-				//system_message
-				$this->db->select('publisher_id');
-				$this->db->where('activity_id',$activity_id);
-				$this->db->from('activity');
-				$system_data['target_id'] = idx($this->db->get_first(),'publisher_id');
-				$system_data['category'] = 'activity';
-				$system_data['type'] = 'attend_activity';
-				$system_data['code'] = $activity_id;
-				$this->system_message($system_data);
+				$publisher_id = idx( $this->extend_control->getActivityNameById($activity_id), 'publisher_id' );
+				$this->newSystemMessage('activity','attend_activity',$activity_id, $publisher_id);
 				
 			} else {
 				//从参加列表删除
@@ -347,10 +320,10 @@ Class Activity Extends BaseActionController {
 		$member_id = $this->current_member_information['member_id'];
 		if ($activity_id){
 			//检查该会员是否已经报名活动
-			$is_attention = $this->extend_control->isMemberFollowActivity($member_id,$activity_id);
+			$is_follow = $this->extend_control->isMemberFollowActivity($member_id,$activity_id);
 			$follow_count = idx( $this->extend_control->getActivityCountsById($activity_id), 'follow_count' );
 
-			if( !$is_attention ){
+			if( !$is_follow ){
 				$data['member_id'] = $member_id;
 				$data['activity_id'] = $activity_id;
 				$data['created_time'] = $this->current_time;
@@ -359,6 +332,9 @@ Class Activity Extends BaseActionController {
 				$data2['follow_count'] = $follow_count+1;
 				$this->db->where('activity_id',$activity_id);
 				$this->db->update('activity',$data2);
+
+				$publisher_id = idx( $this->extend_control->getActivityNameById($activity_id), 'publisher_id' );
+				$this->newNewsFeed('activity','follow_activity',$activity_id, $publisher_id);
 				
 				$return = 1;
 				
@@ -394,22 +370,18 @@ Class Activity Extends BaseActionController {
 		
 		if( $activity_attend_id && $action >= 0 ) {
 			$this->db->where('activity_attend_id',$activity_attend_id);
-			$activity_attend_information = $this->db->get_first('activity_attend');
+			$attendee = $this->db->get_first('activity_attend');
 			
 			if($activity_attend_id != '') {
-				if( $action ) { //permit
-					//system_message
-					$system_data['target_id'] = $activity_attend_information['member_id'];
-					$system_data['category'] = 'activity';
-					$system_data['type'] = 'activity_apply_pass';
-					$system_data['code'] = $activity_attend_information['activity_id'];
-					$this->system_message($system_data);
-					
+				if( $action==1 ) { //permit
 					$data['approved'] = 1;
 					$this->db->where('activity_attend_id',$activity_attend_id);
 					$this->db->update('activity_attend',$data);
+
+					$this->newSystemMessage('activity','attend_approve',$attendee['member_id'],$attendee['activity_id']);
+
 					$return_data['status'] = 1;
-				} else { //deny
+				} elseif( $action==0 ) { //deny
 					$this->db->where('activity_attend_id',$activity_attend_id);
 					$this->db->delete('activity_attend');
 					$return_data['status'] = 1;

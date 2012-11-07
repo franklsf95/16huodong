@@ -7,9 +7,12 @@ define( 'MEMBER_BASIC', 	'm.member_id, m.name as member_name, m.image as member_
 define( 'MEMBER_BRIEF',		'm.member_id, m.name as member_name, m.image as member_image, m.member_type, m.school_id, m.school_name, m.gender, m.organisation, m.title, m.principal');
 define( 'MEMBER_CONTACT', 	'm.member_id, m.name as member_name, m.image as member_image, m.school_id, m.school_name, m.phone, m.email, m.qq');
 define( 'MEMBER_DETAIL', 	'm.member_id, m.account, m.name as member_name, m.member_type, m.school_id, m.school_name, m.image as member_image, m.organisation as member_organisation, m.title as member_title, m.principal as member_principal, m.gender as member_gender, m.birthday as member_birthday, m.qq as member_qq, m.phone as member_phone, m.email as member_email, m.address as member_address, m.description as member_description, m.content as member_content, m.created_time, m.modified_time');
+define( 'ACTIVITY_BASIC', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name');
 define( 'ACTIVITY_BRIEF', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.description, a.follow_count, a.attend_count, a.view_count');
 define( 'ACTIVITY_DETAIL', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.price, a.address, a.description, a.content, a.created_time, a.modified_time, a.view_count, a.attend_count, a.follow_count, a.book_id');
 define( 'COMMENT',			'ac.activity_comment_id, ac.activity_id, ac.member_id, ac.content, ac.reply, ac.created_time, m.name as member_name, m.image as member_image');
+DEFINE( 'BOOK_BASIC', 		'mb.book_id, mb.name as book_name, mb.author_id, mb.author_name');
+DEFINE( 'BOOK_FULL',		'mb.book_id, mb.name as book_name, mb.author_id, mb.author_name, mb.image as book_image, mb.content as book_content, mb.created_time, mb.modified_time, mb.like_count, mb.view_count');
 
 class Extend_control {
 	var $CI;
@@ -142,9 +145,17 @@ class Extend_control {
 		$this->CI->db->where('member_id',$member_id);
 		$this->CI->db->where('target_id',$target_id);
 
-		$result = $this->CI->db->get_first('member_friend');
+		return idx( $this->CI->db->get_first('member_friend'), 'approved' );
+	}
 
-		return $result['approved'];
+	function getAllFriendsBasic($member_id) {
+		$this->CI->db->select(MEMBER_BASIC);
+		$this->CI->db->from('member_friend as mf');
+		$this->CI->db->join('member as m','mf.target_id = m.member_id');
+		$this->CI->db->where('mf.member_id',$member_id);
+		$this->CI->db->where('mf.approved',1);
+		
+		return $this->CI->db->get()->result_array();
 	}
 
 /*
@@ -214,12 +225,12 @@ class Extend_control {
  * 单个活动信息处理
  *---------------------------------------------------------------
  */
-	function getActivityNameById($activity_id) {
-		$this->CI->db->select('a.name as activity_name');
+	function getActivityBasicById($activity_id) {
+		$this->CI->db->select(ACTIVITY_BASIC);
 		$this->CI->db->from('activity as a');
 		$this->CI->db->where('a.activity_id',$activity_id);
 		
-		return idx( $this->CI->db->get_first(), 'activity_name' );
+		return $this->CI->db->get_first();
 	}
 	/**
 	* 获取活动全部信息
@@ -472,9 +483,9 @@ class Extend_control {
 ////-------- 全站读取
 
 	function getAllMemberBlogInformation($page_offset = 0,$limit = 15, $str_length = 100){
-		$this->CI->db->select('mb.book_id, mb.name as book_name, mb.image as book_image, mb.content as book_content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, mb.like_count as prefer_number, book_visit as visit_number');
+		$this->CI->db->select(BOOK_FULL);
 		$this->CI->db->from('book as mb');
-		$this->CI->db->join('member as m','mb.member_id = m.member_id');
+		$this->CI->db->join('member as m','mb.author_id = m.member_id');
 		$this->CI->db->group_by('mb.book_id');
 		$this->CI->db->order_by('mb.created_time','DESC');
 		$all_book_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
@@ -493,9 +504,9 @@ class Extend_control {
 	}
 	
 	function getHotBlogInformation($page_offset = 0,$limit = 10){
-		$this->CI->db->select('mb.book_id, mb.name as book_name, mb.image as book_image, mb.content as book_content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, mb.like_count as prefer_number, book_visit as visit_number');
+		$this->CI->db->select(BOOK_FULL);
 		$this->CI->db->from('book as mb');
-		$this->CI->db->join('member as m','mb.member_id = m.member_id');
+		$this->CI->db->join('member as m','mb.author_id = m.member_id');
 		$this->CI->db->group_by('mb.book_id');
 		$this->CI->db->order_by('count(mbv.book_visit_id)','DESC');
 		$this->CI->db->order_by('mb.created_time','DESC');
@@ -508,7 +519,7 @@ class Extend_control {
 	function getMemberBlogInformation($member_id,$page_offset = 0,$limit = 15 ,$str_length = 150){
 		$this->CI->db->select('mb.book_id, mb.name as book_name, mb.image as book_image, mb.image_width as book_image_width, mb.image_height as book_image_height, mb.content, mb.created_time, mb.modified_time');
 		$this->CI->db->from('book as mb');
-		$this->CI->db->where('mb.member_id',$member_id);
+		$this->CI->db->where('mb.author_id',$member_id);
 		$this->CI->db->order_by('mb.created_time','DESC');
 		$all_book_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
 		
@@ -524,9 +535,9 @@ class Extend_control {
 	}
 	
 	function getPreferBlogInformation($member_id,$page_offset = 0,$limit = 15){
-		$this->CI->db->select('mb.book_id, mb.name as book_name, mb.image as book_image, mb.content as book_content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, mb.like_count as prefer_number, book_visit as visit_number');
+		$this->CI->db->select(BOOK_FULL);
 		$this->CI->db->from('book as mb');
-		$this->CI->db->join('member as m','mb.member_id = m.member_id');
+		$this->CI->db->join('member as m','mb.author_id = m.member_id');
 		$this->CI->db->join('member_like_book as mpb','mpb.book_id = mb.book_id');
 		$this->CI->db->where('mpb.member_id',$member_id);
 		$this->CI->db->group_by('mb.book_id');
@@ -538,16 +549,21 @@ class Extend_control {
 
 
 ////-------- 单个微型书读取
-	
-	function getMemberBlogInformationByBlogId($book_id){
-		$this->CI->db->select('mb.book_id, mb.name as book_name, mb.image as book_image, mb.content as book_content, mb.created_time, mb.modified_time, m.member_id, m.name as member_name, m.image as member_image, mb.like_count as prefer_number, book_visit as visit_number');
+
+	function getBookBasicById($book_id){
+		$this->CI->db->select(BOOK_BASIC);
 		$this->CI->db->from('book as mb');
-		$this->CI->db->join('member as m','mb.member_id = m.member_id');
 		$this->CI->db->where('mb.book_id',$book_id);
-		$this->CI->db->group_by('mb.book_id');
-		$book_information = $this->CI->db->get_first();
 		
-		return $book_information;
+		return $this->CI->db->get_first();
+	}
+	
+	function getBookInformationById($book_id){
+		$this->CI->db->select(BOOK_FULL);
+		$this->CI->db->from('book as mb');
+		$this->CI->db->where('mb.book_id',$book_id);
+		
+		return $this->CI->db->get_first();
 	}
 
 ////-------- 微型书评论
@@ -562,7 +578,7 @@ class Extend_control {
 	
 	}
 	
-	function getBlogCommentInformation($book_id,$page_offset = 0,$limit = 10){
+	function getBookComment($book_id,$page_offset = 0,$limit = 10){
 		$this->CI->db->select('mbc.book_comment_id, mbc.book_id, mbc.member_id, mbc.content, mbc.created_time, m.name as member_name, m.image as member_image');
 		$this->CI->db->from('book_comment as mbc');
 		$this->CI->db->join('member as m','mbc.member_id = m.member_id');
@@ -592,30 +608,23 @@ class Extend_control {
 		
 		$activity_count = 0;
 		$friend_count = 0;
-		$blog_count = 0;
+		$book_count = 0;
 		$member_message = 0;
 		
 		foreach( $all_new_system_message_information as $i )
 		{
 			if ($i['category'] == 'activity') 		$activity_count++;				
 			elseif ($i['category'] == 'friend')		$friend_count++;
-			elseif ($i['category'] == 'blog')		$blog_count++;
+			elseif ($i['category'] == 'book')		$book_count++;
 			elseif ($i['category'] == 'member_message') 	$member_message_count++;
 		}
 
 		$all_system_message = array();
 		if ($activity_count > 0) $all_system_message[] = array('type' => 'activity','count' => $activity_count);
 		if ($friend_count > 0) $all_system_message[] = array('type' => 'friend','count' => $friend_count);
-		if ($blog_count > 0) $all_system_message[] = array('type' => 'blog','count' => $blog_count);
+		if ($book_count > 0) $all_system_message[] = array('type' => 'book','count' => $book_count);
 		if ($member_message_count > 0) $all_system_message[] = array('type' => 'member_message','count' => $member_message_count);
 		
-		/*
-		if ($activity_comment_count > 0) $all_system_message[] = array('type' => 'activity_comment','count' => $activity_comment_count);
-		if ($activity_reply_count > 0) $all_system_message[] = array('type' => 'activity_reply','count' => $activity_reply_count);
-		if ($friend_apply_count > 0) $all_system_message[] = array('type' => 'friend_apply','count' => $friend_apply_count);
-		if ($friend_add_count > 0) $all_system_message[] = array('type' => 'friend_add','count' => $friend_add_count);
-		if ($blog_comment_count > 0) $all_system_message[] = array('type' => 'blog_comment','count' => $blog_comment_count);
-		*/
 		return $all_system_message;
 	}
 	
@@ -864,8 +873,8 @@ class Extend_control {
 		$this->CI->db->select('mb.book_id, mb.name as book_name, left(mb.content,150) as book_description, mb.created_time, mb.modified_time, mbc.name as book_class_name, m.member_id, m.name as member_name, m.image as member_image',false);
 		$this->CI->db->from('book as mb');
 		$this->CI->db->join('book_class as mbc','mb.book_class_id = mbc.book_class_id','LEFT');
-		$this->CI->db->join('member as m','mb.member_id = m.member_id');
-		$this->CI->db->where_in('mb.member_id',$follow_member_list);
+		$this->CI->db->join('member as m','mb.author_id = m.member_id');
+		$this->CI->db->where_in('mb.author_id',$follow_member_list);
 		$this->CI->db->order_by('mb.created_time','DESC',false);
 		$all_book_information = $this->CI->db->get()->result_array();
 		
@@ -875,8 +884,8 @@ class Extend_control {
 	function countMemberBlog($member_id){
 		$this->CI->db->select('count(mb.book_id) as count');
 		$this->CI->db->from('book as mb');
-		$this->CI->db->join('member as m','mb.member_id = m.member_id');
-		$this->CI->db->where('mb.member_id',$member_id);
+		$this->CI->db->join('member as m','mb.author_id = m.member_id');
+		$this->CI->db->where('mb.author_id',$member_id);
 		
 		$result = idx($this->CI->db->get_first(),'count');
 		
@@ -899,17 +908,6 @@ class Extend_control {
 		$this->CI->db->where('mf.friend_id',$member_id);
 		$all_fans_member_information = $this->CI->db->get()->result_array();
 		return $all_fans_member_information;
-	}
-	
-	function getAllFriendInformation($member_id) {
-		$this->CI->db->select('m.member_id, m.name as member_name, m.image as member_image, m.member_type, m.school_name');
-		$this->CI->db->from('member_friend as mf');
-		$this->CI->db->join('member as m','mf.target_id = m.member_id');
-		$this->CI->db->where('mf.member_id',$member_id);
-		$this->CI->db->where('mf.approved',1);
-		$all_friend_information = $this->CI->db->get()->result_array();
-		
-		return $all_friend_information;
 	}
 		
 	function countMemberMessageGroups($target_id){

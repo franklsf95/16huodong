@@ -201,17 +201,17 @@ DROP TABLE IF EXISTS `16_book`;
 
 CREATE TABLE `16_book` (
   `book_id` int(11) NOT NULL AUTO_INCREMENT,
-  `member_id` int(11) DEFAULT NULL,
+  `author_id` int(11) DEFAULT NULL,
+  `author_name` varchar(50) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `image_width` int(11) DEFAULT NULL,
   `image_height` int(11) DEFAULT NULL,
-  `book_tag_id` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `content` text,
   `created_time` datetime DEFAULT NULL,
   `modified_time` datetime DEFAULT NULL,
   `like_count` int(11) DEFAULT 0,
-  `book_visit` int(11) DEFAULT 0,
+  `view_count` int(11) DEFAULT 0,
   PRIMARY KEY (`book_id`)
 ) DEFAULT CHARSET=utf8;
 

@@ -145,15 +145,8 @@ Class Message Extends BaseActionController {
 				
 			$this->db->insert('member_message',$data);
 			$member_message_id = $this->db->insert_id();
-				
-			$system_message_data = array();
-			$system_message_data['category'] = "member_message";
-			$system_message_data['type'] = "new_message";
-			$system_message_data['target_id'] = $target_id;
-			$system_message_data['member_id'] = $member_id;
-			$system_message_data['code'] = $member_message_id;
-				
-			$this->system_message($system_message_data);
+
+			$this->newSystemMessage('member_message','new_message',$member_message_id,$target_id);
 		}
 	}
 	

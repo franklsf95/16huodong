@@ -19,7 +19,7 @@
                 <li class="active"><a href="{'message'|site_url}">
                 {if $i.type == 'activity'}{$i.count}个新的活动通知
                 {elseif $i.type == 'friend'}{$i.count}个新的好友通知
-                {elseif $i.type == 'blog'}{$i.count}个新的日志通知
+                {elseif $i.type == 'book'}{$i.count}个新的微型书通知
                 {elseif $i.type == 'member_message'}{$i.count}条新的站内信
                 {/if}
                 </a></li>
