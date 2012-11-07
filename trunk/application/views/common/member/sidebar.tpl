@@ -13,8 +13,6 @@
               <li id="sidebar-message"><a href="{'message'|site_url}"><i class="icon-envelope"></i> 站内信</a></li>
               <li class="divider"></li>
               <li id="sidebar-logout"><a href="{'login/logout'|site_url}"><i class="icon-off"></i> 登出</a></li>
-              <li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li><li class="nav-header">你有新消息~</li>
-
               {if $all_system_message_notice|@count}
               <li class="nav-header">你有新消息~</li>
               {foreach $all_system_message_notice as $i}

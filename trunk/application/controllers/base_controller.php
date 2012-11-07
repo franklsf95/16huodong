@@ -12,22 +12,16 @@ class BaseController extends CI_Controller {
 	var $current_language = 'chs';
 	var $current_time = '';
 	var $current_date = '';
-	var $site_name;
-	var $site_keyword;
-	var $site_description;
-	var $LIMIT = 2;
-	var $CLIMIT = 10;	//单页评论加载数量
-	var $MLIMIT = 50; 	//单页留言加载数量
+	var $LIMIT = 10;
+	var $CLIMIT = 10;
+	var $MLIMIT = 50;
 	
 	function __construct() {
 		parent::__construct();
 		
-		$this->getSiteInformation();
-		
-		if ($this->enable_session) {		//启用session
-			@session_start();
-		}
-		
+		$this->initializeRunningValue();
+
+		if ($this->enable_session)	@session_start();
 		$this->current_time = date('Y-m-d H:i:s');
 		$this->current_date = date('Y-m-d');
 		
@@ -35,45 +29,35 @@ class BaseController extends CI_Controller {
 		$this->all_avaliable_language = $this->config->item('all_avaliable_language');
 		$this->current_language = $this->config->item('language');
 		
-
+		
+		//初始化smarty
 		$this->ci_smarty->assign('current_language',$this->current_language);
 		$this->ci_smarty->assign('all_avaliable_language',$this->all_avaliable_language);
-		
-		
-		//注册smarty模板可调用的函数
 		$this->ci_smarty->registerPlugin('modifier','site_url', 'site_url');
 		$this->ci_smarty->registerPlugin('modifier','base_url', 'base_url');
 		$this->ci_smarty->registerPlugin('modifier','strtotime', 'strtotime');
-		
-		$this->lang->load('global');			//读取语言文件
-		$this->lang->load('alert');			//读取语言文件
+		$this->lang->load('global');
+		$this->lang->load('alert');
 		$this->ci_smarty->registerPlugin('modifier','lang_line', array($this->lang, 'line'));	//启用语言模版
-		
 		//Smarty模板路径
 		$this->layoutFolder = 'layout/';
 		$this->commonFolder = 'common/';
-		
 		if ($this->applicationFolder) {
 			$this->viewFolder = $this->applicationFolder;
 		}
-		
-		$this->ci_smarty->assign('template',$this->config->item('template'));
-		
 	}
 	
-	function getSiteInformation(){
-		$all_running_value_information = $this->db->get('running_value')->result_array();
+	function initializeRunningValue(){
+		$this->db->select('code, value');
+		$running_value = $this->db->get('running_value')->result_array();
 		
-		foreach($all_running_value_information as $vo) {
-			$site_information[$vo['code']] = $vo['value'];
+		foreach($running_value as $i) {
+			$arr[ $i['code'] ] = $i['value'];
 		}
 		
-		$this->site_name = $site_information['site_name'];
-		$this->site_keyword = $site_information['site_keyword'];
-		$this->site_description = $site_information['site_description'];
-		$this->ci_smarty->assign('site_name',$site_information['site_name']);
-		$this->ci_smarty->assign('site_keyword',$site_information['site_keyword']);
-		$this->ci_smarty->assign('site_description',$site_information['site_description']);
+		$this->LIMIT = $arr['limit_query'];
+		$this->CLIMIT = $arr['limit_comment'];
+		$this->MLIMIT = $arr['limit_message'];
 	}
 	
 	function getParameter($parameterName, $defaultValue = '', $useDefaultValueIfEmpty = true, $xss_clean = FALSE) {			//获取post或get变量
@@ -263,8 +247,8 @@ class BaseController extends CI_Controller {
 	function &setPageInformation( $count, $page, $limit, $url='' ) {
 		$page_information = array();
 
-		$page_count = ceil( $count / $this->LIMIT );
-		$page_offset = ($page-1) * $this->LIMIT;
+		$page_count = ceil( $count / $limit );
+		$page_offset = ($page-1) * $limit;
 		if( $page_offset < 0 ) 	$page_offset = 0;
 		elseif( $page_offset > $count )	$page_offset = $page_count;
 
