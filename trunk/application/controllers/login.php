@@ -28,14 +28,19 @@ Class Login Extends BaseController {
 		$ref = $this->getParameter('ref',NULL);
 		if ( $account == '' || $password == '' ) 	show_error('用户名或密码为空!');
 
-		$this->db->select('member_id');
+		$this->db->select('member_id, account');
 		$this->db->from('member');
-		$this->db->where('account',$account);
+		if(substr_count($account,'@')==0){
+			$this->db->where('account',$account);
+		}else{
+			$this->db->where('email',$account);
+		}
 		$this->db->where('password',md5($password));
-		$current_member_id = idx( $this->db->get_first(), 'member_id' );
+		$current_member=$this->db->get_first();
+		$current_member_id = $current_member['member_id'];
 
-		if ( !$current_member_id ) 	show_error('用户名或密码错误!');
-
+		if ( !$current_member ) 	show_error('用户名或密码错误!');
+		$account=$current_member['account'];
 		if ($member_cookie == 'Y') {
 			$member_cookie = array('remember' => 'Y','account' => $member_information['account'],'key'=>md5(md5($password).md5($password)));
 			setcookie('member_cookie[remember]',$member_cookie['remember'],time()+3600*24*30,'/');
