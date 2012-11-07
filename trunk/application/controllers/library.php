@@ -37,7 +37,7 @@ Class Library Extends BaseActionController {
 		$this->ci_smarty->assign('information',$all_book_information);
 		$this->ci_smarty->assign('member_id',$member_id);
 		$this->ci_smarty->assign('member_name',$member_name);
-		$this->ci_smarty->assign('my_page', $member_id == $this->current_member_id ? 1 : 0);
+		$this->ci_smarty->assign('is_me', $member_id == $this->current_member_id );
 
 		//print_r($all_book_information);exit();
 		$this->display('profile',$member_name.'的微型图书馆','profile_css','profile_js');
@@ -85,7 +85,7 @@ Class Library Extends BaseActionController {
 			
 			$book_information = $this->extend_control->getBookInformationById($book_id);
 
-			if( $book['author_id'] != $this->current_member_id )
+			if( $book_information['author_id'] != $this->current_member_id )
 				show_error('你怎么能篡改别人写的书呢！');
 
 			$this->ci_smarty->assign('book_information',$book_information);
@@ -120,7 +120,7 @@ Class Library Extends BaseActionController {
 		$data['image_height'] = $image_parameter['1'];
 		$data['image'] = $image_url['relative_path'];
 		
-		if ( !$book_id ){
+		if ( $book_id==null ){
 			$data['created_time'] = $this->current_time;
 			$this->db->insert('book',$data);
 			$book_id = $this->db->insert_id();
@@ -131,7 +131,7 @@ Class Library Extends BaseActionController {
 			$this->db->where('book_id',$book_id);
 			$this->db->update('book',$data);
 
-			$this->newSystemMessage('book','edit_book',$book_id);
+			$this->newNewsFeed('book','edit_book',$book_id);
 		}
 		redirect('library/view?id='.$book_id);
 		
@@ -173,7 +173,7 @@ Class Library Extends BaseActionController {
 	/**
 	* 处理ajax like微型书请求
 	*
-	* @param 	book_id 		书的ID
+	* @param 	id 		书的ID
 	*
 	* @return 	0失败，-1已添加过，-2不能添加自己，1成功
 	*/
@@ -182,8 +182,8 @@ Class Library Extends BaseActionController {
 		$member_id = $this->current_member_id;
 		
 		$return_data = 0;
-		if ($book_id != '' && $member_id != '') {
-			$this->db->select('member_id, like_count');
+		if ( $book_id != '' ) {
+			$this->db->select('author_id, like_count');
 			$this->db->where('book_id',$book_id);
 			$blog_information = $this->db->get_first('book');
 			$author_id = $blog_information['author_id'];

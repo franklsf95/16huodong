@@ -9,12 +9,20 @@
   width: 220px;
 }
 
+.avatar-medium {
+	height: 30px;
+}
+
+#news-feed-container {
+	padding-right: 10px;
+}
+
 .news-feed-item {
-	height: 24px;
+	height: 36px;
 }
 
 .news-feed-item hr {
-	margin: 10px 0 6px 0;
+	margin: 10px 0 10px 0;
 }
 
 .timestamp {

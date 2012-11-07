@@ -13,9 +13,7 @@ Class Test Extends BaseActionController {
 	}
 
 	function index(){
-		$activity_id['code']=1;
-		print_r(  site_url("activity/view?id=$activity_id[\'code\']")  );exit();
-		$this->ci_smarty->view( $this->config->item('template').'/library/view_js' );
+		echo idx( $this->extend_control->getBookBasicById(3), 'book_name');
 	}
 	
 	
