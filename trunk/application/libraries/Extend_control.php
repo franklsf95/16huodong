@@ -654,31 +654,6 @@ class Extend_control {
 
 /*
  *---------------------------------------------------------------
- * 好友相关
- *---------------------------------------------------------------
- */
-	function getAllFriendsBasic($member_id) {
-		$this->db->select(MEMBER_BASIC);
-		$this->db->from('member_friend as mf');
-		$this->db->join('member as m','mf.target_id = m.member_id');
-		$this->db->where('mf.member_id',$member_id);
-		$this->db->where('approved',true);
-		
-		return $this->db->get()->result_array();
-	}
-	
-	function getAllFriendsBrief($member_id) {
-		$this->CI->db->select(MEMBER_BRIEF);
-		$this->CI->db->from('member_friend as mf');
-		$this->CI->db->join('member as m','mf.target_id = m.member_id');
-		$this->CI->db->where('mf.member_id',$member_id);
-		$this->CI->db->where('mf.approved',1);
-		
-		return $this->CI->db->get()->result_array();
-	}
-
-/*
- *---------------------------------------------------------------
  * 搜索
  *---------------------------------------------------------------
  */
@@ -908,6 +883,17 @@ class Extend_control {
 		$all_fans_member_information = $this->CI->db->get()->result_array();
 		return $all_fans_member_information;
 	}
+	
+	function getAllFriendInformation($member_id) {
+		$this->CI->db->select('m.member_id, m.name as member_name, m.image as member_image, m.member_type, m.school_name');
+		$this->CI->db->from('member_friend as mf');
+		$this->CI->db->join('member as m','mf.target_id = m.member_id');
+		$this->CI->db->where('mf.member_id',$member_id);
+		$this->CI->db->where('mf.approved',1);
+		$all_friend_information = $this->CI->db->get()->result_array();
+		
+		return $all_friend_information;
+	}
 		
 	function countMemberMessageGroups($target_id){
 		$this->CI->db->select('count(DISTINCT(`group`)) as count');
@@ -1089,6 +1075,17 @@ class Extend_control {
 		
 		return $all_hot_activity_tag;
 		
+	}
+	
+	function getAllNewsFeed($page_offset = 0, $limit = 20){
+	
+		$this->CI->db->select('nf.system_message_id, nf.type, nf.code, nf.created_time, nf.category, m.member_id, m.name as member_name, t.member_id as target_id, t.name as target_name');
+		$this->CI->db->from('news_feed as nf');
+		$this->CI->db->join('member as m','m.member_id = nf.member_id');
+		$this->CI->db->order_by('nf.created_time','DESC');
+		$all_news_feed = $this->CI->db->get('',$limit,$page_offset)->result_array();
+
+		return $all_news_feed;
 	}
 	
 	
