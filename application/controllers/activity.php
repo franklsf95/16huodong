@@ -146,6 +146,11 @@ Class Activity Extends BaseActionController {
 			$data['created_time'] = $this->current_time;
 			$this->db->insert('activity',$data);
 			$activity_id = $this->db->insert_id();
+			
+			$system_data['category'] = "activity";
+			$system_data['type'] = "publish_activity";
+			$system_data['code'] = $activity_id;
+			$this->system_message($system_data);
 		} else {
 			$data['modified_time'] = $this->current_time;
 			$this->db->where('activity_id',$activity_id);
