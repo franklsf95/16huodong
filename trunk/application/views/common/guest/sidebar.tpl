@@ -5,13 +5,13 @@
               <div class="control-group">
                 <label class="control-label" for="username">用户名</label>
                 <div class="controls">
-                  <input type="text" name="username" id="username">
+                  <input type="text" name="username" id="username" placeholder="英文字母、数字或下划线">
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label" for="password">密码</label>
                 <div class="controls">
-                  <input type="password" name="password" id="password">
+                  <input type="password" name="password" id="password" placeholder="至少6位">
                 </div>
               </div>
               <div class="control-group">
