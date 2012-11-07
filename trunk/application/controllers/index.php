@@ -62,10 +62,22 @@ Class Index Extends BaseActionController {
 						break;
 				}
 			} elseif ( $news['category']=='blog' ) {
-
+				$blog_id = $news['code'];
+				$blog_name = $this->extend_control->getMemberBlogInformationByBlogId($blog_id)['book_name'];
+				switch( $news['type'] ) {
+					case 'new_comment':
+						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 评论了微型书 <a href='".site_url("library/view?id=$blog_id")."'>$blog_name</a> 的内容";
+						break;
+				}
 			} elseif ( $news['category']=='friend' ) {
-
-
+				switch( $news['type'] ) {
+					case 'apply_friend':
+					$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 申请成为 <a href='".site_url("profile?id=".$news['target_id'])."'>".$news['target_name']."</a> 的好友";
+						break;
+					case 'approve_friend':
+						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 与 <a href='".site_url("profile?id=".$news['target_id'])."'>".$news['target_name']."</a> 成为好友";
+						break;
+				}
 			}
 			$news_array[] = $data;
 		} //end foreach

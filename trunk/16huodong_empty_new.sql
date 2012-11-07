@@ -43,6 +43,8 @@ CREATE TABLE `16_activity` (
 ) DEFAULT CHARSET=utf8;
 
 /*Table structure for the table `16_activity_rate` */
+
+DROP TABLE IF EXISTS `16_activity_rate`;
 CREATE TABLE `16_activity_rate` (
    `activity_id` int(11) DEFAULT NULL,
    `member_id` int(11) DEFAULT NULL,
