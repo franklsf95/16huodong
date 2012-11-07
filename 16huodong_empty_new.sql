@@ -384,18 +384,20 @@ insert  into `16_public_school`(`school_id`,`province`,`city`,`area`,`type`,`nam
 
 DROP TABLE IF EXISTS `16_running_value`;
 
-CREATE TABLE `16_running_value` (
-  `running_value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '站点配置id',
-  `code` varchar(20) NOT NULL COMMENT '配置代码',
-  `name` varchar(50) DEFAULT NULL COMMENT '配置名称',
-  `value` text COMMENT '配置',
-  `description` varchar(255) DEFAULT NULL COMMENT '配置描述',
+CREATE TABLE IF NOT EXISTS `16_running_value` (
+  `running_value_id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(20) NOT NULL,
+  `value` text,
+  `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`running_value_id`)
-) AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_running_value` */
 
-insert  into `16_running_value`(`running_value_id`,`code`,`name`,`value`,`description`) values (1,'site_name','站点名称','16活动网',NULL),(2,'site_keyword','站点关键字','16活动网关键字',NULL),(3,'site_description','站点描述','16活动网描述',NULL),(4,'site_status','站点状态','Y',NULL),(5,'site_copyright','版权信息','©版权所有 16huodong.com<br />\r\n京ICP备05083184号-5',NULL);
+INSERT INTO `16_running_value` (`running_value_id`, `code`, `value`, `description`) VALUES
+  (1, 'limit_query', '10', '单页记录加载数量（如搜索结果）'),
+  (2, 'limit_comment', '20', '单页回复加载数量'),
+  (3, 'limit_message', '20', '留言板留言单页加载数量');
 
 /*Table structure for table `16_system_message` */
 
