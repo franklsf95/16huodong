@@ -64,6 +64,12 @@ Class Index Extends BaseActionController {
 					case 'follow_activity':
 						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 关注了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a>";
 						break;
+					case 'rate_up':
+						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 对活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 竖了大拇指";
+						break;
+					case 'rate_down':
+						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 对活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 竖了小拇指";
+						break;
 				}
 			} elseif ( $news['category']=='book' ) {
 				$book_id = $news['code'];

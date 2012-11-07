@@ -49,7 +49,7 @@
 <div class="clear"></div>
 <hr>
       <footer>
-        <p>&copy; 16活动网 2012</p>
+        <p>&copy; 16活动网 2012 | <a href="mailto:contact@16huodong.com">问题反馈</a></p>
       </footer>
 </div>
 <!--/content-->

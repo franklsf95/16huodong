@@ -220,6 +220,9 @@ Class Activity Extends BaseActionController {
 			$rate['rate']= $plus ? 1 : -1;
 			$this->db->insert('activity_rate',$rate);
 		}
+		$news_feed_type = $plus ? 'rate_up' : 'rate_down';
+		$this->newNewsFeed('activity',$news_feed_type,$activity_id);
+
 		redirect('activity/view?id='.$activity_id);
 	}
 
