@@ -195,6 +195,8 @@ CREATE TABLE `16_member` (
 
 /*Data for the table `16_member` */
 
+INSERT INTO `16_member` (`member_id`, `account`, `member_type`) VALUES (0, 'dummy','dummy');
+
 /*Table structure for table `16_book` */
 
 DROP TABLE IF EXISTS `16_book`;
