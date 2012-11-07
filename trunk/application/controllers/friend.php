@@ -74,7 +74,7 @@ Class Friend Extends BaseActionController {
 				
 				$system_data['target_id'] = $target_id;
 				$system_data['category'] = 'friend';
-				$system_data['type'] = 'add_friend';
+				$system_data['type'] = 'approve_friend';
 				$system_data['code'] = $member_friend_id;
 				$this->system_message($system_data);
 				$return = 1;
