@@ -115,19 +115,9 @@ Class FindPass Extends BaseController {
 				$message = "<html><body>请点击以下链接来找回密码<br>";
 				$message.= '<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/findpass/resetPass?vcode='. $vcode. '">http://'.$_SERVER ['HTTP_HOST'].'/index.php/findpass/resetPass?vcode='. $vcode. '</a></body></html>';
 				
-				$config["protocol"]     = "smtp";
-				$config["smtp_host"]    = "smtp.ym.163.com";
-				$config["smtp_user"]    = "guanliyuan@16huodong.com";
-				$config["smtp_pass"]    = "poiuytrewq";
-				$config["mailtype"]     = "html";
-				$config["validate"]     = true;
-				$config["priority"]     = 3;
-				$config["crlf"]         = "/r/n";
-				$config["smtp_port"]    = 25;
-				$config["charset"]      = "utf-8";
-				$config["wordwrap"]     = TRUE;
+				$config =& get_config();
 				$this->email->initialize($config);
-				$this->email->from('guanliyuan@16huodong.com', 'admin');
+				$this->email->from('webmaster@16huodong.com', '石榴');
 				$this->email->to($to);     
 				$this->email->subject($subject);
 				$this->email->message($message); 

@@ -374,6 +374,24 @@ $config['smarty_right_delimiter']  = '}';
 |--------------------------------------------------------------------------
 |
 */
+$config["protocol"]     = "smtp";
+$config["smtp_host"]    = "smtp.ym.163.com";
+$config["smtp_user"]    = "webmaster@16huodong.com";
+$config["smtp_pass"]    = ""; //在上传前请记得修改成真实密码
+$config["mailtype"]     = "html";
+$config["validate"]     = true;
+$config["priority"]     = 3;
+$config["crlf"]         = "/r/n";
+$config["smtp_port"]    = 25;
+$config["charset"]      = "utf-8";
+$config["wordwrap"]     = TRUE;
+
+/*
+|--------------------------------------------------------------------------
+| Other Custom Configuration
+|--------------------------------------------------------------------------
+|
+*/
 $config['asset'] =	'/asset';
 $config['inc'] =	'/inc';
 $config['views'] =	$_SERVER['DOCUMENT_ROOT'] . '/application/views';
