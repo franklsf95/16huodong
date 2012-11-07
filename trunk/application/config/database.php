@@ -40,7 +40,7 @@
 
 $active_group = 'default';
 $active_record = TRUE;
-//这里的数据库信息在上传前需要设置为正确内容
+//database infomation here should be correctly set before uploading to the real server
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';
