@@ -152,6 +152,17 @@ class Extend_control {
  * 全站活动加载
  *---------------------------------------------------------------
  */
+	function getAllNewsFeed($page_offset = 0, $limit = 20){
+		$this->CI->db->select('nf.news_feed_id, nf.type, nf.code, nf.created_time, nf.category, t.member_id as target_id, t.name as target_name, '.MEMBER_BASIC);
+		$this->CI->db->from('news_feed as nf');
+		$this->CI->db->join('member as m','m.member_id = nf.member_id');
+		$this->CI->db->join('member as t','t.member_id = nf.target_id');
+		$this->CI->db->order_by('nf.created_time','DESC');
+		$all_news_feed = $this->CI->db->get('',$limit,$page_offset)->result_array();
+
+		return $all_news_feed;
+	}
+
 	function getHotActivities($limit = 3) {
 		$this->CI->db->select(ACTIVITY_BRIEF);
 		$this->CI->db->from('activity as a');
@@ -203,13 +214,19 @@ class Extend_control {
  * 单个活动信息处理
  *---------------------------------------------------------------
  */
-
+	function getActivityNameById($activity_id) {
+		$this->CI->db->select('a.name as activity_name');
+		$this->CI->db->from('activity as a');
+		$this->CI->db->where('a.activity_id',$activity_id);
+		
+		return idx( $this->CI->db->get_first(), 'activity_name' );
+	}
 	/**
-	* 获取全部活动信息
+	* 获取活动全部信息
 	*
 	* @param 	$activity_id 	活动ID
 	*/
-	function getAcitivityInformationById($activity_id){
+	function getActivityInformationById($activity_id){
 		$this->CI->db->select(ACTIVITY_DETAIL);
 		$this->CI->db->from('activity as a');
 		$this->CI->db->where('a.activity_id',$activity_id);
@@ -1077,16 +1094,6 @@ class Extend_control {
 		
 	}
 	
-	function getAllNewsFeed($page_offset = 0, $limit = 20){
-	
-		$this->CI->db->select('nf.system_message_id, nf.type, nf.code, nf.created_time, nf.category, m.member_id, m.name as member_name, t.member_id as target_id, t.name as target_name');
-		$this->CI->db->from('news_feed as nf');
-		$this->CI->db->join('member as m','m.member_id = nf.member_id');
-		$this->CI->db->order_by('nf.created_time','DESC');
-		$all_news_feed = $this->CI->db->get('',$limit,$page_offset)->result_array();
-
-		return $all_news_feed;
-	}
 	
 	
 }

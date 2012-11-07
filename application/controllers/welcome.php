@@ -43,7 +43,7 @@ class Welcome extends BaseController {
 		
 		if(!$activity_id) redirect('welcome/demo');
 		
-		$activity_information = $this->extend_control->getAcitivityInformationById($activity_id);
+		$activity_information = $this->extend_control->getActivityInformationById($activity_id);
 		$activity_information['is_attend'] = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
 		$activity_information['is_attention'] = $this->extend_control->isMemberFollowActivity($member_id,$activity_id);
 		$activity_information['is_publisher'] = $this->extend_control->isMemberPublishActivity($member_id,$activity_id);
