@@ -11,7 +11,7 @@
             <a class="navbar-highlight" id="navbar-demo" href="{'welcome/demo'|site_url}">随便看看</a>
             <a class="navbar-highlight" id="navbar-contact" href="{'contact'|site_url}">联系我们</a>
             <form class="navbar-form pull-right" id="navbar-login" action="{'login/loginSubmit'|site_url}" method="post">
-              <input class="span2" type="text" placeholder="用户名" id="loginUsername" name="account">
+              <input class="span2" type="text" placeholder="用户名/邮箱" id="loginUsername" name="account">
               <input class="span2" type="password" placeholder="密码" id="loginPassword" name="password">
 			  <input type="hidden" name="ref" value="{$ref}">
               <button type="submit" class="btn btn-primary">登录</button>
