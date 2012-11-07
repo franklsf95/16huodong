@@ -370,14 +370,14 @@ $config['smarty_right_delimiter']  = '}';
 
 /*
 |--------------------------------------------------------------------------
-| Other Custom Configuration
+| Email Configuration
 |--------------------------------------------------------------------------
 |
 */
 $config["protocol"]     = "smtp";
 $config["smtp_host"]    = "smtp.ym.163.com";
 $config["smtp_user"]    = "webmaster@16huodong.com";
-$config["smtp_pass"]    = ""; //在上传前请记得修改成真实密码
+$config["smtp_pass"]    = "poiuytrewq";
 $config["mailtype"]     = "html";
 $config["validate"]     = true;
 $config["priority"]     = 3;
