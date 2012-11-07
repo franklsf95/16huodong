@@ -72,11 +72,8 @@ Class Friend Extends BaseActionController {
 				$this->db->where('member_id',$target_id);
 				$this->db->update('member_friend',$data2);
 				
-				$system_data['target_id'] = $target_id;
-				$system_data['category'] = 'friend';
-				$system_data['type'] = 'approve_friend';
-				$system_data['code'] = $member_friend_id;
-				$this->system_message($system_data);
+				$this->newSystemMessage('friend','approve_friend',$member_friend_id,$target_id);
+
 				$return = 1;
 			} else {				//拒绝好友请求
 				$this->db->where('target_id',$member_id);
@@ -92,12 +89,7 @@ Class Friend Extends BaseActionController {
 			$this->db->insert('member_friend',$data);
 			$member_friend_id = $this->db->insert_id();
 				
-			//发送好友申请提示
-			$system_data['category'] = 'friend';
-			$system_data['type'] = 'apply_friend';
-			$system_data['code'] = $member_friend_id;
-			$system_data['target_id'] = $target_id;
-			$this->system_message($system_data);
+			$this->newSystemMessage('friend','apply_friend',$member_friend_id,$target_id);
 				
 			$return = 2;
 		}

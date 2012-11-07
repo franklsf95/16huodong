@@ -40,9 +40,9 @@ Class Index Extends BaseActionController {
 
 			if ( $news['category']=='activity' ) {
 				$activity_id = $news['code'];
-				$activity_name = $this->extend_control->getActivityNameById($activity_id);
+				$activity_name = idx( $this->extend_control->getActivityNameById($activity_id), 'activity_name' );
 				switch( $news['type'] ) {
-					case 'publish_activity':
+					case 'new_activity':
 						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 发起了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a>";
 						break;
 					case 'edit_activity':
@@ -57,13 +57,13 @@ Class Index Extends BaseActionController {
 					case 'attend_activity':
 						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 报名参加了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a>";
 						break;
-					case 'activity_apply_pass':
+					case 'attend_approve':
 						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 通过了 <a href='".site_url("profile?id=".$news['target_id'])."'>". $news['target_name']."</a> 对活动 <a href=".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 的报名";
 						break;
 				}
-			} elseif ( $news['category']=='blog' ) {
+			} elseif ( $news['category']=='book' ) {
 				$blog_id = $news['code'];
-				$blog_name = $this->extend_control->getMemberBlogInformationByBlogId($blog_id)['book_name'];
+				$blog_name = idx( $this->extend_control->getBookBasicById($blog_id), 'book_name');
 				switch( $news['type'] ) {
 					case 'new_comment':
 						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 评论了微型书 <a href='".site_url("library/view?id=$blog_id")."'>$blog_name</a> 的内容";
@@ -75,7 +75,7 @@ Class Index Extends BaseActionController {
 					$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 申请成为 <a href='".site_url("profile?id=".$news['target_id'])."'>".$news['target_name']."</a> 的好友";
 						break;
 					case 'approve_friend':
-						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 与 <a href='".site_url("profile?id=".$news['target_id'])."'>".$news['target_name']."</a> 成为好友";
+						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 与 <a href='".site_url("profile?id=".$news['target_id'])."'>".$news['target_name']."</a> 成为了好友";
 						break;
 				}
 			}
