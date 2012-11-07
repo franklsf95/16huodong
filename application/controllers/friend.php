@@ -21,7 +21,8 @@ Class Friend Extends BaseActionController {
 	function index(){
 		$member_id = $this->getParameter('id',$this->current_member_id);
 		$member_name = $this->extend_control->getMemberNameByMemberId($member_id);
-		$all_friend_information = $this->extend_control->getAllFriendInformation($member_id);
+		$all_friend_information = $this->extend_control->getAllFriendsBrief($member_id);
+		
 		$this->ci_smarty->assign('information',$all_friend_information);
 		$this->ci_smarty->assign('member_id',$member_id);
 		$this->ci_smarty->assign('member_name',$member_name);

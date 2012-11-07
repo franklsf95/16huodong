@@ -654,6 +654,31 @@ class Extend_control {
 
 /*
  *---------------------------------------------------------------
+ * 好友相关
+ *---------------------------------------------------------------
+ */
+	function getAllFriendsBasic($member_id) {
+		$this->db->select(MEMBER_BASIC);
+		$this->db->from('member_friend as mf');
+		$this->db->join('member as m','mf.target_id = m.member_id');
+		$this->db->where('mf.member_id',$member_id);
+		$this->db->where('approved',true);
+		
+		return $this->db->get()->result_array();
+	}
+	
+	function getAllFriendsBrief($member_id) {
+		$this->CI->db->select(MEMBER_BRIEF);
+		$this->CI->db->from('member_friend as mf');
+		$this->CI->db->join('member as m','mf.target_id = m.member_id');
+		$this->CI->db->where('mf.member_id',$member_id);
+		$this->CI->db->where('mf.approved',1);
+		
+		return $this->CI->db->get()->result_array();
+	}
+
+/*
+ *---------------------------------------------------------------
  * 搜索
  *---------------------------------------------------------------
  */
@@ -882,17 +907,6 @@ class Extend_control {
 		$this->CI->db->where('mf.friend_id',$member_id);
 		$all_fans_member_information = $this->CI->db->get()->result_array();
 		return $all_fans_member_information;
-	}
-	
-	function getAllFriendInformation($member_id) {
-		$this->CI->db->select('m.member_id, m.name as member_name, m.image as member_image, m.member_type, m.school_name');
-		$this->CI->db->from('member_friend as mf');
-		$this->CI->db->join('member as m','mf.target_id = m.member_id');
-		$this->CI->db->where('mf.member_id',$member_id);
-		$this->CI->db->where('mf.approved',1);
-		$all_friend_information = $this->CI->db->get()->result_array();
-		
-		return $all_friend_information;
 	}
 		
 	function countMemberMessageGroups($target_id){
