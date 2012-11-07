@@ -12,47 +12,65 @@ Class Index Extends BaseActionController {
 	}
 	
 	/**
-	* 显示全站动态
+	* 显示首页
 	*/
 	function index() {
 		$hot_activities = $this->extend_control->getHotActivities();
-
 		$this->ci_smarty->assign('hot_activities',$hot_activities);
 
 		//print_r($hot_activities);exit();
 		$this->display( 'index', '首页', 'index_css', 'index_js' );
 	}
 	
+	/**
+	* 加载首页全站动态
+	*
+	* @param 	page_offset,limit
+	*/
 	function ajaxGetAllNewsFeed(){
 		$page_offset = $this->getParameter('page_offset','');
 		$limit = $this->getParameter('limit','');
-		$json='Array(';
+
 		$all_news_feed = $this->extend_control->getAllNewsFeed($page_offset, $limit);
-		foreach ($all_news_feed as $news_feed) {
-			if ($news_feed['category']=='activity') {
-				$this->db->select('name');
-				$this->db->from('activity');
-				$this->db->where('activity_id',$news_feed['code']);
-				$activity=$this->db->get_first();
-				if ($activity) {
-					if ($news_feed['type']=='publish_activity') {
-						$json.='Array(\'created_time\':'.$news_feed['created_time'].', \'message\':<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/profile?id='. $news_feed['member_id']. '">'.$news_feed['member_name'].'</a>发布了活动'. ' <a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/activity/view?id='. $news_feed['code']. '">'.$activity['name'].'</a>)';
-					} else if ($news_feed['type']=='publish_activity') {
-						$json.='Array(\'created_time\':'.$news_feed['created_time'].', \'message\':<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/profile?id='. $news_feed['member_id']. '">'.$news_feed['member_name'].'</a>修改了活动'. ' <a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/activity/view?id='. $news_feed['code']. '">'.$activity['name'].'</a>)';
-					} else if ($news_feed['type']=='new_comment') {
-						$json.='Array(\'created_time\':'.$news_feed['created_time'].', \'message\':<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/profile?id='. $news_feed['member_id']. '">'.$news_feed['member_name'].'</a>评论了<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/profile?id='. $news_feed['target_id']. '">'.$news_feed['target_name']. '的活动<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/activity/view?id='. $news_feed['code']. '">'.$activity['name'].'</a>)';
-					} else if ($news_feed['type']=='new_reply') {
-						$json.='Array(\'created_time\':'.$news_feed['created_time'].', \'message\':活动发布者<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/profile?id='. $news_feed['member_id']. '">'.$news_feed['member_name'].'</a>回复了<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/profile?id='. $news_feed['target_id']. '">'.$news_feed['target_name']. '对活动<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/activity/view?id='. $news_feed['code']. '">'.$activity['name'].'</a>的评论)';
-					} else if ($news_feed['type']=='attend_activity') {
-						$json.='Array(\'created_time\':'.$news_feed['created_time'].', \'message\':<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/profile?id='. $news_feed['member_id']. '">'.$news_feed['member_name'].'</a>报名参加<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/profile?id='. $news_feed['target_id']. '">'.$news_feed['target_name']. '的活动<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/activity/view?id='. $news_feed['code']. '">'.$activity['name'].'</a>)';
-					} else if ($news_feed['type']=='activity_apply_pass') {
-						$json.='Array(\'created_time\':'.$news_feed['created_time'].', \'message\':活动发布者<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/profile?id='. $news_feed['member_id']. '">'.$news_feed['member_name'].'</a>通过了<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/profile?id='. $news_feed['target_id']. '">'.$news_feed['target_name']. '在活动<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/activity/view?id='. $news_feed['code']. '">'.$activity['name'].'的报名</a>)';
-					}
+		$news_array = Array();
+
+		foreach ($all_news_feed as $news) {
+			$data['created_time'] = $news['created_time'];
+			$data['image'] = $news['member_image'];
+
+			if ( $news['category']=='activity' ) {
+				$activity_id = $news['code'];
+				$activity_name = $this->extend_control->getActivityNameById($activity_id);
+				switch( $news['type'] ) {
+					case 'publish_activity':
+						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 发起了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a>";
+						break;
+					case 'edit_activity':
+						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 修改了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 的内容";
+						break;
+					case 'new_comment':
+						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 评论了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 的内容";
+						break;
+					case 'new_reply':
+						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 回复了 <a href='".site_url("profile?id=".$news['target_id'])."'>". $news['target_name']."</a> 对活动 <a href=".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 的评论";
+						break;
+					case 'attend_activity':
+						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 报名参加了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a>";
+						break;
+					case 'activity_apply_pass':
+						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 通过了 <a href='".site_url("profile?id=".$news['target_id'])."'>". $news['target_name']."</a> 对活动 <a href=".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 的报名";
+						break;
 				}
-			} else if ($news_feed['type']=='add_friend') {
-				$json.='Array(\'created_time\':'.$news_feed['created_time'].', \'message\':<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/profile?id='. $news_feed['member_id']. '">'.$news_feed['member_name'].'</a>与<a href="http://'.$_SERVER ['HTTP_HOST'].'/index.php/profile?id='. $news_feed['target_id']. '">'.$news_feed['target_name']. '成为了好友)';
+			} elseif ( $news['category']=='blog' ) {
+
+			} elseif ( $news['category']=='friend' ) {
+
+
 			}
-		$json.=')';
-		echo json_encode($json);
+			$news_array[] = $data;
+		} //end foreach
+		echo json_encode($news_array);
 	}
+
+}
 ?>

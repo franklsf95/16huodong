@@ -37,7 +37,7 @@ Class Activity Extends BaseActionController {
 		
 		$this->extend_control->AddActivityVisit($activity_id);
 		
-		$activity_information = $this->extend_control->getAcitivityInformationById($activity_id);
+		$activity_information = $this->extend_control->getActivityInformationById($activity_id);
 		$activity_information['is_attend'] = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
 		$activity_information['is_attention'] = $this->extend_control->isMemberFollowActivity($member_id,$activity_id);
 		$activity_information['is_publisher'] = $this->extend_control->isMemberPublishActivity($member_id,$activity_id);
@@ -65,7 +65,7 @@ Class Activity Extends BaseActionController {
 		$activity_id = $this->getParameter('id');
 		$member_id = $this->current_member_id;
 
-		$activity_information = $this->extend_control->getAcitivityInformationById($activity_id);
+		$activity_information = $this->extend_control->getActivityInformationById($activity_id);
 		$activity_information['all_attends'] = $this->extend_control->getActivityAttendMemberInformation($activity_id);
 		$activity_information['all_follows'] = $this->extend_control->getActivityFollowMemberInformation($activity_id);
 		
@@ -87,7 +87,7 @@ Class Activity Extends BaseActionController {
 		
 		if ( $id ) {
 			$title = '编辑活动 #'.$id;
-			$activity_information = $this->extend_control->getAcitivityInformationById( $id );
+			$activity_information = $this->extend_control->getActivityInformationById( $id );
 
 			if( $activity_information['publisher_id'] != $this->current_member_id )
 				show_error('你没有权限编辑此活动');

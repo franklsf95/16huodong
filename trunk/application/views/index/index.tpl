@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="span6">
 		<div class="content-heading">全站动态</div>
-		<div class="news-feed-container"></div>
+		<div id="news-feed-container"></div>
 	</div>
 	<div class="span3">
 		<div class="content-heading"><a href="{'activity'|site_url}">热门活动</a></div>

@@ -341,17 +341,19 @@ CREATE TABLE `16_member_findpass` (
 
 /*Data for the table `16_member_findpass` */
 
-/*Table structure for table `16_member_findpass` */
+/*Table structure for table `16_news_feed` */
 
-DROP TABLE IF EXISTS `16_member_findpass`;
+DROP TABLE IF EXISTS `16_news_feed`;
 
 CREATE TABLE `16_news_feed` (
-   `type` varchar(50) DEFAULT NULL,
-   `created_time` datetime DEFAULT NULL,
+   `news_feed_id` int(11) NOT NULL AUTO_INCREMENT,
    `member_id` int(11) DEFAULT NULL,
    `target_id` int(11) DEFAULT NULL,
+   `category` varchar(50) DEFAULT NULL,
+   `type` varchar(50) DEFAULT NULL,
    `code` varchar(255) DEFAULT NULL,
-   `category` varchar(50) DEFAULT NULL
+   `created_time` datetime DEFAULT NULL,
+   PRIMARY KEY (`news_feed_id`)
 ) DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_news_feed` */
