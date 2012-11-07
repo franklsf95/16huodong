@@ -1,6 +1,6 @@
 <script src="{$config.asset}/js/bootstrap-datepicker.js"></script>
 <script src="{$config.asset}/js/jquery.validate.min.js"></script>
-<script type="text/javascript" charset="utf-8" src="{$config.inc}/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" charset="utf-8" src="{$config.inc}/kindeditor/kindeditor.js"></script>
 <script type="text/javascript" charset="utf-8" src="{$config.inc}/kindeditor/lang/zh_CN.js"></script>
 <script>
 //disable Enter for form submission
