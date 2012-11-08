@@ -381,7 +381,7 @@ Class Activity Extends BaseActionController {
 					$this->db->where('activity_attend_id',$activity_attend_id);
 					$this->db->update('activity_attend',$data);
 
-					$this->newSystemMessage('activity','attend_approve',$attendee['member_id'],$attendee['activity_id']);
+					$this->newSystemMessage('activity','attend_approve',$attendee['activity_id'],$attendee['member_id']);
 
 					$return_data['status'] = 1;
 				} elseif( $action==0 ) { //deny
