@@ -41,7 +41,7 @@
 $active_group = 'default';
 $active_record = TRUE;
 //database infomation here should be correctly set before uploading to the real server
-$db['default']['hostname'] = 'localhost';
+$db['default']['hostname'] = '127.0.0.1';
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';
 $db['default']['database'] = '16huodong';

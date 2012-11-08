@@ -291,7 +291,7 @@ Class Activity Extends BaseActionController {
 
 				$return = 1;
 				
-				$publisher_id = idx( $this->extend_control->getActivityNameById($activity_id), 'publisher_id' );
+				$publisher_id = idx( $this->extend_control->getActivityBasicById($activity_id), 'publisher_id' );
 				$this->newSystemMessage('activity','attend_activity',$activity_id, $publisher_id);
 				
 			} else {
@@ -320,7 +320,7 @@ Class Activity Extends BaseActionController {
 	*/
 	function followActivity(){
 		$activity_id = $this->getParameter('id');
-		$member_id = $this->current_member_information['member_id'];
+		$member_id = $this->current_member_id;
 		if ($activity_id){
 			//检查该会员是否已经报名活动
 			$is_follow = $this->extend_control->isMemberFollowActivity($member_id,$activity_id);
@@ -336,7 +336,7 @@ Class Activity Extends BaseActionController {
 				$this->db->where('activity_id',$activity_id);
 				$this->db->update('activity',$data2);
 
-				$publisher_id = idx( $this->extend_control->getActivityNameById($activity_id), 'publisher_id' );
+				$publisher_id = idx( $this->extend_control->getActivityBasicById($activity_id), 'publisher_id' );
 				$this->newNewsFeed('activity','follow_activity',$activity_id, $publisher_id);
 				
 				$return = 1;

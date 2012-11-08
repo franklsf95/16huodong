@@ -13,27 +13,27 @@ Class Message Extends BaseActionController {
 	
 	/**
 	* 显示站内信主页、发送消息、收件箱
-	*
-	* @param 	page 	当前页数
-	* @param 	target_id 	直接给target_id发送消息
 	*/
 	function index(){
 		$member_id = $this->current_member_id;
-		$page = $this->getParameter('page',1);
-		$target_id = $this->getParameter('target_id',NULL);
-		$limit = $this->MLIMIT;
-		$offset = ($page-1) * $limit;
 		
-		$count = $this->extend_control->countMemberMessageGroups($member_id);
-		$this->setPageInformation( $count, $page, $limit, 'message' );
+		$all_member_message_information = $this->extend_control->getAllMemberMessageInformationGroups($member_id);
+		$new_system_messages = $this->extend_control->getNewSystemMessages($member_id);
 		
-		$all_member_message_information = $this->extend_control->getAllMemberMessageInformationGroups($member_id,$offset, $limit);
-		$all_system_message_information = $this->extend_control->getAllSystemMessageInformation($member_id);
-		
-		$this->ci_smarty->assign('all_member_message_information',$all_member_message_information);
-		$this->ci_smarty->assign('all_system_message_information',$all_system_message_information);
+		foreach( $new_system_messages as &$i ) {
+			if( $i['category']=='activity' ) {
+				$i['detail'] = $this->extend_control->getActivityBasicById( $i['code'] );
+			} elseif( $i['category']=='book' ) {
+				$i['detail'] = $this->extend_control->getBookBasicById( $i['code'] );
+			}
+		}
 
-		$all_friends = $this->extend_control->getFriendBasicByName('');
+		$this->ci_smarty->assign('all_member_message_information',$all_member_message_information);
+		$this->ci_smarty->assign('new_system_messages',$new_system_messages);
+
+		//for compose section
+		$target_id = $this->getParameter('target_id',NULL);
+		$all_friends = $this->extend_control->getAllFriendsBasic($member_id);
 		$this->ci_smarty->assign('all_friends',$all_friends);
 
 		if( $target_id && $this->extend_control->isFriend($member_id,$target_id) ) {
@@ -42,8 +42,7 @@ Class Message Extends BaseActionController {
 			$this->ci_smarty->assign('target_name', $target_name);
 		}
 		
-		//print_r($target_name);exit();
-
+		//print_r($new_system_messages);exit();
 		$this->display('index','站内信','index_css','index_js');
 	}
 
@@ -64,23 +63,24 @@ Class Message Extends BaseActionController {
 	/**
 	* 重定向页，标记消息已读
 	*
-	* @param 	a/b/pid 	活动/书/好友ID
+	* @param 	a/d/b/pid 	活动/管理活动/书/好友ID
 	* @param 	mid 		消息ID
 	*/
 	function redirectMsg(){
-		$aid = 	$this->getParameter('aid',0);
-		$bid =	$this->getParameter('bid',0);
-		$pid = 	$this->getParameter('pid',0);
-		$message_id =	$this->getParameter('mid',0);
-		if ( !$aid && !$bid && !$pid )
+		$aid = $this->getParameter('aid',0);
+		$bid = $this->getParameter('bid',0);
+		$did = $this->getParameter('did',0);
+		$pid = $this->getParameter('pid',0);
+		$message_id = $this->getParameter('mid',0);
+		if ( !$aid && !$did && !$bid && !$pid )
 			redirect('message');
 		
 		$data['is_new'] = 'N';
 		$this->db->where('system_message_id',$message_id);
-		$this->db->where('target_id',$this->current_member_id);
 		$this->db->update('system_message',$data);
 
 		if( $aid )	redirect('activity/view?id='.$aid);
+		if( $did )	redirect('activity/admin?id='.$did);
 		if( $bid )	redirect('book/view?id='.$bid);
 		if( $pid )	redirect('profile?id='.$pid);
 	}
