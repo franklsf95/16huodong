@@ -1,6 +1,6 @@
 <div class="alert alert-info alert-block">
   <button type="button" class="close" data-dismiss="alert">×</button>
-  <h3>请注意：本站点目前处于 beta (r116) 运行状态</h3>
+  <h3>请注意：本站点目前处于 beta (r{$svn_version}) 运行状态</h3>
   <h5>关于测试的重要信息</h5>
   <ol>
     <li>不要用中文注册用户名！！！</li>

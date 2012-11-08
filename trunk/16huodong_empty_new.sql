@@ -411,14 +411,15 @@ CREATE TABLE IF NOT EXISTS `16_running_value` (
   `value` text,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`running_value_id`)
-) AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `16_running_value` */
 
 INSERT INTO `16_running_value` (`running_value_id`, `code`, `value`, `description`) VALUES
   (1, 'limit_query', '10', '单页记录加载数量（如搜索结果）'),
   (2, 'limit_comment', '20', '单页回复加载数量'),
-  (3, 'limit_message', '20', '留言板留言单页加载数量');
+  (3, 'limit_message', '20', '留言板留言单页加载数量'),
+  (4, 'svn_version', '1','SVN程序版本号');
 
 /*Table structure for table `16_system_message` */
 
