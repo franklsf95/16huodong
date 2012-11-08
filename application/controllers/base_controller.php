@@ -58,6 +58,7 @@ class BaseController extends CI_Controller {
 		$this->LIMIT = $arr['limit_query'];
 		$this->CLIMIT = $arr['limit_comment'];
 		$this->MLIMIT = $arr['limit_message'];
+		$this->ci_smarty->assign('svn_version',$arr['svn_version']);
 	}
 	
 	function getParameter($parameterName, $defaultValue = '', $useDefaultValueIfEmpty = true, $xss_clean = FALSE) {			//获取post或get变量
