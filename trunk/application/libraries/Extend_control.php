@@ -13,6 +13,7 @@ define( 'ACTIVITY_DETAIL', 	'a.activity_id, a.name as activity_name, a.publisher
 define( 'COMMENT',			'ac.activity_comment_id, ac.activity_id, ac.member_id, ac.content, ac.reply, ac.created_time, m.name as member_name, m.image as member_image');
 DEFINE( 'BOOK_BASIC', 		'mb.book_id, mb.name as book_name, mb.author_id, mb.author_name');
 DEFINE( 'BOOK_FULL',		'mb.book_id, mb.name as book_name, mb.author_id, mb.author_name, mb.image as book_image, mb.content as book_content, mb.created_time, mb.modified_time, mb.like_count, mb.view_count');
+DEFINE( 'TARGET_BASIC',		't.member_id as target_id, t.name as target_name, t.image as target_image');
 
 class Extend_control {
 	var $CI;
@@ -258,14 +259,6 @@ class Extend_control {
 
 	function getActivityCountsById( $activity_id ) {
 		$this->CI->db->select('a.view_count, a.attend_count, a.follow_count');
-		$this->CI->db->from('activity as a');
-		$this->CI->db->where('a.activity_id',$activity_id);
-		
-		return $this->CI->db->get_first();
-	}
-	
-	function getActivityNameById( $activity_id ) {
-		$this->CI->db->select('a.publisher_id');
 		$this->CI->db->from('activity as a');
 		$this->CI->db->where('a.activity_id',$activity_id);
 		
@@ -944,44 +937,16 @@ class Extend_control {
 		return $all_member_message_information;
 	}
 	
-	function getAllSystemMessageInformation($member_id){
-	
-		//category == 'friend'
-		$this->CI->db->select('sm.system_message_id, sm.category, sm.type, sm.code, sm.created_time, sm.status, sm.is_new, m.member_id, m.name as member_name, m.image as member_image, t.member_id as target_id, t.name as target_name, t.image as target_image');
+	function getNewSystemMessages($member_id){
+		$this->CI->db->select('sm.system_message_id, sm.category, sm.type, sm.code, sm.created_time, sm.is_new, '.MEMBER_BASIC.', '.TARGET_BASIC);
 		$this->CI->db->from('system_message as sm');
 		$this->CI->db->join('member as m','m.member_id = sm.member_id');
 		$this->CI->db->join('member as t','t.member_id = sm.target_id');
 		$this->CI->db->where('sm.target_id',$member_id);
-		$this->CI->db->where('sm.category','friend');
-		$this->CI->db->where('sm.status','Y');
-		$friend = $this->CI->db->get()->result_array();
-		
-		//category == 'activity'
-		$this->CI->db->select('sm.system_message_id, sm.category, sm.type, sm.code, sm.created_time, sm.status, sm.is_new, m.member_id, m.name as member_name, m.image as member_image, t.member_id as target_id, t.name as target_name, t.image as target_image, a.activity_id, a.name as activity_name, a.image as activity_image');
-		$this->CI->db->from('system_message as sm');
-		$this->CI->db->join('member as m','m.member_id = sm.member_id');
-		$this->CI->db->join('member as t','t.member_id = sm.target_id');
-		$this->CI->db->join('activity as a','a.activity_id = sm.code');
-		$this->CI->db->where('sm.target_id',$member_id);
-		$this->CI->db->where('sm.category','activity');
-		$this->CI->db->where('sm.status','Y');
-		$activity = $this->CI->db->get()->result_array();
-		
-		//category == 'blog'
-		$this->CI->db->select('sm.system_message_id, sm.category, sm.type, sm.created_time, sm.status, sm.is_new, ,m.member_id, m.name as member_name, m.image as member_image, mb.book_id, mb.name as book_name');
-		$this->CI->db->from('system_message as sm');
-		$this->CI->db->join('member as m','m.member_id = sm.member_id');
-		$this->CI->db->join('book as mb','mb.book_id = sm.code');
-		$this->CI->db->where('sm.target_id',$member_id);
-		$this->CI->db->where('sm.category','blog');
-		$this->CI->db->where('sm.status','Y');
-		$book = $this->CI->db->get()->result_array();
-		
-		$all_system_message_information['friend'] = $friend;
-		$all_system_message_information['activity'] = $activity;
-		$all_system_message_information['book'] = $book;
+		$this->CI->db->where('sm.is_new','Y');
+		$this->CI->db->order_by('sm.created_time','DESC');
 
-		return $all_system_message_information;
+		return $this->CI->db->get()->result_array();
 	}
 	
 	

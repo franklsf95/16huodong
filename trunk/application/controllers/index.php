@@ -38,67 +38,7 @@ Class Index Extends BaseActionController {
 		foreach ($all_news_feed as $news) {
 			$data['created_time'] = $news['created_time'];
 			$data['image'] = $news['member_image'];
-
-			if ( $news['category']=='activity' ) {
-				$activity_id = $news['code'];
-				$activity_name = idx( $this->extend_control->getActivityBasicById($activity_id), 'activity_name' );
-				switch( $news['type'] ) {
-					case 'new_activity':
-						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 发起了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a>";
-						break;
-					case 'edit_activity':
-						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 修改了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 的内容";
-						break;
-					case 'new_comment':
-						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 评论了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 的内容";
-						break;
-					case 'new_reply':
-						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 回复了 <a href='".site_url("profile?id=".$news['target_id'])."'>". $news['target_name']."</a> 对活动 <a href=".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 的评论";
-						break;
-					case 'attend_activity':
-						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 报名参加了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a>";
-						break;
-					case 'attend_approve':
-						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 通过了 <a href='".site_url("profile?id=".$news['target_id'])."'>". $news['target_name']."</a> 对活动 <a href=".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 的报名";
-						break;
-					case 'follow_activity':
-						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 关注了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a>";
-						break;
-					case 'rate_up':
-						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 对活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 竖了大拇指";
-						break;
-					case 'rate_down':
-						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 对活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 竖了小拇指";
-						break;
-				}
-			} elseif ( $news['category']=='book' ) {
-				$book_id = $news['code'];
-				$book_name = idx( $this->extend_control->getBookBasicById($book_id), 'book_name');
-
-				switch( $news['type'] ) {
-					case 'new_book':
-						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 出版了微型书 <a href='".site_url("library/view?id=$book_id")."'>$book_name</a>";
-						break;
-					case 'edit_book':
-						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 润色了微型书 <a href='".site_url("library/view?id=$book_id")."'>$book_name</a>的内容";
-						break;
-					case 'like_book':
-						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 喜欢了微型书 <a href='".site_url("library/view?id=$book_id")."'>$book_name</a>";
-						break;
-					case 'new_comment':
-						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 评论了微型书 <a href='".site_url("library/view?id=$book_id")."'>$book_name</a> 的内容";
-						break;
-				}
-			} elseif ( $news['category']=='friend' ) {
-				switch( $news['type'] ) {
-					case 'apply_friend':
-					$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 申请成为 <a href='".site_url("profile?id=".$news['target_id'])."'>".$news['target_name']."</a> 的好友";
-						break;
-					case 'approve_friend':
-						$data['msg'] = "<a href='".site_url("profile?id=".$news['member_id'])."'>".$news['member_name']."</a> 与 <a href='".site_url("profile?id=".$news['target_id'])."'>".$news['target_name']."</a> 成为了好友";
-						break;
-				}
-			}
+			$data['msg'] = $this->decodeMessage($data);
 			$news_array[] = $data;
 		} //end foreach
 		echo json_encode($news_array);
