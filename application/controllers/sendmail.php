@@ -1,6 +1,6 @@
 <?php
-include_once "admin_controller.php";
-Class SendMail Extends AdminController {
+include_once "base_action_controller.php";
+Class SendMail Extends BaseActionController {
 
 	var $current_language = 'chs';
 	var $applicationFolder = "sendmail"; 
@@ -20,7 +20,7 @@ Class SendMail Extends AdminController {
 			$this->db->from('activity_attend');
 			$this->db->where('member_id',$member_information['member_id']);
 			$this->db->where('notified',0);
-			$this->db->where('status','Y');
+			$this->db->where('approved',1);
 			$all_attend_information = $this->db->get('')->result_array();
 			foreach ($all_attend_information as $attendance){
 				$this->db->select('a.activity_id, a.name as activity_name, a.start_time, a.end_time');
