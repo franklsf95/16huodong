@@ -263,6 +263,14 @@ class Extend_control {
 		
 		return $this->CI->db->get_first();
 	}
+	
+	function getActivityNameById( $activity_id ) {
+		$this->CI->db->select('a.publisher_id');
+		$this->CI->db->from('activity as a');
+		$this->CI->db->where('a.activity_id',$activity_id);
+		
+		return $this->CI->db->get_first();
+	}
 
 	function getActivityCommentInformation($activity_id,$page_offset = 0,$limit = 5){
 		$this->CI->db->select(COMMENT);
