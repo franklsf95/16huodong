@@ -187,27 +187,32 @@ Class Activity Extends BaseActionController {
 
 		if( !$activity_id ) redirect('activity');
 
-		$this->db->select('a.activity_id');
+		$this->db->select('a.activity_id, a.end_time');
 		$this->db->from('activity as a');
 		$this->db->where('activity_id',$activity_id);
 		$activity_information = $this->db->get_first();
-
+		if(date("Y-m-d",strtotime($activity_information['end_time']))>=date("Y-m-d")) {
+			redirect('activity/view?id='.$activity_id);
+		}
 		$this->db->select('a.activity_id, a.member_id, a.rate');
 		$this->db->from('activity_rate as a');
 		$this->db->where('activity_id',$activity_id);
 		$this->db->where('member_id',$member_id);
 		$rate = $this->db->get_first();
+		$send_news_feed=true;
 		if ($rate) {
 			if ( $plus ) { //to +1
 				if ($rate['rate']==-1) {
 					$rate['rate']=1;
 				} else {
+					if ($rate['rate']==1) $send_news_feed=false;
 					$rate['rate']=1-$rate['rate'];
 				}
 			} else { //to -1
 				if ($rate['rate']==1) {
 					$rate['rate']=-1;
 				} else {
+					if ($rate['rate']==-1) $send_news_feed=false;
 					$rate['rate']=-1-$rate['rate'];
 				}
 			}
@@ -221,7 +226,7 @@ Class Activity Extends BaseActionController {
 			$this->db->insert('activity_rate',$rate);
 		}
 		$news_feed_type = $plus ? 'rate_up' : 'rate_down';
-		$this->newNewsFeed('activity',$news_feed_type,$activity_id);
+		if($send_news_feed==true) $this->newNewsFeed('activity',$news_feed_type,$activity_id);
 
 		redirect('activity/view?id='.$activity_id);
 	}
