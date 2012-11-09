@@ -159,6 +159,18 @@ class Extend_control {
 		return $this->CI->db->get()->result_array();
 	}
 
+	
+	function getAllFriendsbrief($member_id) {
+		$this->CI->db->select(MEMBER_BASIC);
+		$this->CI->db->select('m.school_name');
+		$this->CI->db->from('member_friend as mf');
+		$this->CI->db->join('member as m','mf.target_id = m.member_id');
+		$this->CI->db->where('mf.member_id',$member_id);
+		$this->CI->db->where('mf.approved',1);
+		
+		return $this->CI->db->get()->result_array();
+	}
+	
 /*
  *---------------------------------------------------------------
  * 全站活动加载
