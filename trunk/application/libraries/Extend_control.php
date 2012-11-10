@@ -353,6 +353,15 @@ class Extend_control {
 		return $this->CI->db->count_all_results('activity_attend');
 	}
 	
+	function isMemberSaidActivity($member_id,$activity_id){
+		$this->CI->db->select('say');
+		$this->CI->db->where('member_id',$member_id);
+		$this->CI->db->where('activity_id',$activity_id);
+		$this->CI->db->from('activity_attend');
+		$info=$this->CI->db->get_first();
+		return $info['say']!=NULL&&$info['say']!='';
+	}
+	
 	function isMemberFollowActivity($member_id,$activity_id){
 		$this->CI->db->where('member_id',$member_id);
 		$this->CI->db->where('activity_id',$activity_id);
