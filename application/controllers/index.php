@@ -38,6 +38,7 @@ Class Index Extends BaseActionController {
 		foreach ($all_news_feed as $news) {
 			$data['created_time'] = $news['created_time'];
 			$data['image'] = $news['member_image'];
+			$data['member_id'] = $news['member_id'];
 			$data['msg'] = $this->decodeMessage($news);
 			$news_array[] = $data;
 		} //end foreach
