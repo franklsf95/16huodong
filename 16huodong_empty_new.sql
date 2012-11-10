@@ -55,6 +55,7 @@ CREATE TABLE `16_activity_attend` (
   `notified` tinyint(1) DEFAULT 0,
   `rate` tinyint(2) DEFAULT 0,
   `show_info` tinyint(1) DEFAULT 0,
+  `say` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`activity_attend_id`)
 ) DEFAULT CHARSET=utf8;
 
