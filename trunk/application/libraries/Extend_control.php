@@ -288,7 +288,7 @@ class Extend_control {
 	}
 	
 	function getActivityAttendMemberInformation($activity_id){
-		$this->CI->db->select(MEMBER_CONTACT.', am.activity_attend_id, am.approved');
+		$this->CI->db->select(MEMBER_CONTACT.', am.activity_attend_id, am.approved, am.show_info');
 		$this->CI->db->from('activity_attend as am');
 		$this->CI->db->join('member as m','m.member_id = am.member_id');
 		$this->CI->db->where('am.activity_id',$activity_id);

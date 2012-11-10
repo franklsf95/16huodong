@@ -277,6 +277,7 @@ Class Activity Extends BaseActionController {
 	function attendActivity(){
 		$activity_id = $this->getParameter('id');
 		$member_id = $this->current_member_information['member_id'];
+		$info = $this->getParameter('info');
 
 		if ($activity_id) {
 			$is_attend = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
@@ -286,6 +287,7 @@ Class Activity Extends BaseActionController {
 				//添加参加列表
 				$data['member_id'] = $member_id;
 				$data['activity_id'] = $activity_id;
+				$data['show_info'] = $info;
 				$data['created_time'] = $this->current_time;
 				$this->db->insert('activity_attend',$data);
 

@@ -53,7 +53,8 @@ CREATE TABLE `16_activity_attend` (
   `created_time` datetime NOT NULL,
   `approved` tinyint(1) DEFAULT 0,
   `notified` tinyint(1) DEFAULT 0,
-  `rate` tinyint(2) DEFAULT '0',
+  `rate` tinyint(2) DEFAULT 0,
+  `show_info` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`activity_attend_id`)
 ) DEFAULT CHARSET=utf8;
 
