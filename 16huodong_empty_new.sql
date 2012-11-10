@@ -42,17 +42,6 @@ CREATE TABLE `16_activity` (
   PRIMARY KEY (`activity_id`)
 ) DEFAULT CHARSET=utf8;
 
-/*Table structure for the table `16_activity_rate` */
-
-DROP TABLE IF EXISTS `16_activity_rate`;
-CREATE TABLE `16_activity_rate` (
-   `activity_id` int(11) DEFAULT NULL,
-   `member_id` int(11) DEFAULT NULL,
-   `rate` int(11) DEFAULT NULL
-) DEFAULT CHARSET=utf8;
-
-/*Data for the table `16_activity_rate` */
-
 /*Table structure for table `16_activity_attend` */
 
 DROP TABLE IF EXISTS `16_activity_attend`;
@@ -64,6 +53,7 @@ CREATE TABLE `16_activity_attend` (
   `created_time` datetime NOT NULL,
   `approved` tinyint(1) DEFAULT 0,
   `notified` tinyint(1) DEFAULT 0,
+  `rate` tinyint(2) DEFAULT '0',
   PRIMARY KEY (`activity_attend_id`)
 ) DEFAULT CHARSET=utf8;
 
