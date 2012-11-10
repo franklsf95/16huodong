@@ -195,7 +195,7 @@ Class Activity Extends BaseActionController {
 			redirect('activity/view?id='.$activity_id);
 		}
 		$this->db->select('a.activity_id, a.member_id, a.rate');
-		$this->db->from('activity_rate as a');
+		$this->db->from('activity_attend as a');
 		$this->db->where('activity_id',$activity_id);
 		$this->db->where('member_id',$member_id);
 		$rate = $this->db->get_first();
@@ -218,12 +218,12 @@ Class Activity Extends BaseActionController {
 			}
 			$this->db->where('activity_id',$activity_id);
 			$this->db->where('member_id',$member_id);
-			$this->db->update('activity_rate',$rate);
+			$this->db->update('activity_attend',$rate);
 		} else {
 			$rate['activity_id']=$activity_id;
 			$rate['member_id']=$member_id;
 			$rate['rate']= $plus ? 1 : -1;
-			$this->db->insert('activity_rate',$rate);
+			$this->db->insert('activity_attend',$rate);
 		}
 		$news_feed_type = $plus ? 'rate_up' : 'rate_down';
 		if($send_news_feed==true) $this->newNewsFeed('activity',$news_feed_type,$activity_id);

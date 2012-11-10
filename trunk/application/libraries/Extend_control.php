@@ -326,7 +326,7 @@ class Extend_control {
 		$rate_array['rate2ed'] = false;
 
 		$this->CI->db->select('a.activity_id, a.member_id, a.rate');
-		$this->CI->db->from('activity_rate as a');
+		$this->CI->db->from('activity_attend as a');
 		$this->CI->db->where('activity_id',$activity_id);
 		$results=$this->CI->db->get()->result_array();
 		
