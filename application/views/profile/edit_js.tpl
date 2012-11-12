@@ -58,9 +58,14 @@ $(".datepicker").datepicker( {
     	format:'yyyy-mm-dd',
       viewMode: 2 //'years'
 } );
+{if $current_member_information.member_type == 'stu'}
+//load simplified editor
+var editor = KindEditor.editor();
+{else}
 var editor = KindEditor.create('.richtext',{ resizeType : 1,
   items : ['fontsize', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline','removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist','insertunorderedlist', '|', 'emoticons', 'image', 'link']
 });
+{/if}
 $('.portrait-upload').click(function() {
 		editor.loadPlugin('image', function() {
 			editor.plugin.imageDialog({
