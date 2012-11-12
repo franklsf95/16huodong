@@ -7,6 +7,11 @@ schoolIdArray = new Array();
 $( function() {
   initializeArea();
 });
+$('.typeahead').tooltip({
+  title : '先选择城市区县，在这里开始输入学校全称，从下拉框中选择你的学校~',
+  placement: 'right',
+  trigger: 'focus'
+});
 $(".carousel").carousel({
   interval: 3000,
   pause: 'hover'
