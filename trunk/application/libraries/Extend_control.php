@@ -716,6 +716,7 @@ class Extend_control {
 		$this->CI->db->select(MEMBER_BRIEF);
 		$this->CI->db->from('member as m');
 		$this->CI->db->like('name',$member_name);
+		$this->CI->db->where('member_id > ',0);
 		$this->CI->db->order_by('member_id','DESC');
 
 		return $this->CI->db->get('',$limit,$offset)->result_array();
