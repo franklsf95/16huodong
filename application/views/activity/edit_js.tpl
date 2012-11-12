@@ -53,9 +53,7 @@ $('#activity-form').validate({
     }
 });
 var editor = KindEditor.create('.richtext',{ resizeType : 1,
-  items : ['fontsize', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline','removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist','insertunorderedlist', '|', 'emoticons', 'image', 'link'],
-  allowImageParameter: false
-});
+  items : ['fontsize', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline','removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist','insertunorderedlist', '|', 'emoticons', 'image', 'link'] });
 $('.cover-upload').click(function() {
 		editor.loadPlugin('image', function() {
 			editor.plugin.imageDialog({
