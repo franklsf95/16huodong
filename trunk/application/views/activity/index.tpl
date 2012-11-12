@@ -47,11 +47,9 @@
     </div><!--/accordion-body-->
   </div><!--/accordion-group-->
 </div><!--/accordion-->
-<div class="row">
-	<div class="span6">
-		<div class="content-heading">最新活动</div>
-		<div id="main-showcase"></div>
-	</div>
+<div class="content-heading">最新活动</div>
+<ul id="waterfall"></ul>
+<!--
 	<div class="span3">
 		<div class="content-heading">热门标签</div>
 		<div class="hot-tag-showcase toolbox">
@@ -68,4 +66,4 @@
 			<p>这里显示关注人数最多的活动</p>
 		</div>
 	</div>
-</div>
+-->
