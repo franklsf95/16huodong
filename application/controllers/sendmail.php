@@ -66,7 +66,7 @@ Class SendMail Extends BaseActionController {
 			$this->db->where('approved',1);
 			$all_attend_information = $this->db->get('')->result_array();
 			foreach ($all_attend_information as $attendance){
-				$this->db->select('a.activity_id, a.name as activity_name, a.end_time');
+				$this->db->select('a.activity_id, a.name as activity_name, a.end_time, a.publisher_id');
 				$this->db->from('activity as a');
 				$this->db->where('activity_id',$attendance['activity_id']);
 				$this->db->where('date(a.end_time) <=',date('y-m-d',time()));
@@ -78,6 +78,7 @@ Class SendMail Extends BaseActionController {
 					$this->db->where('member_id',$member_information['member_id']);
 					$this->db->where('activity_id',$attendance['activity_id']);
 					$this->db->update('activity_attend',$attendance);
+					$this->newSystemMessage('activity','rate_request',$attendance['activity_id'],$member_information['member_id'],$activity_information['publisher_id']);
 				}
 			}
 			if ($mail != ''&&$member_information['accept_notification']==1) {
