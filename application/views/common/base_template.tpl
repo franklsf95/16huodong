@@ -49,9 +49,29 @@
 <div class="clear"></div>
 <hr>
       <footer>
-        <p>&copy; 16活动网 2012 | beta (r{$svn_version}) | <a href="mailto:contact@16huodong.com">问题反馈</a></p>
+        <p>&copy; 16活动网 2012 | beta (r{$svn_version}) | <span  data-toggle="modal" data-target="#modal-feedback"><a href="#">问题反馈</a></span></p>
       </footer>
 </div>
+
+<div class="modal hide fade" id="modal-feedback">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>问题反馈</h3>
+  </div>
+  <form id="feedback-form" class="form-horizontal" action="{'message/feedback'|site_url}" method="post">
+	<div class="modal-body">
+      <label>邮箱：</label>
+      <input type="text" id="email" name="email"  style="width: 300px">
+      <label>内容：</label>
+      <textarea id="feedback" name="feedback" placeholder="详细的问题描述会让我们更好的帮助您~" style="width: 300px"></textarea>
+	</div>
+    <div class="modal-footer">
+      <a class="btn" data-dismiss="modal" aria-hidden="true">取消</a>
+      <button type="submit" class="btn btn-primary" onclick="alert('您的宝贵意见我们已经记录，将会尽快给您反馈')">提交</button>
+    </div>
+  </form>
+</div>
+
 <!--/content-->
 
       </div><!--/row-->
