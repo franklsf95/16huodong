@@ -180,19 +180,7 @@ Class Message Extends BaseActionController {
 			$this->sendUtil( $target_id, $content);
 
 		redirect('message/index');
-	}
-	
-	function feedBack(){
-		$member_id = $this->current_member_id;
-		$email = $this->getParameter('email',NULL);
-		$feedback = $this->getParameter('feedback',NULL);
-		$data['member_id']=$member_id;
-		$data['email']=$email;
-		$data['message']=$feedback;
-		$this->db->insert('feedback',$data);
-		redirect('index');
-	}
-		
+	}		
 
 //-------- AJAX工具组
 	function ajaxGetFriendBasicByName(){

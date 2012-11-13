@@ -45,5 +45,19 @@ Class Index Extends BaseActionController {
 		echo json_encode($news_array);
 	}
 
+	/**
+	* 处理联系我们表单
+	*/
+	function saveFeedback(){
+		$member_id = $this->current_member_id;
+		$email = $this->getParameter('feedback_email',NULL);
+		$feedback = $this->getParameter('feedback',NULL);
+		$data['member_id']=$member_id;
+		$data['email']=$email;
+		$data['message']=$feedback;
+		$this->db->insert('feedback',$data);
+		redirect('index');
+	}
+
 }
 ?>
