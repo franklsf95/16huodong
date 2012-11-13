@@ -6,17 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     {if $base_tpl == 'common/member'}<meta name="robots" content="noindex">{/if}
-
+    <!--[if lt IE 9]>
+        <link href="{$config.asset}/ie6/ie6.min.css" rel="stylesheet">
+    <![endif]-->
     <link href="{$config.asset}/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="{$config.asset}/css/global.css" rel="stylesheet" type="text/css" />
     {include file="$base_tpl/css.tpl"}
     {if $more_css }
     {include file="$view_folder/$more_css.tpl"}
     {/if}
-
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
   </head>
 
   <body>
@@ -58,10 +56,10 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3>问题反馈</h3>
   </div>
-  <form id="feedback-form" class="form-horizontal" action="{'message/feedback'|site_url}" method="post">
+  <form id="feedback-form" class="form-horizontal" action="{'index/saveFeedback'|site_url}" method="post">
 	<div class="modal-body">
       <label>邮箱：</label>
-      <input type="text" id="email" name="email"  style="width: 300px">
+      <input type="text" id="email" name="feedback_email"  style="width: 300px">
       <label>内容：</label>
       <textarea id="feedback" name="feedback" placeholder="详细的问题描述会让我们更好的帮助您~" style="width: 300px"></textarea>
 	</div>
@@ -82,5 +80,9 @@
 {if $more_js }
 {include file="$view_folder/$more_js.tpl"}
 {/if}
+<!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="{$config.asset}/ie6/ie6.min.js"></script>
+<![endif]-->
   </body>
 </html>

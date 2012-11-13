@@ -20,7 +20,7 @@
               <div id="welcome-carousel" class="carousel slide">
                 <div class="carousel-inner">
                   <div class="item active">
-                    <img src="{$config.asset}/img/slider1.jpg" width="770px" height="360px" alt="">
+                    <img src="{$config.asset}/img/slider1.jpg" width="770" height="360" alt="">
                   </div>
                   <div class="item">
                     <img src="{$config.asset}/img/slider2.jpg" alt="">
