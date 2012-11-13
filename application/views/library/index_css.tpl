@@ -19,15 +19,4 @@
   color: white;
   padding: 40px 0 0 100px;
 }
-
-.main-showcase-item {
-  width: 260px;
-  margin: 10px;
-  float: left;
-}
-
-.main-showcase-item img {
-  max-width: 250px;
-  max-height: 300px;
-}
 </style>

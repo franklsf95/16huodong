@@ -504,23 +504,20 @@ class Extend_control {
 
 ////-------- 全站读取
 
-	function getAllMemberBlogInformation($page_offset = 0,$limit = 15, $str_length = 100){
+	function getLatestBooks($page_offset = 0,$limit = 15, $str_length = 100){
 		$this->CI->db->select(BOOK_FULL);
 		$this->CI->db->from('book as mb');
-		$this->CI->db->join('member as m','mb.author_id = m.member_id');
 		$this->CI->db->group_by('mb.book_id');
 		$this->CI->db->order_by('mb.created_time','DESC');
 		$all_book_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
 		
-		foreach ($all_book_information as &$book_information) {
-			$book_information['content'] = trim($book_information['content']);
-			$book_information['content'] = strip_tags($book_information['content']);
-			if (strlen($book_information['content']) > 150) {
-				$book_information['content'] = mb_substr($book_information['content'], 0, $str_length,'utf-8').'...';
+		foreach ($all_book_information as &$i) {
+			$i['content'] = trim($i['content']);
+			$i['content'] = strip_tags($i['content']);
+			if (strlen($i['content']) > 150) {
+				$i['content'] = mb_substr($i['content'], 0, $str_length,'utf-8').'...';
 			}
-			//$book_information['content'] = trim($book_information['content']);
 		}
-		
 		
 		return $all_book_information;
 	}

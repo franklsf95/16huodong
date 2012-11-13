@@ -298,5 +298,13 @@ Class Library Extends BaseActionController {
 		
 		echo json_encode($all_blog_comment_information);
 	}
+
+	function ajaxGetLatestBooks(){
+		$page_offset = $this->getParameter('page_offset',0);
+		$limit = $this->getParameter('limit',6);
+		$all_book_information = $this->extend_control->getLatestBooks($page_offset,$limit);
+		
+		echo json_encode($all_book_information);
+	}
 }
 ?>
