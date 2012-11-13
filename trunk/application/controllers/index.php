@@ -17,9 +17,6 @@ Class Index Extends BaseActionController {
 	function index() {
 		$hot_activities = $this->extend_control->getHotActivities(9);
 
-		foreach( $hot_activities as $i )
-			$hot_activities[] = $i;
-
 		foreach( $hot_activities as $key=>$i ) {
 			$temp[] = $i;
 			if( $key%3==2 ) {
@@ -38,19 +35,29 @@ Class Index Extends BaseActionController {
 	*
 	* @param 	page_offset,limit
 	*/
-	function ajaxGetAllNewsFeed(){
+	function ajaxGetNewsFeed(){
 		$page_offset = $this->getParameter('page_offset','');
 		$limit = $this->getParameter('limit','');
 
 		$all_news_feed = $this->extend_control->getAllNewsFeed($page_offset, $limit);
 		$news_array = Array();
-		//print_r($all_news_feed);exit();
 
 		foreach ($all_news_feed as $news) {
 			$data['created_time'] = $news['created_time'];
 			$data['image'] = $news['member_image'];
 			$data['member_id'] = $news['member_id'];
 			$data['msg'] = $this->decodeMessage($news);
+			if( $data['activity_id']>0 ) {
+				$activity = getActivityBasicById( $news['activity_id'] );
+				$data['item_image'] = $activity['activity_image'];
+				$data['item_name'] = $activity['activity_name'];
+				$data['item_id'] = $news['activity_id'];
+			} elseif( $data['book_id']>0 ) {
+				$book = getBookBasicById( $news['book_id'] );
+				$data['item_image'] = $book['book_image'];
+				$data['item_name'] = $book['book_name'];
+				$data['item_id'] = $news['book_id'];
+			}
 			$news_array[] = $data;
 		} //end foreach
 		echo json_encode($news_array);
@@ -68,6 +75,56 @@ Class Index Extends BaseActionController {
 		$data['message']=$feedback;
 		$this->db->insert('feedback',$data);
 		redirect('index');
+	}
+
+	/**
+	* 工具函数：将系统信息解释为可显示文本
+	*
+	* @param 	Array 	data 	系统信息
+	*
+	* @return 	string 	message 	HTML消息文本
+	*/
+	function decodeMessage($data) {
+		if ( $data['activity_id']>0 ) {
+			$activity_id = $data['activity_id'];
+			$activity_name = idx( $this->extend_control->getActivityBasicById($activity_id), 'activity_name' );
+			switch( $data['type'] ) {
+				case 'new_activity':
+					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 发起了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a>";
+					break;
+				case 'edit_activity':
+					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 修改了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 的内容";
+					break;
+				case 'attend_activity':
+					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 报名参加了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a>";
+					break;
+				case 'follow_activity':
+					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 关注了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a>";
+					break;
+				case 'rate_up':
+					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 对活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 竖了大拇指";
+					break;
+				case 'rate_down':
+					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 对活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 竖了小拇指";
+					break;
+			}
+		} elseif ( $data['book_id']>0 ) {
+			$book_id = $data['book_id'];
+			$book_name = idx( $this->extend_control->getBookBasicById($book_id), 'book_name');
+
+			switch( $data['type'] ) {
+				case 'new_book':
+					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 出版了微型书 <a href='".site_url("library/view?id=$book_id")."'>$book_name</a>";
+					break;
+				case 'edit_book':
+					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 润色了微型书 <a href='".site_url("library/view?id=$book_id")."'>$book_name</a>的内容";
+					break;
+				case 'like_book':
+					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 喜欢了微型书 <a href='".site_url("library/view?id=$book_id")."'>$book_name</a>";
+					break;
+			}
+		}
+		return $message;
 	}
 
 }

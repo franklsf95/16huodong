@@ -357,9 +357,9 @@ CREATE TABLE `16_news_feed` (
    `news_feed_id` int(11) NOT NULL AUTO_INCREMENT,
    `member_id` int(11) DEFAULT NULL,
    `target_id` int(11) DEFAULT NULL,
-   `category` varchar(50) DEFAULT NULL,
    `type` varchar(50) DEFAULT NULL,
-   `code` varchar(255) DEFAULT NULL,
+   `activity_id` int(11) DEFAULT 0,
+   `book_id` int(11) DEFAULT 0,
    `created_time` datetime DEFAULT NULL,
    PRIMARY KEY (`news_feed_id`)
 ) DEFAULT CHARSET=utf8;
