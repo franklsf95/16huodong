@@ -254,6 +254,18 @@ CREATE TABLE `16_book_visit` (
 
 /*Data for the table `16_book_visit` */
 
+/*Table structure for table `16_feedback` */
+
+DROP TABLE IF EXISTS `16_feedback`;
+
+CREATE TABLE `16_feedback` (
+  `member_id` int(11) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `message` text
+) DEFAULT CHARSET=utf8;
+
+/*Data for the table `16_feedback` */
+
 /*Table structure for table `16_member_friend` */
 
 DROP TABLE IF EXISTS `16_member_friend`;
