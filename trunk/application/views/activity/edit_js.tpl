@@ -55,7 +55,7 @@ $('#activity-form').validate({
 var editor = KindEditor.create('.richtext',{ resizeType : 1,
   items : ['fontsize', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline','removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist','insertunorderedlist', '|', 'emoticons', 'image', 'link'] });
 $('.cover-upload').click(function() {
-		editor.loadPlugin('image', function() {
+		editor.loadPlugin('image_resize', function() {
 			editor.plugin.imageDialog({
 				imageUrl : $('#image').val(),
 				clickFn : function(url, title, width, height, border, align) {

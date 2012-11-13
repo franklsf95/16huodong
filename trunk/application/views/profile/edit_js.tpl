@@ -67,7 +67,7 @@ var editor = KindEditor.create('.richtext',{ resizeType : 1,
 });
 {/if}
 $('.portrait-upload').click(function() {
-		editor.loadPlugin('image', function() {
+		editor.loadPlugin('image_resize', function() {
 			editor.plugin.imageDialog({
 				imageUrl : $('#portrait-url').val(),
 				clickFn : function(url, title, width, height, border, align) {

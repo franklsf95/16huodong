@@ -2,9 +2,8 @@
 /**
  * KindEditor PHP
  * 
- * 本PHP程序是演示程序，建议不要直接在实际项目中使用。
- * 如果您确定直接使用本程序，使用之前请仔细确认相关安全设置。
- * 
+ * CODE BY 蒜头
+ * 文章中的图片上传，不需要缩放
  */
 session_start();
 require_once 'JSON.php';
@@ -15,7 +14,7 @@ $php_url = dirname($_SERVER['PHP_SELF']) . '/';
 if ($_SESSION['current_member_information']['member_id'] != '') {
 	$member_account = $_SESSION['current_member_information']['account'];
 } else {
-	//alert($_SESSION['current_member_information']);
+	alert($_SESSION['current_member_information']);
 	exit();
 }
 
@@ -89,6 +88,7 @@ if (empty($_FILES) === false) {
 	if (in_array($file_ext, $ext_arr[$dir_name]) === false) {
 		alert("上传文件扩展名是不允许的扩展名。\n只允许" . implode(",", $ext_arr[$dir_name]) . "格式。");
 	}
+	
 	//创建文件夹
 	if ($dir_name !== '') {
 		$save_path .= $dir_name . "/";
@@ -97,14 +97,12 @@ if (empty($_FILES) === false) {
 			mkdir($save_path);
 		}
 	}
-	$ymd = date("Ymd");
-	$save_path .= $ymd . "/";
-	$save_url .= $ymd . "/";
-	if (!file_exists($save_path)) {
-		mkdir($save_path);
-	}
+
 	//新文件名
-	$new_file_name = date("YmdHis") . '_' . rand(10000, 99999) . '.' . $file_ext;
+	$new_file_name_without_ext = date("YmdHis") . '_' . rand(10000, 99999) ;
+	
+	$new_file_name = $new_file_name_without_ext . '.' . $file_ext;
+
 	
 	//移动文件
 	$file_path = $save_path . $new_file_name;
@@ -113,7 +111,6 @@ if (empty($_FILES) === false) {
 	}
 	@chmod($file_path, 0644);
 	$file_url = $save_url . $new_file_name;
-	
 	header('Content-type: text/html; charset=UTF-8');
 	$json = new Services_JSON();
 	echo $json->encode(array('error' => 0, 'url' => $file_url));
@@ -126,4 +123,5 @@ function alert($msg) {
 	echo $json->encode(array('error' => 1, 'message' => $msg));
 	exit;
 }
+
 ?>

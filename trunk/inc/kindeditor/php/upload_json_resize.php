@@ -2,9 +2,8 @@
 /**
  * KindEditor PHP
  * 
- * 此页面用来上传头像
  * CODE BY 蒜头
- *
+ * 需要缩放的场合
  */
 session_start();
 require_once 'JSON.php';
@@ -73,7 +72,7 @@ if (empty($_FILES) === false) {
 	}
 	//检查文件大小
 	if ($file_size > $max_size) {
-		alert("上传文件大小超过限制。");
+		alert("上传文件大小不能超过500KB。");
 	}
 	//检查目录名
 	$dir_name = empty($_GET['dir']) ? 'image' : trim($_GET['dir']);
@@ -100,8 +99,9 @@ if (empty($_FILES) === false) {
 	}
 
 	//新文件名
+	$new_file_name_without_ext = date("YmdHis") . '_' . rand(10000, 99999) ;
 	
-	$new_file_name = 'portrait_'.time().'.'.$file_ext;
+	$new_file_name = $new_file_name_without_ext . '.' . $file_ext;
 
 	
 	//移动文件
@@ -110,8 +110,10 @@ if (empty($_FILES) === false) {
 		alert("上传文件失败。");
 	}
 	@chmod($file_path, 0644);
-	$file_url = $save_url . $new_file_name;
-	
+	$file_url = $save_url . $new_file_name_without_ext . '.jpg';
+	list($src_w,$src_h)=getimagesize($src_img);
+	resizeimage($file_path,300,300/$src_w*$src_h,$save_path.$new_file_name_without_ext.'.jpg');
+	if($file_ext!='jpg')unlink($file_path);
 	header('Content-type: text/html; charset=UTF-8');
 	$json = new Services_JSON();
 	echo $json->encode(array('error' => 0, 'url' => $file_url));
@@ -123,5 +125,97 @@ function alert($msg) {
 	$json = new Services_JSON();
 	echo $json->encode(array('error' => 1, 'message' => $msg));
 	exit;
+}
+
+/**
+ * 生成保持原图纵横比的缩略图，支持.png .jpg .gif
+ * 缩略图类型统一为.jpg格式
+ * $srcFile     原图像文件名称
+ * $toW         缩略图宽
+ * $toH         缩略图高
+ * $toFile      缩略图文件名称，为空覆盖原图像文件
+ * @return bool    
+*/
+function resizeimage($srcFile, $toW, $toH, $toFile="") 
+{
+	if ($toFile == "")
+	{ 
+		$toFile = $srcFile; 
+	}
+	$info = "";
+	//返回含有4个单元的数组，0-宽，1-高，2-图像类型，3-宽高的文本描述。
+	//失败返回false并产生警告。
+	$data = getimagesize($srcFile, $info);
+	if (!$data)
+		return false;
+	
+	//将文件载入到资源变量im中
+	switch ($data[2]) //1-GIF，2-JPG，3-PNG
+	{
+	case 1:
+		if(!function_exists("imagecreatefromgif"))
+		{
+			echo "the GD can't support .gif, please use .jpeg or .png! <a href='javascript:history.back();'>back</a>";
+			exit();
+		}
+		$im = imagecreatefromgif($srcFile);
+		break;
+		
+	case 2:
+		if(!function_exists("imagecreatefromjpeg"))
+		{
+			echo "the GD can't support .jpeg, please use other picture! <a href='javascript:history.back();'>back</a>";
+			exit();
+		}
+		$im = imagecreatefromjpeg($srcFile);
+		break;
+		  
+	case 3:
+		$im = imagecreatefrompng($srcFile);    
+		break;
+	}
+	
+	//计算缩略图的宽高
+	$srcW = imagesx($im);
+	$srcH = imagesy($im);
+	$toWH = $toW / $toH;
+	$srcWH = $srcW / $srcH;
+	if ($toWH <= $srcWH) 
+	{
+		$ftoW = $toW;
+		$ftoH = (int)($ftoW * ($srcH / $srcW));
+	}
+	else 
+	{
+		$ftoH = $toH;
+		$ftoW = (int)($ftoH * ($srcW / $srcH));
+	}
+	
+	if (function_exists("imagecreatetruecolor")) 
+	{
+		$ni = imagecreatetruecolor($ftoW, $ftoH); //新建一个真彩色图像
+		if ($ni) 
+		{
+			//重采样拷贝部分图像并调整大小 可保持较好的清晰度
+			imagecopyresampled($ni, $im, 0, 0, 0, 0, $ftoW, $ftoH, $srcW, $srcH);
+		} 
+		else 
+		{
+			//拷贝部分图像并调整大小
+			$ni = imagecreate($ftoW, $ftoH);
+			imagecopyresized($ni, $im, 0, 0, 0, 0, $ftoW, $ftoH, $srcW, $srcH);
+		}
+	}
+	else 
+	{
+		$ni = imagecreate($ftoW, $ftoH);
+		imagecopyresized($ni, $im, 0, 0, 0, 0, $ftoW, $ftoH, $srcW, $srcH);
+	}
+
+	//保存到文件 统一为.png格式
+	imagejpeg($ni, $toFile); //以 PNG 格式将图像输出到浏览器或文件
+	ImageDestroy($ni);
+	ImageDestroy($im);
+	return true;
 }
 ?>
