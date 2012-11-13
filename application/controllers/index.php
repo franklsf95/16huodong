@@ -15,10 +15,21 @@ Class Index Extends BaseActionController {
 	* 显示首页
 	*/
 	function index() {
-		$hot_activities = $this->extend_control->getHotActivities();
-		$this->ci_smarty->assign('hot_activities',$hot_activities);
+		$hot_activities = $this->extend_control->getHotActivities(9);
 
-		//print_r($hot_activities);exit();
+		foreach( $hot_activities as $i )
+			$hot_activities[] = $i;
+
+		foreach( $hot_activities as $key=>$i ) {
+			$temp[] = $i;
+			if( $key%3==2 ) {
+				$hot_activity_groups[] = $temp;
+				$temp = Array();
+			}
+		}
+
+		$this->ci_smarty->assign('hot_activity_groups',$hot_activity_groups);
+		//print_r($hot_activity_groups);exit();
 		$this->display( 'index', '首页', 'index_css', 'index_js' );
 	}
 	

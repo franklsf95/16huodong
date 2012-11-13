@@ -1,12 +1,42 @@
 <style type="text/css">
-.hot-showcase-item {
-  width: 240px;
-  margin: 10px;
-  float: left;
+
+.bx-next {
+	position:absolute;
+	top:40%;
+	right:-50px;
+	z-index:999;
+	width: 30px;
+	height: 30px;
+	text-indent: -999999px;
+	background: url({$config.asset}/img/gray_next.png) no-repeat 0 -30px;
 }
 
-.hot-showcase-item img {
-  width: 220px;
+.bx-prev {
+	position:absolute;
+	top:40%;
+	left:-50px;
+	z-index:999;
+	width: 30px;
+	height: 30px;
+	text-indent: -999999px;
+	background: url({$config.asset}/img/gray_prev.png) no-repeat 0 -30px;
+}
+
+.bx-next:hover,
+.bx-prev:hover {
+	background-position: 0 0;
+}
+
+.slider-item {
+	float: left;
+	width: 280px;
+	height: 190px;
+	text-align: center;
+}
+
+.slider-item img {
+  max-width: 270px;
+  height: 150px;
 }
 
 .avatar-medium {
