@@ -80,7 +80,7 @@
 <script>
 var masonryHandler = $("#waterfall");
 var page_offset = 0;
-var limit = 10;
+var limit = 6;
 var refresh_lock = false;
 var first = true;
 
