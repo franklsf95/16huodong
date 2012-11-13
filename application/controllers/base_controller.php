@@ -313,7 +313,7 @@ class BaseController extends CI_Controller {
 			$return_url['relative_path'] = $this->get_file($url);
 			$return_url['absolute_path'] = "http://" . $_SERVER['HTTP_HOST'].$return_url['relative_path'];
 			return $return_url;
-		}elseif (preg_match("/^(\/upload\/){1}([a-z0-9_-])*(\/image\/){1}([0-9]){8}(\/)([0-9_]){20}(\.)([a-zA-Z])*$/",$url)) {
+		}elseif (preg_match("/^(\/upload\/){1}([a-z0-9_-])*(\/image\/){1}([0-9_]){20}(\.)([a-zA-Z])*$/",$url)) {
 			$return_url['relative_path'] = $url;
 			$return_url['absolute_path'] = "http://" . $_SERVER['HTTP_HOST'].$url;
 			return $return_url;
