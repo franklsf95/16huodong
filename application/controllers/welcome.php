@@ -123,7 +123,7 @@ class Welcome extends BaseController {
 	/**
 	* 处理ajax请求：获取demo活动信息（前10个）
 	*/
-	function ajaxGetDemoActivityInformation() {
+	function ajaxGetDemoActivities() {
 		$all_new_activity_information = $this->extend_control->getLatestActivities(0,10);
 		echo json_encode($all_new_activity_information);
 	}
