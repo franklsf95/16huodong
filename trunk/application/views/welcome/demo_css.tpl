@@ -1,11 +1,9 @@
 <style type="text/css">
-.main-showcase-item {
-  width: 220px;
-  margin: 16px;
-  float: left;
+.waterfall-item {
+	width: 230px;
 }
 
-.main-showcase-item img {
-  width: 220px;
+.waterfall-item img {
+  width: 230px;
 }
 </style>
