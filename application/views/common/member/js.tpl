@@ -15,7 +15,8 @@ function updateWaterfall( url, wrapFunction ) {
 		refresh_lock = true;
 		$.getJSON(url, {
 			"page_offset": page_offset,
-			"limit": limit
+			"limit": limit,
+			async: false
 		}, function(data) {
 			for(i in data) {
 				$("#waterfall").append( wrapFunction( i+1, data[i]) );
