@@ -464,7 +464,7 @@ Class Activity Extends BaseActionController {
 
 	function ajaxGetLatestActivities(){
 		$page_offset = $this->getParameter('page_offset',0);
-		$limit = $this->getParameter('limit',5);
+		$limit = $this->getParameter('limit',10);
 		$all_new_activity_information = $this->extend_control->getLatestActivities($page_offset,$limit);
 		
 		echo json_encode($all_new_activity_information);

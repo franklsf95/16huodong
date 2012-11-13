@@ -54,13 +54,6 @@ Class Base_ajax_action_controller extends BaseActionController {
 		echo json_encode($book_information);
 	}
 	
-	function getAllMemberBlogInformation(){
-		$page_offset = $this->getParameter('page_offset',0);
-		$limit = $this->getParameter('limit',6);
-		$all_book_information = $this->extend_control->getAllMemberBlogInformation($page_offset,$limit);
-		
-		echo json_encode($all_book_information);
-	}
 	
 	function getHotBlogInformation(){
 		$page_offset = $this->getParameter('page_offset',0);

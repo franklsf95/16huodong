@@ -48,22 +48,9 @@
   </div><!--/accordion-group-->
 </div><!--/accordion-->
 <div class="content-heading">最新活动</div>
+<div class="hot-tag-showcase toolbox">
+    {foreach $all_hot_activity_tag_information as $i}
+        <a class="badge tag">{$i.tag}</a>
+    {/foreach}
+</div>
 <ul id="waterfall"></ul>
-<!--
-	<div class="span3">
-		<div class="content-heading">热门标签</div>
-		<div class="hot-tag-showcase toolbox">
-			{foreach $all_hot_activity_tag_information as $i}
-				<a class="badge tag">{$i.tag}</a>
-			{/foreach}
-		</div>
-		<div class="content-heading">本周活跃</div>
-		<div class="toolbox">
-			<p>这里显示发布活动最多的用户</p>
-		</div>
-		<div class="content-heading">最热门活动</div>
-		<div class="toolbox">
-			<p>这里显示关注人数最多的活动</p>
-		</div>
-	</div>
--->
