@@ -53,4 +53,4 @@
         <a class="badge tag">{$i.tag}</a>
     {/foreach}
 </div>
-<ul id="waterfall"></ul>
+<div id="waterfall"></div>
