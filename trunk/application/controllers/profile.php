@@ -68,6 +68,7 @@ Class Profile Extends BaseActionController {
 		$this->setPageInformation( $count, $page, $limit, 'profile/history' );
 
 		$this->ci_smarty->assign('history',$information);
+		$this->ci_smarty->assign('type',$type);
 		$this->ci_smarty->assign('title',$title);
 		$this->ci_smarty->assign('member_id',$member_id);
 		$this->ci_smarty->assign('member_name',$member_name);
