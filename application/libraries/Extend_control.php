@@ -177,7 +177,7 @@ class Extend_control {
  *---------------------------------------------------------------
  */
 	function getAllNewsFeed($page_offset = 0, $limit = 20){
-		$this->CI->db->select('nf.news_feed_id, nf.type, nf.code, nf.created_time, nf.category, t.member_id as target_id, t.name as target_name, '.MEMBER_BASIC);
+		$this->CI->db->select('nf.news_feed_id, nf.type, nf.activity_id, nf.book_id, nf.created_time, t.member_id as target_id, t.name as target_name, '.MEMBER_BASIC);
 		$this->CI->db->from('news_feed as nf');
 		$this->CI->db->join('member as m','m.member_id = nf.member_id');
 		$this->CI->db->join('member as t','t.member_id = nf.target_id');
