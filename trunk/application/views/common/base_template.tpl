@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     {if $base_tpl == 'common/member'}<meta name="robots" content="noindex">{/if}
-    <!--[if lt IE 9]>
-        <link href="{$config.asset}/ie6/ie6.min.css" rel="stylesheet">
-    <![endif]-->
     <link href="{$config.asset}/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="{$config.asset}/css/global.css" rel="stylesheet" type="text/css" />
     {include file="$base_tpl/css.tpl"}
     {if $more_css }
     {include file="$view_folder/$more_css.tpl"}
     {/if}
+    <!--[if lt IE 9]>
+        <link href="{$config.asset}/ie6/ie6.min.css" rel="stylesheet">
+    <![endif]-->
   </head>
 
   <body>
@@ -37,12 +37,6 @@
 {else}
 <div class="span9">
 {/if}
-<!--
-<div class="alert alert-block">
-  <button type="button" class="close" data-dismiss="alert">×</button>
-  <p><strong>Warning!</strong> 此网站现在处于新老UI交替状态；如果你不幸跌入了旧UI，请单击首页即可回到新UI。     by franklsf95 2012-10-22</p>
-  <p>请测试以下页面：所有未登录页面、首页、个人主页和编辑资料、所有活动页面（不包括评论）。</p>
-</div>-->
 {include file="$view_folder/$template_content.tpl"}
 <div class="clear"></div>
 <hr>
@@ -76,51 +70,6 @@
     </div> <!-- /container -->
     <script src="{$config.asset}/js/jquery.min.js"></script>
     <script src="{$config.asset}/js/bootstrap.min.js"></script>
-    <script src="{$config.asset}/js/jquery.masonry.min.js"></script>
-<script>
-var masonryHandler = $("#waterfall");
-var page_offset = 0;
-var limit = 6;
-var refresh_lock = false;
-var first = true;
-
-function updateWaterfall( json_url, wrapFunction, width ) {
-  var myWidth = width ? width : 280;
-  if (!refresh_lock) {
-    refresh_lock = true;
-    $.ajax( {
-      url: json_url,
-      dataType: 'json',
-      data: { 'page_offset': page_offset, 'limit': limit },
-      //async: false,
-      success: function( data ) {
-        var newItemStr = '';
-        for(i in data)
-          newItemStr += wrapFunction( i+1, data[i]);
-        var $newItems = $(newItemStr);
-        masonryHandler.append( $newItems );
-        if( first ) {
-          first = false;
-          masonryHandler.imagesLoaded( function() {
-            masonryHandler.masonry( {
-              itemSelector: '.waterfall-item',
-              columnWidth: myWidth,
-              isAnimated: true
-            } );
-          });
-        } else {
-          masonryHandler.imagesLoaded( function() {
-            masonryHandler.masonry( 'appended', $newItems, true );
-          });
-        }
-        
-        page_offset += limit;
-        refresh_lock = false;
-      }
-    });
-  }
-}
-</script>
 {include file="$base_tpl/js.tpl"}
 {if $more_js }
 {include file="$view_folder/$more_js.tpl"}
