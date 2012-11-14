@@ -49,13 +49,13 @@ Class Index Extends BaseActionController {
 			$data['image'] = $news['member_image'];
 			$data['member_id'] = $news['member_id'];
 			$data['msg'] = $this->decodeMessage($news);
-			if( $data['activity_id']>0 ) {
-				$activity = getActivityBasicById( $news['activity_id'] );
+			if( $news['activity_id']>0 ) {
+				$activity = $this->extend_control->getActivityBasicById( $news['activity_id'] );
 				$data['item_image'] = $activity['activity_image'];
 				$data['item_name'] = $activity['activity_name'];
 				$data['item_id'] = $news['activity_id'];
-			} elseif( $data['book_id']>0 ) {
-				$book = getBookBasicById( $news['book_id'] );
+			} elseif( $news['book_id']>0 ) {
+				$book = $this->extend_control->getBookBasicById( $news['book_id'] );
 				$data['item_image'] = $book['book_image'];
 				$data['item_name'] = $book['book_name'];
 				$data['item_id'] = $news['book_id'];

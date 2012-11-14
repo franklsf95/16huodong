@@ -21,15 +21,13 @@ class BaseController extends CI_Controller {
 		
 		$this->initializeRunningValue();
 
-		if ($this->enable_session)	@session_start();
 		$this->current_time = date('Y-m-d H:i:s');
 		$this->current_date = date('Y-m-d');
 		
 		//设定语言相关变量
 		$this->all_avaliable_language = $this->config->item('all_avaliable_language');
 		$this->current_language = $this->config->item('language');
-		
-		
+				
 		//初始化smarty
 		$this->ci_smarty->assign('current_language',$this->current_language);
 		$this->ci_smarty->assign('all_avaliable_language',$this->all_avaliable_language);
@@ -104,27 +102,17 @@ class BaseController extends CI_Controller {
 		}
 	}
 	
-	
-	function getSessionValue($parameterName, $defaultValue = '', $useDefaultValueIfEmpty = true) {						//获取session值
-		if (isset($_SESSION)) {
-			if (array_key_exists($parameterName, $_SESSION)) {
-				if ($_SESSION[$parameterName] == '' && $useDefaultValueIfEmpty) {
-					return $defaultValue;
-				}
-				return $_SESSION[$parameterName];
-			} else {
-				return $defaultValue;
-			}
-		} else {
+	function getSessionValue($parameterName, $defaultValue = '' ) {
+		if ( !isset($_SESSION) || !array_key_exists($parameterName, $_SESSION) || $_SESSION[$parameterName]==NULL )
 			return $defaultValue;
-		}
+		return $_SESSION[$parameterName];
 	}
 	
-	function setSessionValue($parameterName, $value = '') {				//设置session值
+	function setSessionValue($parameterName, $value = '') {
 		$_SESSION[$parameterName] = $value;
 	}
 	
-	function unsetSessionValue($parameterName) {					//注销session值
+	function unsetSessionValue($parameterName) {
 		unset($_SESSION[$parameterName]);
 	}
 	

@@ -52,7 +52,7 @@ $autoload['packages'] = array(APPPATH.'third_party');
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('ci_smarty','database','extend_control');
+$autoload['libraries'] = array('ci_smarty','database','session','extend_control');
 
 
 /*

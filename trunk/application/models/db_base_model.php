@@ -3,11 +3,6 @@
 class BaseModel extends CI_Model {
     var $tableName = '';
 	var $enable_staging = false;
-
-	var $avaliable_languages = array();
-	var $avaliable_backend_languages = array('eng','cht','chs');
-	var $current_language = 'eng';
-
 	var $model_fields;
 	
     function __construct() {
@@ -15,21 +10,6 @@ class BaseModel extends CI_Model {
 		
 		$this->enable_staging = $this->config->item('enable_staging') == 'Y';
 
-		$this->avaliable_languages = $this->config->item('avaliable_languages');
-		if (!isset($this->avaliable_languages) || !is_array($this->avaliable_languages)) {
-			$this->avaliable_languages = array('eng');
-		}
-		
-		$this->avaliable_backend_languages = $this->config->item('avaliable_backend_languages');
-		if (!isset($this->avaliable_backend_languages) || !is_array($this->avaliable_backend_languages)) {
-			$this->avaliable_backend_languages = $this->avaliable_languages;
-		}
-
-		$this->current_language = $this->getSessionValue('login_language');
-		if ($this->current_language == '' || !in_array($this->current_language, $this->avaliable_backend_languages)) {
-			$this->current_language = $this->avaliable_backend_languages[0];
-		}
-		
 		if ($this->tableName != '') {
 			$this->model_fields = $this->db->list_fields($this->tableName);
 		}
@@ -112,26 +92,6 @@ class BaseModel extends CI_Model {
 		}
 		return $results;
 	}
-	
-	function getSessionValue($parameterName, $defaultValue = '', $useDefaultValueIfEmpty = true) {
-		if (array_key_exists($parameterName, $_SESSION)) {
-			if ($_SESSION[$parameterName] == '' && $useDefaultValueIfEmpty) {
-				return $defaultValue;
-			}
-			return $_SESSION[$parameterName];
-		} else {
-			return $defaultValue;
-		}
-	}
-	
-	function setSessionValue($parameterName, $value = '') {
-		$_SESSION[$parameterName] = $value;
-	}
-	
-	function unsetSessionValue($parameterName) {
-		unset($_SESSION[$parameterName]);
-	}
-	
 	
 	function getFieldByArray($array = array(), $field){
 		$fields = array();
