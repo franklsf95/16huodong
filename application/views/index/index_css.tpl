@@ -39,22 +39,6 @@
   height: 150px;
 }
 
-.avatar-medium {
-	height: 30px;
-}
-
-#news-feed-container {
-	padding-right: 10px;
-}
-
-.news-feed-item {
-	height: 36px;
-}
-
-.news-feed-item hr {
-	margin: 10px 0 10px 0;
-}
-
 .timestamp {
 	font-family: 'Monaco, Menlo, Consolas, "Courier New", monospace';
 	font-size: 12px;

@@ -11,8 +11,8 @@ define( 'ACTIVITY_BASIC', 	'a.activity_id, a.name as activity_name, a.publisher_
 define( 'ACTIVITY_BRIEF', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.description, a.follow_count, a.attend_count, a.view_count');
 define( 'ACTIVITY_DETAIL', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.price, a.address, a.description, a.content, a.created_time, a.modified_time, a.view_count, a.attend_count, a.follow_count, a.book_id');
 define( 'COMMENT',			'ac.activity_comment_id, ac.activity_id, ac.member_id, ac.content, ac.reply, ac.created_time, m.name as member_name, m.image as member_image');
-DEFINE( 'BOOK_BASIC', 		'mb.book_id, mb.name as book_name, mb.author_id, mb.author_name, mb.image as book_image');
-DEFINE( 'BOOK_FULL',		'mb.book_id, mb.name as book_name, mb.author_id, mb.author_name, mb.image as book_image, mb.content as book_content, mb.created_time, mb.modified_time, mb.like_count, mb.view_count');
+DEFINE( 'BOOK_BASIC', 		'b.book_id, b.name as book_name, b.author_id, b.author_name, b.image as book_image');
+DEFINE( 'BOOK_FULL',		'b.book_id, b.name as book_name, b.author_id, b.author_name, b.image as book_image, b.content as book_content, b.created_time, b.modified_time, b.like_count, b.view_count');
 DEFINE( 'TARGET_BASIC',		't.member_id as target_id, t.name as target_name, t.image as target_image');
 
 class Extend_control {
@@ -176,11 +176,13 @@ class Extend_control {
  * 全站活动加载
  *---------------------------------------------------------------
  */
-	function getAllNewsFeed($page_offset = 0, $limit = 20){
-		$this->CI->db->select('nf.news_feed_id, nf.type, nf.activity_id, nf.book_id, nf.created_time, t.member_id as target_id, t.name as target_name, '.MEMBER_BASIC);
+	function getDistinctNewsFeed($page_offset = 0, $limit = 6){
+		$this->CI->db->select('COUNT(DISTINCT nf.activity_id), COUNT(DISTINCT nf.book_id), nf.news_feed_id, nf.type, nf.activity_id, nf.book_id, nf.created_time, '.MEMBER_BASIC.', '.ACTIVITY_BASIC.', '.BOOK_BASIC);
 		$this->CI->db->from('news_feed as nf');
-		$this->CI->db->join('member as m','m.member_id = nf.member_id');
-		$this->CI->db->join('member as t','t.member_id = nf.target_id');
+		$this->CI->db->join('member as m','m.member_id = nf.member_id','left');
+		$this->CI->db->join('activity as a','a.activity_id = nf.activity_id','left');
+		$this->CI->db->join('book as b','b.book_id = nf.book_id','left');
+		$this->CI->db->group_by('nf.activity_id, nf.book_id');
 		$this->CI->db->order_by('nf.created_time','DESC');
 		$all_news_feed = $this->CI->db->get('',$limit,$page_offset)->result_array();
 
@@ -506,9 +508,9 @@ class Extend_control {
 
 	function getLatestBooks($page_offset = 0,$limit = 15, $str_length = 100){
 		$this->CI->db->select(BOOK_FULL);
-		$this->CI->db->from('book as mb');
-		$this->CI->db->group_by('mb.book_id');
-		$this->CI->db->order_by('mb.created_time','DESC');
+		$this->CI->db->from('book as b');
+		$this->CI->db->group_by('b.book_id');
+		$this->CI->db->order_by('b.created_time','DESC');
 		$all_book_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
 		
 		foreach ($all_book_information as &$i) {
@@ -524,11 +526,11 @@ class Extend_control {
 	
 	function getHotBlogInformation($page_offset = 0,$limit = 10){
 		$this->CI->db->select(BOOK_FULL);
-		$this->CI->db->from('book as mb');
-		$this->CI->db->join('member as m','mb.author_id = m.member_id');
-		$this->CI->db->group_by('mb.book_id');
+		$this->CI->db->from('book as b');
+		$this->CI->db->join('member as m','b.author_id = m.member_id');
+		$this->CI->db->group_by('b.book_id');
 		$this->CI->db->order_by('count(mbv.book_visit_id)','DESC');
-		$this->CI->db->order_by('mb.created_time','DESC');
+		$this->CI->db->order_by('b.created_time','DESC');
 		$all_hot_blog_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
 		
 		return $all_hot_blog_information;
@@ -536,10 +538,10 @@ class Extend_control {
 	}
 	
 	function getMemberBlogInformation($member_id,$page_offset = 0,$limit = 15 ,$str_length = 150){
-		$this->CI->db->select('mb.book_id, mb.name as book_name, mb.image as book_image, mb.image_width as book_image_width, mb.image_height as book_image_height, mb.content, mb.created_time, mb.modified_time');
-		$this->CI->db->from('book as mb');
-		$this->CI->db->where('mb.author_id',$member_id);
-		$this->CI->db->order_by('mb.created_time','DESC');
+		$this->CI->db->select('b.book_id, b.name as book_name, b.image as book_image, b.image_width as book_image_width, b.image_height as book_image_height, b.content, b.created_time, b.modified_time');
+		$this->CI->db->from('book as b');
+		$this->CI->db->where('b.author_id',$member_id);
+		$this->CI->db->order_by('b.created_time','DESC');
 		$all_book_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
 		
 		foreach ($all_book_information as &$i) {
@@ -555,12 +557,12 @@ class Extend_control {
 	
 	function getPreferBlogInformation($member_id,$page_offset = 0,$limit = 15){
 		$this->CI->db->select(BOOK_FULL);
-		$this->CI->db->from('book as mb');
-		$this->CI->db->join('member as m','mb.author_id = m.member_id');
-		$this->CI->db->join('member_like_book as mpb','mpb.book_id = mb.book_id');
+		$this->CI->db->from('book as b');
+		$this->CI->db->join('member as m','b.author_id = m.member_id');
+		$this->CI->db->join('member_like_book as mpb','mpb.book_id = b.book_id');
 		$this->CI->db->where('mpb.member_id',$member_id);
-		$this->CI->db->group_by('mb.book_id');
-		$this->CI->db->order_by('mb.created_time','DESC');
+		$this->CI->db->group_by('b.book_id');
+		$this->CI->db->order_by('b.created_time','DESC');
 		$all_prefer_blog_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
 		
 		return $all_prefer_blog_information;
@@ -571,16 +573,16 @@ class Extend_control {
 
 	function getBookBasicById($book_id){
 		$this->CI->db->select(BOOK_BASIC);
-		$this->CI->db->from('book as mb');
-		$this->CI->db->where('mb.book_id',$book_id);
+		$this->CI->db->from('book as b');
+		$this->CI->db->where('b.book_id',$book_id);
 		
 		return $this->CI->db->get_first();
 	}
 	
 	function getBookInformationById($book_id){
 		$this->CI->db->select(BOOK_FULL);
-		$this->CI->db->from('book as mb');
-		$this->CI->db->where('mb.book_id',$book_id);
+		$this->CI->db->from('book as b');
+		$this->CI->db->where('b.book_id',$book_id);
 		
 		return $this->CI->db->get_first();
 	}
@@ -890,22 +892,22 @@ class Extend_control {
 	function getNewBlogInformation(){
 		$follow_member_list = $this->getFollowMemberList($this->CI->current_member_id,'array');
 	
-		$this->CI->db->select('mb.book_id, mb.name as book_name, left(mb.content,150) as book_description, mb.created_time, mb.modified_time, mbc.name as book_class_name, m.member_id, m.name as member_name, m.image as member_image',false);
-		$this->CI->db->from('book as mb');
-		$this->CI->db->join('book_class as mbc','mb.book_class_id = mbc.book_class_id','LEFT');
-		$this->CI->db->join('member as m','mb.author_id = m.member_id');
-		$this->CI->db->where_in('mb.author_id',$follow_member_list);
-		$this->CI->db->order_by('mb.created_time','DESC',false);
+		$this->CI->db->select('b.book_id, b.name as book_name, left(b.content,150) as book_description, b.created_time, b.modified_time, mbc.name as book_class_name, m.member_id, m.name as member_name, m.image as member_image',false);
+		$this->CI->db->from('book as b');
+		$this->CI->db->join('book_class as mbc','b.book_class_id = mbc.book_class_id','LEFT');
+		$this->CI->db->join('member as m','b.author_id = m.member_id');
+		$this->CI->db->where_in('b.author_id',$follow_member_list);
+		$this->CI->db->order_by('b.created_time','DESC',false);
 		$all_book_information = $this->CI->db->get()->result_array();
 		
 		return $all_book_information;
 	}
 	
 	function countMemberBlog($member_id){
-		$this->CI->db->select('count(mb.book_id) as count');
-		$this->CI->db->from('book as mb');
-		$this->CI->db->join('member as m','mb.author_id = m.member_id');
-		$this->CI->db->where('mb.author_id',$member_id);
+		$this->CI->db->select('count(b.book_id) as count');
+		$this->CI->db->from('book as b');
+		$this->CI->db->join('member as m','b.author_id = m.member_id');
+		$this->CI->db->where('b.author_id',$member_id);
 		
 		$result = idx($this->CI->db->get_first(),'count');
 		

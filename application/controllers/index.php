@@ -41,28 +41,13 @@ Class Index Extends BaseActionController {
 		$page_offset = $this->getParameter('page_offset','');
 		$limit = $this->getParameter('limit','');
 
-		$all_news_feed = $this->extend_control->getAllNewsFeed($page_offset, $limit);
-		$news_array = Array();
+		$all_news_feed = $this->extend_control->getDistinctNewsFeed($page_offset, $limit);
+		//print_r($all_news_feed);
 
-		foreach ($all_news_feed as $news) {
-			$data['created_time'] = $news['created_time'];
-			$data['image'] = $news['member_image'];
-			$data['member_id'] = $news['member_id'];
-			$data['msg'] = $this->decodeMessage($news);
-			if( $news['activity_id']>0 ) {
-				$activity = $this->extend_control->getActivityBasicById( $news['activity_id'] );
-				$data['item_image'] = $activity['activity_image'];
-				$data['item_name'] = $activity['activity_name'];
-				$data['item_id'] = $news['activity_id'];
-			} elseif( $news['book_id']>0 ) {
-				$book = $this->extend_control->getBookBasicById( $news['book_id'] );
-				$data['item_image'] = $book['book_image'];
-				$data['item_name'] = $book['book_name'];
-				$data['item_id'] = $news['book_id'];
-			}
-			$news_array[] = $data;
+		foreach ($all_news_feed as &$news) {
+			$news['message'] = $this->decodeMessage($news);
 		} //end foreach
-		echo json_encode($news_array);
+		echo json_encode($all_news_feed);
 	}
 
 	/**
