@@ -259,7 +259,7 @@ class Extend_control {
 		//get tags
 		$this->CI->db->select('tag');
 		$this->CI->db->from('activity_tag');
-		$this->CI->db->where('activity_id',$id);
+		$this->CI->db->where('activity_id',$activity_id);
 		$all_tag = $this->CI->db->get()->result_array();
 			
 		if( is_array($all_tag) )
