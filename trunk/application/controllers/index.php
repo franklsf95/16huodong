@@ -24,6 +24,8 @@ Class Index Extends BaseActionController {
 				$temp = Array();
 			}
 		}
+		if( count($temp)>0 )
+			$hot_activity_groups[] = $temp;
 
 		$this->ci_smarty->assign('hot_activity_groups',$hot_activity_groups);
 		//print_r($hot_activity_groups);exit();
