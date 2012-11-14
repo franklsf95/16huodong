@@ -4,6 +4,6 @@
 }
 
 .waterfall-item img {
-  width: 230px;
+  width: 224px;
 }
 </style>

@@ -173,15 +173,33 @@ label.error {
 .waterfall-item {
 	width: 250px;
 	background-color: #fff;
-	box-shadow: 0 1px 3px rgba(34, 25, 25, .4);
-	-moz-box-shadow: 0 1px 3px rgba(34,25,25,.4);
-	-webkit-box-shadow: 0 1px 3px rgba(34, 25, 25, .4);
+	box-shadow: 0 0 4px #999;
+	-moz-box-shadow: 0 0 4px #999;
+	-webkit-box-shadow: 0 0 4px #999;
 	filter: progid:DXImageTransform.Microsoft.Shadow(color = #adacac,direction = 135,strength = 2);
-	cursor: pointer;
-	padding: 4px;
 	float: left;
+	margin-bottom: 20px;
+}
+
+.waterfall-item:hover {
+	box-shadow: 0 0 6px #666;
+	-moz-box-shadow: 0 0 6px #666;
+	-webkit-box-shadow: 0 0 6px #666;
+}
+
+.waterfall-item h4 {
+	padding-left: 10px;
+}
+
+.waterfall-item-bottom {
+	background-color: #eee;
+}
+
+.waterfall-item-bottom ul {
+	margin-bottom: 0;
 }
 
 .waterfall-item img {
-  width: 250px;
+  width: 244px;
+  margin: 3px;
 }
