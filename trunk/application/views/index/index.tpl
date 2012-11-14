@@ -11,7 +11,6 @@
 </div><!--/wrapper-->
 {/foreach}
 </div>
-
-<div class="content-heading">全站动态</div>
-<div id="news-feed-container"></div>
+<div class="content-heading">最新动态</div>
+<div id="waterfall"></div>
 
