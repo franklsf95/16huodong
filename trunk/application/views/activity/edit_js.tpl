@@ -27,11 +27,21 @@ $("#badge-add-tag").click(function(){
     		$("#actTag").focus();
     	}
 });
+jQuery.validator.addMethod("endDate",
+function(value, element) {
+var startDate = $('#actStartTime').val();
+return new Date(Date.parse(startDate.replace("-", "/"))) <= new Date(Date.parse(value.replace("-", "/")));
+}, 
+"end date is before start date");
 $('#activity-form').validate({
       rules: {
       	name: {
       		required: true
       	},
+		end_time: {
+			required: true,
+			endDate: true
+		},
       	price: {
       		min: 0
       	},
