@@ -42,7 +42,7 @@ Class Login Extends BaseController {
 		if ( !$current_member ) 	show_error('用户名或密码错误!');
 		$account=$current_member['account'];
 		if ($member_cookie == 'Y') {
-			$member_cookie = array('remember' => 'Y','account' => $member_information['account'],'key'=>md5(md5($password).md5($password)));
+			$member_cookie = array('remember' => 'Y','account' => $current_member['account'],'key'=>md5(md5($password).md5($password)));
 			setcookie('member_cookie[remember]',$member_cookie['remember'],time()+3600*24*30,'/');
 			setcookie('member_cookie[account]',$member_cookie['account'],time()+3600*24*30,'/');
 			setcookie('member_cookie[key]',$member_cookie['key'],time()+3600*24*30,'/');

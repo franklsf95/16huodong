@@ -11,24 +11,16 @@ require_once 'JSON.php';
 $php_path = dirname(__FILE__) . '/';
 $php_url = dirname($_SERVER['PHP_SELF']) . '/';
 
-if ($_SESSION['current_member_information']['member_id'] != '') {
-	$member_account = $_SESSION['current_member_information']['account'];
+if ( isset($_SESSION['current_member_id']) ) {
+	$member_id = $_SESSION['current_member_id'];
 } else {
-	alert($_SESSION['current_member_information']);
 	exit();
 }
 
 //文件保存目录路径
-$save_path = $php_path . '../../../upload/'.$member_account.'/';
+$save_path = $php_path . '../../../upload/'.$member_id.'/';
 //文件保存目录URL
-$save_url = $php_url . '../../../upload/'.$member_account.'/';
-
-/*
-//文件保存目录路径
-$save_path = $php_path . '../../../upload/';
-//文件保存目录URL
-$save_url = $php_url . '../../../upload/';
-*/
+$save_url = $php_url . '../../../upload/'.$member_id.'/';
 
 if (!is_dir($save_path)){
 	mkdir($save_path);
@@ -212,8 +204,8 @@ function resizeimage($srcFile, $toW, $toH, $toFile="")
 		imagecopyresized($ni, $im, 0, 0, 0, 0, $ftoW, $ftoH, $srcW, $srcH);
 	}
 
-	//保存到文件 统一为.png格式
-	imagejpeg($ni, $toFile); //以 PNG 格式将图像输出到浏览器或文件
+	//保存到文件 统一为.jpeg格式
+	imagejpeg($ni, $toFile, 80);
 	ImageDestroy($ni);
 	ImageDestroy($im);
 	return true;

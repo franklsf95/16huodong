@@ -152,10 +152,10 @@ DROP TABLE IF EXISTS `16_member`;
 CREATE TABLE `16_member` (
   `member_id` int(11) NOT NULL AUTO_INCREMENT,
   `account` varchar(50) NOT NULL,
-  `password` varchar(32) DEFAULT NULL,
-  `member_type` varchar(4) NOT NULL,
+  `password` char(32) DEFAULT NULL,
+  `member_type` char(3) NOT NULL COMMENT 'stu学生 | org学生组织 | chr公益组织 | com公司',
   `status` int(4) NOT NULL DEFAULT 1,
-  `image` varchar(255) DEFAULT '/upload/portrait.jpg',
+  `image` varchar(255) DEFAULT '/asset/img/default/portrait.jpg',
   `name` varchar(20) NOT NULL COMMENT '姓名或组织名称',
   `principal` varchar(255) DEFAULT NULL COMMENT '机构负责人',
   `gender` char(1) DEFAULT NULL COMMENT '性别',
