@@ -5,7 +5,7 @@
 	{foreach $group as $i}
 	<div class="slider-item" id="item-{$i.activity_id}">
 		<a href="{"activity/view"|site_url}?id={$i.activity_id}"><img src="{$i.activity_image}" class="img-rounded"></a>
-		<h4><a href="{"activity/view"|site_url}?id={$i.activity_id}">{$i.activity_name}</a></h4>
+		<h5><a href="{"activity/view"|site_url}?id={$i.activity_id}">{$i.activity_name}</a></h5>
 	</div>
 	{/foreach}
 </div><!--/wrapper-->

@@ -49,6 +49,7 @@
 </div><!--/accordion-->
 <div class="content-heading">最新活动</div>
 <div class="hot-tag-showcase toolbox">
+    <a class="badge tag" id="tag-all">全部</a>
     {foreach $all_hot_activity_tag_information as $i}
         <a class="badge tag">{$i.tag}</a>
     {/foreach}
