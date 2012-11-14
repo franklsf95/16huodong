@@ -7,11 +7,11 @@ define( 'MEMBER_BASIC', 	'm.member_id, m.name as member_name, m.image as member_
 define( 'MEMBER_BRIEF',		'm.member_id, m.name as member_name, m.image as member_image, m.member_type, m.school_id, m.school_name, m.gender, m.organisation, m.title, m.principal');
 define( 'MEMBER_CONTACT', 	'm.member_id, m.name as member_name, m.image as member_image, m.school_id, m.school_name, m.phone, m.email, m.qq');
 define( 'MEMBER_DETAIL', 	'm.member_id, m.account, m.name as member_name, m.member_type, m.school_id, m.school_name, m.image as member_image, m.organisation as member_organisation, m.title as member_title, m.principal as member_principal, m.gender as member_gender, m.birthday as member_birthday, m.qq as member_qq, m.phone as member_phone, m.email as member_email, m.address as member_address, m.description as member_description, m.content as member_content, m.created_time, m.modified_time');
-define( 'ACTIVITY_BASIC', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name');
+define( 'ACTIVITY_BASIC', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name, a.image as activity_image');
 define( 'ACTIVITY_BRIEF', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.description, a.follow_count, a.attend_count, a.view_count');
 define( 'ACTIVITY_DETAIL', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.price, a.address, a.description, a.content, a.created_time, a.modified_time, a.view_count, a.attend_count, a.follow_count, a.book_id');
 define( 'COMMENT',			'ac.activity_comment_id, ac.activity_id, ac.member_id, ac.content, ac.reply, ac.created_time, m.name as member_name, m.image as member_image');
-DEFINE( 'BOOK_BASIC', 		'mb.book_id, mb.name as book_name, mb.author_id, mb.author_name');
+DEFINE( 'BOOK_BASIC', 		'mb.book_id, mb.name as book_name, mb.author_id, mb.author_name, mb.image as book_image');
 DEFINE( 'BOOK_FULL',		'mb.book_id, mb.name as book_name, mb.author_id, mb.author_name, mb.image as book_image, mb.content as book_content, mb.created_time, mb.modified_time, mb.like_count, mb.view_count');
 DEFINE( 'TARGET_BASIC',		't.member_id as target_id, t.name as target_name, t.image as target_image');
 
@@ -397,7 +397,7 @@ class Extend_control {
  *---------------------------------------------------------------
  */
 
-	function getCurrentFollowActivityInformation($member_id){
+	function getCurrentFollowActivityInformation($member_id,$page_offset,$limit){
 		$this->CI->db->select(ACTIVITY_BRIEF);
 		$this->CI->db->from('activity as a');
 		$this->CI->db->join('activity_follow as af','af.activity_id = a.activity_id');
@@ -512,10 +512,10 @@ class Extend_control {
 		$all_book_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
 		
 		foreach ($all_book_information as &$i) {
-			$i['content'] = trim($i['content']);
-			$i['content'] = strip_tags($i['content']);
-			if (strlen($i['content']) > 150) {
-				$i['content'] = mb_substr($i['content'], 0, $str_length,'utf-8').'...';
+			$i['book_content'] = trim($i['book_content']);
+			$i['book_content'] = strip_tags($i['book_content']);
+			if (strlen($i['book_content']) > 150) {
+				$i['book_content'] = mb_substr($i['book_content'], 0, $str_length,'utf-8').'...';
 			}
 		}
 		
@@ -628,7 +628,7 @@ class Extend_control {
 		$activity_count = 0;
 		$friend_count = 0;
 		$book_count = 0;
-		$member_message = 0;
+		$member_message_count = 0;
 		
 		foreach( $all_new_system_message_information as $i )
 		{
