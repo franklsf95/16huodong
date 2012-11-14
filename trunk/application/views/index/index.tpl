@@ -13,4 +13,4 @@
 </div>
 <div class="content-heading">最新动态</div>
 <div id="waterfall"></div>
-
+<div id="waterfall-loading"></div>

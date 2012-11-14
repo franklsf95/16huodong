@@ -1,6 +1,6 @@
 var masonryHandler = $("#waterfall");
 var page_offset = 0;
-var limit = 6;
+var limit = 3;
 var refresh_lock = false;
 var first = true;
 
@@ -12,8 +12,11 @@ function updateWaterfall( json_url, wrapFunction, width ) {
       url: json_url,
       dataType: 'json',
       data: { 'page_offset': page_offset, 'limit': limit },
-      //async: false,
+      beforeSend : function() {
+        $('#waterfall-loading').show();
+      },
       success: function( data ) {
+        $('#waterfall-loading').slideUp();
         var newItemStr = '';
         for(i in data)
           newItemStr += wrapFunction( i+1, data[i]);

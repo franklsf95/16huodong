@@ -54,3 +54,4 @@
     {/foreach}
 </div>
 <div id="waterfall"></div>
+<div id="waterfall-loading"></div>
