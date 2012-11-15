@@ -127,6 +127,7 @@ KindEditor.lang({
 	'image.localImage' : '本地上传',
 	'image.remoteUrl' : '图片地址',
 	'image.localUrl' : '图片地址',
+	'image.resize' : '过宽或过长的图片可能被自动剪裁哦~',
 	'image.size' : '图片大小',
 	'image.width' : '宽',
 	'image.height' : '高',
