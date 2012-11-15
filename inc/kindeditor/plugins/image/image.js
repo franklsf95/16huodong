@@ -190,7 +190,7 @@ KindEditor.plugin('image', function(K) {
 				title : lang.localImage,
 				panel : K('.tab2', div)
 			});
-			tabs.select(1);
+			tabs.select(0);
 		} else {
 			K('.tab1', div).show();
 		}
