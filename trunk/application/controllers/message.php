@@ -161,7 +161,7 @@ Class Message Extends BaseActionController {
 		$content = $this->getParameterWithOutTag('message_content',NULL);
 
 		$this->sendUtil( $target_id, $content );
-		redirect('message/index');
+		redirect('message/view?target_id='.$target_id);
 	}
 
 	/**
