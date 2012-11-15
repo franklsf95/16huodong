@@ -190,7 +190,7 @@ KindEditor.plugin('image', function(K) {
 				title : lang.localImage,
 				panel : K('.tab2', div)
 			});
-			tabs.select(0);
+			tabs.select(1);
 		} else {
 			K('.tab1', div).show();
 		}
@@ -293,8 +293,8 @@ KindEditor.plugin('image', function(K) {
 				return false;
 			}
 		});
-		urlBox[0].focus();
-		urlBox[0].select();
+		//urlBox[0].focus();
+		//urlBox[0].select();
 		return dialog;
 	};
 	self.plugin.image = {

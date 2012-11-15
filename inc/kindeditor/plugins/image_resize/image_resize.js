@@ -23,7 +23,8 @@ KindEditor.plugin('image_resize', function(K) {
 			imageTitle = K.undef(options.imageTitle, ''),
 			imageAlign = K.undef(options.imageAlign, ''),
 			clickFn = options.clickFn;
-			if (allowImageParameter == true) {
+			allowImageParameter=false;
+			if (allowImageParameter == true) { //trust me, you won't need this
 				var html = [
 				'<div style="padding:10px 20px;">',
 				//tabs
@@ -84,6 +85,9 @@ KindEditor.plugin('image_resize', function(K) {
 				'<input type="text" name="localUrl" class="ke-input-text" tabindex="-1" style="width:200px;" readonly="true" /> &nbsp;',
 				'<input type="button" class="ke-upload-button" value="' + lang.viewServer + '" />',
 				'</div>',
+				'<div>',
+				'<label>' + lang.resize + '</label>',
+				'</div>',
 				'</div>',
 				//size
 				'<div class="ke-dialog-row" style="display:none;">',
@@ -113,7 +117,7 @@ KindEditor.plugin('image_resize', function(K) {
 			dialogHeight = allowImageUpload ? 300 : 250;
 		
 		var dialogWidth = allowImageParameter ? 450 : 450;
-			dialogHeight = allowImageParameter ? 300 : 150;
+			dialogHeight = allowImageParameter ? 300 : 180;
 		
 		
 		var dialog = self.createDialog({
@@ -190,7 +194,7 @@ KindEditor.plugin('image_resize', function(K) {
 				title : lang.localImage,
 				panel : K('.tab2', div)
 			});
-			tabs.select(0);
+			tabs.select(1);
 		} else {
 			K('.tab1', div).show();
 		}
@@ -293,8 +297,8 @@ KindEditor.plugin('image_resize', function(K) {
 				return false;
 			}
 		});
-		urlBox[0].focus();
-		urlBox[0].select();
+		//urlBox[0].focus();
+		//urlBox[0].select();
 		return dialog;
 	};
 	self.plugin.image_resize = {
