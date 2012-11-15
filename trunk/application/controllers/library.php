@@ -231,17 +231,7 @@ Class Library Extends BaseActionController {
 		$return_data = 0;
 		
 		if ( $this->extend_control->isAuthorOfBook( $this->current_member_id, $book_id ) ) {
-			//先删除所有博客评论
-			$this->db->where('book_id',$book_id);
-			$this->db->delete('book_comment');
-			
-			//再删除被喜欢
-			$this->db->where('book_id',$book_id);
-			$this->db->delete('member_like_book');
-			
-			//删除博客
-			$this->db->where('book_id',$book_id);
-			$this->db->delete('book');
+			$this->extend_control->deleteBook( $book_id );
 			
 			$return_data = 1;
 		}
