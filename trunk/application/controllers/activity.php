@@ -25,12 +25,11 @@ Class Activity Extends BaseActionController {
      * 显示活动详情、活动访问量+1
      *
      * @param	id		活动ID
-     * @param	page	评论页数
      */
 	function view(){
 		$activity_id = $this->getParameter('id');
 		$member_id = $this->current_member_id;
-		$page = $this->getParameter('page',1);
+		$page = 1;
 		$limit = $this->CLIMIT;
 		
 		if(!$activity_id) redirect('activity');
@@ -40,17 +39,17 @@ Class Activity Extends BaseActionController {
 		$activity_information = $this->extend_control->getActivityInformationById($activity_id);
 		$activity_information['is_said'] = $this->extend_control->isMemberSaidActivity($member_id,$activity_id);
 		$activity_information['is_attend'] = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
-		$activity_information['is_attention'] = $this->extend_control->isMemberFollowActivity($member_id,$activity_id);
+		$activity_information['is_follow'] = $this->extend_control->isMemberFollowActivity($member_id,$activity_id);
 		$activity_information['is_publisher'] = $this->extend_control->isPublisherOfActivity($member_id,$activity_id);
 		$activity_information['rate'] = $this->extend_control->getActivityRateInformation($activity_id);
 
 		$count = $this->extend_control->countAllActivityComment($activity_id);
-		$all_activity_comment_information = $this->extend_control->getActivityCommentInformation($activity_id,($page-1)*$limit,$limit);
+		$comment_information = $this->extend_control->getActivityComment( $activity_id,($page-1)*$limit,$limit );
 		
 		$this->setPageInformation( $count, $page, $limit );
 		
 		$this->ci_smarty->assign('activity_information',$activity_information);
-		$this->ci_smarty->assign('all_activity_comment_information',$all_activity_comment_information);
+		$this->ci_smarty->assign('comment_information',$comment_information);
 
 		$this->display('view',$activity_information['activity_name'].' - 活动详情','view_css','view_js');
 	}
@@ -259,39 +258,7 @@ Class Activity Extends BaseActionController {
 
 		redirect('activity/view?id='.$activity_id);
 	}
-
-
-	//to-be-deprecated: 提交评论
-	function save_comment(){
-		$activity_id = $this->getParameter('activity_id',NULL);
-		$activity_comment = $this->getParameter('activity_comment',NULL);
-		if ($activity_id != '' && $activity_comment != ''){
-			
-			$data['activity_id'] = $activity_id;
-			$data['content'] = trim($activity_comment);
-			$data['member_id'] = $this->current_member_id;
-			$data['created_time'] = $this->current_time;
-			
-			$this->db->insert('activity_comment',$data);
-			
-			
-		}
-		redirect(site_url("activity/view?id=$activity_id"));
-	}
 	
-	function addActivityCommentReply(){
-		$activity_comment_id = $this->getParameter('activity_comment_id',NULL);
-		$reply = $this->getParameter('reply',NULL);
-		$this->db->where('activity_comment_id',$activity_comment_id);
-		$activity_comment_information = $this->db->get_first('activity_comment');
-		if ($activity_comment_information['reply'] == '' && $reply != '') {
-			$data['reply'] = $reply;
-			$this->db->where('activity_comment_id',$activity_comment_id);
-			$this->db->update('activity_comment',$data);
-		}
-		
-		redirect(site_url("activity/view?id=$activity_comment_information[activity_id]"));
-	}
 
 //--------AJAX工具组
 
@@ -436,13 +403,58 @@ Class Activity Extends BaseActionController {
      *
      * @param	activity_id	活动ID
      */
-	function ajaxGetActivityCommentInformation(){
+	function ajaxGetComment(){
 		$activity_id = $this->getParameter('activity_id',Null);
 		$page_offset = $this->getParameter('page_offset',0);
-		$limit = $this->getParameter('limit',5);
-		$all_activity_comment_information = $this->extend_control->getActivityCommentInformation($activity_id,$page_offset,$limit);
+		$limit = $this->getParameter('limit',$this->CLIMIT);
+		$comment_information = $this->extend_control->getActivityComment( $activity_id,$page_offset,$limit );
 		
-		echo json_encode($all_activity_comment_information);
+		echo json_encode($comment_information);
+	}
+
+	/**
+	* 处理ajax提交评论
+	*
+	* @param 	activity_id 	微型书ID
+	* @param 	content 	评论内容
+	*
+	* @return 	刚刚添加的评论
+	*/
+	function ajaxAddComment(){
+		$activity_id = $this->getParameter('activity_id');
+		$content = $this->getParameterWithOutTag('content');
+		
+		$data['member_id'] = $this->current_member_id;
+		$data['activity_id'] = $activity_id;
+		$data['content'] = $content;
+		$data['created_time'] = $this->current_time;
+		$this->db->insert('activity_comment',$data);
+
+		$publisher_id = idx( $this->extend_control->getActivityBasicById($activity_id), 'publisher_id' );
+		$this->newSystemMessage('activity','new_comment',$activity_id,$publisher_id);
+
+		$data['comment_id'] = $this->db->insert_id();
+		$data['member_name'] = $this->current_member_information['member_name'];
+		$data['member_image'] = $this->current_member_information['member_image'];
+			
+		echo json_encode($data);
+	}
+
+	function ajaxAddReply() {
+		$activity_comment_id = $this->getParameter('activity_comment_id');
+		$reply = $this->getParameter('reply');
+
+		$data['reply'] = $reply;
+		$this->db->where('activity_comment_id',$activity_comment_id);
+		$this->db->update('activity_comment',$data);
+
+		$this->db->where('activity_comment_id',$activity_comment_id);
+		$comment_information = $this->db->get_first('activity_comment');
+
+		$target_id = $comment_information['memebr_id'];
+		$this->newSystemMessage('activity','new_comment',$activity_id,$target_id);
+
+		echo 1;
 	}
 
 	/**

@@ -50,7 +50,7 @@ Class Library Extends BaseActionController {
 	*/
 	function view(){
 		$book_id = $this->getParameter('id',NULL);
-		$p_page = $this->getParameter('page',1);
+		$p_page = 1;
 		$limit = $this->CLIMIT;
 		$offset = ($p_page-1) * $limit;
 		
@@ -61,12 +61,12 @@ Class Library Extends BaseActionController {
 		$book_information['is_author'] = $this->extend_control->isAuthorOfBook($this->current_member_id,$book_id);
 			
 		$count = $this->extend_control->countAllBlogComment($book_id);
-		$all_blog_comment_information = $this->extend_control->getBookComment($book_id,$offset,$limit);
+		$comment_information = $this->extend_control->getBookComment($book_id,$offset,$limit);
 		
 		$this->setPageInformation($count, $p_page, $limit);
 
 		$this->ci_smarty->assign('book_information',$book_information);
-		$this->ci_smarty->assign('all_book_comment_information',$all_blog_comment_information);
+		$this->ci_smarty->assign('comment_information',$comment_information);
 		//print_r($book_information);exit();
 		$this->display('view',$book_information['book_name'],'view_css','view_js');
 	}
@@ -254,24 +254,16 @@ Class Library Extends BaseActionController {
 		$data['book_id'] = $book_id;
 		$data['content'] = $content;
 		$data['created_time'] = $this->current_time;
-		
-		$result = $this->db->insert('book_comment',$data);
-		
-		if($result) {
-			$book_comment_id = $this->db->insert_id();
+		$this->db->insert('book_comment',$data);
+
+		$author_id = idx( $this->extend_control->getBookBasicById($book_id), 'author_id' );
+		$this->newSystemMessage('book','new_comment',$book_id,$author_id);
 			
-			$author_id = idx( $this->extend_control->getBookBasicById($book_id), 'author_id' );
+		$data['comment_id'] = $this->db->insert_id();
+		$data['member_name'] = $this->current_member_information['member_name'];
+		$data['member_image'] = $this->current_member_information['member_image'];
 		
-			$this->newSystemMessage('book','new_comment',$book_id,$author_id);
-			
-			$this->db->select('m.member_id, m.name as member_name, m.image as member_image, mbc.book_comment_id, mbc.book_id, mbc.content, mbc.created_time');
-			$this->db->from('book_comment as mbc');
-			$this->db->join('member as m','m.member_id = mbc.member_id');
-			$this->db->where('mbc.book_comment_id',$book_comment_id);
-			$blog_comment_information = $this->db->get_first();
-			
-			echo json_encode($blog_comment_information);
-		}
+		echo json_encode($data);
 	}
 	
 	/**
@@ -279,13 +271,13 @@ Class Library Extends BaseActionController {
      *
      * @param	book_id		微型书ID
      */
-	function ajaxGetBookComment(){
-		$book_id = $this->getParameter('book_id',Null);
+	function ajaxGetComment(){
+		$book_id = $this->getParameter('book_id');
 		$page_offset = $this->getParameter('page_offset',0);
-		$limit = $this->getParameter('limit',10);
-		$all_blog_comment_information = $this->extend_control->getBookComment($book_id,$page_offset,$limit);
+		$limit = $this->getParameter('limit',$this->CLIMIT);
+		$comment_information = $this->extend_control->getBookComment($book_id,$page_offset,$limit);
 		
-		echo json_encode($all_blog_comment_information);
+		echo json_encode($comment_information);
 	}
 
 	function ajaxGetLatestBooks(){
