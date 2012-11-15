@@ -13,7 +13,7 @@
     {include file="$view_folder/$more_css.tpl"}
     {/if}
     <!--[if lt IE 9]>
-        <link href="{$config.asset}/ie6/ie6.min.css" rel="stylesheet">
+        <link href="{$config.asset}/ie/ie6.css" rel="stylesheet">
     <![endif]-->
   </head>
 
@@ -74,9 +74,12 @@
 {if $more_js }
 {include file="$view_folder/$more_js.tpl"}
 {/if}
+<!--[if IE]>
+    <script src="{$config.asset}/ie/placeholder.js"></script>
+<![endif]-->
 <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <script src="{$config.asset}/ie6/ie6.min.js"></script>
+    <script src="{$config.asset}/ie/html5shiv.js"></script>
+    <script src="{$config.asset}/ie/ie6.js"></script>
 <![endif]-->
   </body>
 </html>
