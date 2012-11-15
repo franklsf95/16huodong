@@ -10,20 +10,25 @@
               <li id="sidebar-my-activities"><a href="{'profile/history?type=p'|site_url}"><i class="icon-th-list"></i> 我发起的活动</a></li>
               <li id="sidebar-my-library"><a href="{'library/profile'|site_url}"><i class="icon-th"></i> 我的图书馆</a></li>
               <li id="sidebar-friend"><a href="{'friend'|site_url}"><i class="icon-user"></i> 我的好友</a></li>
-              <li id="sidebar-message"><a href="{'message'|site_url}"><i class="icon-envelope"></i> 站内信</a></li>
+              {if $all_system_message_notice|@count}
+                <li class="dropdown-submenu active" id="sidebar-message">
+                  <a href="{'message'|site_url}"><i class="icon-envelope"></i> 新消息</a>
+                  <ul class="dropdown-menu">
+                    {foreach $all_system_message_notice as $i}
+                    <li><a href="{'message'|site_url}">
+                    {if $i.type == 'activity'}{$i.count}个新的活动通知
+                    {elseif $i.type == 'friend'}{$i.count}个新的好友通知
+                    {elseif $i.type == 'book'}{$i.count}个新的微型书通知
+                    {elseif $i.type == 'member_message'}{$i.count}条新的站内信
+                    {/if}
+                    </a></li>
+                    {/foreach}
+                  </ul>
+                </li>
+              {else}
+              <li id="sidebar-message"><a href="{'message'|site_url}"><i class="icon-envelope"></i> 消息中心</a></li>
+              {/if}
               <li class="divider"></li>
               <li id="sidebar-logout"><a href="{'login/logout'|site_url}"><i class="icon-off"></i> 登出</a></li>
-              {if $all_system_message_notice|@count}
-              <li class="nav-header">你有新消息~</li>
-              {foreach $all_system_message_notice as $i}
-                <li class="active"><a href="{'message'|site_url}">
-                {if $i.type == 'activity'}{$i.count}个新的活动通知
-                {elseif $i.type == 'friend'}{$i.count}个新的好友通知
-                {elseif $i.type == 'book'}{$i.count}个新的微型书通知
-                {elseif $i.type == 'member_message'}{$i.count}条新的站内信
-                {/if}
-                </a></li>
-              {/foreach}
-              {/if}
             </ul>
           </div><!--/.sidebar -->
