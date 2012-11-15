@@ -41,7 +41,7 @@ Class Activity Extends BaseActionController {
 		$activity_information['is_said'] = $this->extend_control->isMemberSaidActivity($member_id,$activity_id);
 		$activity_information['is_attend'] = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
 		$activity_information['is_attention'] = $this->extend_control->isMemberFollowActivity($member_id,$activity_id);
-		$activity_information['is_publisher'] = $this->extend_control->isMemberPublishActivity($member_id,$activity_id);
+		$activity_information['is_publisher'] = $this->extend_control->isPublisherOfActivity($member_id,$activity_id);
 		$activity_information['rate'] = $this->extend_control->getActivityRateInformation($activity_id);
 
 		$count = $this->extend_control->countAllActivityComment($activity_id);

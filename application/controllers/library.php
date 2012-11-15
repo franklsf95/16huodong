@@ -58,6 +58,7 @@ Class Library Extends BaseActionController {
 		$this->addBookVisit($book_id);
 		
 		$book_information = $this->extend_control->getBookInformationById($book_id);
+		$book_information['is_author'] = $this->extend_control->isAuthorOfBook($this->current_member_id,$book_id);
 			
 		$count = $this->extend_control->countAllBlogComment($book_id);
 		$all_blog_comment_information = $this->extend_control->getBookComment($book_id,$offset,$limit);
@@ -227,11 +228,9 @@ Class Library Extends BaseActionController {
 	*/
 	function ajaxDeleteBook(){
 		$book_id = $this->getParameter('book_id',0);
-		$author_id = idx( $this->extend_control->getBookBasicById($book_id), 'author_id' );
-		
 		$return_data = 0;
 		
-		if ( $this->current_member_id == $author_id ) {
+		if ( $this->extend_control->isAuthorOfBook( $this->current_member_id, $book_id ) ) {
 			//先删除所有博客评论
 			$this->db->where('book_id',$book_id);
 			$this->db->delete('book_comment');

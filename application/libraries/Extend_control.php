@@ -371,7 +371,7 @@ class Extend_control {
 		return $this->CI->db->count_all_results('activity_follow');
 	}
 	
-	function isMemberPublishActivity($member_id,$activity_id){
+	function isPublisherOfActivity($member_id,$activity_id){
 		$this->CI->db->where('publisher_id',$member_id);
 		$this->CI->db->where('activity_id',$activity_id);
 
@@ -585,6 +585,13 @@ class Extend_control {
 		$this->CI->db->where('b.book_id',$book_id);
 		
 		return $this->CI->db->get_first();
+	}
+
+	function isAuthorOfBook($member_id,$activity_id){
+		$this->CI->db->where('author_id',$member_id);
+		$this->CI->db->where('book_id',$activity_id);
+
+		return $this->CI->db->count_all_results('book');
 	}
 
 ////-------- 微型书评论

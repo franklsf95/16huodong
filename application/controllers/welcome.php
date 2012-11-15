@@ -44,9 +44,7 @@ class Welcome extends BaseController {
 		if(!$activity_id) redirect('welcome/demo');
 		
 		$activity_information = $this->extend_control->getActivityInformationById($activity_id);
-		$activity_information['is_attend'] = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
-		$activity_information['is_attention'] = $this->extend_control->isMemberFollowActivity($member_id,$activity_id);
-		$activity_information['is_publisher'] = $this->extend_control->isMemberPublishActivity($member_id,$activity_id);
+		$activity_information['is_attend'] = $activity_information['is_attention'] = $activity_information['is_publisher'] = 0;
 		$activity_information['rate'] = $this->extend_control->getActivityRateInformation($activity_id);
 
 		$count = $this->extend_control->countAllActivityComment($activity_id);

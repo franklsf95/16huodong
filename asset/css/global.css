@@ -44,6 +44,10 @@ a:hover {
 	margin-bottom: 20px;
 }
 
+.form-prompt {
+	margin: 0 100px 20px 100px;
+}
+
 .clear {
 	clear: both;
 }
