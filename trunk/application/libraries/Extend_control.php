@@ -31,12 +31,11 @@ class Extend_control {
 	/**
 	* 初始化会员信息
 	*
-	* @return 	PHP全局变量 	current_member_information
-	* @return 	PHP sessionValue 	current_member_information
+	* @return 	PHP全局变量 	current_member_id, current_member_information
 	* @return 	Smarty全局变量 	current_member_id, current_member_information
 	*/
 	function setCurrentMemberInformation() {
-		$cmid = $this->CI->current_member_id;
+		$cmid = $this->CI->session->userdata('current_member_id');
 
 		$this->CI->db->select(MEMBER_DETAIL);
 		$this->CI->db->from('member as m');
@@ -53,11 +52,16 @@ class Extend_control {
 		}
 		$cmi['tags'] = $tags;
 
-		$this->CI->setSessionValue('current_member_information',$cmi);
 		$this->CI->current_member_information = $cmi;
+		$this->CI->current_member_id = $cmid;
 
 		$this->CI->ci_smarty->assign('current_member_information',$cmi);
 		$this->CI->ci_smarty->assign('current_member_id',$cmid);
+
+		/*
+		echo $cmid;
+		print_r($cmi);
+		print_r( $this->CI->session->all_userdata() );exit();*/
 	}
 
 	function getMemberIdByMemberName($member_name){

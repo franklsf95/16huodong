@@ -2,7 +2,6 @@
 
 class BaseController extends CI_Controller {
 
-	var $enable_session = true;
 	var $viewFolder = '';
 	var $layoutFolder = '';
 	var $commonFolder = '';
@@ -59,17 +58,10 @@ class BaseController extends CI_Controller {
 		$this->ci_smarty->assign('svn_version',$arr['svn_version']);
 	}
 	
-	function getParameter($parameterName, $defaultValue = '', $useDefaultValueIfEmpty = true, $xss_clean = FALSE) {			//获取post或get变量
-		$value = $this->input->get_post($parameterName);
-		if ($value === FALSE) {
-			return $defaultValue;
-		} else {
-			if ($value == '' && $useDefaultValueIfEmpty) {
-				return $defaultValue;
-			} else {
-				return $value;
-			}
-		}
+	function getParameter($parameterName, $defaultValue = NULL, $useDefaultValueIfEmpty = true, $xss_clean = FALSE) {			//获取post或get变量
+		$value = $this->input->get_post($parameterName, $xss_clean);
+		if( $value ) return $value;
+		if( $useDefaultValueIfEmpty ) return $defaultValue;
 	}
 	
 	function getParameterInt($parameterName, $defaultValue = 0, $useDefaultValueIfEmpty = true) {				//获取Int变量
@@ -111,9 +103,9 @@ class BaseController extends CI_Controller {
 	function setSessionValue($parameterName, $value = '') {
 		$_SESSION[$parameterName] = $value;
 	}
-	
-	function unsetSessionValue($parameterName) {
-		unset($_SESSION[$parameterName]);
+
+	function getSessionCMI( $param ) {
+		return idx( $this->session->userdata('current_member_information'), $param );
 	}
 	
 	/**
@@ -318,7 +310,7 @@ class BaseController extends CI_Controller {
 		set_time_limit (24 * 60 * 60);
 		$php_path = dirname(__FILE__) . '/';
 		$php_url = dirname($_SERVER['PHP_SELF']) . '/';
-		$member_account = $_SESSION['current_member_information']['account'];
+		$member_account = $this->current_member_information['account'];
 		//文件保存目录路径
 		$save_path = $php_path . '../../upload/'.$member_account.'/';
 		//文件保存目录URL

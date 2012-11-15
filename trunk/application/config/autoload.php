@@ -64,7 +64,7 @@ $autoload['libraries'] = array('ci_smarty','database','session','extend_control'
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url');
+$autoload['helper'] = array('url','cookie');
 
 
 /*
