@@ -135,14 +135,16 @@ Class Profile Extends BaseActionController {
 		//处理会员标签
 		$this->db->where('member_id',$member_id);
 		$this->db->delete('member_tag');
-
-		foreach ($tag_array as $tag_value) {
-			$member_tag_data = array();
-			$member_tag_data['member_id'] = $member_id;
-			$member_tag_data['tag'] = $tag_value;
-			$member_tag_data['created_time'] = date('Y-m-d H:i:s');
-			
-			$this->db->insert('member_tag',$member_tag_data);
+		
+		if ($tag_array != null) {
+			foreach ($tag_array as $tag_value) {
+				$member_tag_data = array();
+				$member_tag_data['member_id'] = $member_id;
+				$member_tag_data['tag'] = $tag_value;
+				$member_tag_data['created_time'] = date('Y-m-d H:i:s');
+				
+				$this->db->insert('member_tag',$member_tag_data);
+			}
 		}
 		
 		//处理更改密码
@@ -161,6 +163,9 @@ Class Profile Extends BaseActionController {
 				$member_password_data['password'] = md5($new_password);
 				$this->db->where('member_id',$member_id);
 				$this->db->update('member',$member_password_data);
+			} else {
+				show_error('原密码错误');
+				exit();
 			}
 		}
 		
