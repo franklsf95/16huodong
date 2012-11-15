@@ -29,8 +29,9 @@
 
 .slider-item {
 	float: left;
-	width: 280px;
+	max-width: 270px;
 	height: 190px;
+	margin: 0 30px;
 	text-align: center;
 }
 

@@ -41,7 +41,7 @@
 <div class="clear"></div>
 <hr>
       <footer>
-        <p>&copy; 16活动网 2012 | beta (r{$svn_version}) | <span  data-toggle="modal" data-target="#modal-feedback"><a href="#">问题反馈</a></span></p>
+        &copy; 16活动网 2012 | beta (r{$svn_version}) | <span data-toggle="modal" data-target="#modal-feedback"><a href="#">问题反馈</a></span>{if $base_tpl == 'common/member'} | <a href="{'contact_member'|site_url}">联系我们</a>{/if}
       </footer>
 </div>
 

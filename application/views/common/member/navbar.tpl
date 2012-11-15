@@ -20,7 +20,6 @@
                 <button type="submit" class="btn"><i class="icon-search"></i></button>
               </div>
             </form>
-            <a class="navbar-highlight" id="navbar-contact" href="{'contact_member'|site_url}">联系我们</a>
           </div><!--/.nav-collapse -->
         </div>
       </div>
