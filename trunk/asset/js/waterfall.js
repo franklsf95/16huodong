@@ -23,7 +23,6 @@ function updateWaterfall( json_url, wrapFunction, width ) {
         $('#waterfall-loading').show();
       },
       success: function( data ) {
-        $('#waterfall-loading').slideUp();
         var newItemStr = '';
         for(i in data)
           newItemStr += wrapFunction( i+1, data[i]);
@@ -32,19 +31,25 @@ function updateWaterfall( json_url, wrapFunction, width ) {
         if( first ) {
           first = false;
           masonryHandler.imagesLoaded( function() {
+            $('#waterfall-loading').slideUp();
             masonryHandler.masonry( {
               itemSelector: '.waterfall-item',
-              columnWidth: paramWidth
+              columnWidth: paramWidth,
+              isAnimated: true
             } );
           });
         } else {
           masonryHandler.imagesLoaded( function() {
+            $('#waterfall-loading').slideUp();
             masonryHandler.masonry( 'appended', $newItems, true );
           });
         }
         
         page_offset += limit;
         refresh_lock = false;
+      },
+      error: function() {
+        $('#waterfall-loading').slideUp();
       }
     });
   }
