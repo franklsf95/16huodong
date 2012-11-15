@@ -90,7 +90,9 @@ class Welcome extends BaseController {
 		$data['email'] = $email;
 		$this->db->insert('member',$data);
 
-		$this->setSessionValue('current_member_id', $this->db->insert_id() );
+		//Set session
+		$this->session->set_userdata( 'current_member_id', $this->db->insert_id() );
+		
 		redirect('profile/edit');
 	}
 /*-----------------AJAX段---------------------*/
