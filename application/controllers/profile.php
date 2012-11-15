@@ -157,15 +157,14 @@ Class Profile Extends BaseActionController {
 			$this->db->where('member_id',$member_id);
 			$this->db->where('password',md5($old_password));
 			
-			$member_information = $this->db->get_first('member');
+			$member_exist = $this->db->count_all_results('member');
 			
-			if ($member_information) {
+			if ($member_exist) {
 				$member_password_data['password'] = md5($new_password);
 				$this->db->where('member_id',$member_id);
 				$this->db->update('member',$member_password_data);
 			} else {
-				show_error('原密码错误');
-				exit();
+				show_error('修改密码失败：原密码错误');
 			}
 		}
 		
