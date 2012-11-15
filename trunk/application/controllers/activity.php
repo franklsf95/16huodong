@@ -260,20 +260,18 @@ Class Activity Extends BaseActionController {
 	}
 	
 
-//--------AJAX工具组
-
 /**
-	* 处理ajax提交参加活动请求
+	* 处理post提交参加活动请求
 	* 若已报名则取消报名，否则报名
 	*
 	* @param 	id 		要参加的活动ID
 	* 
-	* @return 	1=报名成功	2=取消成功
 	*/
 	function attendActivity(){
 		$activity_id = $this->getParameter('id');
 		$member_id = $this->current_member_information['member_id'];
-		$info = $this->getParameter('info');
+		$provide_contact = $this->getParameter('provide_contact');
+		$introduction = $this->getParameter('introduction');
 
 		if ($activity_id) {
 			$is_attend = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
@@ -283,7 +281,8 @@ Class Activity Extends BaseActionController {
 				//添加参加列表
 				$data['member_id'] = $member_id;
 				$data['activity_id'] = $activity_id;
-				$data['show_info'] = $info;
+				$data['show_info'] = $provide_contact;
+				$data['introduction'] = $introduction;
 				$data['created_time'] = $this->current_time;
 				$this->db->insert('activity_attend',$data);
 
@@ -291,8 +290,6 @@ Class Activity Extends BaseActionController {
 				$data2['attend_count'] = $attend_count+1;
 				$this->db->where('activity_id',$activity_id);
 				$this->db->update('activity',$data2);
-
-				$return = 1;
 				
 				$publisher_id = idx( $this->extend_control->getActivityBasicById($activity_id), 'publisher_id' );
 				$this->newSystemMessage('activity','attend_activity',$activity_id, $publisher_id);
@@ -307,10 +304,9 @@ Class Activity Extends BaseActionController {
 				$this->db->where('activity_id',$activity_id);
 				$this->db->update('activity',$data2);
 				
-				$return = 2;
 			}
 		}
-		echo $return;
+		redirect('activity/view?id='.$activity_id);
 	}
 
 	/**
