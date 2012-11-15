@@ -10,7 +10,7 @@ var wrapActivity = function( id, act ) {
 +'<li><code>'+act.attend_count+'</code>人参与&nbsp;&nbsp;|&nbsp;&nbsp;<code>'+act.follow_count+'</code>人关注</li>'
 +'</ul></div></div>';
   return str;
-}
+};
 
 var wrapBook = function( id, book ) {
   var str = 
@@ -22,5 +22,5 @@ var wrapBook = function( id, book ) {
 +'<li><code>'+book.view_count+'</code>人读过&nbsp;&nbsp;|&nbsp;&nbsp;<code>'+book.like_count+'</code>人喜欢</li>'
 +'</ul></div></div>';
   return str;
-}
+};
     </script>

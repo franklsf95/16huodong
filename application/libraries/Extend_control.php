@@ -10,7 +10,6 @@ define( 'MEMBER_DETAIL', 	'm.member_id, m.account, m.name as member_name, m.memb
 define( 'ACTIVITY_BASIC', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name, a.image as activity_image');
 define( 'ACTIVITY_BRIEF', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.description, a.follow_count, a.attend_count, a.view_count');
 define( 'ACTIVITY_DETAIL', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.price, a.address, a.description, a.content, a.created_time, a.modified_time, a.view_count, a.attend_count, a.follow_count, a.book_id');
-define( 'COMMENT',			'ac.activity_comment_id, ac.activity_id, ac.member_id, ac.content, ac.reply, ac.created_time, m.name as member_name, m.image as member_image');
 DEFINE( 'BOOK_BASIC', 		'b.book_id, b.name as book_name, b.author_id, b.author_name, b.image as book_image');
 DEFINE( 'BOOK_FULL',		'b.book_id, b.name as book_name, b.author_id, b.author_name, b.image as book_image, b.content as book_content, b.created_time, b.modified_time, b.like_count, b.view_count');
 DEFINE( 'TARGET_BASIC',		't.member_id as target_id, t.name as target_name, t.image as target_image');
@@ -283,8 +282,8 @@ class Extend_control {
 		return $this->CI->db->get_first();
 	}
 
-	function getActivityCommentInformation($activity_id,$page_offset = 0,$limit = 5){
-		$this->CI->db->select(COMMENT);
+	function getActivityComment($activity_id,$page_offset = 0,$limit = 5){
+		$this->CI->db->select('ac.activity_comment_id as comment_id, ac.activity_id, ac.member_id, ac.content, ac.reply, ac.created_time, m.name as member_name, m.image as member_image');
 		$this->CI->db->from('activity_comment as ac');
 		$this->CI->db->join('member as m','ac.member_id = m.member_id');
 		$this->CI->db->where('ac.activity_id',$activity_id);
@@ -628,7 +627,7 @@ class Extend_control {
 	}
 	
 	function getBookComment($book_id,$page_offset = 0,$limit = 10){
-		$this->CI->db->select('mbc.book_comment_id, mbc.book_id, mbc.member_id, mbc.content, mbc.created_time, m.name as member_name, m.image as member_image');
+		$this->CI->db->select('mbc.book_comment_id as comment_id, mbc.book_id, mbc.member_id, mbc.content, mbc.created_time, m.name as member_name, m.image as member_image');
 		$this->CI->db->from('book_comment as mbc');
 		$this->CI->db->join('member as m','mbc.member_id = m.member_id');
 		$this->CI->db->where('mbc.book_id',$book_id);
