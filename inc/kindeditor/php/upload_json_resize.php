@@ -34,7 +34,7 @@ $ext_arr = array(
 	'file' => array('doc', 'docx', 'xls', 'xlsx', 'ppt', 'htm', 'html', 'txt', 'zip', 'rar', 'gz', 'bz2'),
 );
 //最大文件大小
-$max_size = 512000;
+$max_size = 3074304;
 
 $save_path = realpath($save_path) . '/';
 
@@ -103,8 +103,8 @@ if (empty($_FILES) === false) {
 	}
 	@chmod($file_path, 0644);
 	$file_url = $save_url . $new_file_name_without_ext . '.jpg';
-	list($src_w,$src_h)=getimagesize($src_img);
-	resizeimage($file_path,300,300/$src_w*$src_h,$save_path.$new_file_name_without_ext.'.jpg');
+	list($src_w,$src_h)=getimagesize($file_path);
+	resizeimage($file_path,$src_w,$src_h,$save_path.$new_file_name_without_ext.'.jpg');
 	if($file_ext!='jpg')unlink($file_path);
 	header('Content-type: text/html; charset=UTF-8');
 	$json = new Services_JSON();
@@ -170,6 +170,17 @@ function resizeimage($srcFile, $toW, $toH, $toFile="")
 	//计算缩略图的宽高
 	$srcW = imagesx($im);
 	$srcH = imagesy($im);
+	//Trick: 如果要剪裁，只需给下面的过程一个虚假的原尺寸，考虑起来比较简单
+	$sx=$sy=0;
+	if ($srcW/$srcH>1.5){
+		$sx=($srcW-$srcH*1.5)/2;
+		$srcW-=$sx*2;
+	} else if ($srcW/$srcH<0.7){
+		$sy=($srcH-$srcW*1.4)/2;
+		$srcH-=$sy*2;
+	}
+	$toW=300;
+	$toH=300*$srcH/$srcW;
 	$toWH = $toW / $toH;
 	$srcWH = $srcW / $srcH;
 	if ($toWH <= $srcWH) 
@@ -182,26 +193,25 @@ function resizeimage($srcFile, $toW, $toH, $toFile="")
 		$ftoH = $toH;
 		$ftoW = (int)($ftoH * ($srcW / $srcH));
 	}
-	
 	if (function_exists("imagecreatetruecolor")) 
 	{
 		$ni = imagecreatetruecolor($ftoW, $ftoH); //新建一个真彩色图像
 		if ($ni) 
 		{
 			//重采样拷贝部分图像并调整大小 可保持较好的清晰度
-			imagecopyresampled($ni, $im, 0, 0, 0, 0, $ftoW, $ftoH, $srcW, $srcH);
+			imagecopyresampled($ni, $im, 0, 0, $sx, $sy, $ftoW, $ftoH, $srcW, $srcH);
 		} 
 		else 
 		{
 			//拷贝部分图像并调整大小
 			$ni = imagecreate($ftoW, $ftoH);
-			imagecopyresized($ni, $im, 0, 0, 0, 0, $ftoW, $ftoH, $srcW, $srcH);
+			imagecopyresized($ni, $im, 0, 0, $sx, $sy, $ftoW, $ftoH, $srcW, $srcH);
 		}
 	}
 	else 
 	{
 		$ni = imagecreate($ftoW, $ftoH);
-		imagecopyresized($ni, $im, 0, 0, 0, 0, $ftoW, $ftoH, $srcW, $srcH);
+		imagecopyresized($ni, $im, 0, 0, $sx, $sy, $ftoW, $ftoH, $srcW, $srcH);
 	}
 
 	//保存到文件 统一为.jpeg格式
