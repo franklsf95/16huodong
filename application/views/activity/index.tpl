@@ -16,10 +16,10 @@
             <div class="control-group">
                 <label class="control-label" for="member_type">发起人类别</label>
                 <div class="controls">
-                	<input type="radio" name="member_type" value="stu">学生</input>
-                	<input type="radio" name="member_type" value="org">学生组织</input>
-                	<input type="radio" name="member_type" value="chr">公益组织</input>
-                	<input type="radio" name="member_type" value="com">公司</input>
+                	<input type="radio" name="member_type" value="stu">&nbsp;学生&nbsp;</input>
+                	<input type="radio" name="member_type" value="org">&nbsp;学生组织&nbsp;</input>
+                	<input type="radio" name="member_type" value="chr">&nbsp;公益组织&nbsp;</input>
+                	<input type="radio" name="member_type" value="com">&nbsp;公司</input>
                 </div>
             </div>
             <div class="control-group">
