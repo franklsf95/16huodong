@@ -10,7 +10,7 @@ class Welcome extends BaseController {
 	function __construct() {
 		parent::__construct();
 
-		if ($this->getSessionValue('current_member_id')) {
+		if( $this->session->userdata('current_member_id') ) {
 			redirect('index');
 		}
 
@@ -23,7 +23,7 @@ class Welcome extends BaseController {
 	*/
 	function index()
 	{
-		$ref = $this->input->get('ref',TRUE);
+		$ref = $this->getParameter('ref');
 		$this->ci_smarty->assign('ref',$ref);
 		$this->display('index','欢迎');
 	}

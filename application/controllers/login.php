@@ -22,12 +22,14 @@ Class Login Extends BaseController {
      * @param member_cookie	是否保留cookie
      */
 	function loginSubmit(){
-		$account = $this->getParameter('account',NULL);
-		$password = $this->getParameter('password',NULL);
-		$member_cookie = $this->getParameter('member_cookie',False);
-		$ref = $this->getParameter('ref',NULL);
+		$account = $this->getParameter('account');
+		$password = $this->getParameter('password');
+		$member_cookie = $this->getParameter('member_cookie');
+		$ref = $this->getParameter('ref');
+
 		if ( $account == '' || $password == '' ) 	show_error('用户名或密码为空!');
 
+		//Login validation
 		$this->db->select('member_id, account');
 		$this->db->from('member');
 		if(substr_count($account,'@')==0){
@@ -37,42 +39,34 @@ Class Login Extends BaseController {
 		}
 		$this->db->where('password',md5($password));
 		$current_member=$this->db->get_first();
-		$current_member_id = $current_member['member_id'];
 
 		if ( !$current_member ) 	show_error('用户名或密码错误!');
 		$account=$current_member['account'];
+
+		//Set session
+		$this->session->set_userdata( 'current_member_id', $current_member['member_id'] );
+
+		//Set cookie
 		if ($member_cookie == 'Y') {
-			$member_cookie = array('remember' => 'Y','account' => $current_member['account'],'key'=>md5(md5($password).md5($password)));
-			setcookie('member_cookie[remember]',$member_cookie['remember'],time()+3600*24*30,'/');
-			setcookie('member_cookie[account]',$member_cookie['account'],time()+3600*24*30,'/');
-			setcookie('member_cookie[key]',$member_cookie['key'],time()+3600*24*30,'/');
+			$this->input->set_cookie( 'account', $current_member['account'], 3600*24*30 );
+			$this->input->set_cookie( 'passmd5', md5( md5($password).md5($password) ), 2600*24*30 );
 		}
-		$this->setSessionValue('current_member_id',$current_member_id);
-		if($ref){
-			redirect(rawurldecode($ref));
-		}else{
-			redirect('index');
-		}
+
+		if( $ref ) redirect(rawurldecode($ref));
+		redirect('index');
 	}
 	
 	/**
      * 处理登出
      */
 	function logout(){
-		$this->unsetSessionValue('current_member_id');
-		setcookie('member_cookie[remember]','',time()-3600,'/');
-		setcookie('member_cookie[account]','',time()-3600,'/');
-		setcookie('member_cookie[key]','',time()-3600,'/');
+		//unset session
+		$this->session->unset_userdata( 'current_member_id' );
+		//unset cookie
+		delete_cookie( 'account' );
+		delete_cookie( 'passmd5' );
+
 		redirect('welcome');
 	}
-	
-	/**
-	* @deprecated
-	*/
-	function cookie(){
-		print_r($_COOKIE['member_cookie']);
-		exit();
-	}
-	
 }
 ?>

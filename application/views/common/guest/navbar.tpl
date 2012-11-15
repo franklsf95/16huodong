@@ -13,7 +13,7 @@
             <form class="navbar-form pull-right" id="navbar-login" action="{'login/loginSubmit'|site_url}" method="post">
               <input class="span2" type="text" placeholder="用户名/邮箱" id="loginUsername" name="account">
               <input class="span2" type="password" placeholder="密码" id="loginPassword" name="password">
-			  <input type="hidden" name="ref" value="{$ref}">
+              <input type="hidden" name="ref" value="{$ref}">
               <button type="submit" class="btn btn-primary">登录</button>
               <div id="navbar-login-tools">
                 <span class="navbar-login-item navbar-login-remember"><input type="checkbox" id="loginRemember" name="member_cookie" value="Y"><a href="#" id="remember-me-anchor">记住我</a></span>

@@ -145,13 +145,13 @@ Class Profile Extends BaseActionController {
 			$this->db->insert('member_tag',$member_tag_data);
 		}
 		
-		//更新session、处理更改密码
+		//处理更改密码
 		
-		$old_password = $this->getParameter('old_password',Null);
-		$new_password = $this->getParameter('new_password',Null);
-		$repeat_password = $this->getParameter('repeat_password',Null);
+		$old_password = $this->getParameter('old_password');
+		$new_password = $this->getParameter('new_password');
+		$repeat_password = $this->getParameter('repeat_password');
 		
-		if ($old_password != '' && $new_password != '' && $repeat_password != '' && $new_password == $repeat_password) {
+		if ( $old_password && $new_password && $repeat_password && $new_password == $repeat_password) {
 			$this->db->where('member_id',$member_id);
 			$this->db->where('password',md5($old_password));
 			
@@ -163,7 +163,6 @@ Class Profile Extends BaseActionController {
 				$this->db->update('member',$member_password_data);
 			}
 		}
-		$this->extend_control->setCurrentMemberInformation();
 		
 		redirect('profile');
 	}
