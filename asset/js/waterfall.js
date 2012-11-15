@@ -11,8 +11,19 @@ function resetWaterfall() {
   first = true;
 }
 
-function updateWaterfall( json_url, wrapFunction, width ) {
-  var paramWidth = width ? width : 280;
+function updateWaterfall( json_url, options ) {
+  var paramWidth = options.width ? options.width : 280;
+  var EmptyString = '（没有项目）';
+  var WrapFunc = options.wrapFunction;
+  if( options.type=='activity' ) {
+    EmptyString = '（没有活动）';
+    if( WrapFunc==undefined ) WrapFunc = wrapActivity;
+  } else if( options.type=='book' ) {
+    EmptyString = '（没有微型书）';
+    if( WrapFunc==undefined ) WrapFunc = wrapBook;
+  }
+  if( options.limit ) limit = options.limit;
+
   if (!refresh_lock) {
     refresh_lock = true;
     $.ajax( {
@@ -23,15 +34,14 @@ function updateWaterfall( json_url, wrapFunction, width ) {
         $('#waterfall-loading').show();
       },
       success: function( data ) {
-        console.log(data);
         if( data.length==0 ) {
-          masonryHandler.append('（空）');
+          masonryHandler.append(EmptyString);
           $('#waterfall-loading').slideUp();
           return;
         }
         var newItemStr = '';
         for(i in data)
-          newItemStr += wrapFunction( i+1, data[i]);
+          newItemStr += WrapFunc( i+1, data[i]);
         var $newItems = $(newItemStr);
         masonryHandler.append( $newItems );
         if( first ) {
@@ -61,9 +71,20 @@ function updateWaterfall( json_url, wrapFunction, width ) {
   }
 }
 
-function refillWaterfall( json_url, wrapFunction, width ) {
+function refillWaterfall( json_url, options ) {
+  var paramWidth = options.width ? options.width : 280;
+  var EmptyString = '（没有项目）';
+  var WrapFunc = options.wrapFunction;
+  if( options.type=='activity' ) {
+    EmptyString = '（没有活动）';
+    if( WrapFunc==undefined ) WrapFunc = wrapActivity;
+  } else if( options.type=='book' ) {
+    EmptyString = '（没有微型书）';
+    if( WrapFunc==undefined ) WrapFunc = wrapBook;
+  }
+  if( options.limit ) limit = options.limit;
+
   masonryHandler.empty().masonry('destroy');
-  var paramWidth = width ? width : 280;
   $.ajax( {
       url: json_url,
       dataType: 'json',
@@ -71,7 +92,7 @@ function refillWaterfall( json_url, wrapFunction, width ) {
       success: function( data ) {
         var newItemStr = '';
         for(i in data)
-          newItemStr += wrapFunction( i+1, data[i]);
+          newItemStr += WrapFunc( i+1, data[i]);
         var $newItems = $(newItemStr);
         masonryHandler.append( $newItems ).hide();
         masonryHandler.imagesLoaded( function() {
@@ -84,17 +105,4 @@ function refillWaterfall( json_url, wrapFunction, width ) {
         masonryHandler.fadeIn();
       }
     });
-}
-
-function wrapActivity( id, act ) {
-  var str = 
-'<div class="waterfall-item" id="item-'+id+'">'+'<a href="{"activity/view"|site_url}?id='+act.activity_id+'">'+'<img src="'+act.activity_image+'" class="img-rounded"></a>'
-+'<h4><a href="{"activity/view"|site_url}?id='+act.activity_id+'">'+act.activity_name+'</a></h4>'
-+'<div class="waterfall-item-bottom"><ul>'
-+'<li>开始时间: '+act.start_time+'</li>'
-+'<li>结束时间: '+act.end_time+'</li>'
-+'<li>发起人: <a href="{"profile"|site_url}?id='+act.publisher_id+'">'+act.publisher_name+'</a></li>'
-+'<li><code>'+act.attend_count+'</code>人参与&nbsp;&nbsp;|&nbsp;&nbsp;<code>'+act.follow_count+'</code>人关注</li>'
-+'</ul></div></div>';
-  return str;
 }
