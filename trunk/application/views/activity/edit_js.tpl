@@ -33,12 +33,22 @@ var startDate = $('#actStartTime').val();
 return new Date(Date.parse(startDate.replace("-", "/"))) <= new Date(Date.parse(value.replace("-", "/")));
 }, 
 "end date is before start date");
+jQuery.validator.addMethod("endDate2",
+function(value, element) {
+var startDate = $('#applyStartTime').val();
+return new Date(Date.parse(startDate.replace("-", "/"))) <= new Date(Date.parse(value.replace("-", "/")));
+}, 
+"end date is before start date");
 $('#activity-form').validate({
       rules: {
       	name: {
       		required: true
       	},
 		end_time: {
+			required: true,
+			endDate: true
+		},
+		apply_end_time: {
 			required: true,
 			endDate: true
 		},

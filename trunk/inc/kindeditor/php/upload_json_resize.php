@@ -172,15 +172,15 @@ function resizeimage($srcFile, $toW, $toH, $toFile="")
 	$srcH = imagesy($im);
 	//Trick: 如果要剪裁，只需给下面的过程一个虚假的原尺寸，考虑起来比较简单
 	$sx=$sy=0;
-	if ($srcW/$srcH>1.5){
+	if ($srcW/$srcH>1.5&&$srcW>300){
 		$sx=($srcW-$srcH*1.5)/2;
 		$srcW-=$sx*2;
-	} else if ($srcW/$srcH<0.7){
+	} else if ($srcW/$srcH<0.7&&$srcH>200){
 		$sy=($srcH-$srcW*1.4)/2;
 		$srcH-=$sy*2;
 	}
-	$toW=300;
-	$toH=300*$srcH/$srcW;
+	$toW=$srcW>300?300:$srcW;
+	$toH=$toW*$srcH/$srcW;
 	$toWH = $toW / $toH;
 	$srcWH = $srcW / $srcH;
 	if ($toWH <= $srcWH) 
