@@ -594,6 +594,23 @@ class Extend_control {
 		return $this->CI->db->count_all_results('book');
 	}
 
+	function deleteBook($book_id) {
+		$this->CI->db->where('book_id',$book_id);
+		$this->CI->db->delete('book_comment');
+
+		$this->CI->db->where('book_id',$book_id);
+		$this->CI->db->delete('book_tag');
+		
+		$this->CI->db->where('book_id',$book_id);
+		$this->CI->db->delete('book_visit');
+		
+		$this->CI->db->where('book_id',$book_id);
+		$this->CI->db->delete('book');
+
+		$this->CI->db->where('book_id',$book_id);
+		$this->CI->db->delete('news_feed');
+	}
+
 ////-------- 微型书评论
 
 	function countAllBlogComment($book_id){
