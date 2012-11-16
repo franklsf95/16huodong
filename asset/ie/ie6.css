@@ -105,3 +105,6 @@ ul.thumbnails {margin-left:-20px;float:none;display:inline-block;zoom:1;clear:bo
 /* Modal */
 .modal {position:relative;filter:alpha(opacity=99);top: 55%}
     .modal-header a.close {cursor: pointer}
+
+/* Custom */
+.slider-item {margin:0 20px;max-width:220px;}
