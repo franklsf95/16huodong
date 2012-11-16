@@ -38,13 +38,12 @@ Class Profile Extends BaseActionController {
      * 显示用户的活动历史
      *
      * @param	member_id	要显示的用户的ID
-     * @param 	type 		类型：a参加；f关注；p发起
      * @param	page		当前进行到的页面
+     * @param 	string 		type 		类型：a参加；f关注；p发起
      */
-	function history(){
+	function history( $type ){
 		$member_id = $this->getParameter('member_id',$this->current_member_id);
 		$member_name = $this->extend_control->getMemberNameByMemberId($member_id);
-		$type = $this->getParameter('type');
 		$page = $this->getParameter('page',1);
 		$limit = $this->LIMIT;
 		$offset = ($page-1) * $limit;
@@ -65,7 +64,7 @@ Class Profile Extends BaseActionController {
 		} else {
 			show_error('没有指定活动类型！');
 		}
-		$this->setPageInformation( $count, $page, $limit, 'profile/history' );
+		$this->setPageInformation( $count, $page, $limit, 'profile/history/'.$type );
 
 		$this->ci_smarty->assign('history',$information);
 		$this->ci_smarty->assign('type',$type);
