@@ -19,7 +19,8 @@ $("#actTag").keydown(function() {
   }
 });
 $('#activity_never_end').click(function(){
-  $('#actEndTime').val('2345-6-7');
+  var elem = $('#actEndTime');
+  elem.val('2345-6-7').attr('disabled', !elem.attr('disabled') );
 })
 $("#badge-add-tag").click(function(){
     	tag = $("#actTag").val();
@@ -36,13 +37,13 @@ function(value, element) {
 var startDate = $('#actStartTime').val();
 return new Date(Date.parse(startDate.replace("-", "/"))) <= new Date(Date.parse(value.replace("-", "/")));
 }, 
-"end date is before start date");
-jQuery.validator.addMethod("endDate2",
+"结束时间不应早于开始时间");
+jQuery.validator.addMethod("endDateApply",
 function(value, element) {
 var startDate = $('#applyStartTime').val();
 return new Date(Date.parse(startDate.replace("-", "/"))) <= new Date(Date.parse(value.replace("-", "/")));
 }, 
-"end date is before start date");
+"结束时间不应早于开始时间");
 $('#activity-form').validate({
   rules: {
     name: {
@@ -54,7 +55,7 @@ $('#activity-form').validate({
 		},
 		apply_end_time: {
 			required: true,
-			endDate: true
+			endDateApply: true
 		},
       	price: {
       		min: 0
