@@ -92,9 +92,6 @@ Class Library Extends BaseActionController {
 		if ( !$image_url ) {
 			show_error('微型书封面不合法');
 		}
-		$image_parameter = @getimagesize($image_url['absolute_path']);
-		$data['image_width'] = $image_parameter['0'];
-		$data['image_height'] = $image_parameter['1'];
 		$data['image'] = $image_url['relative_path'];
 		
 		if ( $book_id==null ){
