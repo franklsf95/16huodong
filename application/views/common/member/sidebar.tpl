@@ -8,7 +8,6 @@
               <li id="sidebar-new-book"><a href="{'library/edit'|site_url}"><i class="icon-pencil"></i> 写新书</a></li>
               <li class="divider"></li>
               <li id="sidebar-my-activities"><a href="{'profile/history/p'|site_url}"><i class="icon-th-list"></i> 我发起的活动</a></li>
-              <li id="sidebar-my-library"><a href="{'library/profile'|site_url}"><i class="icon-th"></i> 我的图书馆</a></li>
               <li id="sidebar-friend"><a href="{'friend'|site_url}"><i class="icon-user"></i> 我的好友</a></li>
               {if $all_system_message_notice|@count}
                 <li class="dropdown-submenu active" id="sidebar-message">

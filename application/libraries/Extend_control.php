@@ -11,6 +11,7 @@ define( 'ACTIVITY_BASIC', 	'a.activity_id, a.name as activity_name, a.publisher_
 define( 'ACTIVITY_BRIEF', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.description, a.follow_count, a.attend_count, a.view_count');
 define( 'ACTIVITY_DETAIL', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.price, a.address, a.description, a.content, a.created_time, a.modified_time, a.view_count, a.attend_count, a.follow_count, a.book_id');
 DEFINE( 'BOOK_BASIC', 		'b.book_id, b.name as book_name, b.author_id, b.author_name, b.image as book_image');
+DEFINE( 'BOOK_BRIEF', 		'b.book_id, b.name as book_name, b.author_id, b.author_name, b.image as book_image, b.created_time, b.modified_time, b.like_count, b.view_count');
 DEFINE( 'BOOK_FULL',		'b.book_id, b.name as book_name, b.author_id, b.author_name, b.image as book_image, b.content as book_content, b.created_time, b.modified_time, b.like_count, b.view_count');
 DEFINE( 'TARGET_BASIC',		't.member_id as target_id, t.name as target_name, t.image as target_image');
 
@@ -510,7 +511,7 @@ class Extend_control {
 ////-------- 全站读取
 
 	function getLatestBooks($page_offset = 0,$limit = 15, $str_length = 100){
-		$this->CI->db->select(BOOK_FULL);
+		$this->CI->db->select(BOOK_BRIEF);
 		$this->CI->db->from('book as b');
 		$this->CI->db->group_by('b.book_id');
 		$this->CI->db->order_by('b.created_time','DESC');
@@ -528,7 +529,7 @@ class Extend_control {
 	}
 	
 	function getHotBlogInformation($page_offset = 0,$limit = 10){
-		$this->CI->db->select(BOOK_FULL);
+		$this->CI->db->select(BOOK_BRIEF);
 		$this->CI->db->from('book as b');
 		$this->CI->db->join('member as m','b.author_id = m.member_id');
 		$this->CI->db->group_by('b.book_id');
@@ -540,13 +541,14 @@ class Extend_control {
 	
 	}
 	
-	function getMemberBlogInformation($member_id,$page_offset = 0,$limit = 15 ,$str_length = 150){
-		$this->CI->db->select('b.book_id, b.name as book_name, b.image as book_image, b.image_width as book_image_width, b.image_height as book_image_height, b.content, b.created_time, b.modified_time');
+	function getPublishBookInformation($member_id,$page_offset = 0,$limit = 15 ,$str_length = 150){
+		$this->CI->db->select(BOOK_BRIEF);
 		$this->CI->db->from('book as b');
 		$this->CI->db->where('b.author_id',$member_id);
 		$this->CI->db->order_by('b.created_time','DESC');
 		$all_book_information = $this->CI->db->get('',$limit,$page_offset)->result_array();
 		
+		/*
 		foreach ($all_book_information as &$i) {
 			$i['content'] = trim($i['content']);
 			$i['content'] = strip_tags($i['content']);
@@ -554,12 +556,12 @@ class Extend_control {
 				$i['content'] = mb_substr($i['content'], 0, $str_length,'utf-8').'...';
 			}
 		}
-		
+		*/		
 		return $all_book_information;
 	}
 	
-	function getPreferBlogInformation($member_id,$page_offset = 0,$limit = 15){
-		$this->CI->db->select(BOOK_FULL);
+	function getLikeBookInformation($member_id,$page_offset = 0,$limit = 15){
+		$this->CI->db->select(BOOK_BRIEF);
 		$this->CI->db->from('book as b');
 		$this->CI->db->join('member as m','b.author_id = m.member_id');
 		$this->CI->db->join('member_like_book as mpb','mpb.book_id = b.book_id');
