@@ -396,6 +396,33 @@ class Extend_control {
 		$this->CI->db->update('activity',$data);
 	}
 
+	function deleteActivity($activity_id) {
+		$this->CI->db->where('activity_id',$activity_id);
+		$this->CI->db->delete('activity');
+
+		$this->CI->db->where('activity_id',$activity_id);
+		$this->CI->db->delete('activity_attend');
+
+		$this->CI->db->where('activity_id',$activity_id);
+		$this->CI->db->delete('activity_comment');
+
+		$this->CI->db->where('activity_id',$activity_id);
+		$this->CI->db->delete('activity_follow');
+
+		$this->CI->db->where('activity_id',$activity_id);
+		$this->CI->db->delete('activity_rate');
+
+		$this->CI->db->where('activity_id',$activity_id);
+		$this->CI->db->delete('activity_tag');
+
+		$this->CI->db->where('activity_id',$activity_id);
+		$this->CI->db->delete('news_feed');
+
+		$this->CI->db->where('category','activity');
+		$this->CI->db->where('code',$activity_id);
+		$this->CI->db->delete('system_message');
+	}
+
 
 /*
  *---------------------------------------------------------------
