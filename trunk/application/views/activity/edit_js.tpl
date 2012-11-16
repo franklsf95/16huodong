@@ -14,13 +14,17 @@ $(".datepicker").datepicker( {
     	format: "yyyy-mm-dd"
 });
 $("#actTag").keydown(function() {
-    	if( event.keyCode == 13 ) {
-    		$("#badge-add-tag").click();
-    	}
+  if( event.keyCode == 13 ) {
+    $("#badge-add-tag").click();
+  }
 });
+$('#activity_never_end').click(function(){
+  $('#actEndTime').val('2345-6-7');
+})
 $("#badge-add-tag").click(function(){
     	tag = $("#actTag").val();
     	if( tag != '' ) {
+        $('.tag-prompt').hide();
     		newTag = '<span class="badge tag tag-edit" onclick="$(this).remove()">'+tag+'<input type="hidden" name="tag[]" value="'+tag+'"></span>';
     		$(".tag-list").append( newTag );
     		$("#actTag").val('');
@@ -40,10 +44,10 @@ return new Date(Date.parse(startDate.replace("-", "/"))) <= new Date(Date.parse(
 }, 
 "end date is before start date");
 $('#activity-form').validate({
-      rules: {
-      	name: {
-      		required: true
-      	},
+  rules: {
+    name: {
+      required: true
+    },
 		end_time: {
 			required: true,
 			endDate: true

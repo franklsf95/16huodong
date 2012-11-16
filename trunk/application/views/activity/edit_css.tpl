@@ -8,6 +8,13 @@
   margin-left: 120px;
 }
 
+#label-never-end {
+  margin-left: 324px;
+}
+#activity_never_end {
+  margin-top: 1px;
+}
+
 .separator-label {
   padding: 0 30px 0 60px;
 }
@@ -28,5 +35,8 @@
 
 #badge-add-tag a {
 	color: white;
+}
+.tag-prompt {
+  color: #999;
 }
     </style>
