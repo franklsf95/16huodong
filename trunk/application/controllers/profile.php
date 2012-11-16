@@ -102,7 +102,7 @@ Class Profile Extends BaseActionController {
 		$name = $this->getParameterWithOutTag('name',Null);
 		$gender = $this->getParameter('gender',Null);
 		$birthday = $this->getParameter('birthday',Null);
-		$qq = $this->getParameterInt('qq',Null);								//QQ
+		$qq = $this->getParameter('qq',Null);								//QQ
 		$organisation = $this->getParameterWithOutTag('organisation',Null);		//所属组织
 		$email = $this->getParameterWithOutTag('email',Null);
 		$title = $this->getParameterWithOutTag('title',Null);		//职务

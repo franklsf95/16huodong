@@ -64,23 +64,6 @@ class BaseController extends CI_Controller {
 		if( $useDefaultValueIfEmpty ) return $defaultValue;
 	}
 	
-	function getParameterInt($parameterName, $defaultValue = 0, $useDefaultValueIfEmpty = true) {				//获取Int变量
-		$value = $this->input->get_post($parameterName);
-		if ($value === FALSE) {
-			return $defaultValue;
-		} else {
-			if ($value == '' && $useDefaultValueIfEmpty) {
-				return $defaultValue;
-			} else {
-				if (is_numeric($value)) {
-					return $value;
-				} else {
-					return $defaultValue;
-				}
-			}
-		}
-	}
-	
 	function getParameterWithOutTag($parameterName, $defaultValue = '', $useDefaultValueIfEmpty = true, $xss_clean = FALSE) {			//获取post或get变量
 		$value = htmlspecialchars($this->input->get_post($parameterName),ENT_QUOTES);
 		if ($value === FALSE) {

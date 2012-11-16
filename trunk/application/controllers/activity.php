@@ -81,7 +81,7 @@ Class Activity Extends BaseActionController {
      * @param	id		活动ID，如为空则创建新活动
      */
 	function edit() {
-		$id = $this->getParameter('id',NULL);
+		$id = $this->getParameter('id');
 		$title = '发起新活动';
 		
 		if ( $id ) {
@@ -105,39 +105,28 @@ Class Activity Extends BaseActionController {
      * @param	很多
      */
 	function save_form() {
-		$activity_id = $this->getParameter('activity_id',NULL);
-		$name = $this->getParameterWithOutTag('name',NULL);
-		$apply_start_time = $this->getParameter('apply_start_time',NULL);
-		$apply_end_time = $this->getParameter('apply_end_time',NULL);
-		$start_time = $this->getParameter('start_time',NULL);
-		$end_time = $this->getParameter('end_time',NULL);
-		$price = $this->getParameterWithOutTag('price',NULL);
-		$address = $this->getParameterWithOutTag('address',NULL);
-		$image = $this->getParameter('image',NULL);
-		$description = $this->getParameterWithOutTag('description',NULL);
-		$tag_array = $this->getParameter('tag',NULL);
-		$content = $this->getParameter('content',NULL);
+		$activity_id = $this->getParameter('activity_id');
+		$image = $this->getParameter('image');
+		$tag_array = $this->getParameter('tag');
 
-		$data['name'] = $name;
+		$data['name'] = $this->getParameterWithOutTag('name');
 		$data['publisher_id'] = $this->current_member_id;
 		$data['publisher_name'] = $this->current_member_information['member_name'];
-		$data['apply_start_time'] = $apply_start_time;
-		$data['apply_end_time'] = $apply_end_time;
-		$data['start_time'] = $start_time;
-		$data['end_time'] = $end_time;
-		$data['price'] = $price;
-		$data['address'] = $address;
-		$data['description'] = $description;
-		$data['content'] = $content;
+		$data['apply_start_time'] = $this->getParameter('apply_start_time');
+		$data['apply_end_time'] = $this->getParameter('apply_end_time');
+		$data['start_time'] = $this->getParameter('start_time');
+		$data['end_time'] = $this->getParameter('end_time');
+		$data['price'] = $this->getParameterWithOutTag('price');
+		$data['address'] = $this->getParameterWithOutTag('address');
+		$data['url'] = $this->getParameter('url');
+		$data['description'] = $this->getParameterWithOutTag('description');
+		$data['content'] = $this->getParameter('content');
 		
 		//处理图片高宽问题
 		$image_url = $this->getImageUrl($image);
 		if ($image_url === false) {
 			show_error('活动封面上传错误');
 		}
-		$image_parameter = @getimagesize($image_url['absolute_path']);
-		$data['image_width'] = $image_parameter['0'];
-		$data['image_height'] = $image_parameter['1'];
 		$data['image'] = $image_url['relative_path'];
 
 		if ( !$activity_id ) {	//new
@@ -375,7 +364,7 @@ Class Activity Extends BaseActionController {
      * @author	suantou franklsf95
      */
 	function handle_activity_attend(){
-		$activity_attend_id = $this->getParameter('activity_attend_id',Null);
+		$activity_attend_id = $this->getParameter('activity_attend_id');
 		$action = $this->getParameter('action',-1);
 		$return_data = array();
 		
@@ -409,7 +398,7 @@ Class Activity Extends BaseActionController {
      * @param	activity_id	活动ID
      */
 	function ajaxGetComment(){
-		$activity_id = $this->getParameter('activity_id',Null);
+		$activity_id = $this->getParameter('activity_id');
 		$page_offset = $this->getParameter('page_offset',0);
 		$limit = $this->getParameter('limit',$this->CLIMIT);
 		$comment_information = $this->extend_control->getActivityComment( $activity_id,$page_offset,$limit );
@@ -473,7 +462,7 @@ Class Activity Extends BaseActionController {
      * @author	suantou franklsf95
      */
 	function ajaxGetActivityInformationByTag(){
-		$tag = $this->getParameter('tag',NULL);
+		$tag = $this->getParameter('tag');
 		$all_activity_information = $this->extend_control->searchActivity(0,10,null,null,null,null,$tag);
 		
 		echo json_encode($all_activity_information);
