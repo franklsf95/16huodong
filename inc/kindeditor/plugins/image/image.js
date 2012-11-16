@@ -12,7 +12,7 @@ KindEditor.plugin('image', function(K) {
 		allowImageUpload = K.undef(self.allowImageUpload, true),
 		allowImageParameter = K.undef(self.allowImageParameter, true),
 		allowFileManager = K.undef(self.allowFileManager, false),
-		uploadJson = K.undef(self.uploadJson, self.basePath + 'php/upload_json.php'),
+		uploadJson = K.undef(self.uploadJson, self.basePath + '../../index.php/upload'),
 		imgPath = self.basePath + 'plugins/image/images/',
 		lang = self.lang(name + '.');
 
