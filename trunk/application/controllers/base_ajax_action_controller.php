@@ -63,24 +63,6 @@ Class Base_ajax_action_controller extends BaseActionController {
 		echo json_encode($all_hot_blog_information);
 	}
 	
-	function getMemberBlogInformation(){
-		$member_id = $this->getParameter('member_id',$this->current_member_id);
-		$page_offset = $this->getParameter('page_offset',0);
-		$limit = $this->getParameter('limit',6);
-		$all_book_information = $this->extend_control->getMemberBlogInformation($member_id,$page_offset,$limit);
-		
-		echo json_encode($all_book_information);
-	}
-	
-	function getPreferBlogInformation(){
-		$member_id = $this->getParameter('member_id',$this->current_member_id);
-		$page_offset = $this->getParameter('page_offset',0);
-		$limit = $this->getParameter('limit',6);
-		$all_prefer_blog_information = $this->extend_control->getPreferBlogInformation($member_id,$page_offset,$limit);
-		
-		echo json_encode($all_prefer_blog_information);
-	}
-	
 	//暂不启用ajax提交评论
 	function addActivityComment(){
 		$activity_id = $this->getParameter('activity_id',Null);

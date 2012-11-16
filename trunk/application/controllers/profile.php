@@ -192,7 +192,7 @@ Class Profile Extends BaseActionController {
 	}
 //--------AJAX工具组
 
-	function ajaxGetCurrentAttendActivity(){
+	function ajaxGetAttendActivity(){
 		$member_id = $this->getParameter('member_id',$this->current_member_id);
 		$page_offset = $this->getParameter('page_offset',0);
 		$limit = $this->getParameter('limit',5);
@@ -201,7 +201,7 @@ Class Profile Extends BaseActionController {
 		echo json_encode($all_current_attend_activity_information);
 	}
 	
-	function ajaxGetCurrentFollowActivity(){
+	function ajaxGetFollowActivity(){
 		$member_id = $this->getParameter('member_id',$this->current_member_id);
 		$page_offset = $this->getParameter('page_offset',0);
 		$limit = $this->getParameter('limit',5);
@@ -210,13 +210,31 @@ Class Profile Extends BaseActionController {
 		echo json_encode($all_current_attention_activity_information);
 	}
 	
-	function ajaxGetCurrentPublishActivity(){
+	function ajaxGetPublishActivity(){
 		$member_id = $this->getParameter('member_id',$this->current_member_id);
 		$page_offset = $this->getParameter('page_offset',0);
 		$limit = $this->getParameter('limit',5);
 		$all_current_publish_activity_information = $this->extend_control->getCurrentPublishActivityInformation($member_id,$page_offset,$limit);
 		
 		echo json_encode($all_current_publish_activity_information);
+	}
+
+	function ajaxGetPublishBook() {
+		$member_id = $this->getParameter('member_id',$this->current_member_id);
+		$page_offset = $this->getParameter('page_offset',0);
+		$limit = $this->getParameter('limit',6);
+		$all_book_information = $this->extend_control->getPublishBookInformation($member_id,$page_offset,$limit);
+		
+		echo json_encode($all_book_information);
+	}
+
+	function ajaxGetLikeBook(){
+		$member_id = $this->getParameter('member_id',$this->current_member_id);
+		$page_offset = $this->getParameter('page_offset',0);
+		$limit = $this->getParameter('limit',6);
+		$all_like_book_information = $this->extend_control->getLikeBookInformation($member_id,$page_offset,$limit);
+		
+		echo json_encode($all_like_book_information);
 	}
 	
 }

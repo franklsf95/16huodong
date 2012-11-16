@@ -1,1 +1,0 @@
-    <style type="text/css">.showcase-item {  width: 260px;  margin: 10px;  float: left;}.showcase-item img {  max-width: 250px;  max-height: 300px;}.content-subtitle {  color: #3C0000;  font-size: 18px;  margin-left: 40px;}.toolbox {  margin-top: 10px;}    </style>

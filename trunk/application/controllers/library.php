@@ -19,31 +19,6 @@ Class Library Extends BaseActionController {
 	}
 	
 	/**
-     * 显示TA喜欢的和写的书
-     *
-     * @param	id		会员ID，默认为自己
-     */
-	function profile(){
-		$member_id = $this->getParameter('id',$this->current_member_id);
-		$member_name = $this->extend_control->getMemberNameByMemberId($member_id);
-		$p_page = $this->getParameter('page',1);
-		$limit = $this->CLIMIT;
-		$offset = ($p_page-1) * $limit;
-		
-		$count = $this->extend_control->countMemberBlog($member_id);		
-		$all_book_information = $this->extend_control->getMemberBlogInformation($member_id,$offset,$limit);
-		$this->setPageInformation($count, $p_page, $limit);
-
-		$this->ci_smarty->assign('information',$all_book_information);
-		$this->ci_smarty->assign('member_id',$member_id);
-		$this->ci_smarty->assign('member_name',$member_name);
-		$this->ci_smarty->assign('is_me', $member_id == $this->current_member_id );
-
-		//print_r($all_book_information);exit();
-		$this->display('profile',$member_name.'的微型图书馆','profile_css','profile_js');
-	}
-	
-	/**
 	* 显示微型书内容，+1次访问量，控制评论显示
 	*
 	* @param 	id 		书的ID
