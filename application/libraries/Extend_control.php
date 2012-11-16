@@ -614,6 +614,10 @@ class Extend_control {
 
 		$this->CI->db->where('book_id',$book_id);
 		$this->CI->db->delete('news_feed');
+
+		$this->CI->db->where('category','book');
+		$this->CI->db->where('code',$book_id);
+		$this->CI->db->delete('system_message');
 	}
 
 ////-------- 微型书评论

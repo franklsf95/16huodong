@@ -1,5 +1,4 @@
 <style type="text/css">
-
 .bx-next {
 	position:absolute;
 	top:40%;
@@ -29,14 +28,14 @@
 
 .slider-item {
 	float: left;
-	max-width: 270px;
-	height: 190px;
-	margin: 0 30px;
+	max-width: 250px;
+	height: 200px;
+	margin: 0 20px;
 	text-align: center;
 }
 
 .slider-item img {
-  max-width: 270px;
+  max-width: 250px;
   height: 150px;
 }
 
