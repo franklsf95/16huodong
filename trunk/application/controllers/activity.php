@@ -464,7 +464,7 @@ Class Activity Extends BaseActionController {
 	function ajaxGetActivitiesByTag(){
 		$page_offset = $this->getParameter('page_offset');
 		$limit = $this->getParameter('limit');
-		$tag = $this->getParameter('tag');
+		$tag = $this->getParameterDecode('tag');
 		$all_activity_information = $this->extend_control->searchActivity($page_offset,$limit,null,null,null,null,$tag);
 		
 		echo json_encode($all_activity_information);

@@ -58,13 +58,17 @@ class BaseController extends CI_Controller {
 		$this->ci_smarty->assign('svn_version',$arr['svn_version']);
 	}
 	
-	function getParameter($parameterName, $defaultValue = NULL, $useDefaultValueIfEmpty = true, $xss_clean = FALSE) {			//获取post或get变量
+	function getParameter($parameterName, $defaultValue = NULL, $useDefaultValueIfEmpty = true, $xss_clean = false) {
 		$value = $this->input->get_post($parameterName, $xss_clean);
 		if( $value ) return $value;
 		if( $useDefaultValueIfEmpty ) return $defaultValue;
 	}
+
+	function getParameterDecode($parameterName, $defaultValue = NULL, $useDefaultValueIfEmpty = true, $xss_clean = false) {
+		return urldecode( $this->getParameter($parameterName, $defaultValue, $useDefaultValueIfEmpty, $xss_clean) );
+	}
 	
-	function getParameterWithOutTag($parameterName, $defaultValue = '', $useDefaultValueIfEmpty = true, $xss_clean = FALSE) {			//获取post或get变量
+	function getParameterWithOutTag($parameterName, $defaultValue = '', $useDefaultValueIfEmpty = true, $xss_clean = false) {
 		$value = htmlspecialchars($this->input->get_post($parameterName),ENT_QUOTES);
 		if ($value === FALSE) {
 			return $defaultValue;
