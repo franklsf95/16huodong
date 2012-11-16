@@ -43,12 +43,11 @@ Class Activity Extends BaseActionController {
 		$activity_information['is_publisher'] = $this->extend_control->isPublisherOfActivity($member_id,$activity_id);
 		$activity_information['rate'] = $this->extend_control->getActivityRateInformation($activity_id);
 
+		$this->ci_smarty->assign('activity_information',$activity_information);
+
 		$count = $this->extend_control->countAllActivityComment($activity_id);
 		$comment_information = $this->extend_control->getActivityComment( $activity_id,($page-1)*$limit,$limit );
-		
 		$this->setPageInformation( $count, $page, $limit );
-		
-		$this->ci_smarty->assign('activity_information',$activity_information);
 		$this->ci_smarty->assign('comment_information',$comment_information);
 
 		$this->display('view',$activity_information['activity_name'].' - 活动详情','view_css','view_js');
@@ -269,9 +268,19 @@ Class Activity Extends BaseActionController {
 	*/
 	function attendActivity(){
 		$activity_id = $this->getParameter('id');
-		$member_id = $this->current_member_information['member_id'];
+		$member_id = $this->current_member_id;
 		$provide_contact = $this->getParameter('provide_contact');
 		$introduction = $this->getParameter('introduction');
+		//Update member information
+		$enableChange = $this->getParameter('enableChange');
+		$newEmail = $this->getParameter('newEmail');
+		$newPhone = $this->getParameter('newPhone');
+		if( $enableChange=='Y' ) {
+			$member_data['email'] = $newEmail;
+			$member_data['phone'] = $newPhone;
+			$this->db->where('member_id',$member_id);
+			$this->db->update('member',$member_data);
+		}
 
 		if ($activity_id) {
 			$is_attend = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
