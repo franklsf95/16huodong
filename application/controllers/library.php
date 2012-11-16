@@ -30,9 +30,10 @@ Class Library Extends BaseActionController {
 		$offset = ($p_page-1) * $limit;
 		
 		if ( !$book_id ) redirect('library');
+		$book_information = $this->extend_control->getBookInformationById($book_id);
+		if( !$book_information) show_error('这本书已经不存在了哟~');
 		$this->addBookVisit($book_id);
 		
-		$book_information = $this->extend_control->getBookInformationById($book_id);
 		$book_information['is_author'] = $this->extend_control->isAuthorOfBook($this->current_member_id,$book_id);
 			
 		$count = $this->extend_control->countAllBlogComment($book_id);
