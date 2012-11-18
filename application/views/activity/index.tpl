@@ -1,7 +1,7 @@
 <div class="accordion" id="accordion-search">
 	<div class="accordion-group">
     <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="accordion-search" href="#collapse-search">挖活动</a>
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="accordion-search" href="#collapse-search">搜索活动</a>
     </div>
     <div id="collapse-search" class="accordion-body collapse">
       <div class="accordion-inner" data-collapse="hide">

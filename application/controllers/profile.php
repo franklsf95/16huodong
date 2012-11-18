@@ -112,7 +112,8 @@ Class Profile Extends BaseActionController {
 		$tag_array = $this->getParameter('tag',Null);		//标签
 		$description = $this->getParameterWithOutTag('description',Null);		//关于我
 		$content = $this->getParameter('content',Null);	//组织介绍页
-
+		$accept_notification = $this->getParameter('accept_notification');
+		
 		$member_data['name'] = $name;
 		$member_data['image'] = $image;
 		$member_data['gender'] = $gender;
@@ -127,6 +128,7 @@ Class Profile Extends BaseActionController {
 		$member_data['description'] = $description;
 		$member_data['content'] = $content;
 		$member_data['qq'] = $qq;
+		$member_data['accept_notification'] = $accept_notification;
 
 		$this->db->where('member_id',$member_id);
 		$this->db->update('member',$member_data);

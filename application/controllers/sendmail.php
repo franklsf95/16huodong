@@ -49,7 +49,7 @@ Class SendMail Extends BaseActionController {
 				$this->email->subject($subject);
 				$this->email->message($mail); 
 				$this->email->send();
-				echo('message sent to #'.$member_information['member_id']);
+				echo('message sent to #'.$member_information['member_id'].'\n');
 			}
 		}
 		
@@ -92,7 +92,7 @@ Class SendMail Extends BaseActionController {
 				$this->email->subject($subject);
 				$this->email->message($mail); 
 				$this->email->send();
-				echo('message sent to #'.$member_information['member_id']);
+				echo('message sent to #'.$member_information['member_id'].'\n');
 			}
 		}
 	}
