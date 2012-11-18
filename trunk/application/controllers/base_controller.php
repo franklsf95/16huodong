@@ -60,7 +60,7 @@ class BaseController extends CI_Controller {
 	
 	function getParameter($parameterName, $defaultValue = NULL, $useDefaultValueIfEmpty = true, $xss_clean = false) {
 		$value = $this->input->get_post($parameterName, $xss_clean);
-		if( $value ) return $value;
+		if( $value != NULL ) return $value;
 		if( $useDefaultValueIfEmpty ) return $defaultValue;
 	}
 
