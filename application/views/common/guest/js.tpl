@@ -13,7 +13,7 @@ $('.typeahead').tooltip({
   trigger: 'focus'
 });
 $(".carousel").carousel({
-  interval: 3000,
+  interval: 5000,
   pause: 'hover'
 });
 $("#remember-me-anchor").click( function() {

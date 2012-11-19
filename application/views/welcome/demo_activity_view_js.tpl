@@ -1,6 +1,6 @@
 <script>
 $('.btn').tooltip({
-  title : '注册为会员才能参与活动哦~',
+  title : '要参与活动？左边30秒完成注册~',
   placement: 'bottom',
   trigger: 'hover'
 });
