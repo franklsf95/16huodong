@@ -18,4 +18,10 @@ URL路由为index.php/class/function/param1/param2/param3
 || /asset/ || 静态资源文件在这里。其实/application/views/images/里还有一些上一个版本UI的素材 ||
 || /favicon.ico || As what it is. ||
 || /inc/kindeditor || 前端的richtext editor，现在有意换成TinyMCE因为KindEditor这玩意生成的垃圾标签实在是太多了…… ||
-|| /upload/(member_id)/ || 每个用户的上传文件路径
+|| /upload/(member_id)/ || 每个用户的上传文件路径 ||
+
+= 建议 =
+* 尽量不要修改/system框架内的内容
+* 使用CodeIgniter类库
+* 对于略微复杂的函数请按phpdoc格式在函数前撰写文档
+* Be *BOLD*!
