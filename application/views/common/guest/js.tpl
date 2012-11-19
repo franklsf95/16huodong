@@ -91,18 +91,24 @@ function initializeArea() {
 function initializeSchool(area) {
   schoolArray = [];
   schoolIdArray = [];
-  $.getJSON("{'welcome/ajaxGetAllSchoolInformation'|site_url}?area_id="+area,function(data) {
-      for (i in data) {
-        schoolArray.push( data[i].name );
-        schoolIdArray.push( data[i].school_id );
+  $.ajax( {
+      url: "{'welcome/ajaxGetAllSchoolInformation'|site_url}?area_id="+area,
+      dataType: 'json',
+      async: false,
+      success: function(data) {
+        for (i in data) {
+          schoolArray.push( data[i].name );
+          schoolIdArray.push( data[i].school_id );
+        }
+        console.log(schoolIdArray);
       }
-      console.log(schoolArray);
   });
   $(schoolSelector).typeahead( {
     source: function() { return schoolArray; }, 
     minLength: 2,
     items: 12
   });
+  console.log('typeahead initialized');
 }
 
 </script>
