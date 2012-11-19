@@ -157,6 +157,7 @@ label.error {
 .item-description {
   float: left;
   margin-left: 40px;
+  width: 620px;
 }
 
 .result-item hr {

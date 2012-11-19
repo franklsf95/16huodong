@@ -148,6 +148,7 @@ body {
   line-height: 20px;
   color: #333333;
   background-color: #ffffff;
+  word-wrap: break-word;
 }
 a {
   color: #700d0a;

@@ -1,8 +1,11 @@
 <style type="text/css">
     #welcome-text {
-      font-size: 18px;
-      line-height: 24px;
+      font-size: 16px;
+      line-height: 20px;
       padding: 30px 60px;
+    }
+    .emphasize {
+      font-size: 26px;
     }
     .tab-pane input {
       width: 186px;

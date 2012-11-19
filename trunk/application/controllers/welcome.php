@@ -67,10 +67,10 @@ class Welcome extends BaseController {
 		$name = $this->getParameter($member_type.'-name',NULL);
 		$school_id = $this->getParameter('school_id',NULL);
 		$school_name = $this->getParameter($member_type.'-school',NULL);
-
+		/*
 		if( !$school_id && ( $member_type=='stu'||$member_type=='org' ) )
 			show_error('请输入一个数据库中存在的学校~ 从下拉列表中选择即可。');
-
+		*/
 		$this->db->where('account',$account);
 		if( $this->db->get_first('member') )
 			show_error('这个用户名已经被人注册过啦~');
@@ -123,7 +123,7 @@ class Welcome extends BaseController {
 	* 处理ajax请求：获取demo活动信息（前10个）
 	*/
 	function ajaxGetDemoActivities() {
-		$all_new_activity_information = $this->extend_control->getLatestActivities(0,10);
+		$all_new_activity_information = $this->extend_control->getHotActivities(10);
 		echo json_encode($all_new_activity_information);
 	}
 }

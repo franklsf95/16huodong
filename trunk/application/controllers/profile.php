@@ -49,15 +49,15 @@ Class Profile Extends BaseActionController {
 		$offset = ($page-1) * $limit;
 		$title = $member_name;
 
-		if( $type == 'a' ) {
+		if( $type == 'follow' ) {
 			$count = $this->extend_control->countAllMemberFollowActivities($member_id);
 			$information = $this->extend_control->getAllMemberFollowActivities($member_id,$offset,$limit);
-			$title .= '参加的活动';
-		} elseif( $type == 'f' ) {
+			$title .= '关注的活动';
+		} elseif( $type == 'attend' ) {
 			$count = $this->extend_control->countAllMemberAttendActivities($member_id);
 			$information = $this->extend_control->getAllMemberAttendActivities($member_id,$offset,$limit);
-			$title .= '关注的活动';
-		} elseif( $type == 'p' ) {
+			$title .= '参加的活动';
+		} elseif( $type == 'publish' ) {
 			$count = $this->extend_control->countAllMemberPublishActivities($member_id);
 			$information = $this->extend_control->getAllMemberPublishActivities($member_id,$offset,$limit);
 			$title .= '发起的活动';
