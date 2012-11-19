@@ -47,7 +47,6 @@
                 <div class="controls">
                   <select id="select-province-1" class="span1">
                     <option>北京</option>
-                    <option>其他</option>
                   </select>
                   <select id="select-area-1" class="area-list" style="width: 100px">
                     <option></option>
@@ -74,7 +73,6 @@
                 <div class="controls">
                   <select id="select-province-2" class="span1">
                     <option>北京</option>
-                    <option>其他</option>
                   </select>
                   <select id="select-area-2" class="area-list" style="width: 100px">
                     <option></option>

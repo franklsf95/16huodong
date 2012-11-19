@@ -1,4 +1,9 @@
 <style type="text/css">
+    #welcome-text {
+      font-size: 18px;
+      line-height: 24px;
+      padding: 30px 60px;
+    }
     .tab-pane input {
       width: 186px;
     }

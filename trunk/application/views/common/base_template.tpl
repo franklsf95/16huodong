@@ -4,8 +4,9 @@
     <meta charset="utf-8">
     <title>{$template_title} | 16活动网，我们中学生自己的活动网站</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    {if $base_tpl == 'common/member'}<meta name="robots" content="noindex">{/if}
+    <meta name="keywords" content="16活动网,中学生,活动,志愿者,实习,课外活动">
+    <meta name="description" content="16活动网是中国第一家属于中学生的课外活动平台。在这里，你可以挖活动，找志愿，找实习，发现课本之外的第n种可能。">
+    {if $base_tpl == 'common/member'}<meta name="robots" content="noindex,nofollow">{/if}
     <link href="{$config.asset}/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="{$config.asset}/css/global.css" rel="stylesheet" type="text/css" />
     {include file="$base_tpl/css.tpl"}
