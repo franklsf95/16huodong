@@ -21,11 +21,9 @@ Class Library Extends BaseActionController {
 	/**
 	* 显示微型书内容，+1次访问量，控制评论显示
 	*
-	* @param 	id 		书的ID
+	* @param 	book_id 	书的ID
 	*/
-	function view(){
-		$book_id = $this->getParameter('id',NULL);
-		$p_page = 1;
+	function view( $book_id ){
 		$limit = $this->CLIMIT;
 		$offset = ($p_page-1) * $limit;
 		
@@ -39,7 +37,7 @@ Class Library Extends BaseActionController {
 		$count = $this->extend_control->countAllBlogComment($book_id);
 		$comment_information = $this->extend_control->getBookComment($book_id,$offset,$limit);
 		
-		$this->setPageInformation($count, $p_page, $limit);
+		$this->setPageInformation($count, 1, $limit);
 
 		$this->ci_smarty->assign('book_information',$book_information);
 		$this->ci_smarty->assign('comment_information',$comment_information);
@@ -53,11 +51,9 @@ Class Library Extends BaseActionController {
      * @param	id		书ID，如为空则写新书
      *
      */
-	function edit(){
-		$book_id = $this->getParameter('id',Null);
+	function edit( $book_id = 0 ){
 		$title = '写新书';
-
-		if ( $book_id ) {
+		if ( $book_id != 0 ) {
 			$title = '编辑微型书 #'.$id;
 			
 			$book_information = $this->extend_control->getBookInformationById($book_id);
@@ -107,7 +103,7 @@ Class Library Extends BaseActionController {
 
 			$this->newNewsFeed('book','edit_book',$book_id);
 		}
-		redirect('library/view?id='.$book_id);
+		redirect('library/view/'.$book_id);
 		
 	}
 

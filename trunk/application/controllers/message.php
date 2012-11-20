@@ -81,8 +81,8 @@ Class Message Extends BaseActionController {
 
 		if( $aid )	redirect('activity/view/'.$aid);
 		if( $did )	redirect('activity/admin/'.$did);
-		if( $bid )	redirect('library/view?id='.$bid);
-		if( $pid )	redirect('profile?id='.$pid);
+		if( $bid )	redirect('library/view/'.$bid);
+		if( $pid )	redirect('profile/view/'.$pid);
 	}
 	
 	/**
