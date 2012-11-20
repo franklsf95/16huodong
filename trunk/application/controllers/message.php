@@ -79,8 +79,8 @@ Class Message Extends BaseActionController {
 		$this->db->where('system_message_id',$message_id);
 		$this->db->update('system_message',$data);
 
-		if( $aid )	redirect('activity/view?id='.$aid);
-		if( $did )	redirect('activity/admin?id='.$did);
+		if( $aid )	redirect('activity/view/'.$aid);
+		if( $did )	redirect('activity/admin/'.$did);
 		if( $bid )	redirect('library/view?id='.$bid);
 		if( $pid )	redirect('profile?id='.$pid);
 	}

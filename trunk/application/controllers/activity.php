@@ -24,10 +24,9 @@ Class Activity Extends BaseActionController {
 	/**
      * 显示活动详情、活动访问量+1
      *
-     * @param	id		活动ID
+     * @param	activity_id		活动ID
      */
-	function view(){
-		$activity_id = $this->getParameter('id');
+	function view( $activity_id ){
 		$member_id = $this->current_member_id;
 		$page = 1;
 		$limit = $this->CLIMIT;
@@ -56,12 +55,11 @@ Class Activity Extends BaseActionController {
 	/**
      * 显示活动管理页面
      *
-     * @param	id		活动ID
+     * @param	activity_id		活动ID
      *
      * @author franklsf95
      */
-	function admin() {
-		$activity_id = $this->getParameter('id');
+	function admin( $activity_id ) {
 		$member_id = $this->current_member_id;
 
 		$activity_information = $this->extend_control->getActivityInformationById($activity_id);
@@ -69,7 +67,7 @@ Class Activity Extends BaseActionController {
 		$activity_information['all_follows'] = $this->extend_control->getActivityFollowMemberInformation($activity_id);
 		
 		if( $activity_information['publisher_id'] != $this->current_member_id )
-				show_error('你没有权限管理此活动');
+			show_error('你没有权限管理此活动');
 
 		$this->ci_smarty->assign('activity_information',$activity_information);
 		$this->display('admin',$activity_information['activity_name'].' - 管理活动','view_css','admin_js');
@@ -80,11 +78,10 @@ Class Activity Extends BaseActionController {
      *
      * @param	id		活动ID，如为空则创建新活动
      */
-	function edit() {
-		$id = $this->getParameter('id');
+	function edit( $id = 0 ) {
 		$title = '发起新活动';
 		
-		if ( $id ) {
+		if ( $id != 0 ) {
 			$title = '编辑活动 #'.$id;
 			$activity_information = $this->extend_control->getActivityInformationById( $id );
 
@@ -157,7 +154,7 @@ Class Activity Extends BaseActionController {
 			$this->db->insert('activity_tag',$activity_tag_data);
 		}
 
-		redirect('activity/view?id='.$activity_id);
+		redirect('activity/view/'.$activity_id);
 	}
 
 	function say(){
@@ -172,7 +169,7 @@ Class Activity Extends BaseActionController {
 		$this->db->where('activity_id',$activity_id);
 		$activity_information = $this->db->get_first();
 		if(date("Y-m-d",strtotime($activity_information['end_time']))>=date("Y-m-d")) {
-			redirect('activity/view?id='.$activity_id);
+			redirect('activity/view/'.$activity_id);
 		}
 		$this->db->select('a.activity_id, a.member_id');
 		$this->db->from('activity_attend as a');
@@ -185,10 +182,10 @@ Class Activity Extends BaseActionController {
 			$this->db->where('member_id',$member_id);
 			$this->db->update('activity_attend',$attend);
 		} else {
-			redirect('activity/view?id='.$activity_id);
+			redirect('activity/view/'.$activity_id);
 		}
 
-		redirect('activity/view?id='.$activity_id);
+		redirect('activity/view/'.$activity_id);
 	}
 	
 	/**
@@ -211,7 +208,7 @@ Class Activity Extends BaseActionController {
 		$this->db->where('activity_id',$activity_id);
 		$activity_information = $this->db->get_first();
 		if(date("Y-m-d",strtotime($activity_information['end_time']))>=date("Y-m-d")) {
-			redirect('activity/view?id='.$activity_id);
+			redirect('activity/view/'.$activity_id);
 		}
 		$this->db->select('a.activity_id, a.member_id, a.rate');
 		$this->db->from('activity_attend as a');
@@ -239,16 +236,28 @@ Class Activity Extends BaseActionController {
 			$this->db->where('member_id',$member_id);
 			$this->db->update('activity_attend',$rate);
 		} else {
-			redirect('activity/view?id='.$activity_id);
+			redirect('activity/view/'.$activity_id);
 		}
 		$news_feed_type = $plus ? 'rate_up' : 'rate_down';
 		if($send_news_feed==true) $this->newNewsFeed('activity',$news_feed_type,$activity_id);
 
-		redirect('activity/view?id='.$activity_id);
+		redirect('activity/view/'.$activity_id);
 	}
-	
 
-/**
+	/**
+	* 处理post删除活动请求
+	*
+	* @param 	activity_id 	要删除的活动ID
+	*/
+	function deleteActivity( $activity_id ) {
+		if ( $this->extend_control->isPublisherOfActivity( $this->current_member_id, $activity_id ) )
+			$this->extend_control->deleteActivity( $activity_id );
+		else
+			show_error('你不可以删除别人的活动！');
+		redirect('activity');
+	}
+
+	/**
 	* 处理post提交参加活动请求
 	* 若已报名则取消报名，否则报名
 	*
@@ -304,7 +313,7 @@ Class Activity Extends BaseActionController {
 				
 			}
 		}
-		redirect('activity/view?id='.$activity_id);
+		redirect('activity/view/'.$activity_id);
 	}
 
 	/**

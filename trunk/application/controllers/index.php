@@ -77,22 +77,22 @@ Class Index Extends BaseActionController {
 			$activity_name = idx( $this->extend_control->getActivityBasicById($activity_id), 'activity_name' );
 			switch( $data['type'] ) {
 				case 'new_activity':
-					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 发起了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a>";
+					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 发起了活动 <a href='".site_url("activity/view/$activity_id")."'>$activity_name</a>";
 					break;
 				case 'edit_activity':
-					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 修改了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 的内容";
+					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 修改了活动 <a href='".site_url("activity/view/$activity_id")."'>$activity_name</a> 的内容";
 					break;
 				case 'attend_activity':
-					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 报名参加了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a>";
+					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 报名参加了活动 <a href='".site_url("activity/view/$activity_id")."'>$activity_name</a>";
 					break;
 				case 'follow_activity':
-					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 关注了活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a>";
+					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 关注了活动 <a href='".site_url("activity/view/$activity_id")."'>$activity_name</a>";
 					break;
 				case 'rate_up':
-					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 对活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 竖了大拇指";
+					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 对活动 <a href='".site_url("activity/view/$activity_id")."'>$activity_name</a> 竖了大拇指";
 					break;
 				case 'rate_down':
-					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 对活动 <a href='".site_url("activity/view?id=$activity_id")."'>$activity_name</a> 竖了小拇指";
+					$message = "<a href='".site_url("profile?id=".$data['member_id'])."'>".$data['member_name']."</a> 对活动 <a href='".site_url("activity/view/$activity_id")."'>$activity_name</a> 竖了小拇指";
 					break;
 			}
 		} elseif ( $data['book_id']>0 ) {

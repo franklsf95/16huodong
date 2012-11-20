@@ -1,8 +1,8 @@
     <script>
 var wrapActivity = function( id, act ) {
   var str = 
-'<div class="waterfall-item" id="item-'+id+'">'+'<a href="{"activity/view"|site_url}?id='+act.activity_id+'">'+'<img src="'+act.activity_image+'" class="img-rounded"></a>'
-+'<h4><a href="{"activity/view"|site_url}?id='+act.activity_id+'">'+act.activity_name+'</a></h4>'
+'<div class="waterfall-item" id="item-'+id+'">'+'<a href="{"activity/view"|site_url}/'+act.activity_id+'">'+'<img src="'+act.activity_image+'" class="img-rounded"></a>'
++'<h4><a href="{"activity/view"|site_url}/'+act.activity_id+'">'+act.activity_name+'</a></h4>'
 +'<div class="waterfall-item-bottom"><ul>'
 +'<li>开始时间: '+act.start_time+'</li>'
 +'<li>结束时间: '+act.end_time+'</li>'
