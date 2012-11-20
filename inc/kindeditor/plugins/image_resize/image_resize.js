@@ -12,7 +12,7 @@ KindEditor.plugin('image_resize', function(K) {
 		allowImageUpload = K.undef(self.allowImageUpload, true),
 		allowImageParameter = K.undef(self.allowImageParameter, true),
 		allowFileManager = K.undef(self.allowFileManager, false),
-		uploadJson = K.undef(self.uploadJson, self.basePath + '../../index.php/uploadresize'),
+		uploadJson = K.undef(self.uploadJson, self.basePath + '../../imageuploadresize'),
 		imgPath = self.basePath + 'plugins/image_resize/images/',
 		lang = self.lang('image' + '.');
 

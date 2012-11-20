@@ -4,9 +4,9 @@ include_once "base_action_controller.php";
  * KindEditor PHP
  * 
  * CODE BY 蒜头
- * 文章中的图片上传，进行适当缩放，但不剪裁
+ * 需要缩放的场合
  */
-Class Upload Extends BaseActionController {
+Class ImageUploadResize Extends BaseActionController {
 	var $applicationFolder = "upload"; 
 	function __construct() {
 		parent::__construct();
@@ -40,7 +40,6 @@ Class Upload Extends BaseActionController {
 		$max_size = 3074304;
 
 		$save_path = realpath($save_path) . '/';
-
 		//有上传文件时
 		if (empty($_FILES) === false) {
 			//原文件名
@@ -107,15 +106,13 @@ Class Upload Extends BaseActionController {
 			@chmod($file_path, 0644);
 			$file_url = $save_url . $new_file_name_without_ext . '.jpg';
 			list($src_w,$src_h)=getimagesize($file_path);
-			if($src_w>800)$this->resizeimage($file_path,800,800/$src_w*$src_h,$save_path.$new_file_name_without_ext.'.jpg');
-			else $this->resizeimage($file_path,$src_w,$src_h,$save_path.$new_file_name_without_ext.'.jpg');
+			$this->resizeimage($file_path,$src_w,$src_h,$save_path.$new_file_name_without_ext.'.jpg');
 			if($file_ext!='jpg')unlink($file_path);
 			header('Content-type: text/html; charset=UTF-8');
 			echo json_encode(array('error' => 0, 'url' => str_replace('\\','',$file_url)));
 			exit;
 		}
 	}
-
 	function alert($msg) {
 		header('Content-type: text/html; charset=UTF-8');
 		$json = new Services_JSON();
@@ -174,6 +171,17 @@ Class Upload Extends BaseActionController {
 		//计算缩略图的宽高
 		$srcW = imagesx($im);
 		$srcH = imagesy($im);
+		//Trick: 如果要剪裁，只需给下面的过程一个虚假的原尺寸，考虑起来比较简单
+		$sx=$sy=0;
+		if ($srcW/$srcH>1.5&&$srcW>300){
+			$sx=($srcW-$srcH*1.5)/2;
+			$srcW-=$sx*2;
+		} else if ($srcW/$srcH<0.7&&$srcH>200){
+			$sy=($srcH-$srcW*1.4)/2;
+			$srcH-=$sy*2;
+		}
+		$toW=$srcW>300?300:$srcW;
+		$toH=$toW*$srcH/$srcW;
 		$toWH = $toW / $toH;
 		$srcWH = $srcW / $srcH;
 		if ($toWH <= $srcWH) 
@@ -186,26 +194,25 @@ Class Upload Extends BaseActionController {
 			$ftoH = $toH;
 			$ftoW = (int)($ftoH * ($srcW / $srcH));
 		}
-		
 		if (function_exists("imagecreatetruecolor")) 
 		{
 			$ni = imagecreatetruecolor($ftoW, $ftoH); //新建一个真彩色图像
 			if ($ni) 
 			{
 				//重采样拷贝部分图像并调整大小 可保持较好的清晰度
-				imagecopyresampled($ni, $im, 0, 0, 0, 0, $ftoW, $ftoH, $srcW, $srcH);
+				imagecopyresampled($ni, $im, 0, 0, $sx, $sy, $ftoW, $ftoH, $srcW, $srcH);
 			} 
 			else 
 			{
 				//拷贝部分图像并调整大小
 				$ni = imagecreate($ftoW, $ftoH);
-				imagecopyresized($ni, $im, 0, 0, 0, 0, $ftoW, $ftoH, $srcW, $srcH);
+				imagecopyresized($ni, $im, 0, 0, $sx, $sy, $ftoW, $ftoH, $srcW, $srcH);
 			}
 		}
 		else 
 		{
 			$ni = imagecreate($ftoW, $ftoH);
-			imagecopyresized($ni, $im, 0, 0, 0, 0, $ftoW, $ftoH, $srcW, $srcH);
+			imagecopyresized($ni, $im, 0, 0, $sx, $sy, $ftoW, $ftoH, $srcW, $srcH);
 		}
 
 		//保存到文件 统一为.jpeg格式

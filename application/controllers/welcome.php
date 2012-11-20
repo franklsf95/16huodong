@@ -71,6 +71,9 @@ class Welcome extends BaseController {
 		if( !$school_id && ( $member_type=='stu'||$member_type=='org' ) )
 			show_error('请输入一个数据库中存在的学校~ 从下拉列表中选择即可。');
 		*/
+		if( $name==NULL )
+			show_error('姓名/机构全名不可为空！');
+
 		$this->db->where('account',$account);
 		if( $this->db->get_first('member') )
 			show_error('这个用户名已经被人注册过啦~');

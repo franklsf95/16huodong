@@ -1,5 +1,4 @@
-    <link href="{$config.asset}/css/bootstrap-wysihtml5.css" rel="stylesheet" type="text/css">
-    <link href="/inc/kindeditor/themes/default/default.css" rel="stylesheet" type="text/css">
+    <link href="/inc/kindeditor/themes/simple/simple.css" rel="stylesheet">
     <style type="text/css">
 .book-form .control-label {
   width: 80px;

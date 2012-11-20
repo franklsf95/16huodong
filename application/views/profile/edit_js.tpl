@@ -59,12 +59,15 @@ $(".datepicker").datepicker( {
       viewMode: 2 //'years'
 } );
 {if $current_member_information.member_type == 'stu'}
-//load simplified editor
 var editor = KindEditor.editor();
 {else}
-var editor = KindEditor.create('.richtext',{ resizeType : 1,
-  items : ['fontsize', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline','removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist','insertunorderedlist', '|', 'emoticons', 'image', 'link']
-});
+var editor = KindEditor.create('.richtext', { 
+  themeType: 'simple',
+  items : [
+        'undo', 'redo', '|', 'preview', 'cut', 'copy', 'paste', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', '|', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript', 'superscript', '|', 'quickformat', '/',
+        'formatblock', 'fontname', 'fontsize', 'lineheight', '|', 'forecolor', 'bold', 'italic', 'underline', 'link', 'unlink', '|', 'image', 'table', '|', 'removeformat',  'source', 'fullscreen'
+  ] }
+);
 {/if}
 $('.portrait-upload').click(function() {
 		editor.loadPlugin('image_resize', function() {
