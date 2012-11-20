@@ -11,17 +11,22 @@ Class Profile Extends BaseActionController {
 		parent::__construct();
 		
 	}
+
+	function index() {
+		redirect('profile/view/'.$this->current_member_id);
+	}
 	
 	/**
      * 显示会员个人主页
      *
-     * @param 	id 	会员ID，默认自己
-     *
+     * @param 	member_id 	会员ID，默认自己
      */
-	function index(){
-		$member_id = $this->getParameter('id',$this->current_member_id);
+	function view( $member_id = 0 ){
+		if( $member_id==0 )
+			$member_id = $this->current_member_id;
+		else
+			$this->saveMemberVisit( $member_id );
 		
-		$this->save_member_visit($member_id);
 		$member_information = $this->extend_control->getMemberInformation($member_id);
 		
 		$this->ci_smarty->assign('member_information',$member_information);
@@ -172,24 +177,22 @@ Class Profile Extends BaseActionController {
 		redirect('profile');
 	}
 		
-	function save_member_visit($member_id){
+	function saveMemberVisit( $member_id ){
 		$visitor_id = $this->current_member_id;
 		
-		if ($member_id != $visitor_id) {
+		$this->db->where('member_id',$member_id);
+		$this->db->where('visitor_id',$visitor_id);
+		$member_visit_information = $this->db->get_first('member_visit');
+
+		$data['visit_time'] = $this->current_time;
+		if (count($member_visit_information) == 0) {
+			$data['member_id'] = $member_id;
+			$data['visitor_id'] = $visitor_id;
+			$this->db->insert('member_visit',$data);
+		} else {
 			$this->db->where('member_id',$member_id);
 			$this->db->where('visitor_id',$visitor_id);
-			$member_visit_information = $this->db->get_first('member_visit');
-			$data['visit_time'] = $this->current_time;
-			
-			if (count($member_visit_information) == 0) {
-				$data['member_id'] = $member_id;
-				$data['visitor_id'] = $visitor_id;
-				$this->db->insert('member_visit',$data);
-			}else {
-				$this->db->where('member_id',$member_id);
-				$this->db->where('visitor_id',$visitor_id);
-				$this->db->update('member_visit',$data);
-			}
+			$this->db->update('member_visit',$data);
 		}
 	}
 //--------AJAX工具组

@@ -38,9 +38,7 @@ class Welcome extends BaseController {
 	/**
 	* 给未登录用户显示活动详情
 	*/
-	function demo_activity_view() {
-		$activity_id = $this->getParameter('id');
-		
+	function demo_activity_view( $activity_id ) {
 		if(!$activity_id) redirect('welcome/demo');
 		
 		$activity_information = $this->extend_control->getActivityInformationById($activity_id);
