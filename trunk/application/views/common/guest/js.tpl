@@ -39,10 +39,6 @@ $('#reg-form').validate({
         email: {
           email: true,
           required: true
-        },
-        name: {
-          rangelength: [2,12],
-          required: true
         }
       },
       highlight: function(label) {

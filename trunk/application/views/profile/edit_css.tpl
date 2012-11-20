@@ -1,4 +1,4 @@
-<link href="{$config.inc}/kindeditor/themes/default/default.css" rel="stylesheet" type="text/css">
+<link href="{$config.inc}/kindeditor/themes/sipmle/sipmle.css" rel="stylesheet">
 
 <style type="text/css">
 .portrait-wrapper {

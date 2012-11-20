@@ -1,4 +1,4 @@
-    <link href="{$config.inc}/kindeditor/themes/default/default.css" rel="stylesheet" type="text/css">
+    <link href="{$config.inc}/kindeditor/themes/simple/simple.css" rel="stylesheet" type="text/css">
     <style type="text/css">
 .activity-form .control-label {
   width: 80px;
