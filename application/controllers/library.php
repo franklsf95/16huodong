@@ -26,7 +26,7 @@ Class Library Extends BaseActionController {
 	function view( $book_id ){
 		$limit = $this->CLIMIT;
 		$offset = ($p_page-1) * $limit;
-		
+		if ($offset<0) $offset = 0;
 		if ( !$book_id ) redirect('library');
 		$book_information = $this->extend_control->getBookInformationById($book_id);
 		if( !$book_information) show_error('这本书已经不存在了哟~');
