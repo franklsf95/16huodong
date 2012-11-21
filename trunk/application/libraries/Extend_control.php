@@ -410,9 +410,6 @@ class Extend_control {
 		$this->CI->db->delete('activity_follow');
 
 		$this->CI->db->where('activity_id',$activity_id);
-		$this->CI->db->delete('activity_rate');
-
-		$this->CI->db->where('activity_id',$activity_id);
 		$this->CI->db->delete('activity_tag');
 
 		$this->CI->db->where('activity_id',$activity_id);

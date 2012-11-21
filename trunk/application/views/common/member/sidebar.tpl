@@ -11,7 +11,7 @@
               <li id="sidebar-friend"><a href="{'friend'|site_url}"><i class="icon-user"></i> 我的好友</a></li>
               {if $all_system_message_notice|@count}
                 <li class="dropdown-submenu active" id="sidebar-message">
-                  <a href="{'message'|site_url}"><i class="icon-envelope"></i> 新消息</a>
+                  <a href="{'message'|site_url}"><i class="icon-envelope"></i> 新消息!</a>
                   <ul class="dropdown-menu">
                     {foreach $all_system_message_notice as $i}
                     <li><a href="{'message'|site_url}">

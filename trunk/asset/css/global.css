@@ -235,3 +235,15 @@ label.error {
 .comment-reply-btn {
 	width: 10%;
 }
+
+/* richtext */
+.richtext-content {
+	margin: 20px 0;
+	font-size: 15px;
+	line-height: 1.6em;
+}
+
+.richtext-content p {
+	text-indent: 2em;
+	margin-bottom: 0.8em;
+}
