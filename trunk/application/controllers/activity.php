@@ -109,10 +109,10 @@ Class Activity Extends BaseActionController {
 		$data['name'] = $this->getParameterWithOutTag('name');
 		$data['publisher_id'] = $this->current_member_id;
 		$data['publisher_name'] = $this->current_member_information['member_name'];
-		$data['apply_start_time'] = $this->getParameter('apply_start_time');
-		$data['apply_end_time'] = $this->getParameter('apply_end_time');
-		$data['start_time'] = $this->getParameter('start_time');
-		$data['end_time'] = $this->getParameter('end_time');
+		$data['apply_start_time'] = $this->getParameter('applyStartTime');
+		$data['apply_end_time'] = $this->getParameter('applyEndTime');
+		$data['start_time'] = $this->getParameter('actStartTime');
+		$data['end_time'] = $this->getParameter('actEndTime');
 		$data['price'] = $this->getParameterWithOutTag('price');
 		$data['address'] = $this->getParameterWithOutTag('address');
 		$data['url'] = $this->getParameter('url');
@@ -269,6 +269,7 @@ Class Activity Extends BaseActionController {
 		$member_id = $this->current_member_id;
 		$provide_contact = $this->getParameter('provide_contact');
 		$introduction = $this->getParameter('introduction');
+		if ($introduction==NULL) $introduction='';
 		//Update member information
 		$enableChange = $this->getParameter('enableChange');
 		$newEmail = $this->getParameter('newEmail');
