@@ -24,9 +24,9 @@
       <div class="row">
 <!--sidebar-->
 {if $base_tpl == 'common/guest'}
-<div class="span4">
+<div class="span4 sidebar-container">
 {else}
-<div class="span3">
+<div class="span3 sidebar-container">
 {/if}
 {include file="$base_tpl/sidebar.tpl"} 
 </div>  
@@ -34,9 +34,9 @@
 
 <!--content-->
 {if $base_tpl == 'common/guest'}
-<div class="span8">
+<div class="span8 main-container">
 {else}
-<div class="span9">
+<div class="span9 main-container">
 {/if}
 {include file="$view_folder/$template_content.tpl"}
 <div class="clear"></div>
