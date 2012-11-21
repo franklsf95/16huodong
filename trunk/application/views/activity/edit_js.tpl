@@ -35,13 +35,13 @@ $("#badge-add-tag").click(function(){
 jQuery.validator.addMethod("endDate",
 function(value, element) {
 var startDate = $('#actStartTime').val();
-return new Date(Date.parse(startDate.replace("-", "/"))) <= new Date(Date.parse(value.replace("-", "/")));
+return new Date(Date.parse(startDate.replace(/-/g, "/"))) <= new Date(Date.parse(value.replace(/-/g, "/")));
 }, 
 "结束时间不应早于开始时间");
 jQuery.validator.addMethod("endDateApply",
 function(value, element) {
 var startDate = $('#applyStartTime').val();
-return new Date(Date.parse(startDate.replace("-", "/"))) <= new Date(Date.parse(value.replace("-", "/")));
+return new Date(Date.parse(startDate.replace(/-/g, "/"))) <= new Date(Date.parse(value.replace(/-/g, "/")));
 }, 
 "结束时间不应早于开始时间");
 $('#activity-form').validate({
@@ -49,11 +49,11 @@ $('#activity-form').validate({
     name: {
       required: true
     },
-		end_time: {
+		actEndTime: {
 			required: true,
 			endDate: true
 		},
-		apply_end_time: {
+		applyEndTime: {
 			required: true,
 			endDateApply: true
 		},
