@@ -71,7 +71,7 @@ Class SendMail Extends BaseActionController {
 				$this->db->where('date(a.end_time) <=',date('y-m-d',time()));
 				$activity_information = $this->db->get_first();
 				if ($activity_information) {
-					$mail.='您参加的活动<a href="'site_url("activity/view/").$activity_information['activity_id'].'">'.$activity_information['activity_name'].'</a>请您去打分哦<br/>';
+					$mail.='您参加的活动<a href="'.site_url("activity/view/").$activity_information['activity_id'].'">'.$activity_information['activity_name'].'</a>请您去打分哦<br/>';
 					$attendance['notified']=2;
 					$this->db->where('member_id',$member_information['member_id']);
 					$this->db->where('activity_id',$attendance['activity_id']);
