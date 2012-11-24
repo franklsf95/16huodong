@@ -39,10 +39,8 @@ Class Friend Extends BaseActionController {
      *
      * @return 	0失败 	1成功成为好友 	-1成功删除好友 	2成功申请好友	-2成功拒绝申请
      */
-	function ajaxToggleFriend(){
-		$target_id = $this->getParameter('target_id',NULL);
+	function ajaxToggleFriend( $target_id, $deny = 0 ){
 		$member_id = $this->current_member_id;
-		$deny = $this->getParameter('deny',NULL);
 		
 		$is_friend = $this->extend_control->getFriendStatus($member_id,$target_id);
 		
@@ -59,7 +57,7 @@ Class Friend Extends BaseActionController {
 			$return = -1;
 			
 		} else if ( $is_friend==-2 ) {		//对方已申请我为好友
-			if( !$deny ) {			//批准好友请求
+			if( $deny==0 ) {			//批准好友请求
 				$data['member_id'] = $member_id;
 				$data['target_id'] = $target_id;
 				$data['created_time'] = $this->current_time;
