@@ -5,7 +5,7 @@ include_once "base_controller.php";
 * 显示欢迎页面
 */
 class Welcome extends BaseController {
-	var $applicationFolder = "welcome"; 
+	var $applicationFolder = "welcome";
 
 	function __construct() {
 		parent::__construct();
@@ -17,7 +17,7 @@ class Welcome extends BaseController {
 		$this->load->model('db_public_area');
 		$this->load->model('db_public_school');
 	}
-	
+
 	/**
 	* 显示欢迎界面
 	*/
@@ -40,7 +40,7 @@ class Welcome extends BaseController {
 	*/
 	function demo_activity_view( $activity_id ) {
 		if(!$activity_id) redirect('welcome/demo');
-		
+
 		$activity_information = $this->extend_control->getActivityInformationById($activity_id);
 		$activity_information['rate'] = $this->extend_control->getActivityRateInformation($activity_id);
 
@@ -63,6 +63,8 @@ class Welcome extends BaseController {
 		$status = $this->getParameter('status','1');					//1为正常
 		$image = $this->config->item('asset').'/img/default/portrait.jpg';
 		$name = $this->getParameter($member_type.'-name',NULL);
+		$area = $this->getParameter($member_type=='stu'?'area1':'area2',NULL);
+		$city = $this->getParameter($member_type=='stu'?'city1':'city2',NULL);
 		$school_id = $this->getParameter('school_id',NULL);
 		$school_name = $this->getParameter($member_type.'-school',NULL);
 		/*
@@ -86,6 +88,8 @@ class Welcome extends BaseController {
 		$data['status'] = $status;
 		$data['image'] = $image;
 		$data['name'] = $name;
+		$data['area-1'] = $area;
+		$data['area-3'] = $city;
 		$data['school_id'] = $school_id;
 		$data['school_name']=$school_name;
 		$data['email'] = $email;
@@ -93,7 +97,7 @@ class Welcome extends BaseController {
 
 		//Set session
 		$this->session->set_userdata( 'current_member_id', $this->db->insert_id() );
-		
+
 		redirect('profile/edit');
 	}
 /*-----------------AJAX段---------------------*/

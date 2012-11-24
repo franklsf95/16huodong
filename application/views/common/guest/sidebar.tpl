@@ -45,10 +45,11 @@
                 <div class="control-group">
                 <label class="control-label" for="select-province-1">城市</label>
                 <div class="controls">
-                  <select id="select-province-1" class="span1">
-                    <option>北京</option>
+                  <select id="select-province-1" class="span1" onchange="initializeArea()" name="city1">
+                    <option value="1">北京</option>
+                    <option value="20">上海</option>
                   </select>
-                  <select id="select-area-1" class="area-list" style="width: 100px">
+                  <select id="select-area-1" class="area-list" style="width: 100px" name="area1">
                     <option></option>
                   </select>
                 </div>
@@ -71,10 +72,11 @@
                 <div class="control-group">
                 <label class="control-label" for="select-province-2">城市</label>
                 <div class="controls">
-                  <select id="select-province-2" class="span1">
-                    <option>北京</option>
+                  <select id="select-province-2" class="span1" onchange="initializeArea2()" name="city2">
+                    <option value="1">北京</option>
+                    <option value="20">上海</option>
                   </select>
-                  <select id="select-area-2" class="area-list" style="width: 100px">
+                  <select id="select-area-2" class="area-list" style="width: 100px" name="area2">
                     <option></option>
                   </select>
                 </div>

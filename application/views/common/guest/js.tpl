@@ -77,7 +77,17 @@ $(".area-list").change(function() {
 });
 
 function initializeArea() {
-      $.getJSON("{'welcome/ajaxGetAllAreaInformation'|site_url}?city_id=1",function(data){
+      $(".area-list").empty();
+      $.getJSON("{'welcome/ajaxGetAllAreaInformation'|site_url}?city_id="+window.document.getElementById("select-province-1").value,function(data){
+        for (i in data) {
+          op = "<option value="+data[i].area_id+">"+data[i].name+"</option>";
+          $(".area-list").append(op);
+        }
+      });
+}
+function initializeArea2() {
+      $(".area-list").empty();
+      $.getJSON("{'welcome/ajaxGetAllAreaInformation'|site_url}?city_id="+window.document.getElementById("select-province-2").value,function(data){
         for (i in data) {
           op = "<option value="+data[i].area_id+">"+data[i].name+"</option>";
           $(".area-list").append(op);
