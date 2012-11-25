@@ -1,4 +1,14 @@
     <script>
+function globalAlert( text, type ) {
+	var alert_type = '';
+	if( type ) alert_type = 'alert-'+type;
+	var obj = '<div class="alert fade in hide '+alert_type+'">'
+            +'<button type="button" class="close" data-dismiss="alert">×</button>'
+            +text
+            +'</div>';
+    $(obj).prependTo('.main-container').slideDown();
+}
+
 var wrapActivity = function( id, act ) {
   var str = 
 '<div class="waterfall-item" id="item-'+id+'">'+'<a href="{"activity/view"|site_url}/'+act.activity_id+'">'+'<img src="'+act.activity_image+'" class="img-rounded"></a>'
