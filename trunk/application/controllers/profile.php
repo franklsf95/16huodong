@@ -107,6 +107,11 @@ Class Profile Extends BaseActionController {
 		$name = $this->getParameterWithOutTag('name',Null);
 		$gender = $this->getParameter('gender',Null);
 		$birthday = $this->getParameter('birthday',Null);
+		$school_changed = $this->getParameter('school_changed',Null);
+		$school_id = $this->getParameter('school_id',Null);
+		$school_name = $this->getParameter('inputSchool',Null);
+		$area = $this->getParameter('area',Null);
+		$city = $this->getParameter('city',Null);
 		$qq = $this->getParameter('qq',Null);								//QQ
 		$organisation = $this->getParameterWithOutTag('organisation',Null);		//所属组织
 		$email = $this->getParameterWithOutTag('email',Null);
@@ -117,7 +122,7 @@ Class Profile Extends BaseActionController {
 		$tag_array = $this->getParameter('tag',Null);		//标签
 		$description = $this->getParameterWithOutTag('description',Null);		//关于我
 		$content = $this->getParameter('content',Null);	//组织介绍页
-		$accept_notification = $this->getParameter('accept_notification');
+		$accept_notification = $this->getParameter('accept_notification',1);
 		
 		$member_data['name'] = $name;
 		$member_data['image'] = $image;
@@ -134,6 +139,12 @@ Class Profile Extends BaseActionController {
 		$member_data['content'] = $content;
 		$member_data['qq'] = $qq;
 		$member_data['accept_notification'] = $accept_notification;
+		if ($school_changed) {
+			$member_data['area-1'] = $area;
+			$member_data['area-3'] = $city;
+			$member_data['school_id'] = $school_id;
+			$member_data['school_name']=$school_name;
+		}
 
 		$this->db->where('member_id',$member_id);
 		$this->db->update('member',$member_data);
