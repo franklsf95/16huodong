@@ -247,3 +247,11 @@ label.error {
 	text-indent: 2em;
 	margin-bottom: 0.8em;
 }
+
+.typeahead {
+	z-index: 9999;
+}
+
+.tooltip {
+	z-index: 9999;
+}

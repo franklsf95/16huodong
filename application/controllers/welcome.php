@@ -10,10 +10,6 @@ class Welcome extends BaseController {
 	function __construct() {
 		parent::__construct();
 
-		if( $this->session->userdata('current_member_id') ) {
-			redirect('index');
-		}
-
 		$this->load->model('db_public_area');
 		$this->load->model('db_public_school');
 	}
@@ -23,6 +19,10 @@ class Welcome extends BaseController {
 	*/
 	function index()
 	{
+		if( $this->session->userdata('current_member_id') ) {
+			redirect('index');
+		}
+
 		$ref = $this->getParameter('ref');
 		$this->ci_smarty->assign('ref',$ref);
 		$this->display('index','欢迎');

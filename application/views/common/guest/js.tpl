@@ -69,6 +69,17 @@ $("#tab-com").click(function() {
 });
 $("#submit-btn").click(function() {
   school = $(schoolSelector).val();
+  //for ie doesn't support indexof 
+		if(!Array.indexOf){ 
+            Array.prototype.indexOf = function(obj){ 
+                for(var i=0; i<this.length; i++){ 
+                    if(this[i]==obj){ 
+                        return i; 
+                    } 
+                } 
+                return -1; 
+            } 
+        } 
   id = schoolIdArray[ schoolArray.indexOf(school) ];
   $("#input-school-id").val(id);
 });
@@ -107,7 +118,7 @@ function initializeSchool(area) {
           schoolArray.push( data[i].name );
           schoolIdArray.push( data[i].school_id );
         }
-        console.log(schoolIdArray);
+        //console.log(schoolIdArray);
       }
   });
   $(schoolSelector).typeahead( {
@@ -115,7 +126,7 @@ function initializeSchool(area) {
     minLength: 2,
     items: 12
   });
-  console.log('typeahead initialized');
+  //console.log('typeahead initialized');
 }
 
 </script>

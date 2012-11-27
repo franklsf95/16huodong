@@ -1,84 +1,1 @@
-<script src="{$config.asset}/js/bootstrap-datepicker.js"></script>
-<script src="{$config.asset}/js/jquery.validate.min.js"></script>
-<script type="text/javascript" charset="utf-8" src="{$config.inc}/kindeditor/kindeditor.js"></script>
-<script type="text/javascript" charset="utf-8" src="{$config.inc}/kindeditor/lang/zh_CN.js"></script>
-<script>
-//disable Enter for form submission
-$("form").keypress(function(e) {
-      if( e.which == 13 ) {
-        return false;
-      }
-});
-$("#memberTag").keydown(function() {
-      if( event.keyCode == 13 ) {
-        $("#badge-add-tag").click();
-      }
-});
-$("#badge-add-tag").click(function(){
-      tag = $("#memberTag").val();
-      if( tag != '' ) {
-        newTag = '<span class="badge tag tag-edit" onclick="$(this).remove()">'+tag+'<input type="hidden" name="tag[]" value="'+tag+'"></span>';
-        $(".tag-list").append( newTag );
-        $("#memberTag").val('');
-        $("#memberTag").focus();
-      }
-});
-$("#sidebar-edit-profile").addClass("active");
-$('#profile-form').validate({
-      rules: {
-        new_password: {
-          minlength: 6,
-        },
-        repeat_password: {
-          equalTo: "#inputNewPassword",
-        },
-        name: {
-        	rangelength: [2,12],
-        	required: true
-        },
-        email: {
-          email: true,
-          required: true
-        },
-        phone: {
-        	rangelength: [8,15]
-        },
-        qq: {
-        	rangelength: [6,11]
-        }
-      },
-      highlight: function(label) {
-        $(label).closest('.control-group').addClass('error');
-      },
-      success: function(label) {
-        $(label).closest('.control-group').removeClass('error');
-      }
-});
-$(".datepicker").datepicker( {
-    	format:'yyyy-mm-dd',
-      viewMode: 2 //'years'
-} );
-{if $current_member_information.member_type == 'stu'}
-var editor = KindEditor.editor();
-{else}
-var editor = KindEditor.create('.richtext', { 
-  themeType: 'simple',
-  items : [
-        'undo', 'redo', '|', 'preview', 'cut', 'copy', 'paste', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', '|', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript', 'superscript', '|', 'quickformat', '/',
-        'formatblock', 'fontname', 'fontsize', 'lineheight', '|', 'forecolor', 'bold', 'italic', 'underline', 'link', 'unlink', '|', 'image', 'table', '|', 'removeformat',  'source', 'fullscreen'
-  ] }
-);
-{/if}
-$('.portrait-upload').click(function() {
-		editor.loadPlugin('image_resize', function() {
-			editor.plugin.imageDialog({
-				imageUrl : $('#portrait-url').val(),
-				clickFn : function(url, title, width, height, border, align) {
-					$('#portrait-view').attr('src',url);
-					$('#portrait-url').val(url);
-					editor.hideDialog();
-				}
-			});
-		});
-});
-</script>
+<script src="{$config.asset}/js/bootstrap-datepicker.js"></script><script src="{$config.asset}/js/jquery.validate.min.js"></script><script type="text/javascript" charset="utf-8" src="{$config.inc}/kindeditor/kindeditor.js"></script><script type="text/javascript" charset="utf-8" src="{$config.inc}/kindeditor/lang/zh_CN.js"></script><script>areaSelector = '#select-area-1';schoolSelector = '#select-school-1';schoolArray = new Array('aaaaaaa');schoolIdArray = new Array();$('.typeahead').tooltip({  title : '先选择城市区县，在这里开始输入学校全称，从下拉框中选择你的学校~',  placement: 'right',  trigger: 'focus'});$(".area-list").change(function() {  initializeSchool( $(this).val() );});function saveschool(){	window.document.getElementById('inputSchool').value=window.document.getElementById('select-school-1').value;	window.document.getElementById('school_changed').value='1';	window.document.getElementById('city').value=window.document.getElementById("select-province-1").value;	window.document.getElementById('area').value=window.document.getElementById('select-area-1').value;	window.document.getElementById('schoolid').value=window.document.getElementById('input-school-id').value;}function initializeArea() {      $(".area-list").empty();      $.getJSON("{'welcome/ajaxGetAllAreaInformation'|site_url}?city_id="+window.document.getElementById("select-province-1").value,function(data){        for (i in data) {          op = "<option value="+data[i].area_id+">"+data[i].name+"</option>";          $(".area-list").append(op);        }      });}function initializeSchool(area) {  schoolArray = [];  schoolIdArray = [];  $.ajax( {      url: "{'welcome/ajaxGetAllSchoolInformation'|site_url}?area_id="+area,      dataType: 'json',      async: false,      success: function(data) {        for (i in data) {          schoolArray.push( data[i].name );          schoolIdArray.push( data[i].school_id );        }        //console.log(schoolIdArray);      }  });  $(schoolSelector).typeahead( {    source: function() { return schoolArray; },     minLength: 2,    items: 12  });  //console.log('typeahead initialized');}$("#submit-btn").click(function() {  school = $(schoolSelector).val();  //for ie doesn't support indexof 		if(!Array.indexOf){             Array.prototype.indexOf = function(obj){                 for(var i=0; i<this.length; i++){                     if(this[i]==obj){                         return i;                     }                 }                 return -1;             }         }   id = schoolIdArray[ schoolArray.indexOf(school) ];  $("#input-school-id").val(id);});//disable Enter for form submission$("form").keypress(function(e) {      if( e.which == 13 ) {        return false;      }});$("#memberTag").keydown(function() {      if( event.keyCode == 13 ) {        $("#badge-add-tag").click();      }});$("#badge-add-tag").click(function(){      tag = $("#memberTag").val();      if( tag != '' ) {        newTag = '<span class="badge tag tag-edit" onclick="$(this).remove()">'+tag+'<input type="hidden" name="tag[]" value="'+tag+'"></span>';        $(".tag-list").append( newTag );        $("#memberTag").val('');        $("#memberTag").focus();      }});$("#sidebar-edit-profile").addClass("active");$('#profile-form').validate({      rules: {        new_password: {          minlength: 6,        },        repeat_password: {          equalTo: "#inputNewPassword",        },        name: {        	rangelength: [2,12],        	required: true        },        email: {          email: true,          required: true        },        phone: {        	rangelength: [8,15]        },        qq: {        	rangelength: [6,11]        }      },      highlight: function(label) {        $(label).closest('.control-group').addClass('error');      },      success: function(label) {        $(label).closest('.control-group').removeClass('error');      }});$(".datepicker").datepicker( {    	format:'yyyy-mm-dd',      viewMode: 2 //'years'} );{if $current_member_information.member_type == 'stu'}var editor = KindEditor.editor();{else}var editor = KindEditor.create('.richtext', {   themeType: 'simple',  items : [        'undo', 'redo', '|', 'preview', 'cut', 'copy', 'paste', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', '|', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript', 'superscript', '|', 'quickformat', '/',        'formatblock', 'fontname', 'fontsize', 'lineheight', '|', 'forecolor', 'bold', 'italic', 'underline', 'link', 'unlink', '|', 'image', 'table', '|', 'removeformat',  'source', 'fullscreen'  ] });{/if}$('.portrait-upload').click(function() {		editor.loadPlugin('image_resize', function() {			editor.plugin.imageDialog({				imageUrl : $('#portrait-url').val(),				clickFn : function(url, title, width, height, border, align) {					$('#portrait-view').attr('src',url);					$('#portrait-url').val(url);					editor.hideDialog();				}			});		});});</script>
