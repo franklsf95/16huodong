@@ -45,6 +45,7 @@ Class Index Extends BaseActionController {
 		//print_r($all_news_feed);
 
 		foreach ($all_news_feed as &$news) {
+			$news['created_time'] = date( 'c', strtotime($news['created_time']) );
 			$news['message'] = $this->decodeMessage($news);
 		} //end foreach
 		echo json_encode($all_news_feed);

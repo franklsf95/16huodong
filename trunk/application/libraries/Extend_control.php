@@ -181,7 +181,7 @@ class Extend_control {
  *---------------------------------------------------------------
  */
 	function getDistinctNewsFeed($page_offset = 0, $limit = 6){
-		$this->CI->db->select('COUNT(DISTINCT nf.activity_id), COUNT(DISTINCT nf.book_id), nf.news_feed_id, nf.type, nf.activity_id, nf.book_id, nf.created_time, '.MEMBER_BASIC.', '.ACTIVITY_BASIC.', '.BOOK_BASIC);
+		$this->CI->db->select('COUNT(DISTINCT nf.activity_id) as _a, COUNT(DISTINCT nf.book_id) as _b, nf.news_feed_id, nf.type, nf.activity_id, nf.book_id, nf.created_time, '.MEMBER_BASIC.', '.ACTIVITY_BASIC.', '.BOOK_BASIC);
 		$this->CI->db->from('news_feed as nf');
 		$this->CI->db->join('member as m','m.member_id = nf.member_id','left');
 		$this->CI->db->join('activity as a','a.activity_id = nf.activity_id','left');
