@@ -39,10 +39,12 @@
   height: 150px;
 }
 
-.timestamp {
+.timeago-wrapper {
 	font-family: 'Monaco, Menlo, Consolas, "Courier New", monospace';
 	font-size: 12px;
-	color: #DD1144;
+	color: #666;
 	float: right;
+	padding-right: 8px;
+	margin-bottom: -4px;
 }
 </style>

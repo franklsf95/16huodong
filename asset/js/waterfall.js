@@ -1,6 +1,6 @@
 var masonryHandler = $("#waterfall");
 var page_offset = 0;
-var limit = 6;
+var limit = 8;
 var refresh_lock = false;
 
 function resetWaterfall() {
@@ -10,7 +10,7 @@ function resetWaterfall() {
 }
 
 function Waterfall( json_url, functype, options ) {
-  var paramWidth = options.width ? options.width : 280;
+  var paramWidth = options.width ? options.width : 210;
   var EmptyString = '（没有项目）';
   var WrapFunc = options.wrapFunction;
   if( options.type=='activity' ) {
@@ -22,7 +22,7 @@ function Waterfall( json_url, functype, options ) {
   }
   if( options.limit ) limit = options.limit;
 
-  if(functype=='start') resetWaterfall();
+  if( functype=='start' ) resetWaterfall();
 
   if (!refresh_lock) {
     refresh_lock = true;
@@ -47,6 +47,8 @@ function Waterfall( json_url, functype, options ) {
 
         masonryHandler.imagesLoaded( function() {
           $('#waterfall-loading').slideUp();
+          if( options.callBack!=undefined ) options.callBack();
+          
           if(functype=='start') {
             masonryHandler.masonry({
               itemSelector: '.waterfall-item',

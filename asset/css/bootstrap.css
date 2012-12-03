@@ -151,11 +151,10 @@ body {
   word-wrap: break-word;
 }
 a {
-  color: #700d0a;
+  color: #851A17;
   text-decoration: none;
 }
 a:hover {
-  color: #2a0504;
   text-decoration: underline;
 }
 .img-rounded {
