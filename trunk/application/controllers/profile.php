@@ -139,6 +139,7 @@ Class Profile Extends BaseActionController {
 		$member_data['content'] = $content;
 		$member_data['qq'] = $qq;
 		$member_data['accept_notification'] = $accept_notification;
+		$member_data['modified_time'] = $this->current_time;
 		if ($school_changed) {
 			$member_data['area-1'] = $area;
 			$member_data['area-3'] = $city;
@@ -158,7 +159,7 @@ Class Profile Extends BaseActionController {
 				$member_tag_data = array();
 				$member_tag_data['member_id'] = $member_id;
 				$member_tag_data['tag'] = $tag_value;
-				$member_tag_data['created_time'] = date('Y-m-d H:i:s');
+				$member_tag_data['created_time'] = $this->current_time;
 				
 				$this->db->insert('member_tag',$member_tag_data);
 			}
