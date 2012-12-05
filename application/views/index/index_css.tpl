@@ -40,11 +40,14 @@
 }
 
 .timeago-wrapper {
-	font-family: 'Monaco, Menlo, Consolas, "Courier New", monospace';
+	font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 	font-size: 12px;
 	color: #666;
 	float: right;
 	padding-right: 8px;
 	margin-bottom: -4px;
+}
+.waterfall-item-bottom {
+	margin-top: 4px;
 }
 </style>

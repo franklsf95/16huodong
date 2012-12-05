@@ -7,6 +7,5 @@
 }
 .waterfall-item-heading {
 	font-size: 18px;
-	line-height: 40px;
 }
 </style>

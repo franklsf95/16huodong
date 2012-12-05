@@ -200,7 +200,7 @@ label.error {
 .waterfall-item-heading {
 	font-size: 16px;
 	font-weight: bold;
-	line-height: 36px;
+	margin: 8px 4px;
 	display: block;
 }
 a.waterfall-item-heading:hover {
@@ -209,10 +209,12 @@ a.waterfall-item-heading:hover {
 .waterfall-item-bottom ul {
 	margin: 0 0 0 25px;
 }
-
 .waterfall-item img {
   width: 194px;
   margin: 3px;
+}
+.item-link {
+	font-weight: bold;
 }
 
 #waterfall-loading {
