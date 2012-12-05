@@ -1,6 +1,6 @@
 #labels Phase-Implementation
 = 程序架构 =
-使用CodeIgniter（http://codeigniter.com/user_guide/）的MVC架构，其中model层由于上一代程序员的个人偏好基本残废。
+使用CodeIgniter（http://codeigniter.com/user_guide）的MVC架构，其中model层由于上一代程序员的个人偏好基本残废。
 
 URL路由为index.php/class/function/param1/param2/param3
 
