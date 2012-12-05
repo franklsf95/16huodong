@@ -93,6 +93,7 @@ class Welcome extends BaseController {
 		$data['school_id'] = $school_id;
 		$data['school_name']=$school_name;
 		$data['email'] = $email;
+		$data['created_time'] = $this->current_time;
 		$this->db->insert('member',$data);
 
 		//Set session
