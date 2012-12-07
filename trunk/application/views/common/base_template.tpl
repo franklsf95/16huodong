@@ -4,18 +4,17 @@
     <meta charset="utf-8">
     <title>{$template_title} | 16活动网，我们中学生自己的活动网站</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="16活动网,中学生,活动,志愿者,实习,课外活动">
+    {if $base_tpl == 'common/member'}<meta name="robots" content="noindex,nofollow">
+    {else}<meta name="keywords" content="16活动网,中学生,活动,志愿者,实习,课外活动">
     <meta name="description" content="16活动网是中国第一家属于中学生的课外活动平台。在这里，你可以挖活动，找志愿，找实习，发现课本之外的第n种可能。">
-    {if $base_tpl == 'common/member'}<meta name="robots" content="noindex,nofollow">{/if}
+    {/if}
     <link href="{$config.asset}/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="{$config.asset}/css/global.css" rel="stylesheet" type="text/css" />
     {include file="$base_tpl/css.tpl"}
     {if $more_css }
     {include file="$view_folder/$more_css.tpl"}
     {/if}
-    <!--[if lt IE 9]>
-        <link href="{$config.asset}/ie/ie6.css" rel="stylesheet">
-    <![endif]-->
+    <!--[if lt IE 9]><link href="{$config.asset}/ie/ie6.css" rel="stylesheet"><![endif]-->
   </head>
 
   <body>
@@ -23,20 +22,16 @@
     <div class="container">
       <div class="row">
 <!--sidebar-->
-{if $base_tpl == 'common/guest'}
-<div class="span4 sidebar-container">
-{else}
-<div class="span3 sidebar-container">
+{if $base_tpl == 'common/guest'}<div class="span4 sidebar-container">
+{else}<div class="span3 sidebar-container">
 {/if}
 {include file="$base_tpl/sidebar.tpl"} 
-</div>  
+</div>
 <!--/sidebar-->
 
 <!--content-->
-{if $base_tpl == 'common/guest'}
-<div class="span8 main-container">
-{else}
-<div class="span9 main-container">
+{if $base_tpl == 'common/guest'}<div class="span8 main-container">
+{else}<div class="span9 main-container">
 {/if}
 {include file="$view_folder/$template_content.tpl"}
 <div class="clear"></div>
@@ -64,9 +59,7 @@
     </div>
   </form>
 </div>
-
 <!--/content-->
-
       </div><!--/row-->
     </div> <!-- /container -->
     <script src="{$config.asset}/js/jquery.min.js"></script>
