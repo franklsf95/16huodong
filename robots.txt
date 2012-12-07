@@ -1,4 +1,7 @@
 User-agent: *
 Disallow: /
+Allow: /$
 Allow: /welcome
 Allow: /contact
+Allow: /sitemap.xml
+Sitemap: http://16huodong.com/sitemap.xml
