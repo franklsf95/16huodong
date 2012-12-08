@@ -22,13 +22,14 @@ Class Profile Extends BaseActionController {
      * @param 	member_id 	会员ID，默认自己
      */
 	function view( $member_id = 0 ){
-		if( $member_id==0 )
-			$member_id = $this->current_member_id;
-		else
+		$member_id = $member_id || $this->current_member_id;
+		if( $member_id != $this->current_member_i )
 			$this->saveMemberVisit( $member_id );
 		
 		$member_information = $this->extend_control->getMemberInformation($member_id);
-		
+		if( !$member_information )
+			show_error('你要找的用户不存在哟~');
+
 		$this->ci_smarty->assign('member_information',$member_information);
 		$this->ci_smarty->assign('member_id',$member_id);
 		$this->ci_smarty->assign('is_me', $member_id == $this->current_member_id );
@@ -44,7 +45,7 @@ Class Profile Extends BaseActionController {
      *
      * @param	member_id	要显示的用户的ID
      * @param	page		当前进行到的页面
-     * @param 	string 		type 		类型：a参加；f关注；p发起
+     * @param 	string 		$type 		类型：a参加；f关注；p发起
      */
 	function history( $type ){
 		$member_id = $this->getParameter('member_id',$this->current_member_id);
