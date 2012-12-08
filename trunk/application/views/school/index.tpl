@@ -1,0 +1,1 @@
+<ul class="breadcrumb">  <li><a href="{'profile'|site_url}?id={$member_information.member_id}">{$member_information.member_name}</a> <span class="divider">/</span></li>  <li class="active">{$member_information.member_name}的主页</li></ul><div class="school-container">	<div class="content-heading">{$school_name}, #{$school_id}</div>	<h1>UNDER CONSTRUCTION</h1></div>

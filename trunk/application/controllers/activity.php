@@ -28,14 +28,14 @@ Class Activity Extends BaseActionController {
      */
 	function view( $activity_id ){
 		$member_id = $this->current_member_id;
-		$page = 1;
 		$limit = $this->CLIMIT;
-		
-		if(!$activity_id) redirect('activity');
 		
 		$this->extend_control->AddActivityVisit($activity_id);
 		
 		$activity_information = $this->extend_control->getActivityInformationById($activity_id);
+		if( !$activity_information )
+			show_error('你要找的活动不存在哟~');
+
 		$activity_information['is_said'] = $this->extend_control->isMemberSaidActivity($member_id,$activity_id);
 		$activity_information['is_attend'] = $this->extend_control->isMemberAttendActivity($member_id,$activity_id);
 		$activity_information['is_follow'] = $this->extend_control->isMemberFollowActivity($member_id,$activity_id);
@@ -46,7 +46,7 @@ Class Activity Extends BaseActionController {
 
 		$count = $this->extend_control->countAllActivityComment($activity_id);
 		$comment_information = $this->extend_control->getActivityComment( $activity_id,($page-1)*$limit,$limit );
-		$this->setPageInformation( $count, $page, $limit );
+		$this->setPageInformation( $count, 1, $limit );
 		$this->ci_smarty->assign('comment_information',$comment_information);
 
 		$this->display('view',$activity_information['activity_name'].' - 活动详情','view_css','view_js');
@@ -60,15 +60,15 @@ Class Activity Extends BaseActionController {
      * @author franklsf95
      */
 	function admin( $activity_id ) {
-		$member_id = $this->current_member_id;
-
 		$activity_information = $this->extend_control->getActivityInformationById($activity_id);
+		if( !$activity_information )
+			show_error('你要找的活动不存在哟~');
+		if( $activity_information['publisher_id'] != $this->current_member_id )
+			show_error('你不可以管理别人的活动！');
+
 		$activity_information['all_attends'] = $this->extend_control->getActivityAttendMemberInformation($activity_id);
 		$activity_information['all_follows'] = $this->extend_control->getActivityFollowMemberInformation($activity_id);
 		
-		if( $activity_information['publisher_id'] != $this->current_member_id )
-			show_error('你没有权限管理此活动');
-
 		$this->ci_smarty->assign('activity_information',$activity_information);
 		$this->display('admin',$activity_information['activity_name'].' - 管理活动','view_css','admin_js');
 	}
@@ -82,11 +82,11 @@ Class Activity Extends BaseActionController {
 		$title = '发起新活动';
 		
 		if ( $id != 0 ) {
-			$title = '编辑活动 #'.$id;
 			$activity_information = $this->extend_control->getActivityInformationById( $id );
+			$title = '编辑活动：'.$activity_information['activity_name'];
 
 			if( $activity_information['publisher_id'] != $this->current_member_id )
-				show_error('你不能编辑别人发起的活动！');
+				show_error('你不可以编辑别人发起的活动！');
 			
 			$this->ci_smarty->assign('activity_information',$activity_information);
 		}

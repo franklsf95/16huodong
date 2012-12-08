@@ -27,9 +27,10 @@ Class Library Extends BaseActionController {
 		$limit = $this->CLIMIT;
 		$offset = ($p_page-1) * $limit;
 		if ($offset<0) $offset = 0;
-		if ( !$book_id ) redirect('library');
+
 		$book_information = $this->extend_control->getBookInformationById($book_id);
-		if( !$book_information) show_error('这本书已经不存在了哟~');
+		if( !$book_information )
+			show_error('你要找的书不存在哟~');
 		$this->addBookVisit($book_id);
 		
 		$book_information['is_author'] = $this->extend_control->isAuthorOfBook($this->current_member_id,$book_id);
@@ -54,12 +55,11 @@ Class Library Extends BaseActionController {
 	function edit( $book_id = 0 ){
 		$title = '写新书';
 		if ( $book_id != 0 ) {
-			$title = '编辑微型书 #'.$id;
-			
 			$book_information = $this->extend_control->getBookInformationById($book_id);
+			$title = '编辑微型书：'.$book_information['book_name'];
 
 			if( $book_information['author_id'] != $this->current_member_id )
-				show_error('你怎么能篡改别人写的书呢！');
+				show_error('你怎么想篡改别人写的书呢！');
 
 			$this->ci_smarty->assign('book_information',$book_information);
 		}
