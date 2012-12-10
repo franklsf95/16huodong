@@ -28,7 +28,6 @@ Class Activity Extends BaseActionController {
      */
 	function view( $activity_id ){
 		$member_id = $this->current_member_id;
-		$limit = $this->CLIMIT;
 		
 		$this->extend_control->AddActivityVisit($activity_id);
 		
@@ -44,8 +43,9 @@ Class Activity Extends BaseActionController {
 
 		$this->ci_smarty->assign('activity_information',$activity_information);
 
+		$limit = $this->CLIMIT;
 		$count = $this->extend_control->countAllActivityComment($activity_id);
-		$comment_information = $this->extend_control->getActivityComment( $activity_id,($page-1)*$limit,$limit );
+		$comment_information = $this->extend_control->getActivityComment( $activity_id, 0, $limit );
 		$this->setPageInformation( $count, 1, $limit );
 		$this->ci_smarty->assign('comment_information',$comment_information);
 
