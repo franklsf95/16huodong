@@ -22,8 +22,9 @@ Class Profile Extends BaseActionController {
      * @param 	member_id 	会员ID，默认自己
      */
 	function view( $member_id = 0 ){
-		$member_id = $member_id || $this->current_member_id;
-		if( $member_id != $this->current_member_i )
+		if( $member_id == 0 )
+			$member_id = $this->current_member_id;
+		else
 			$this->saveMemberVisit( $member_id );
 		
 		$member_information = $this->extend_control->getMemberInformation($member_id);
