@@ -5,7 +5,7 @@
               <div class="control-group">
                 <label class="control-label" for="username">用户名</label>
                 <div class="controls">
-                  <input type="text" name="username" id="username" placeholder="英文字母、数字或下划线">
+                  <input type="text" name="username" id="username" placeholder="英文、数字或下划线，用于登录">
                 </div>
               </div>
               <div class="control-group">
@@ -37,9 +37,9 @@
           <input type="hidden" name="member_type" value="stu" id="input-type">
               <div class="tab-pane active" id="reg-stu">
                 <div class="control-group">
-                  <label class="control-label" for="name">真实姓名</label>
+                  <label class="control-label" for="name">昵称</label>
                   <div class="controls">
-                    <input type="text" name="stu-name" id="name" placeholder="参加活动要用真实姓名哦~">
+                    <input type="text" name="stu-name" id="name" placeholder="显示给大家的名字~">
                   </div>
                 </div>
                 <div class="control-group">
