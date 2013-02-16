@@ -5,12 +5,12 @@ include_once "base_action_controller.php";
 */
 Class Activity Extends BaseActionController {
 
-	var $applicationFolder = "activity"; 
-	
+	var $applicationFolder = "activity";
+
 	function __construct() {
 		parent::__construct();
 	}
-	
+
 	/**
      * 显示挖活动主页
      */
@@ -20,7 +20,7 @@ Class Activity Extends BaseActionController {
 
 		$this->display( 'index', '挖活动', 'index_css', 'index_js' );
 	}
-	
+
 	/**
      * 显示活动详情、活动访问量+1
      *
@@ -28,9 +28,9 @@ Class Activity Extends BaseActionController {
      */
 	function view( $activity_id ){
 		$member_id = $this->current_member_id;
-		
+
 		$this->extend_control->AddActivityVisit($activity_id);
-		
+
 		$activity_information = $this->extend_control->getActivityInformationById($activity_id);
 		if( !$activity_information )
 			show_error('你要找的活动不存在哟~');
@@ -68,11 +68,11 @@ Class Activity Extends BaseActionController {
 
 		$activity_information['all_attends'] = $this->extend_control->getActivityAttendMemberInformation($activity_id);
 		$activity_information['all_follows'] = $this->extend_control->getActivityFollowMemberInformation($activity_id);
-		
+
 		$this->ci_smarty->assign('activity_information',$activity_information);
 		$this->display('admin',$activity_information['activity_name'].' - 管理活动','view_css','admin_js');
 	}
-		
+
 	/**
      * 显示活动创建和编辑页面
      *
@@ -80,21 +80,21 @@ Class Activity Extends BaseActionController {
      */
 	function edit( $id = 0 ) {
 		$title = '发起新活动';
-		
+
 		if ( $id != 0 ) {
 			$activity_information = $this->extend_control->getActivityInformationById( $id );
 			$title = '编辑活动：'.$activity_information['activity_name'];
 
 			if( $activity_information['publisher_id'] != $this->current_member_id )
 				show_error('你不可以编辑别人发起的活动！');
-			
+
 			$this->ci_smarty->assign('activity_information',$activity_information);
 		}
 
 		//print_r($activity_information);exit();
 		$this->display( 'edit', $title, 'edit_css', 'edit_js' );
 	}
-	
+
 //--------工具函数组
 	/**
      * 工具函数：处理edit()提交
@@ -118,7 +118,7 @@ Class Activity Extends BaseActionController {
 		$data['url'] = $this->getParameter('url');
 		$data['description'] = $this->getParameterWithOutTag('description');
 		$data['content'] = $this->getParameter('content');
-		
+
 		//处理图片高宽问题
 		$image_url = $this->getImageUrl($image);
 		if ($image_url === false) {
@@ -138,11 +138,11 @@ Class Activity Extends BaseActionController {
 			$data['modified_time'] = $this->current_time;
 			$this->db->where('activity_id',$activity_id);
 			$this->db->update('activity',$data);
-			
+
 			//删除activity_tag
 			$this->db->where('activity_id',$activity_id);
 			$this->db->delete('activity_tag');
-			
+
 			$this->newSystemMessage('activity','edit_activity',$activity_id);
 		}
 		//写入activity_tag
@@ -161,7 +161,7 @@ Class Activity Extends BaseActionController {
 		$activity_id = $this->getParameter('id');
 		$say = $this->getParameter('say');
 		$member_id = $this->current_member_id;
-		
+
 		if( !$activity_id ) redirect('activity');
 
 		$this->db->select('a.activity_id, a.end_time');
@@ -187,7 +187,7 @@ Class Activity Extends BaseActionController {
 
 		redirect('activity/view/'.$activity_id);
 	}
-	
+
 	/**
      * 工具函数：处理打分请求
      *
@@ -262,7 +262,7 @@ Class Activity Extends BaseActionController {
 	* 若已报名则取消报名，否则报名
 	*
 	* @param 	id 		要参加的活动ID
-	* 
+	*
 	*/
 	function attendActivity(){
 		$activity_id = $this->getParameter('id');
@@ -298,10 +298,10 @@ Class Activity Extends BaseActionController {
 				$data2['attend_count'] = $attend_count+1;
 				$this->db->where('activity_id',$activity_id);
 				$this->db->update('activity',$data2);
-				
+
 				$publisher_id = idx( $this->extend_control->getActivityBasicById($activity_id), 'publisher_id' );
 				$this->newSystemMessage('activity','attend_activity',$activity_id, $publisher_id);
-				
+
 			} else {
 				//从参加列表删除
 				$this->db->where('member_id',$member_id);
@@ -311,7 +311,7 @@ Class Activity Extends BaseActionController {
 				$data2['attend_count'] = $attend_count-1;
 				$this->db->where('activity_id',$activity_id);
 				$this->db->update('activity',$data2);
-				
+
 			}
 		}
 		redirect('activity/view/'.$activity_id);
@@ -322,7 +322,7 @@ Class Activity Extends BaseActionController {
 	* 若已关注则取消关注，否则关注
 	*
 	* @param 	id 		要参加的活动ID
-	* 
+	*
 	* @return 	1=关注成功	2=取消成功
 	*/
 	function followActivity(){
@@ -345,9 +345,9 @@ Class Activity Extends BaseActionController {
 
 				$publisher_id = idx( $this->extend_control->getActivityBasicById($activity_id), 'publisher_id' );
 				$this->newNewsFeed('activity','follow_activity',$activity_id, $publisher_id);
-				
+
 				$return = 1;
-				
+
 			} else {
 				$this->db->where('member_id',$member_id);
 				$this->db->where('activity_id',$activity_id);
@@ -356,7 +356,7 @@ Class Activity Extends BaseActionController {
 				$data2['follow_count'] = $attend_count-1;
 				$this->db->where('activity_id',$activity_id);
 				$this->db->update('activity',$data2);
-				
+
 				$return = 2;
 			}
 			echo json_encode($return);
@@ -377,11 +377,11 @@ Class Activity Extends BaseActionController {
 		$activity_attend_id = $this->getParameter('activity_attend_id');
 		$action = $this->getParameter('action',-1);
 		$return_data = array();
-		
+
 		if( $activity_attend_id && $action >= 0 ) {
 			$this->db->where('activity_attend_id',$activity_attend_id);
 			$attendee = $this->db->get_first('activity_attend');
-			
+
 			if($activity_attend_id != '') {
 				if( $action==1 ) { //permit
 					$data['approved'] = 1;
@@ -397,7 +397,7 @@ Class Activity Extends BaseActionController {
 					$return_data['status'] = 1;
 				}
 			}
-			
+
 		}
 		echo json_encode($return_data);
 	}
@@ -412,7 +412,7 @@ Class Activity Extends BaseActionController {
 		$page_offset = $this->getParameter('page_offset',0);
 		$limit = $this->getParameter('limit',$this->CLIMIT);
 		$comment_information = $this->extend_control->getActivityComment( $activity_id,$page_offset,$limit );
-		
+
 		echo json_encode($comment_information);
 	}
 
@@ -427,7 +427,7 @@ Class Activity Extends BaseActionController {
 	function ajaxAddComment(){
 		$activity_id = $this->getParameter('activity_id');
 		$content = $this->getParameterWithOutTag('content');
-		
+
 		$data['member_id'] = $this->current_member_id;
 		$data['activity_id'] = $activity_id;
 		$data['content'] = $content;
@@ -440,7 +440,7 @@ Class Activity Extends BaseActionController {
 		$data['comment_id'] = $this->db->insert_id();
 		$data['member_name'] = $this->current_member_information['member_name'];
 		$data['member_image'] = $this->current_member_information['member_image'];
-			
+
 		echo json_encode($data);
 	}
 
@@ -476,7 +476,7 @@ Class Activity Extends BaseActionController {
 		$limit = $this->getParameter('limit');
 		$tag = $this->getParameterDecode('tag');
 		$all_activity_information = $this->extend_control->searchActivity($page_offset,$limit,null,null,null,null,$tag);
-		
+
 		echo json_encode($all_activity_information);
 	}
 

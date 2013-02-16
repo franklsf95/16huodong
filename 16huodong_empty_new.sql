@@ -18,7 +18,7 @@ CREATE TABLE `16_activity` (
   `apply_start_time` date DEFAULT NULL,
   `apply_end_time` date DEFAULT NULL,
   `start_time` date DEFAULT NULL,
-  `end_time` date DEFAULT NULL,
+  `end_time` date DEFAULT '2345-06-07',
   `image` varchar(255) DEFAULT NULL,
   `price` varchar(50) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
