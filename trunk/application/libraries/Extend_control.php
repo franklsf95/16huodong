@@ -5,7 +5,7 @@
 
 define( 'MEMBER_BASIC', 	'm.member_id, m.name as member_name, m.image as member_image');
 define( 'MEMBER_BRIEF',		'm.member_id, m.name as member_name, m.image as member_image, m.member_type, m.school_id, m.school_name, m.gender, m.organisation, m.title, m.principal');
-define( 'MEMBER_CONTACT', 	'm.member_id, m.name as member_name, m.image as member_image, m.school_id, m.school_name, m.phone, m.email, m.qq');
+define( 'MEMBER_CONTACT', 	'm.member_id, m.name as member_name, m.realname as member_realname, m.image as member_image, m.school_id, m.school_name, m.phone, m.email, m.qq');
 define( 'MEMBER_DETAIL', 	'm.member_id, m.account, m.name as member_name, m.realname as member_realname, m.member_type, m.school_id, m.school_name, m.image as member_image, m.organisation as member_organisation, m.title as member_title, m.principal as member_principal, m.gender as member_gender, m.birthday as member_birthday, m.qq as member_qq, m.phone as member_phone, m.email as member_email, m.address as member_address, m.description as member_description, m.content as member_content, m.created_time, m.modified_time, m.accept_notification');
 define( 'ACTIVITY_BASIC', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name, a.image as activity_image');
 define( 'ACTIVITY_BRIEF', 	'a.activity_id, a.name as activity_name, a.publisher_id, a.publisher_name, a.apply_start_time, a.apply_end_time, a.start_time, a.end_time, a.image as activity_image, a.description, a.follow_count, a.attend_count, a.view_count');
@@ -294,7 +294,7 @@ class Extend_control {
 	}
 
 	function getActivityAttendMemberInformation($activity_id){
-		$this->CI->db->select(MEMBER_CONTACT.', am.activity_attend_id, am.approved, am.show_info');
+		$this->CI->db->select(MEMBER_CONTACT.', am.activity_attend_id, am.approved, am.show_info, am.introduction');
 		$this->CI->db->from('activity_attend as am');
 		$this->CI->db->join('member as m','m.member_id = am.member_id');
 		$this->CI->db->where('am.activity_id',$activity_id);
