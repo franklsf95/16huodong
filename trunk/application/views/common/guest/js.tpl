@@ -95,6 +95,7 @@ function initializeArea() {
           op = "<option value="+data[i].area_id+">"+data[i].name+"</option>";
           $(".area-list").append(op);
         }
+      initializeSchool( data[0].area_id );
       });
 }
 function initializeArea2() {
@@ -104,6 +105,7 @@ function initializeArea2() {
           op = "<option value="+data[i].area_id+">"+data[i].name+"</option>";
           $(".area-list").append(op);
         }
+      initializeSchool( data[0].area_id );
       });
 }
 function initializeSchool(area) {

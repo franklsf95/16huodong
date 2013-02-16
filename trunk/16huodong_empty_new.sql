@@ -1,4 +1,4 @@
-﻿/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
 
@@ -155,7 +155,8 @@ CREATE TABLE `16_member` (
   `member_type` char(3) NOT NULL COMMENT 'stu学生 | org学生组织 | chr公益组织 | com公司',
   `status` int(4) NOT NULL DEFAULT 1,
   `image` varchar(255) DEFAULT '/asset/img/default/portrait.jpg',
-  `name` varchar(20) NOT NULL COMMENT '姓名或组织名称',
+  `name` varchar(20) NOT NULL COMMENT '昵称或组织名称',
+  `realname` varchar(20) DEFAULT NULL COMMENT '真实姓名',
   `principal` varchar(255) DEFAULT NULL COMMENT '机构负责人',
   `gender` char(1) DEFAULT NULL COMMENT '性别',
   `birthday` date DEFAULT NULL COMMENT '生日',
