@@ -14,19 +14,19 @@ class BaseController extends CI_Controller {
 	var $LIMIT = 10;
 	var $CLIMIT = 10;
 	var $MLIMIT = 50;
-	
+
 	function __construct() {
 		parent::__construct();
-		
+
 		$this->initializeRunningValue();
 
 		$this->current_time = date('Y-m-d H:i:s');
 		$this->current_date = date('Y-m-d');
-		
+
 		//设定语言相关变量
 		$this->all_avaliable_language = $this->config->item('all_avaliable_language');
 		$this->current_language = $this->config->item('language');
-				
+
 		//初始化smarty
 		$this->ci_smarty->assign('current_language',$this->current_language);
 		$this->ci_smarty->assign('all_avaliable_language',$this->all_avaliable_language);
@@ -43,21 +43,21 @@ class BaseController extends CI_Controller {
 			$this->viewFolder = $this->applicationFolder;
 		}
 	}
-	
+
 	function initializeRunningValue(){
 		$this->db->select('code, value');
 		$running_value = $this->db->get('running_value')->result_array();
-		
+
 		foreach($running_value as $i) {
 			$arr[ $i['code'] ] = $i['value'];
 		}
-		
+
 		$this->LIMIT = $arr['limit_query'];
 		$this->CLIMIT = $arr['limit_comment'];
 		$this->MLIMIT = $arr['limit_message'];
 		$this->ci_smarty->assign('svn_version',$arr['svn_version']);
 	}
-	
+
 	function getParameter($parameterName, $defaultValue = NULL, $useDefaultValueIfEmpty = true, $xss_clean = false) {
 		$value = $this->input->get_post($parameterName, $xss_clean);
 		if( $value != NULL ) return $value;
@@ -67,7 +67,7 @@ class BaseController extends CI_Controller {
 	function getParameterDecode($parameterName, $defaultValue = NULL, $useDefaultValueIfEmpty = true, $xss_clean = false) {
 		return urldecode( $this->getParameter($parameterName, $defaultValue, $useDefaultValueIfEmpty, $xss_clean) );
 	}
-	
+
 	function getParameterWithOutTag($parameterName, $defaultValue = '', $useDefaultValueIfEmpty = true, $xss_clean = false) {
 		$value = htmlspecialchars($this->input->get_post($parameterName),ENT_QUOTES);
 		if ($value === FALSE) {
@@ -80,13 +80,13 @@ class BaseController extends CI_Controller {
 			}
 		}
 	}
-	
+
 	function getSessionValue($parameterName, $defaultValue = '' ) {
 		if ( !isset($_SESSION) || !array_key_exists($parameterName, $_SESSION) || $_SESSION[$parameterName]==NULL )
 			return $defaultValue;
 		return $_SESSION[$parameterName];
 	}
-	
+
 	function setSessionValue($parameterName, $value = '') {
 		$_SESSION[$parameterName] = $value;
 	}
@@ -94,14 +94,14 @@ class BaseController extends CI_Controller {
 	function getSessionCMI( $param ) {
 		return idx( $this->session->userdata('current_member_information'), $param );
 	}
-	
+
 	/**
 	* 给会员显示页面，包含layout侧栏
 	*
 	* @deprecated
 	*/
 	function displayWithLayout($templateName, $layout = '') {
-	
+
 		if (!$layout) {
 			$layout = $this->layout;
 		}
@@ -113,12 +113,12 @@ class BaseController extends CI_Controller {
 		}
 		if ($this->layoutFolder) {
 			$this->ci_smarty->view($this->layoutFolder . $layout);
-			
+
 		} else {
 			$this->ci_smarty->view('layout/' . $layout);
 		}
 	}
-	
+
 	/**
 	* 显示页面
 	*
@@ -141,18 +141,18 @@ class BaseController extends CI_Controller {
 
 		$this->ci_smarty->view($this->commonFolder . 'base_template');
 	}
-	
-	
+
+
 	function filterLanguage(&$result){					//多语言单层筛选
 		$dbprefix = $this->config->item('dbprefix');
 		$prefixs = array();
 		foreach ($this->avaliable_backend_languages as $lang) {
 			$prefixs[$lang] = array();
 		}
-		
+
 		if ($result) {
 			$table_fields = array_keys($result);
-			
+
 			foreach ($table_fields as $field) {
 				foreach ($this->avaliable_backend_languages as $lang) {
 					if (preg_match("/_${lang}$/", $field)) {
@@ -160,11 +160,11 @@ class BaseController extends CI_Controller {
 					}
 				}
 			}
-	
+
 			if (array_key_exists($this->current_language, $prefixs)) {
 				foreach($prefixs[$this->current_language] as $prefix){
 					$result[$prefix.'_curlang'] = $result[$prefix.'_' . $this->current_language];
-					
+
 				}
 			}
 		}
@@ -180,7 +180,7 @@ class BaseController extends CI_Controller {
 
 		if(count($results) > 0 && is_array($results[0])){
 			$table_fields = array_keys($results[0]);
-			
+
 			foreach ($table_fields as $field) {
 				foreach ($this->avaliable_backend_languages as $lang) {
 					if (preg_match("/_${lang}$/", $field)) {
@@ -188,7 +188,7 @@ class BaseController extends CI_Controller {
 					}
 				}
 			}
-	
+
 			foreach ($results as $key=>$item) {
 				if (array_key_exists($this->current_language, $prefixs)) {
 					foreach($prefixs[$this->current_language] as $prefix){
@@ -199,7 +199,7 @@ class BaseController extends CI_Controller {
 		}
 		return $results;
 	}
-	
+
 	/**
 	* 创建分页信息并赋给smarty
 	*
@@ -260,21 +260,21 @@ class BaseController extends CI_Controller {
         $this->ci_smarty->assign('page_information',$page_information);
         return $page_information;
 	}
-	
+
 	/**
 	* @deprecated
 	*/
 	function getAdditionalQueryString($param = NULL) {
 		return $param;
 	}
-	
+
 	/**
 	* @deprecated
 	*/
 	function forward($templateName, $param = NULL) {
 		redirect($this->applicationFolder . '/' . $templateName);
 	}
-	
+
 	function getImageUrl($url){
 		if (preg_match("/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/ ",$url)){
 			$return_url['relative_path'] = $this->get_file($url);
@@ -288,11 +288,15 @@ class BaseController extends CI_Controller {
 			$return_url['relative_path'] = $url;
 			$return_url['absolute_path'] = "http://" . $_SERVER['HTTP_HOST'].$url;
 			return $return_url;
+		}elseif (preg_match("/^\/asset\/img\/cover\/([0-9]{1,8})_([0-9]{1,3})\.jpg$/",$url)){
+			$return_url['relative_path'] = $url;
+			$return_url['absolute_path'] = "http://" . $_SERVER['HTTP_HOST'].$url;
+			return $return_url;
 		}else {
 			return false;
 		}
 	}
-	
+
 	function get_file($url){
 		set_time_limit (24 * 60 * 60);
 		$php_path = dirname(__FILE__) . '/';
@@ -313,7 +317,7 @@ class BaseController extends CI_Controller {
 		if (!is_dir($save_path)){
 			mkdir($save_path);
 		}
-		
+
 		$file = fopen ($url, "rb");
 		if ($file){
 			//获得文件扩展名
@@ -325,7 +329,7 @@ class BaseController extends CI_Controller {
 			if (!in_array($file_ext, array('jpg','gif','png'))){
 				show_error('文件不合法');
 			}else{
-				
+
 				//新文件名
 				$new_file_name = date("YmdHis") . '_' . rand(10000, 99999) . '.' . $file_ext;
 				$newf = fopen ($save_path.$new_file_name, "wb");
@@ -335,20 +339,20 @@ class BaseController extends CI_Controller {
 					}
 				}
 			}
-			
+
 			if ($file) {
 				fclose($file);
 			}
-			
+
 			if ($newf) {
 				fclose($newf);
 			}
 			return preg_replace('/(\/index\.php\/[a-zA-Z0-9_]+\/\.\.\/\.\.)/','',$save_url.$new_file_name);
 		}
 	}
-	
-	
-	
+
+
+
 
 }
 

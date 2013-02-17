@@ -1,5 +1,7 @@
           <h1>联系我们~</h1>
             <dl class="dl-horizontal">
+          <dt>上海团队</dt>
+          <dd>樊怡均&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code><a href="mailto:yijun.fan@16huodong.com">yijun.fan@16huodong.com</a></code></dd>
           <dt>技术部</dt>
           <dd>栾思飞&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code><a href="mailto:sifei.luan@16huodong.com">sifei.luan@16huodong.com</a></code></dd>
                 <dt>市场推广</dt>
