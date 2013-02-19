@@ -1,0 +1,410 @@
+<html><head>
+    <meta charset="utf-8">
+    <title>随便看看 | 16活动网，我们中学生自己的活动网站</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="16活动网,中学生,活动,志愿者,实习,课外活动">
+    <meta name="description" content="16活动网是中国第一家属于中学生的课外活动平台。在这里，你可以挖活动，找志愿，找实习，发现课本之外的第n种可能。">
+    <link href="../asset/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="../asset/css/global.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+    #welcome-text {
+      font-size: 16px;
+      line-height: 20px;
+      padding: 30px 60px;
+    }
+    .emphasize {
+      font-size: 26px;
+    }
+    .tab-pane input {
+      width: 186px;
+    }
+    #reg-form .control-group {
+      width: 320px;
+    }
+    #reg-form .control-label {
+      text-align: left;
+      padding-left: 5px;
+      width: 60px;
+    }
+    #reg-form .controls {
+      margin-left: 80px;
+    }
+    .navbar-highlight {
+      float: left;
+    }
+    .navbar-login-item {
+      font-size: 13px;
+      position: relative;
+      top: 4px;
+    }
+    .navbar-login-item input {
+      margin-right: 6px;
+      position: relative;
+      top: -4px;
+    }
+    .navbar-login-forget {
+      left: 120px;
+    }
+    .navbar-login-item a {
+      color: #aaa;
+    }
+    .navbar-login-item a:hover {
+      text-decoration: none;
+      color: #eee;
+    }
+    .controls input {
+      width: 190px;
+    }
+    .controls select {
+      margin-right: 20px;
+    }
+    #submit-btn {
+      margin-top: 20px;
+    }
+    .waterfall-item {
+        width: 230px;
+    }
+    .waterfall-item img {
+      width: 224px;
+    }
+    .waterfall-item-heading {
+        font-size: 18px;
+    }
+    input {
+      height: 30px !important;
+    }
+    .fn-block {
+      display: block;
+      width: 160px;
+      height: 150px;
+      border-radius: 30px;
+      border: 5px #000 solid;
+
+      float: left;
+      margin: 0 20px 20px 0;
+      padding-top: 15px;
+
+      cursor: pointer;
+
+      font-family: "Microsoft Yahei";
+      font-weight: bold;
+      font-size: 36px;
+      line-height: 60px;
+      text-align: center;
+    }
+    .fn-block.disabled {
+      color: #999;
+      border-color: #aaa;
+    }
+</style>
+    <!--[if lt IE 9]>
+        <link href="../asset/ie/ie6.css" rel="stylesheet">
+    <![endif]-->
+  </head>
+
+  <body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="http://16huodong.com/index"><img alt="16活动网" src="../asset/img/banner_logo.png"></a>
+          <div class="nav-collapse collapse">
+            <a class="navbar-highlight" id="navbar-contact" href="http://16huodong.com/contact">联系我们</a>
+            <form class="navbar-form pull-right" id="navbar-login" action="http://16huodong.com/login/loginSubmit" method="post">
+              <input class="span2" type="text" placeholder="用户名/邮箱" id="loginUsername" name="account">
+              <input class="span2" type="password" placeholder="密码" id="loginPassword" name="password">
+              <input type="hidden" name="ref" value="">
+              <button type="submit" class="btn btn-primary">登录</button>
+              <div id="navbar-login-tools">
+                <span class="navbar-login-item navbar-login-remember"><input type="checkbox" id="loginRemember" name="member_cookie" value="Y"><a href="#" id="remember-me-anchor">记住我</a></span>
+                <span class="navbar-login-item navbar-login-forget" data-toggle="modal" data-target="#modal-findpass"><a href="#">忘记密码</a></span>
+              </div>
+            </form>
+            <button type="submit" class="btn btn-primary pull-right" style="margin-right: 10px;">注册</button>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+<div class="modal hide fade" id="modal-findpass">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>找回密码</h3>
+  </div>
+  <div class="modal-body">
+  <form id="forget-form" class="form-horizontal" action="http://16huodong.com/findpass/findPassSubmit" method="post">
+    <div class="control-group">
+      <label class="control-label" for="findUsername">用户名</label>
+      <div class="controls">
+        <input type="text" id="findUsername" name="findUsername">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="findEmail">注册邮箱</label>
+      <div class="controls">
+        <input type="text" id="findEmail" name="findEmail">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a class="btn" data-dismiss="modal" aria-hidden="true">取消</a>
+      <button type="submit" class="btn btn-primary">提交</button>
+    </div>
+
+  </form>
+  </div>
+</div>
+    <div class="container">
+      <div class="row">
+<!--sidebar-->
+<div class="span4 sidebar-container">
+
+  <div id="myCarousel" class="carousel slide">
+    <div class="carousel-inner">
+      <div class="active item">
+        <img src="370x600.gif">
+        <div class="carousel-caption">
+          <h4>Third Thumbnail label</h4>
+          <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+        </div>
+      </div>
+      <div class="item">
+        <img src="370x600.gif">
+        <div class="carousel-caption">
+          <h4>Third Thumbnail label</h4>
+          <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+        </div>
+      </div>
+      <div class="item">
+        <img src="370x600.gif">
+        <div class="carousel-caption">
+          <h4>Third Thumbnail label</h4>
+          <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+    <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+  </div>
+</div>  
+<!--/sidebar-->
+
+<!--content-->
+<div class="span8 main-container">
+<div class="content-heading">热门活动 - 随便看看~</div>
+<div id="waterfall" class="masonry" style="height: 330px;">
+  <div class="waterfall-item masonry-brick" id="item-01" style="position: absolute; top: 0px; left: 0px;"><a href="http://16huodong.com/welcome/demo_activity_view/68"><img src="http://16huodong.com/upload/80/image/20121120133935_95377.jpg" class="img-rounded"></a><div class="waterfall-item-bottom"><a class="waterfall-item-heading" href="http://16huodong.com/welcome/demo_activity_view/68">微笑前行——单亲的孩子</a><ul><li>开始时间: 2010-12-31</li><li>结束时间: 2020-12-31</li><li>发起人: <a href="http://16huodong.com/profile/view/80">张弛</a></li><li><code>3</code>人参与&nbsp;&nbsp;|&nbsp;&nbsp;<code>0</code>人关注</li></ul></div></div>
+  <div class="waterfall-item masonry-brick" id="item-11" style="position: absolute; top: 0px; left: 250px;"><a href="http://16huodong.com/welcome/demo_activity_view/20"><img src="http://16huodong.com/upload/28/image/20121115090817_48696.jpg" class="img-rounded"></a><div class="waterfall-item-bottom"><a class="waterfall-item-heading" href="http://16huodong.com/welcome/demo_activity_view/20">【AIESEC】Buddy Program志愿者项目</a><ul><li>开始时间: 2012-11-15</li><li>结束时间: 2015-11-15</li><li>发起人: <a href="http://16huodong.com/profile/view/28">AIESEC</a></li><li><code>4</code>人参与&nbsp;&nbsp;|&nbsp;&nbsp;<code>14</code>人关注</li></ul></div></div>
+  <div class="waterfall-item masonry-brick" id="item-31" style="position: absolute; top: 0px; left: 500px;"><a href="http://16huodong.com/welcome/demo_activity_view/24"><img src="http://16huodong.com/upload/27/image/20121115093844_74066.jpg" class="img-rounded"></a><div class="waterfall-item-bottom"><a class="waterfall-item-heading" href="http://16huodong.com/welcome/demo_activity_view/24">【根与芽】工作坊</a><ul><li>开始时间: 2012-11-15</li><li>结束时间: 2013-11-15</li><li>发起人: <a href="http://16huodong.com/profile/view/27">珍古道尔 根与芽</a></li><li><code>0</code>人参与&nbsp;&nbsp;|&nbsp;&nbsp;<code>0</code>人关注</li></ul></div></div>
+</div>
+<div class="clear"></div>
+<div class="content-heading">我们在进步~</div>
+<div class="progress progress-striped active">
+  <div class="bar" style="width: 60%;"></div>
+</div>
+<div class="blocks-wrapper">
+  <div class="fn-block">挖活动</div>
+  <div class="fn-block">人生<br>图书馆</div>
+  <div class="fn-block disabled">挖活动</div>
+  <div class="fn-block disabled">挖活动</div>
+</div>
+<div class="clear"></div>
+<hr>
+      <footer>
+        © 16活动网 2012 | beta (r229) | <span data-toggle="modal" data-target="#modal-feedback"><a href="#">问题反馈</a></span>      </footer>
+</div>
+
+<div class="modal hide fade" id="modal-feedback">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>问题反馈</h3>
+  </div>
+  <form id="feedback-form" class="form-horizontal" action="http://16huodong.com/index/saveFeedback" method="post">
+    <div class="modal-body">
+      <label>邮箱：</label>
+      <input type="text" id="email" name="feedback_email" style="width: 300px">
+      <label>内容：</label>
+      <textarea id="feedback" name="feedback" placeholder="详细的问题描述会让我们更好的帮助您~" style="width: 300px"></textarea>
+    </div>
+    <div class="modal-footer">
+      <a class="btn" data-dismiss="modal" aria-hidden="true">取消</a>
+      <button type="submit" class="btn btn-primary" onclick="alert('您的宝贵意见我们已经记录，将会尽快给您反馈')">提交</button>
+    </div>
+  </form>
+</div>
+
+<!--/content-->
+
+      </div><!--/row-->
+    </div> <!-- /container -->
+    <script src="../asset/js/jquery.min.js"></script>
+    <script src="../asset/js/bootstrap.min.js"></script>
+<script src="../asset/js/jquery.validate.min.js"></script>
+<script>
+areaSelector = '#select-area-1';
+schoolSelector = '#select-school-1';
+schoolArray = new Array('aaaaaaa');
+schoolIdArray = new Array();
+$( function() {
+  //initializeArea();
+  //initializeSchool(21);
+});
+$('.typeahead').tooltip({
+  title : '先选择城市区县，在这里开始输入学校全称，从下拉框中选择你的学校~',
+  placement: 'right',
+  trigger: 'focus'
+});
+$(".carousel").carousel({
+  interval: 5000,
+  pause: 'hover'
+});
+$("#remember-me-anchor").click( function() {
+  if( $("#loginRemember").attr("checked") )
+    $("#loginRemember").removeAttr("checked");
+  else
+    $("#loginRemember").attr("checked", true);
+});
+$('#reg-form').validate({
+      rules: {
+        username: {
+          minlength: 6,
+          required: true
+        },
+        password: {
+          minlength: 6,
+          required: true
+        },
+        password2: {
+          equalTo: "#password",
+          required: true
+        },
+        email: {
+          email: true,
+          required: true
+        }
+      },
+      highlight: function(label) {
+        $(label).closest('.control-group').addClass('error').removeClass('success');
+      },
+      success: function(label) {
+        label
+          .text('OK!').addClass('valid')
+          .closest('.control-group').addClass('success').removeClass('error');
+      }
+});
+$("#tab-stu").click(function() {
+  $("#input-type").val( 'stu' );
+  areaSelector = '#select-area-1';
+  schoolSelector = '#select-school-1';
+});
+$("#tab-org").click(function() {
+  $("#input-type").val( 'org' );
+  areaSelector = '#select-area-2';
+  schoolSelector = '#select-school-2';
+});
+$("#tab-chr").click(function() {
+  $("#input-type").val( 'chr' );
+});
+$("#tab-com").click(function() {
+  $("#input-type").val( 'com' );
+});
+$("#submit-btn").click(function() {
+  school = $(schoolSelector).val();
+  //for ie doesn't support indexof 
+        if(!Array.indexOf){ 
+            Array.prototype.indexOf = function(obj){ 
+                for(var i=0; i<this.length; i++){ 
+                    if(this[i]==obj){ 
+                        return i; 
+                    } 
+                } 
+                return -1; 
+            } 
+        } 
+  id = schoolIdArray[ schoolArray.indexOf(school) ];
+  $("#input-school-id").val(id);
+});
+
+$(".area-list").change(function() {
+  initializeSchool( $(this).val() );
+});
+
+function initializeArea() {
+      $(".area-list").empty();
+      $.getJSON("http://16huodong.com/welcome/ajaxGetAllAreaInformation?city_id="+window.document.getElementById("select-province-1").value,function(data){
+        for (i in data) {
+          op = "<option value="+data[i].area_id+">"+data[i].name+"</option>";
+          $(".area-list").append(op);
+        }
+      initializeSchool( data[0].area_id );
+      });
+}
+function initializeArea2() {
+      $(".area-list").empty();
+      $.getJSON("http://16huodong.com/welcome/ajaxGetAllAreaInformation?city_id="+window.document.getElementById("select-province-2").value,function(data){
+        for (i in data) {
+          op = "<option value="+data[i].area_id+">"+data[i].name+"</option>";
+          $(".area-list").append(op);
+        }
+      initializeSchool( data[0].area_id );
+      });
+}
+function initializeSchool(area) {
+  schoolArray = [];
+  schoolIdArray = [];
+  $.ajax( {
+      url: "http://16huodong.com/welcome/ajaxGetAllSchoolInformation?area_id="+area,
+      dataType: 'json',
+      async: false,
+      success: function(data) {
+        for (i in data) {
+          schoolArray.push( data[i].name );
+          schoolIdArray.push( data[i].school_id );
+        }
+        //console.log(schoolIdArray);
+      }
+  });
+  $(schoolSelector).typeahead( {
+    source: function() { return schoolArray; }, 
+    minLength: 2,
+    items: 12
+  });
+  //console.log('typeahead initialized');
+}
+
+</script>
+<script src="../asset/js/jquery.masonry.min.js"></script>
+<script src="../asset/js/waterfall.js"></script>
+<script>
+$( function(){
+    // Waterfall( "http://16huodong.com/welcome/ajaxGetDemoActivities", 'start', {
+    //     width: 250,
+    //     wrapFunction: wrapDemoActivity,
+    //     limit: 10
+    // } );
+});
+function wrapDemoActivity( id, act ) {
+    var str = 
+'<div class="waterfall-item" id="item-'+id+'">'+'<a href="http://16huodong.com/welcome/demo_activity_view/'+act.activity_id+'">'+'<img src="'+act.activity_image+'" class="img-rounded"></a>'
++'<div class="waterfall-item-bottom">'
++'<a class="waterfall-item-heading" href="http://16huodong.com/welcome/demo_activity_view/'+act.activity_id+'">'+act.activity_name+'</a>'
++'<ul>'
++'<li>开始时间: '+act.start_time+'</li>'
++'<li>结束时间: '+act.end_time+'</li>'
++'<li>发起人: <a href="http://16huodong.com/profile/view/'+act.publisher_id+'">'+act.publisher_name+'</a></li>'
++'<li><code>'+act.attend_count+'</code>人参与&nbsp;&nbsp;|&nbsp;&nbsp;<code>'+act.follow_count+'</code>人关注</li>'
++'</ul></div></div>';
+    return str;
+}
+</script>
+<!--[if IE]>
+    <script src="../asset/ie/placeholder.js"></script>
+<![endif]-->
+<!--[if lt IE 9]>
+    <script src="../asset/ie/html5shiv.js"></script>
+    <script src="../asset/ie/ie6.js"></script>
+<![endif]-->
+</body>
+</html>
