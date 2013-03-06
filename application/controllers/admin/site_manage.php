@@ -13,7 +13,7 @@ Class Site_manage Extends AdminController {
 		$all_running_value = $this->db->get('running_value')->result_array();
 		
 		foreach($all_running_value as $running_value) {
-			if($running_value['code'] == 'site_status' || $running_value['code'] == 'site_name' || $running_value['code'] == 'site_keyword' || $running_value['code'] == 'site_description' || $running_value['code'] == 'site_copyright') {
+			if($running_value['code'] == 'limit_query' || $running_value['code'] == 'limit_comment' || $running_value['code'] == 'limit_message' || $running_value['code'] == 'svn_version') {
 				$key = $running_value['code'];
 				$site_manage_information[$key] = $running_value['value'];
 			}
@@ -27,17 +27,15 @@ Class Site_manage Extends AdminController {
 	
 	function saveItem() {
 	
-		$site_status = $this->getParameter('site_status','Y');
-		$site_name = $this->getParameter('site_name',Null);
-		$site_keyword = $this->getParameter('site_keyword',Null);
-		$site_description = $this->getParameter('site_description',Null);
-		$site_copyright = $this->getParameter('site_copyright',Null);
+		$limit_query = $this->getParameter('limit_query','10');
+		$limit_comment = $this->getParameter('limit_comment','20');
+		$limit_message = $this->getParameter('limit_message','20');
+		$svn_version = $this->getParameter('svn_version','1');
 		
-		$data['site_status'] = $site_status;
-		$data['site_name'] = $site_name;
-		$data['site_keyword'] = $site_keyword;
-		$data['site_description'] = $site_description;
-		$data['site_copyright'] = $site_copyright;
+		$data['limit_query'] = $limit_query;
+		$data['limit_comment'] = $limit_comment;
+		$data['limit_message'] = $limit_message;
+		$data['svn_version'] = $svn_version;
 		
 		
 		foreach($data as $key => $value) {
@@ -56,7 +54,7 @@ Class Site_manage Extends AdminController {
 			
 			}
 		}
-		$this->forward('../admin/site_manage');
+		$this->forward('../admin');
 	}
 }
 
