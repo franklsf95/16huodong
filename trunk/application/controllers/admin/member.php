@@ -71,12 +71,9 @@ Class Member Extends AdminController {
 		if($password != '') {
 			$data['password'] = md5($password);
 		}
-		
-		
-		echo $id;
 			
-			$this->db->where('member_id',$id);
-			$this->db->update('member',$data);
+		$this->db->where('member_id',$id);
+		$this->db->update('member',$data);
 		
 		$this->forward('../admin/member/index');
 	}
@@ -94,6 +91,10 @@ Class Member Extends AdminController {
 			$this->db->or_where('member_id',$member_id);
 			$this->db->delete('member_message');
 			
+			//删除找回密码记录
+			$this->db->where('member_id',$member_id);
+			$this->db->delete('member_findpass');
+			
 			//删除所有参加的活动
 			$this->db->where('member_id',$member_id);
 			$this->db->delete('activity_attend');
@@ -105,6 +106,11 @@ Class Member Extends AdminController {
 			//删除所有活动留言
 			$this->db->where('member_id',$member_id);
 			$this->db->delete('activity_comment');
+			
+			//删除所有新鲜事
+			$this->db->where('target_id',$member_id);
+			$this->db->or_where('member_id',$member_id);
+			$this->db->delete('news_feed');
 			
 			
 			//删除所有会员标签

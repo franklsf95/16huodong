@@ -4,33 +4,22 @@
 						<form action="{'admin/site_manage/saveItem'|site_url}" method="post" class="jNice">
 							<fieldset>
 								<p>
-									<label>{'site_status'|lang_line}</label>
-										<select name="site_status" class="text-small">
-											<option value="Y">{'global_open'|lang_line}</option>
-											<option value="N" {if ($site_manage_information.site_status == 'N')} selected="selected" {/if}>{'global_close'|lang_line}</option>
-										</select>
+									<label>单页记录加载数量（如搜索结果）</label>
+									<input class="text-small" type="text" name="limit_query" value="{$site_manage_information.limit_query}" />
 										
 								</p>
 								<p>
-									<label>{'site_name'|lang_line}</label>
-									<input class="text-small" type="text" name="site_name" value="{$site_manage_information.site_name}" />
+									<label>单页回复加载数量</label>
+									<input class="text-small" type="text" name="limit_comment" value="{$site_manage_information.limit_comment}" />
 								</p>
-								
 								<p>
-									<label>{'site_keyword'|lang_line}</label>
-									<input class="text-medium" type="text" name="site_keyword" value="{$site_manage_information.site_keyword}"/>
+									<label>留言板留言单页加载数量</label>
+									<input class="text-small" type="text" name="limit_message" value="{$site_manage_information.limit_message}"/>
 								</p>
-								
 								<p>
-									<label>{'site_description'|lang_line}</label>
-									<textarea class="text-medium textarea" name="site_description">{$site_manage_information.site_description}</textarea>
+									<label>SVN程序版本号</label>
+									<input class="text-small" type="text" name="svn_version" value="{$site_manage_information.svn_version}"/>
 								</p>
-								
-								<p>
-									<label>{'site_copyright'|lang_line}</label>
-									<textarea name="site_copyright" id="copyright" style="width:650px">{$site_manage_information.site_copyright}</textarea>
-								</p>
-								
 								<p>
 									<input type="submit" value="{'global_submit'|lang_line}" />
 								</p>
