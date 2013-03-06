@@ -1,4 +1,4 @@
-					<form name="adminForm" action="{'admin/member'|site_url}" method="post" id="adminForm">
+﻿					<form name="adminForm" action="{'admin/blog'|site_url}" method="post" id="adminForm">
 					<div id="main">
 						<h3>{'global_article'|lang_line}</h3>
 						
@@ -44,7 +44,7 @@
 									<td>{$blog_information.name|truncate:14}</td>
 									<td>{$blog_information.member_name}</td>
 									<td>{$blog_information.created_time|date_format:"%Y-%m-%d"}</td>
-									<td class="action"><a href="{'book/index'|site_url}?id={$blog_information.book_id}" target="_blank" class="view">{'global_view'|lang_line}</a><a href="{'admin/blog/edit'|site_url}?cid={$blog_information.book_id}" class="edit">{'global_edit'|lang_line}</a><a href="{'admin/blog/remove'|site_url}?cid={$blog_information.book_id}" class="delete" onclick="if(confirm('确认删除？')){return true;}else{return false;}">{'global_delete'|lang_line}</a></td>
+									<td class="action"><a href="{'library/view'|site_url}/{$blog_information.book_id}" target="_blank" class="view">{'global_view'|lang_line}</a><a href="{'admin/blog/edit'|site_url}?cid={$blog_information.book_id}" class="edit">{'global_edit'|lang_line}</a><a href="{'admin/blog/remove'|site_url}?cid={$blog_information.book_id}" class="delete" onclick="if(confirm('确认删除？'))return true;else return false;">{'global_delete'|lang_line}</a></td>
 								</tr>
 							{/foreach}
 							</tbody>

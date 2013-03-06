@@ -1,15 +1,7 @@
-<script>
-			var editor;
-			KindEditor.ready(function(K) {
-				editor = K.create("#copyright", {
-					allowFileManager : true
-				});
-				});
-</script>
 					<div id="main">
 						<h3>{'site_manage'|lang_line}</h3>
 						<div class="clear"></div>
-						<form action="{'admin/site_manage/save_form'|site_url}" method="post" class="jNice">
+						<form action="{'admin/site_manage/saveItem'|site_url}" method="post" class="jNice">
 							<fieldset>
 								<p>
 									<label>{'site_status'|lang_line}</label>

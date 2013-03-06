@@ -8,6 +8,8 @@ Class Index Extends AdminController {
 	}
 	
 	function index(){
+                $username=$this->getSessionValue('application_user_username');
+                $this->ci_smarty->assign('username',$username);
 		$this->displayWithLayout('index');
 	
 	}
