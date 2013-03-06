@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include_once "admin_controller.php";
 Class Blog Extends AdminController {
 
@@ -16,13 +16,13 @@ Class Blog Extends AdminController {
 		
 		
 		$count = $this->db->count_all_results('book');
-		$page_information = $this->createPageInformation($count,$p_page,$p_limit);
+		$page_information = $this->setPageInformation($count,$p_page,$p_limit);
 		
 		$this->db->select('mb.*, m.name as member_name');
 		$this->db->from('book as mb');
-		$this->db->join('member as m','m.member_id = mb.member_id');
+		$this->db->join('member as m','m.member_id = mb.author_id');
 		
-		$all_blog_information = $this->db->get('',$limit,$page_information['page_offset'])->result_array();
+		$all_blog_information = $this->db->get('',$p_limit,$page_information['page_offset'])->result_array();
 		
 		$this->ci_smarty->assign('page_information', $page_information);
 		$this->ci_smarty->assign('count', $count);

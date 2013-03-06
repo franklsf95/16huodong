@@ -1,6 +1,6 @@
-					<form name="adminForm" action="{'admin/member'|site_url}" method="post" id="adminForm">
+﻿					<form name="adminForm" action="{'admin/member'|site_url}" method="post" id="adminForm">
 					<div id="main">
-						<h3>{'global_article'|lang_line}</h3>
+						<h3>会员</h3>
 						<!--input type="button" class="toolbar-button" value="{'global_add'|lang_line}"  onclick="window.location.href='{'admin/article/edit'|site_url}'" /-->
 						
 						<select class="class_select" id="class_select" onchange="window.location.href='{'admin/member'|site_url}?member_type='+this.value">
@@ -18,7 +18,9 @@
 								   <th>{'global_id'|lang_line}</th>
 								   <th>帐号</th>
 								   <th>类型</th>
-								   <th>名称</th>
+								   <th>昵称</th>
+								 
+							
 								   <th>{'global_edit'|lang_line}</th>
 								</tr>
 								
@@ -53,7 +55,8 @@
 									<td>{$member_information.account}</td>
 									<td>{$member_information.member_type}</td>
 									<td>{$member_information.name}</td>
-									<td class="action"><a href="{'member/index'|site_url}?id={$member_information.member_id}" target="_blank" class="view">{'global_view'|lang_line}</a><a href="{'admin/member/edit'|site_url}?cid={$member_information.member_id}" class="edit">{'global_edit'|lang_line}</a><a href="{'admin/member/remove'|site_url}?cid={$member_information.member_id}" class="delete" onclick="if(confirm('确认删除？')){return true;}else{return false;}">{'global_delete'|lang_line}</a></td>
+									
+									<td class="action"><a href="{'admin/member/info'|site_url}/{$member_information.member_id}" target="_blank" class="view">{'global_view'|lang_line}</a><a href="{'admin/member/edit'|site_url}?cid={$member_information.member_id}" class="edit">{'global_edit'|lang_line}</a><a href="{'admin/member/remove'|site_url}?cid={$member_information.member_id}" class="delete" onclick="if(confirm('确认删除？')) return true;else return false;">{'global_delete'|lang_line}</a></td>
 								</tr>
 							{/foreach}
 							</tbody>

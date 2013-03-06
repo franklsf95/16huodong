@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include_once dirname(__FILE__)."/../base_controller.php";
 Class Login Extends BaseController {
 	var $applicationFolder = "login";
@@ -44,7 +44,7 @@ Class Login Extends BaseController {
 				$this->setSessionValue('application_group_name',$application_user_information['application_group_name']);
 				
 				$this->forward('../admin/index/index');
-			} else $this->forward('../admin/login/index');
+			} else {echo "Account/Password Error";}
 		}else $this->forward('../admin/login/index');
 	
 	}

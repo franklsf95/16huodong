@@ -25,7 +25,7 @@ Class Site_manage Extends AdminController {
 		$this->displayWithLayout('index');
 	}
 	
-	function _saveItem($isNew, &$id, &$param) {
+	function saveItem() {
 	
 		$site_status = $this->getParameter('site_status','Y');
 		$site_name = $this->getParameter('site_name',Null);
@@ -56,6 +56,7 @@ Class Site_manage Extends AdminController {
 			
 			}
 		}
+		$this->forward('../admin/site_manage');
 	}
 }
 

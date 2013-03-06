@@ -1,4 +1,4 @@
-					<div id="main">
+﻿					<div id="main">
 						<h3>{'application_user_manage'|lang_line}</h3>
 						<div class="clear"></div>
 						<form action="{'admin/application_user/save_form'|site_url}" method="post" class="jNice" name="adminForm">
@@ -29,7 +29,7 @@
 								{if ($cid != '')}
 								<p>
 									<label>{'global_old_password'|lang_line}</label>
-									<input class="text-medium" type="password" name="old_password" value="" onchange="checkPassword('{$cid}',this.value)"/><img id="password_right" src="/asset/admin/img/activity.png" /><img id="password_wrong" src="/asset/admin/img/unactivity.png" />
+									<input class="text-medium" type="password" name="old_password" value="{$application_user_information.password}" onchange="checkPassword('{$cid}',this.value)"/><img id="password_right" src="/asset/admin/img/activity.png" /><img id="password_wrong" src="/asset/admin/img/unactivity.png" />
 								</p>
 								{/if}
 								

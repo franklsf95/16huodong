@@ -21,7 +21,7 @@ Class Application_user Extends AdminController {
 		$p_limit = $this->getParameter('limit',10);
 		
 		$count = $this->db->count_all('application_user');
-		$page_information = $this->createPageInformation($count,$p_page,$p_limit);
+		$page_information = $this->setPageInformation($count,$p_page,$p_limit);
 		
 		$all_application_user_information = $this->db_application_user->getApplicationUserByPageInformation($p_limit,$page_information['page_offset']);
 		
@@ -64,14 +64,14 @@ Class Application_user Extends AdminController {
 		$data['status'] = $status;
 		$data['email'] = $email;
 		$data['modified_time'] = $current_time;
-		$data['modified_by'] = '-1';
+		$data['modified_by'] = $this->getParameter('cid',Null);
 		
 		
 		if ($isNew && $password == $repeat_password) {
 		
 			$data['password'] = md5($password);
 			$data['created_time'] = $current_time;
-			$data['created_by'] = '-1';
+			$data['created_by'] = $this->getParameter('cid',Null);
 			$this->db->insert('application_user',$data);
 		}else {
 			$this->db->where('application_user_id',$id);
@@ -86,6 +86,7 @@ Class Application_user Extends AdminController {
 				$this->db->where('application_user_id',$id);
 				$this->db->update('application_user',$data);
 			}
+			else return "password error!";
 		}
 		
 	}

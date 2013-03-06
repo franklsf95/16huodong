@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include_once dirname(__FILE__)."/../base_controller.php";
 Class AdminController extends BaseController {
 	var $viewFolder = 'admin';	
@@ -33,7 +33,7 @@ Class AdminController extends BaseController {
 	
 	function check_login(){
 		if(!$this->getSessionValue(application_user_id)) {
-			$this->forward('../login/index');
+			$this->forward('../admin/login');
 		}else {
 			$this->ci_smarty->assign('current_application_user_information',$_SESSION);
 		}
@@ -54,9 +54,9 @@ Class AdminController extends BaseController {
 		$param = null;
 		$error_message = $this->_saveItem($isNew, $p_id, $param);
 		if ($error_message) {
-			$this->displayError($error_message);
+			echo $error_message;
 		} else {
-			$this->forward('index', $param);
+			$this->forward('../admin/'.$this->applicationFolder.'/index');
 		}
 	}
 	
