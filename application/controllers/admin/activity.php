@@ -22,11 +22,11 @@ Class Activity Extends AdminController {
 		}
 		
 		$count = $this->db->count_all_results('activity');
-		$page_information = $this->createPageInformation($count,$p_page,$p_limit);
+		$page_information = $this->setPageInformation($count,$p_page,$p_limit);
 		
 		$this->db->select('a.*,m.member_id, m.name as member_name');
 		$this->db->from('activity as a');
-		$this->db->join('member as m','m.member_id = a.publisher');
+		$this->db->join('member as m','m.member_id = a.publisher_id');
 		if ($p_expiry == 'Y') {
 			$this->db->where('end_time <',date('Y-m-d'));
 		}elseif ($p_expiry == 'N') {
@@ -81,7 +81,7 @@ Class Activity Extends AdminController {
 			$this->db->where('activity_id',$id);
 			$this->db->update('activity',$data);
 		}
-		$this->forward('index');
+		$this->forward('../admin/activity/index');
 	}
 	
 	function remove(){
@@ -92,6 +92,9 @@ Class Activity Extends AdminController {
 			$this->db->where('code',$activity_id);
 			$this->db->delete('system_message');
 			
+			//删除新鲜事
+			$this->db->where('activity_id',$activity_id);
+			$this->db->delete('news_feed');
 			
 			//删除所有参加的活动
 			$this->db->where('activity_id',$activity_id);
@@ -113,7 +116,7 @@ Class Activity Extends AdminController {
 			$this->db->where('activity_id',$activity_id);
 			$this->db->delete('activity');
 			
-			$this->forward('index');
+			$this->forward('../admin/activity/index');
 			
 		}
 	}
