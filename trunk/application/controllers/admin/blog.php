@@ -65,16 +65,24 @@ Class Blog Extends AdminController {
 			$this->db->where('book_id',$id);
 			$this->db->update('book',$data);
 		}
-		$this->forward('index');
+		$this->forward('../admin/blog/index');
 	}
 	
 	function remove(){
 		$book_id = $this->getParameter('cid',Null);
 		if ($book_id != '') {
+			//删除所有系统消息
+			$this->db->where('category','book');
+			$this->db->where('code',$book_id);
+			$this->db->delete('system_message');
+			
 			//删除所有点击
 			$this->db->where('book_id',$book_id);
-			$this->db->delete('book_hits');
+			$this->db->delete('book_visit');
 			
+			//删除新鲜事
+			$this->db->where('book_id',$book_id);
+			$this->db->delete('news_feed');
 			
 			//删除所有评论
 			$this->db->where('book_id',$book_id);
@@ -84,11 +92,11 @@ Class Blog Extends AdminController {
 			$this->db->where('book_id',$book_id);
 			$this->db->delete('member_like_book');
 			
-			//删除活动
+			//删除书
 			$this->db->where('book_id',$book_id);
 			$this->db->delete('book');
 			
-			$this->forward('index');
+			$this->forward('../admin/blog/index');
 			
 		}
 	}
